@@ -187,16 +187,19 @@
   var B2 = 400;   // extension board 2 (headrest area)
   var DW = 18;    // divider wall thickness
 
-  var boardH  = 32;           // 10% of UH → seat/table boards
-  var drawerH = UH - boardH;  // 288mm → drawers
+  var runnerT = 19;                    // drawer-runner thickness per side (B086JQLXRJ)
+  var boardH  = 32;                    // seat/table board height
+  var drawerH = UH - TH - boardH - 2; // 320-18-32-2(top clearance) = 268mm
+  var yBase   = TH;                   // interior y-start: above bottom plate
 
-  // Section X centres (dividers at x=-221 and x=+221)
-  var x1  = -395;  // left section centre
+  // Section X centres — B2 side walls (18 mm) are inside the 1120 mm unit
+  // Interior per side: (1120 - 2×18 walls - 2×18 dividers - 424 middle) / 2 = 312 mm
+  var x1  = -386;  // left section centre  (between B2 inner face and divider 1)
   var xM  =    0;  // middle section centre
-  var x3  =  395;  // right section centre
-  var sw1 =  330;  // left section width
-  var swM =  424;  // middle section width
-  var sw3 =  330;  // right section width
+  var x3  =  386;  // right section centre
+  var sw1 =  312;  // left section interior width
+  var swM =  424;  // middle section interior width
+  var sw3 =  312;  // right section interior width
   var d1x = -221;  // divider 1 centre x
   var d2x =  221;  // divider 2 centre x
 
@@ -205,13 +208,11 @@
   var mWoodDk  = new THREE.MeshLambertMaterial({ color: 0x8B6520 });
   var mWoodLt  = new THREE.MeshLambertMaterial({ color: 0xDCBB84 });
   var mTeal    = new THREE.MeshLambertMaterial({ color: 0x5DCAA5 });
-  var mTealLt  = new THREE.MeshLambertMaterial({ color: 0x9FE1CB });
   var mAmber   = new THREE.MeshLambertMaterial({ color: 0xEF9F27 });
-  var mAmberLt = new THREE.MeshLambertMaterial({ color: 0xFAC775 });
   var mBlue    = new THREE.MeshLambertMaterial({ color: 0x378ADD, transparent: true, opacity: 0.88 });
   var mMat     = new THREE.MeshLambertMaterial({ color: 0xDDDDDD, transparent: true, opacity: 0.40 });
-  var mPerson  = new THREE.MeshLambertMaterial({ color: 0x888888, transparent: true, opacity: 0.65 });
   var mGrid    = new THREE.MeshLambertMaterial({ color: 0x333333, transparent: true, opacity: 0.5  });
+  var mRunner  = new THREE.MeshLambertMaterial({ color: 0x3a3a3a, transparent: true, opacity: 0.82 });
 
   // ── Groups ────────────────────────────────────────────────────────────────
   var sg    = new THREE.Group(); // static
@@ -257,25 +258,54 @@
   // ── Unit body ─────────────────────────────────────────────────────────────
   box(UW, UH, UD, mWood, 0, UH / 2, UD / 2);
 
+  // Bottom plate
+  box(UW, TH, UD, mWoodDk, 0, TH / 2, UD / 2);
+
   // Dividers
   box(DW + 1, UH + 4, UD + 4, mWoodDk, d1x, UH / 2, UD / 2);
   box(DW + 1, UH + 4, UD + 4, mWoodDk, d2x, UH / 2, UD / 2);
 
-  // Front-face zone strips (show closed structure)
-  // Left: light teal = seat (bottom 10%), teal = drawer (top 90%)
-  box(sw1 - 3, boardH  - 2, 3, mTealLt,  x1, boardH / 2,             1.5);
-  box(sw1 - 3, drawerH - 2, 3, mTeal,    x1, boardH + drawerH / 2,   1.5);
-  // Middle: amber = drawer (bottom 90%), light amber = table (top 10%)
-  box(swM - 3, drawerH - 2, 3, mAmber,   xM, drawerH / 2,            1.5);
-  box(swM - 3, boardH  - 2, 3, mAmberLt, xM, drawerH + boardH / 2,   1.5);
-  // Right: same as left
-  box(sw3 - 3, boardH  - 2, 3, mTealLt,  x3, boardH / 2,             1.5);
-  box(sw3 - 3, drawerH - 2, 3, mTeal,    x3, boardH + drawerH / 2,   1.5);
+  // ── Moveable elements — all in sg, repositioned by setMode ──────────────
+  var zIn  = UD / 2 - 1.5;  // collapsed: front face 1.5 mm proud of unit body
+  var zOut = -UD / 2;       // extended: element fully pulled out in −z
 
-  // Shelf split lines on front face
-  box(sw1 - 3, 3, 4, mWoodDk, x1, boardH,  1.5);
-  box(swM - 3, 3, 4, mWoodDk, xM, drawerH, 1.5);
-  box(sw3 - 3, 3, 4, mWoodDk, x3, boardH,  1.5);
+  // Element widths: section interior − 2 × runner (19 mm) − 2 mm gap (1 mm each side)
+  // Drawers (3)
+  var drL = box(sw1 - 2*runnerT - 2, drawerH, UD, mBlue, x1, yBase + boardH + drawerH / 2, zIn);
+  wireframe(drL, 0x185FA5);
+  var drM = box(swM - 2*runnerT - 2, drawerH, UD, mBlue, xM, yBase + drawerH / 2,           zIn);
+  wireframe(drM, 0x185FA5);
+  var drR = box(sw3 - 2*runnerT - 2, drawerH, UD, mBlue, x3, yBase + boardH + drawerH / 2, zIn);
+  wireframe(drR, 0x185FA5);
+
+  // Seat boards L/R + Table board M (same clearance formula)
+  var bsL = box(sw1 - 2*runnerT - 2, boardH, UD, mTeal,  x1, yBase + boardH / 2,           zIn);
+  wireframe(bsL, 0x0F6E56);
+  var bsR = box(sw3 - 2*runnerT - 2, boardH, UD, mTeal,  x3, yBase + boardH / 2,           zIn);
+  wireframe(bsR, 0x0F6E56);
+  var btM = box(swM - 2*runnerT - 2, boardH, UD, mAmber, xM, yBase + drawerH + boardH / 2, zIn);
+  wireframe(btM, 0x854F0B);
+
+  // ── Runner channels — dark grey, fixed in unit walls, never move ──────────
+  // Each channel: 19 mm wide × full element height × full unit depth
+  // Positioned between section wall and element (1 mm gap each side)
+  var chanH  = boardH + drawerH;          // 300 mm — full element height per section
+  var chanCY = yBase + chanH / 2;         // y-centre of all channels (168 mm)
+  var bL     = -(UW / 2 - DW);           // left B2 inner face x  = −542
+  var bR     =  (UW / 2 - DW);           // right B2 inner face x = +542
+  var d1L    = d1x - DW / 2;             // divider 1 left face   = −230
+  var d1R    = d1x + DW / 2;             // divider 1 right face  = −212
+  var d2L    = d2x - DW / 2;             // divider 2 left face   = +212
+  var d2R    = d2x + DW / 2;             // divider 2 right face  = +230
+  // Left section
+  box(runnerT, chanH, UD, mRunner, bL  + runnerT / 2, chanCY, zIn);
+  box(runnerT, chanH, UD, mRunner, d1L - runnerT / 2, chanCY, zIn);
+  // Middle section
+  box(runnerT, chanH, UD, mRunner, d1R + runnerT / 2, chanCY, zIn);
+  box(runnerT, chanH, UD, mRunner, d2L - runnerT / 2, chanCY, zIn);
+  // Right section
+  box(runnerT, chanH, UD, mRunner, d2R + runnerT / 2, chanCY, zIn);
+  box(runnerT, chanH, UD, mRunner, bR  - runnerT / 2, chanCY, zIn);
 
   // ── Sleeping boards ───────────────────────────────────────────────────────
   var lid = box(UW, TH, UD, mWoodLt, 0, UH + TH / 2, UD / 2);
@@ -292,63 +322,24 @@
   var mattress = box(1100, 80, 1980, mMat, 0, UH + TH + 40, 990);
   wireframe(mattress, 0xaaaaaa);
 
-  // ── BANKMODUS ─────────────────────────────────────────────────────────────
-  // Left seat board (bottom 10%) — slides 900mm out
-  var bsL = box(sw1, boardH, UD, mTeal, x1, boardH / 2, -UD / 2, bankG);
-  wireframe(bsL, 0x0F6E56);
-
-  // Right seat board
-  var bsR = box(sw3, boardH, UD, mTeal, x3, boardH / 2, -UD / 2, bankG);
-  wireframe(bsR, 0x0F6E56);
-
-  // Middle table board (top 10%) — slides 900mm out
-  var btM = box(swM, boardH, UD, mAmber, xM, drawerH + boardH / 2, -UD / 2, bankG);
-  wireframe(btM, 0x854F0B);
-
+  // ── BANKMODUS — runner lines only (meshes live in sg) ────────────────────
   // Runner lines — boards
-  runnerLine(x1 - sw1 / 2 + 12, boardH / 2, bankG);
-  runnerLine(x1 + sw1 / 2 - 12, boardH / 2, bankG);
-  runnerLine(x3 - sw3 / 2 + 12, boardH / 2, bankG);
-  runnerLine(x3 + sw3 / 2 - 12, boardH / 2, bankG);
-  runnerLine(xM - swM / 2 + 12, drawerH + boardH / 2, bankG);
-  runnerLine(xM + swM / 2 - 12, drawerH + boardH / 2, bankG);
+  runnerLine(x1 - sw1 / 2 + 12, yBase + boardH / 2, bankG);
+  runnerLine(x1 + sw1 / 2 - 12, yBase + boardH / 2, bankG);
+  runnerLine(x3 - sw3 / 2 + 12, yBase + boardH / 2, bankG);
+  runnerLine(x3 + sw3 / 2 - 12, yBase + boardH / 2, bankG);
+  runnerLine(xM - swM / 2 + 12, yBase + drawerH + boardH / 2, bankG);
+  runnerLine(xM + swM / 2 - 12, yBase + drawerH + boardH / 2, bankG);
 
-  // Person silhouettes (legs dangling at bumper height)
-  function addPerson(cx, g) {
-    var sy = boardH;
-    var body = new THREE.Mesh(new THREE.CylinderGeometry(55 * S, 60 * S, 360 * S, 8), mPerson);
-    body.position.set(cx * S, (sy + 180) * S, -550 * S);
-    g.add(body);
-    var head = new THREE.Mesh(new THREE.SphereGeometry(65 * S, 8, 6), mPerson);
-    head.position.set(cx * S, (sy + 400) * S, -550 * S);
-    g.add(head);
-    [-40, 40].forEach(function (ox) {
-      var leg = new THREE.Mesh(new THREE.CylinderGeometry(16 * S, 14 * S, 270 * S, 6), mPerson);
-      leg.position.set((cx + ox) * S, (sy - 135) * S, -520 * S);
-      g.add(leg);
-    });
-  }
-  addPerson(x1, bankG);
-  addPerson(x3, bankG);
 
-  // ── PACKMODUS ─────────────────────────────────────────────────────────────
-  // Left drawer (top 90%)
-  var drL = box(sw1 - 10, drawerH, UD, mBlue, x1, boardH + drawerH / 2, -UD / 2, packG);
-  wireframe(drL, 0x185FA5);
-  // Middle drawer (bottom 90%)
-  var drM = box(swM - 10, drawerH, UD, mBlue, xM, drawerH / 2,           -UD / 2, packG);
-  wireframe(drM, 0x185FA5);
-  // Right drawer (top 90%)
-  var drR = box(sw3 - 10, drawerH, UD, mBlue, x3, boardH + drawerH / 2, -UD / 2, packG);
-  wireframe(drR, 0x185FA5);
-
+  // ── PACKMODUS — runner lines only (meshes live in sg) ────────────────────
   // Runner lines — drawers
-  runnerLine(x1 - sw1 / 2 + 12, boardH + drawerH / 2, packG);
-  runnerLine(x1 + sw1 / 2 - 12, boardH + drawerH / 2, packG);
-  runnerLine(xM - swM / 2 + 12, drawerH / 2,           packG);
-  runnerLine(xM + swM / 2 - 12, drawerH / 2,           packG);
-  runnerLine(x3 - sw3 / 2 + 12, boardH + drawerH / 2, packG);
-  runnerLine(x3 + sw3 / 2 - 12, boardH + drawerH / 2, packG);
+  runnerLine(x1 - sw1 / 2 + 12, yBase + boardH + drawerH / 2, packG);
+  runnerLine(x1 + sw1 / 2 - 12, yBase + boardH + drawerH / 2, packG);
+  runnerLine(xM - swM / 2 + 12, yBase + drawerH / 2,           packG);
+  runnerLine(xM + swM / 2 - 12, yBase + drawerH / 2,           packG);
+  runnerLine(x3 - sw3 / 2 + 12, yBase + boardH + drawerH / 2, packG);
+  runnerLine(x3 + sw3 / 2 - 12, yBase + boardH + drawerH / 2, packG);
 
   // ── Camera orbit ──────────────────────────────────────────────────────────
   var drag = false, mx = 0, my = 0, pmx = 0, pmy = 0;
@@ -405,13 +396,17 @@
   var infoEl = document.getElementById('info');
   var modeLabels = {
     schlafen: 'Schlafmodus — alles eingeklappt',
-    bank:     'Bankmodus — Bretter 900 mm ausgefahren, Beine baumeln',
+    bank:     'Bankmodus — Bretter 900 mm ausgefahren',
     pack:     'Packmodus — Schubladen 900 mm ausgefahren'
   };
 
   window.setMode = function (m) {
     bankG.visible = (m === 'bank');
     packG.visible = (m === 'pack');
+    var zDrawers = (m === 'pack') ? zOut : zIn;
+    var zBoards  = (m === 'bank') ? zOut : zIn;
+    [drL, drM, drR].forEach(function (d) { d.position.z = zDrawers * S; });
+    [bsL, bsR, btM].forEach(function (b) { b.position.z = zBoards  * S; });
     infoEl.textContent = modeLabels[m] || '';
     ['btnSchlafen','btnBank','btnPack'].forEach(function(id) {
       document.getElementById(id).classList.remove('active');

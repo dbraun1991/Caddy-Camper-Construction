@@ -8,12 +8,12 @@ Gebaut mit [Three.js r128](https://threejs.org) — keine Installation, kein Bui
 ## Dateien
 
 ```
-index.html        — vollständiger 3D-Viewer (self-contained)
-Materialliste.md  — Holzteile, Schienen, Befestigungsmaterial, Produktlinks
+index.html            — vollständiger 3D-Viewer (self-contained)
+List_of_Materials.md  — Holzteile, Schienen, Befestigungsmaterial, Produktlinks
 README.md
 ```
 
-→ Vollständige Stückliste, Maßtabellen und Schienen-Optionen: **[Materialliste.md](./Materialliste.md)**
+→ Vollständige Stückliste, Maßtabellen, Schienen-Optionen und **Verbindungstechnik**: **[List_of_Materials.md](./List_of_Materials.md)**
 
 ---
 
@@ -38,11 +38,15 @@ Einzige Voraussetzung: Internetverbindung beim ersten Öffnen (Three.js wird per
 
 ### Modi
 
-| Modus | Beschreibung |
-|---|---|
-| **Schlafmodus** | Alles eingeklappt, Liegefläche auf Oberkante |
-| **Bankmodus** | Sitz-Bretter L/R + Tisch-Brett Mitte 900 mm ausgefahren |
-| **Packmodus** | Alle 3 Schubladen 900 mm ausgefahren |
+Alle 6 beweglichen Elemente (3 Schubladen + 2 Sitz-Bretter + 1 Tisch-Brett) sind in jedem Modus als vollständige 3D-Körper sichtbar. Der Modus bestimmt ihre Position — eingeklappt (im Korpus) oder ausgefahren (in −z-Richtung vor dem Fahrzeugheck).
+
+| Modus | Schubladen | Sitz-Bretter L/R + Tisch-Brett M |
+|---|---|---|
+| **Schlafmodus** | eingeklappt | eingeklappt |
+| **Bankmodus** | eingeklappt | 900 mm ausgefahren |
+| **Packmodus** | 900 mm ausgefahren | eingeklappt |
+
+Im ausgefahrenen Zustand werden die Führungsschienen als Linien eingeblendet.
 
 ---
 
@@ -61,13 +65,20 @@ Basis: VW Caddy Mk3 Kombi, Erstzulassung 05/2012, Laderaumbreite nutzbar **1.120
 
 ### 3 Sektionen (Breite)
 
-| Sektion | Breite | Inhalt oben (90%) | Inhalt unten (10%) |
-|---|---|---|---|
-| Links | 330 mm | Schublade 288 mm | Sitz-Brett 32 mm |
-| Mitte | 424 mm | Tisch-Brett 32 mm | Schublade 288 mm |
-| Rechts | 330 mm | Schublade 288 mm | Sitz-Brett 32 mm |
+Nutzbare Innenhöhe: 320 mm − 18 mm Bodenplatte = **302 mm**.
 
-Alle Elemente (Bretter + Schubladen) fahren auf **Vollauszug-Schienen 900 mm Schwerlast** aus.
+Sektionsbreiten nach Abzug B2-Seitenwände (18 mm innen): **312 mm** L/R · **424 mm** Mitte.
+
+| Sektion | Innenbreite | Element oben | Element unten |
+|---|---|---|---|
+| Links | 312 mm | Schublade 268 mm hoch · 272 mm breit | Sitz-Brett 32 mm hoch · 272 mm breit |
+| Mitte | 424 mm | Tisch-Brett 32 mm hoch · 384 mm breit | Schublade 268 mm hoch · 384 mm breit |
+| Rechts | 312 mm | Schublade 268 mm hoch · 272 mm breit | Sitz-Brett 32 mm hoch · 272 mm breit |
+
+Breitenformel: Innenbreite − 2 × 19 mm Schiene − 2 mm Spalt = Elementbreite.  
+Schienenstärke (AOLISHENG B086JQLXRJ): 19 mm je Seite. Im Render dunkelgrau dargestellt.
+
+Alle Elemente fahren auf **Vollauszug-Schienen 900 mm Schwerlast** aus.
 
 ### Liegefläche (gesamt ~2.000 mm)
 
@@ -85,10 +96,12 @@ Matratzenbreite: **1.100 mm** (passt in 1.120 mm Innenbreite).
 
 | Farbe | Bedeutung |
 |---|---|
-| Hellbraun | Holz / Liegefläche (Birke-Multiplex) |
+| Hellbraun | Holz / Korpus / Liegefläche (Birke-Multiplex) |
 | Türkis | Sitz-Brett L/R |
 | Orange | Tisch-Brett Mitte |
-| Blau | Schubladen |
+| Blau (transparent) | Schubladen × 3 |
+| Dunkelgrau (transparent) | Schienen-Hohlräume (je 19 mm, beidseitig pro Sektion) |
+| Weiß (transparent) | Matratzenumriss |
 
 ---
 
@@ -98,6 +111,16 @@ Matratzenbreite: **1.100 mm** (passt in 1.120 mm Innenbreite).
 - Kein Framework, kein Build-Schritt
 - Funktioniert in jedem modernen Browser (Chrome, Firefox, Safari, Edge)
 - Touch-Steuerung für mobile Geräte unterstützt
+
+### Render-Architektur
+
+Die 6 beweglichen Elemente leben permanent in der statischen Szenengruppe (`sg`) und werden beim Moduswechsel nur in ihrer Z-Position verschoben — nicht ein- oder ausgeblendet. Führungsschienen (`bankG`, `packG`) werden als separate Gruppen ein-/ausgeblendet.
+
+```
+sg    — Korpus, Trennwände, Liegefläche, Matratze, alle 6 Elemente (immer sichtbar)
+bankG — Führungsschienen der Sitz-/Tisch-Bretter (nur Bankmodus)
+packG — Führungsschienen der Schubladen (nur Packmodus)
+```
 
 ---
 
