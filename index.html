@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VW Caddy Camper — 3D Aufbau</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #1a1a1a;
+      color: #e0e0e0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 12px 20px;
+      background: #111;
+      border-bottom: 1px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    header h1 {
+      font-size: 15px;
+      font-weight: 500;
+      color: #e0e0e0;
+    }
+
+    header span {
+      font-size: 12px;
+      color: #888;
+    }
+
+    #viewport {
+      position: relative;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    canvas {
+      display: block;
+      width: 100%;
+      height: 100%;
+      cursor: grab;
+    }
+    canvas:active { cursor: grabbing; }
+
+    #hint {
+      position: absolute;
+      top: 12px;
+      left: 14px;
+      font-size: 12px;
+      color: #aaa;
+      pointer-events: none;
+    }
+
+    #legend {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      font-size: 11px;
+      line-height: 2;
+      color: #bbb;
+      pointer-events: none;
+    }
+
+    #legend span {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+
+    #controls {
+      position: absolute;
+      bottom: 16px;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    button {
+      background: rgba(30,30,30,0.9);
+      color: #ddd;
+      border: 1px solid #444;
+      border-radius: 6px;
+      padding: 8px 18px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    button:hover  { background: rgba(60,60,60,0.95); border-color: #666; }
+    button.active { background: rgba(80,80,80,0.95); border-color: #999; color: #fff; }
+
+    #info {
+      position: absolute;
+      bottom: 56px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-size: 12px;
+      color: #888;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>VW Caddy Mk3 — Camper Aufbau</h1>
+  <span>Three.js r128 · Maße in mm · Maßstab 1:1</span>
+</header>
+
+<div id="viewport">
+  <canvas id="c3d"></canvas>
+
+  <div id="hint">Ziehen: drehen &nbsp;·&nbsp; Scrollen: zoom &nbsp;·&nbsp; Rechtsklick: verschieben</div>
+
+  <div id="legend">
+    <span style="background:#C8A96E;"></span>Holz / Liegefläche (900+700+400 mm)<br>
+    <span style="background:#5DCAA5;"></span>Sitz-Brett L/R &nbsp;(10% · 32 mm hoch · 900 mm Auszug)<br>
+    <span style="background:#EF9F27;"></span>Tisch-Brett Mitte (10% · 32 mm hoch · 900 mm Auszug)<br>
+    <span style="background:#378ADD;"></span>Schubladen × 3 &nbsp;(90% · 288 mm hoch · 900 mm Auszug)
+  </div>
+
+  <div id="info">Schlafmodus — alles eingeklappt</div>
+
+  <div id="controls">
+    <button id="btnSchlafen" class="active" onclick="setMode('schlafen')">Schlafmodus</button>
+    <button id="btnBank"                   onclick="setMode('bank')">Bankmodus</button>
+    <button id="btnPack"                   onclick="setMode('pack')">Packmodus</button>
+    <button                                onclick="resetCam()">↺ Reset</button>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+
+  // ── Renderer ─────────────────────────────────────────────────────────────
+  var canvas   = document.getElementById('c3d');
+  var viewport = document.getElementById('viewport');
+  var W = viewport.offsetWidth;
+  var H = viewport.offsetHeight;
+
+  var renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(W, H);
+  renderer.setClearColor(0x1a1a1a, 1);
+
+  var scene  = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(42, W / H, 0.01, 300);
+
+  // ── Lighting ──────────────────────────────────────────────────────────────
+  scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+
+  var sun = new THREE.DirectionalLight(0xffffff, 0.9);
+  sun.position.set(10, 20, 12);
+  scene.add(sun);
+
+  var fill = new THREE.DirectionalLight(0xffffff, 0.35);
+  fill.position.set(-10, 5, -8);
+  scene.add(fill);
+
+  var back = new THREE.DirectionalLight(0xffffff, 0.15);
+  back.position.set(0, -5, -15);
+  scene.add(back);
+
+  // ── Scale & Dimensions (mm) ───────────────────────────────────────────────
+  var S = 0.01; // 1 mm = 0.01 scene units
+
+  var UW = 1120;  // unit width
+  var UD = 900;   // unit depth (front–back in car)
+  var UH = 320;   // unit height (= load floor to sleeping platform)
+  var TH = 18;    // board thickness
+  var B1 = 700;   // extension board 1 (over rear seat backs)
+  var B2 = 400;   // extension board 2 (headrest area)
+  var DW = 18;    // divider wall thickness
+
+  var boardH  = 32;           // 10% of UH → seat/table boards
+  var drawerH = UH - boardH;  // 288mm → drawers
+
+  // Section X centres (dividers at x=-221 and x=+221)
+  var x1  = -395;  // left section centre
+  var xM  =    0;  // middle section centre
+  var x3  =  395;  // right section centre
+  var sw1 =  330;  // left section width
+  var swM =  424;  // middle section width
+  var sw3 =  330;  // right section width
+  var d1x = -221;  // divider 1 centre x
+  var d2x =  221;  // divider 2 centre x
+
+  // ── Materials ─────────────────────────────────────────────────────────────
+  var mWood    = new THREE.MeshLambertMaterial({ color: 0xC8A96E });
+  var mWoodDk  = new THREE.MeshLambertMaterial({ color: 0x8B6520 });
+  var mWoodLt  = new THREE.MeshLambertMaterial({ color: 0xDCBB84 });
+  var mTeal    = new THREE.MeshLambertMaterial({ color: 0x5DCAA5 });
+  var mTealLt  = new THREE.MeshLambertMaterial({ color: 0x9FE1CB });
+  var mAmber   = new THREE.MeshLambertMaterial({ color: 0xEF9F27 });
+  var mAmberLt = new THREE.MeshLambertMaterial({ color: 0xFAC775 });
+  var mBlue    = new THREE.MeshLambertMaterial({ color: 0x378ADD, transparent: true, opacity: 0.88 });
+  var mMat     = new THREE.MeshLambertMaterial({ color: 0xDDDDDD, transparent: true, opacity: 0.40 });
+  var mPerson  = new THREE.MeshLambertMaterial({ color: 0x888888, transparent: true, opacity: 0.65 });
+  var mGrid    = new THREE.MeshLambertMaterial({ color: 0x333333, transparent: true, opacity: 0.5  });
+
+  // ── Groups ────────────────────────────────────────────────────────────────
+  var sg    = new THREE.Group(); // static
+  var bankG = new THREE.Group(); // Bankmodus extras
+  var packG = new THREE.Group(); // Packmodus extras
+  scene.add(sg, bankG, packG);
+  bankG.visible = false;
+  packG.visible = false;
+
+  // ── Helpers ───────────────────────────────────────────────────────────────
+  function box(w, h, d, mat, x, y, z, g) {
+    var m = new THREE.Mesh(
+      new THREE.BoxGeometry(w * S, h * S, d * S), mat
+    );
+    m.position.set(x * S, y * S, z * S);
+    (g || sg).add(m);
+    return m;
+  }
+
+  function wireframe(mesh, col) {
+    mesh.add(new THREE.LineSegments(
+      new THREE.EdgesGeometry(mesh.geometry),
+      new THREE.LineBasicMaterial({ color: col !== undefined ? col : 0x5A3A0A })
+    ));
+  }
+
+  function runnerLine(ax, ay, g) {
+    var pts = [
+      new THREE.Vector3(ax * S, ay * S,      0),
+      new THREE.Vector3(ax * S, ay * S, -UD * S)
+    ];
+    (g || sg).add(new THREE.Line(
+      new THREE.BufferGeometry().setFromPoints(pts),
+      new THREE.LineBasicMaterial({ color: 0x555555 })
+    ));
+  }
+
+  // ── Grid floor ────────────────────────────────────────────────────────────
+  var grid = new THREE.GridHelper(30, 30, 0x333333, 0x2a2a2a);
+  grid.position.set(0, -0.01, 8);
+  sg.add(grid);
+
+  // ── Unit body ─────────────────────────────────────────────────────────────
+  box(UW, UH, UD, mWood, 0, UH / 2, UD / 2);
+
+  // Dividers
+  box(DW + 1, UH + 4, UD + 4, mWoodDk, d1x, UH / 2, UD / 2);
+  box(DW + 1, UH + 4, UD + 4, mWoodDk, d2x, UH / 2, UD / 2);
+
+  // Front-face zone strips (show closed structure)
+  // Left: light teal = seat (bottom 10%), teal = drawer (top 90%)
+  box(sw1 - 3, boardH  - 2, 3, mTealLt,  x1, boardH / 2,             1.5);
+  box(sw1 - 3, drawerH - 2, 3, mTeal,    x1, boardH + drawerH / 2,   1.5);
+  // Middle: amber = drawer (bottom 90%), light amber = table (top 10%)
+  box(swM - 3, drawerH - 2, 3, mAmber,   xM, drawerH / 2,            1.5);
+  box(swM - 3, boardH  - 2, 3, mAmberLt, xM, drawerH + boardH / 2,   1.5);
+  // Right: same as left
+  box(sw3 - 3, boardH  - 2, 3, mTealLt,  x3, boardH / 2,             1.5);
+  box(sw3 - 3, drawerH - 2, 3, mTeal,    x3, boardH + drawerH / 2,   1.5);
+
+  // Shelf split lines on front face
+  box(sw1 - 3, 3, 4, mWoodDk, x1, boardH,  1.5);
+  box(swM - 3, 3, 4, mWoodDk, xM, drawerH, 1.5);
+  box(sw3 - 3, 3, 4, mWoodDk, x3, boardH,  1.5);
+
+  // ── Sleeping boards ───────────────────────────────────────────────────────
+  var lid = box(UW, TH, UD, mWoodLt, 0, UH + TH / 2, UD / 2);
+  var b1  = box(UW, TH, B1, mWoodLt, 0, UH + TH / 2, UD + B1 / 2);
+  var b2  = box(UW, TH, B2, mWoodLt, 0, UH + TH / 2, UD + B1 + B2 / 2);
+  wireframe(lid); wireframe(b1); wireframe(b2);
+
+  // Labels on sleeping boards (thin dark stripe)
+  box(UW - 20, 2, UD - 20, mWoodDk, 0, UH + TH + 1, UD / 2);
+  box(UW - 20, 2, B1 - 20, mWoodDk, 0, UH + TH + 1, UD + B1 / 2);
+  box(UW - 20, 2, B2 - 20, mWoodDk, 0, UH + TH + 1, UD + B1 + B2 / 2);
+
+  // Mattress outline
+  var mattress = box(1100, 80, 1980, mMat, 0, UH + TH + 40, 990);
+  wireframe(mattress, 0xaaaaaa);
+
+  // ── BANKMODUS ─────────────────────────────────────────────────────────────
+  // Left seat board (bottom 10%) — slides 900mm out
+  var bsL = box(sw1, boardH, UD, mTeal, x1, boardH / 2, -UD / 2, bankG);
+  wireframe(bsL, 0x0F6E56);
+
+  // Right seat board
+  var bsR = box(sw3, boardH, UD, mTeal, x3, boardH / 2, -UD / 2, bankG);
+  wireframe(bsR, 0x0F6E56);
+
+  // Middle table board (top 10%) — slides 900mm out
+  var btM = box(swM, boardH, UD, mAmber, xM, drawerH + boardH / 2, -UD / 2, bankG);
+  wireframe(btM, 0x854F0B);
+
+  // Runner lines — boards
+  runnerLine(x1 - sw1 / 2 + 12, boardH / 2, bankG);
+  runnerLine(x1 + sw1 / 2 - 12, boardH / 2, bankG);
+  runnerLine(x3 - sw3 / 2 + 12, boardH / 2, bankG);
+  runnerLine(x3 + sw3 / 2 - 12, boardH / 2, bankG);
+  runnerLine(xM - swM / 2 + 12, drawerH + boardH / 2, bankG);
+  runnerLine(xM + swM / 2 - 12, drawerH + boardH / 2, bankG);
+
+  // Person silhouettes (legs dangling at bumper height)
+  function addPerson(cx, g) {
+    var sy = boardH;
+    var body = new THREE.Mesh(new THREE.CylinderGeometry(55 * S, 60 * S, 360 * S, 8), mPerson);
+    body.position.set(cx * S, (sy + 180) * S, -550 * S);
+    g.add(body);
+    var head = new THREE.Mesh(new THREE.SphereGeometry(65 * S, 8, 6), mPerson);
+    head.position.set(cx * S, (sy + 400) * S, -550 * S);
+    g.add(head);
+    [-40, 40].forEach(function (ox) {
+      var leg = new THREE.Mesh(new THREE.CylinderGeometry(16 * S, 14 * S, 270 * S, 6), mPerson);
+      leg.position.set((cx + ox) * S, (sy - 135) * S, -520 * S);
+      g.add(leg);
+    });
+  }
+  addPerson(x1, bankG);
+  addPerson(x3, bankG);
+
+  // ── PACKMODUS ─────────────────────────────────────────────────────────────
+  // Left drawer (top 90%)
+  var drL = box(sw1 - 10, drawerH, UD, mBlue, x1, boardH + drawerH / 2, -UD / 2, packG);
+  wireframe(drL, 0x185FA5);
+  // Middle drawer (bottom 90%)
+  var drM = box(swM - 10, drawerH, UD, mBlue, xM, drawerH / 2,           -UD / 2, packG);
+  wireframe(drM, 0x185FA5);
+  // Right drawer (top 90%)
+  var drR = box(sw3 - 10, drawerH, UD, mBlue, x3, boardH + drawerH / 2, -UD / 2, packG);
+  wireframe(drR, 0x185FA5);
+
+  // Runner lines — drawers
+  runnerLine(x1 - sw1 / 2 + 12, boardH + drawerH / 2, packG);
+  runnerLine(x1 + sw1 / 2 - 12, boardH + drawerH / 2, packG);
+  runnerLine(xM - swM / 2 + 12, drawerH / 2,           packG);
+  runnerLine(xM + swM / 2 - 12, drawerH / 2,           packG);
+  runnerLine(x3 - sw3 / 2 + 12, boardH + drawerH / 2, packG);
+  runnerLine(x3 + sw3 / 2 - 12, boardH + drawerH / 2, packG);
+
+  // ── Camera orbit ──────────────────────────────────────────────────────────
+  var drag = false, mx = 0, my = 0, pmx = 0, pmy = 0;
+  var theta  = -0.68;
+  var phi    =  1.05;
+  var radius =  30;
+  var tgt    = new THREE.Vector3(0, UH * S * 0.55, UD * S * 0.6);
+
+  function updCam() {
+    camera.position.set(
+      tgt.x + radius * Math.sin(phi) * Math.sin(theta),
+      tgt.y + radius * Math.cos(phi),
+      tgt.z + radius * Math.sin(phi) * Math.cos(theta)
+    );
+    camera.lookAt(tgt);
+  }
+  updCam();
+
+  // Mouse drag
+  canvas.addEventListener('mousedown', function (e) {
+    drag = true; mx = e.clientX; my = e.clientY;
+  });
+  window.addEventListener('mouseup', function () { drag = false; });
+  window.addEventListener('mousemove', function (e) {
+    if (!drag) return;
+    theta -= (e.clientX - mx) * 0.007;
+    phi = Math.max(0.1, Math.min(1.48, phi - (e.clientY - my) * 0.007));
+    mx = e.clientX; my = e.clientY;
+    updCam();
+  });
+
+  // Scroll zoom
+  canvas.addEventListener('wheel', function (e) {
+    radius = Math.max(8, Math.min(70, radius + e.deltaY * 0.04));
+    e.preventDefault();
+    updCam();
+  }, { passive: false });
+
+  // Touch
+  var tp = null;
+  canvas.addEventListener('touchstart', function (e) {
+    tp = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+  }, { passive: true });
+  canvas.addEventListener('touchmove', function (e) {
+    if (!tp) return;
+    theta -= (e.touches[0].clientX - tp.x) * 0.007;
+    phi = Math.max(0.1, Math.min(1.48, phi - (e.touches[0].clientY - tp.y) * 0.007));
+    tp = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    updCam();
+    e.preventDefault();
+  }, { passive: false });
+
+  // ── Mode switching ────────────────────────────────────────────────────────
+  var infoEl = document.getElementById('info');
+  var modeLabels = {
+    schlafen: 'Schlafmodus — alles eingeklappt',
+    bank:     'Bankmodus — Bretter 900 mm ausgefahren, Beine baumeln',
+    pack:     'Packmodus — Schubladen 900 mm ausgefahren'
+  };
+
+  window.setMode = function (m) {
+    bankG.visible = (m === 'bank');
+    packG.visible = (m === 'pack');
+    infoEl.textContent = modeLabels[m] || '';
+    ['btnSchlafen','btnBank','btnPack'].forEach(function(id) {
+      document.getElementById(id).classList.remove('active');
+    });
+    var map = { schlafen:'btnSchlafen', bank:'btnBank', pack:'btnPack' };
+    if (map[m]) document.getElementById(map[m]).classList.add('active');
+  };
+
+  window.resetCam = function () {
+    theta = -0.68; phi = 1.05; radius = 30; updCam();
+  };
+
+  // ── Render loop ───────────────────────────────────────────────────────────
+  (function anim() {
+    requestAnimationFrame(anim);
+    renderer.render(scene, camera);
+  })();
+
+  // ── Resize ────────────────────────────────────────────────────────────────
+  new ResizeObserver(function () {
+    W = viewport.offsetWidth;
+    H = viewport.offsetHeight;
+    renderer.setSize(W, H);
+    camera.aspect = W / H;
+    camera.updateProjectionMatrix();
+  }).observe(viewport);
+
+})();
+</script>
+</body>
+</html>
