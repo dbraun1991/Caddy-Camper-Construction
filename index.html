@@ -127,10 +127,11 @@
   <div id="hint">Ziehen: drehen &nbsp;·&nbsp; Scrollen: zoom &nbsp;·&nbsp; Rechtsklick: verschieben</div>
 
   <div id="legend">
-    <span style="background:#C8A96E;"></span>Holz / Liegefläche (900+700+400 mm)<br>
-    <span style="background:#5DCAA5;"></span>Sitz-Brett L/R &nbsp;(10% · 32 mm hoch · 900 mm Auszug)<br>
-    <span style="background:#EF9F27;"></span>Tisch-Brett Mitte (10% · 32 mm hoch · 900 mm Auszug)<br>
-    <span style="background:#378ADD;"></span>Schubladen × 3 &nbsp;(90% · 288 mm hoch · 900 mm Auszug)
+    <span style="background:#8B6520;"></span>Holz / Korpus + Liegefläche (Birke-Multiplex)<br>
+    <span style="background:#5DCAA5;"></span>Sitz-Brett L/R &nbsp;(32 mm hoch · 900 mm Auszug)<br>
+    <span style="background:#EF9F27;"></span>Tisch-Brett Mitte (32 mm hoch · 900 mm Auszug)<br>
+    <span style="background:#378ADD;"></span>Schubladen × 3 &nbsp;(260 mm hoch · 900 mm Auszug)<br>
+    <span style="background:#FF1111;"></span>Schienen × 12 &nbsp;(AOLISHENG · 18×74×900 mm · fährt mit Element)
   </div>
 
   <div id="info">Schlafmodus — alles eingeklappt</div>
@@ -189,7 +190,7 @@
 
   var runnerT = 19;                    // drawer-runner thickness per side (B086JQLXRJ)
   var boardH  = 32;                    // seat/table board height
-  var drawerH = UH - TH - boardH - 2; // 320-18-32-2(top clearance) = 268mm
+  var drawerH = UH - TH - boardH - 10; // 320-18-32-10 = 260mm (5mm gap board↔drawer + 5mm drawer↔top)
   var yBase   = TH;                   // interior y-start: above bottom plate
 
   // Section X centres — B2 side walls (18 mm) are inside the 1120 mm unit
@@ -204,15 +205,12 @@
   var d2x =  221;  // divider 2 centre x
 
   // ── Materials ─────────────────────────────────────────────────────────────
-  var mWood    = new THREE.MeshLambertMaterial({ color: 0xC8A96E });
-  var mWoodDk  = new THREE.MeshLambertMaterial({ color: 0x8B6520 });
-  var mWoodLt  = new THREE.MeshLambertMaterial({ color: 0xDCBB84 });
-  var mTeal    = new THREE.MeshLambertMaterial({ color: 0x5DCAA5 });
-  var mAmber   = new THREE.MeshLambertMaterial({ color: 0xEF9F27 });
+  var mWoodDk  = new THREE.MeshLambertMaterial({ color: 0x8B6520, transparent: true, opacity: 0.90 });
+  var mTeal    = new THREE.MeshLambertMaterial({ color: 0x5DCAA5, transparent: true, opacity: 0.90 });
+  var mAmber   = new THREE.MeshLambertMaterial({ color: 0xEF9F27, transparent: true, opacity: 0.90 });
   var mBlue    = new THREE.MeshLambertMaterial({ color: 0x378ADD, transparent: true, opacity: 0.88 });
   var mMat     = new THREE.MeshLambertMaterial({ color: 0xDDDDDD, transparent: true, opacity: 0.40 });
-  var mGrid    = new THREE.MeshLambertMaterial({ color: 0x333333, transparent: true, opacity: 0.5  });
-  var mRunner  = new THREE.MeshLambertMaterial({ color: 0x3a3a3a, transparent: true, opacity: 0.82 });
+  var mRailRed = new THREE.MeshLambertMaterial({ color: 0xFF1111, transparent: true, opacity: 0.90 });
 
   // ── Groups ────────────────────────────────────────────────────────────────
   var sg    = new THREE.Group(); // static
@@ -230,6 +228,12 @@
     m.position.set(x * S, y * S, z * S);
     (g || sg).add(m);
     return m;
+  }
+
+  // railDuo: Innenmember (rot, fährt mit Element). dir: +1 = Element rechts, -1 = Element links.
+  // Außenmember weggelassen — kein visueller Overlap mit Spaltmaßen.
+  function railDuo(x, y, dir) {
+    return box(runnerT - 1, railH - 2, UD, mRailRed, x + dir * 0.5, y, zIn);
   }
 
   function wireframe(mesh, col) {
@@ -255,15 +259,17 @@
   grid.position.set(0, -0.01, 8);
   sg.add(grid);
 
-  // ── Unit body ─────────────────────────────────────────────────────────────
-  box(UW, UH, UD, mWood, 0, UH / 2, UD / 2);
-
-  // Bottom plate
+  // ── Strukturbretter ────────────────────────────────────────────────────────
+  // B2 Seitenwände (links + rechts)
+  box(TH, UH, UD, mWoodDk, -(UW / 2 - TH / 2), UH / 2, UD / 2);
+  box(TH, UH, UD, mWoodDk,  (UW / 2 - TH / 2), UH / 2, UD / 2);
+  // B1 Rückwand
+  box(UW, UH, TH, mWoodDk, 0, UH / 2, UD - TH / 2);
+  // B4 Bodenplatte
   box(UW, TH, UD, mWoodDk, 0, TH / 2, UD / 2);
-
-  // Dividers
-  box(DW + 1, UH + 4, UD + 4, mWoodDk, d1x, UH / 2, UD / 2);
-  box(DW + 1, UH + 4, UD + 4, mWoodDk, d2x, UH / 2, UD / 2);
+  // B3 Trennwände
+  box(DW, UH, UD, mWoodDk, d1x, UH / 2, UD / 2);
+  box(DW, UH, UD, mWoodDk, d2x, UH / 2, UD / 2);
 
   // ── Moveable elements — all in sg, repositioned by setMode ──────────────
   var zIn  = UD / 2 - 1.5;  // collapsed: front face 1.5 mm proud of unit body
@@ -271,46 +277,65 @@
 
   // Element widths: section interior − 2 × runner (19 mm) − 2 mm gap (1 mm each side)
   // Drawers (3)
-  var drL = box(sw1 - 2*runnerT - 2, drawerH, UD, mBlue, x1, yBase + boardH + drawerH / 2, zIn);
+  var drL = box(sw1 - 2*runnerT - 2, drawerH, UD, mBlue, x1, yBase + boardH + 5 + drawerH / 2, zIn);
   wireframe(drL, 0x185FA5);
-  var drM = box(swM - 2*runnerT - 2, drawerH, UD, mBlue, xM, yBase + drawerH / 2,           zIn);
+  var drM = box(swM - 2*runnerT - 2, drawerH, UD, mBlue, xM, yBase + drawerH / 2,             zIn);
   wireframe(drM, 0x185FA5);
-  var drR = box(sw3 - 2*runnerT - 2, drawerH, UD, mBlue, x3, yBase + boardH + drawerH / 2, zIn);
+  var drR = box(sw3 - 2*runnerT - 2, drawerH, UD, mBlue, x3, yBase + boardH + 5 + drawerH / 2, zIn);
   wireframe(drR, 0x185FA5);
 
   // Seat boards L/R + Table board M (same clearance formula)
-  var bsL = box(sw1 - 2*runnerT - 2, boardH, UD, mTeal,  x1, yBase + boardH / 2,           zIn);
+  var bsL = box(sw1 - 2*runnerT - 2, boardH, UD, mTeal,  x1, yBase + boardH / 2,               zIn);
   wireframe(bsL, 0x0F6E56);
-  var bsR = box(sw3 - 2*runnerT - 2, boardH, UD, mTeal,  x3, yBase + boardH / 2,           zIn);
+  var bsR = box(sw3 - 2*runnerT - 2, boardH, UD, mTeal,  x3, yBase + boardH / 2,               zIn);
   wireframe(bsR, 0x0F6E56);
-  var btM = box(swM - 2*runnerT - 2, boardH, UD, mAmber, xM, yBase + drawerH + boardH / 2, zIn);
+  var btM = box(swM - 2*runnerT - 2, boardH, UD, mAmber, xM, yBase + drawerH + 5 + boardH / 2, zIn);
   wireframe(btM, 0x854F0B);
 
-  // ── Runner channels — dark grey, fixed in unit walls, never move ──────────
-  // Each channel: 19 mm wide × full element height × full unit depth
-  // Positioned between section wall and element (1 mm gap each side)
-  var chanH  = boardH + drawerH;          // 300 mm — full element height per section
-  var chanCY = yBase + chanH / 2;         // y-centre of all channels (168 mm)
-  var bL     = -(UW / 2 - DW);           // left B2 inner face x  = −542
-  var bR     =  (UW / 2 - DW);           // right B2 inner face x = +542
-  var d1L    = d1x - DW / 2;             // divider 1 left face   = −230
-  var d1R    = d1x + DW / 2;             // divider 1 right face  = −212
-  var d2L    = d2x - DW / 2;             // divider 2 left face   = +212
-  var d2R    = d2x + DW / 2;             // divider 2 right face  = +230
-  // Left section
-  box(runnerT, chanH, UD, mRunner, bL  + runnerT / 2, chanCY, zIn);
-  box(runnerT, chanH, UD, mRunner, d1L - runnerT / 2, chanCY, zIn);
-  // Middle section
-  box(runnerT, chanH, UD, mRunner, d1R + runnerT / 2, chanCY, zIn);
-  box(runnerT, chanH, UD, mRunner, d2L - runnerT / 2, chanCY, zIn);
-  // Right section
-  box(runnerT, chanH, UD, mRunner, d2R + runnerT / 2, chanCY, zIn);
-  box(runnerT, chanH, UD, mRunner, bR  - runnerT / 2, chanCY, zIn);
+  // ── Schienen — AOLISHENG B086JQLXRJ: 19 mm breit x 76 mm hoch x 900 mm lang ──
+  // Wandstreifen-Belegung (kein Overlap):
+  //   Sitz-Bretter L/R : y 18-94 mm  (Brett y 18-50, 44 mm Schiene ueberragt Brett nach oben)
+  //   Schubladen L/R   : y 190-266 mm (96 mm Abstand zur Brett-Schiene)
+  //   Schublade M      : y 67-143 mm  (96 mm Abstand zur Tisch-Schiene)
+  //   Tisch-Brett M    : y 239-315 mm (Brett y 283-315, 44 mm Schiene ueberragt Brett nach unten)
+  var railH = 76;
+  var bL  = -(UW / 2 - DW);   // B2 Innenflaeche links  x = -542
+  var bR  =  (UW / 2 - DW);   // B2 Innenflaeche rechts x = +542
+  var d1L = d1x - DW / 2;     // Trennwand 1 links      x = -230
+  var d1R = d1x + DW / 2;     // Trennwand 1 rechts     x = -212
+  var d2L = d2x - DW / 2;     // Trennwand 2 links      x = +212
+  var d2R = d2x + DW / 2;     // Trennwand 2 rechts     x = +230
+
+  // Schienen: Außenmember statisch (UD/2), Innenmember fährt mit Element (zIn→zOut)
+  // dir: linke Wandschiene = +1 (Element rechts), rechte Wandschiene = -1 (Element links)
+  var bsRailY  = yBase + railH / 2;                        // 56 mm  — Sitz-Bretter
+  var drLRailY = yBase + boardH + 5 + drawerH * 2 / 3;    // 228 mm — Schubladen L/R
+  var drMRailY = yBase + drawerH / 3;                      // 105 mm — Schublade M
+  var btRailY  = yBase + drawerH + 5 + boardH - railH / 2; // 277 mm — Tisch-Brett M
+
+  // Sitz-Brett L — Innenmember fährt mit bsL
+  var ribsL_l = railDuo(bL  + runnerT / 2, bsRailY,  +1);
+  var ribsL_r = railDuo(d1L - runnerT / 2, bsRailY,  -1);
+  // Sitz-Brett R — Innenmember fährt mit bsR
+  var ribsR_l = railDuo(d2R + runnerT / 2, bsRailY,  +1);
+  var ribsR_r = railDuo(bR  - runnerT / 2, bsRailY,  -1);
+  // Schublade L — Innenmember fährt mit drL
+  var ridrL_l = railDuo(bL  + runnerT / 2, drLRailY, +1);
+  var ridrL_r = railDuo(d1L - runnerT / 2, drLRailY, -1);
+  // Schublade R — Innenmember fährt mit drR
+  var ridrR_l = railDuo(d2R + runnerT / 2, drLRailY, +1);
+  var ridrR_r = railDuo(bR  - runnerT / 2, drLRailY, -1);
+  // Schublade M — Innenmember fährt mit drM
+  var ridrM_l = railDuo(d1R + runnerT / 2, drMRailY, +1);
+  var ridrM_r = railDuo(d2L - runnerT / 2, drMRailY, -1);
+  // Tisch-Brett M — Innenmember fährt mit btM
+  var ribtM_l = railDuo(d1R + runnerT / 2, btRailY,  +1);
+  var ribtM_r = railDuo(d2L - runnerT / 2, btRailY,  -1);
 
   // ── Sleeping boards ───────────────────────────────────────────────────────
-  var lid = box(UW, TH, UD, mWoodLt, 0, UH + TH / 2, UD / 2);
-  var b1  = box(UW, TH, B1, mWoodLt, 0, UH + TH / 2, UD + B1 / 2);
-  var b2  = box(UW, TH, B2, mWoodLt, 0, UH + TH / 2, UD + B1 + B2 / 2);
+  var lid = box(UW, TH, UD, mWoodDk, 0, UH + TH / 2, UD / 2);
+  var b1  = box(UW, TH, B1, mWoodDk, 0, UH + TH / 2, UD + B1 / 2);
+  var b2  = box(UW, TH, B2, mWoodDk, 0, UH + TH / 2, UD + B1 + B2 / 2);
   wireframe(lid); wireframe(b1); wireframe(b2);
 
   // Labels on sleeping boards (thin dark stripe)
@@ -322,24 +347,6 @@
   var mattress = box(1100, 80, 1980, mMat, 0, UH + TH + 40, 990);
   wireframe(mattress, 0xaaaaaa);
 
-  // ── BANKMODUS — runner lines only (meshes live in sg) ────────────────────
-  // Runner lines — boards
-  runnerLine(x1 - sw1 / 2 + 12, yBase + boardH / 2, bankG);
-  runnerLine(x1 + sw1 / 2 - 12, yBase + boardH / 2, bankG);
-  runnerLine(x3 - sw3 / 2 + 12, yBase + boardH / 2, bankG);
-  runnerLine(x3 + sw3 / 2 - 12, yBase + boardH / 2, bankG);
-  runnerLine(xM - swM / 2 + 12, yBase + drawerH + boardH / 2, bankG);
-  runnerLine(xM + swM / 2 - 12, yBase + drawerH + boardH / 2, bankG);
-
-
-  // ── PACKMODUS — runner lines only (meshes live in sg) ────────────────────
-  // Runner lines — drawers
-  runnerLine(x1 - sw1 / 2 + 12, yBase + boardH + drawerH / 2, packG);
-  runnerLine(x1 + sw1 / 2 - 12, yBase + boardH + drawerH / 2, packG);
-  runnerLine(xM - swM / 2 + 12, yBase + drawerH / 2,           packG);
-  runnerLine(xM + swM / 2 - 12, yBase + drawerH / 2,           packG);
-  runnerLine(x3 - sw3 / 2 + 12, yBase + boardH + drawerH / 2, packG);
-  runnerLine(x3 + sw3 / 2 - 12, yBase + boardH + drawerH / 2, packG);
 
   // ── Camera orbit ──────────────────────────────────────────────────────────
   var drag = false, mx = 0, my = 0, pmx = 0, pmy = 0;
@@ -405,8 +412,10 @@
     packG.visible = (m === 'pack');
     var zDrawers = (m === 'pack') ? zOut : zIn;
     var zBoards  = (m === 'bank') ? zOut : zIn;
-    [drL, drM, drR].forEach(function (d) { d.position.z = zDrawers * S; });
-    [bsL, bsR, btM].forEach(function (b) { b.position.z = zBoards  * S; });
+    [drL, drM, drR, ridrL_l, ridrL_r, ridrR_l, ridrR_r, ridrM_l, ridrM_r]
+      .forEach(function (d) { d.position.z = zDrawers * S; });
+    [bsL, bsR, btM, ribsL_l, ribsL_r, ribsR_l, ribsR_r, ribtM_l, ribtM_r]
+      .forEach(function (b) { b.position.z = zBoards  * S; });
     infoEl.textContent = modeLabels[m] || '';
     ['btnSchlafen','btnBank','btnPack'].forEach(function(id) {
       document.getElementById(id).classList.remove('active');

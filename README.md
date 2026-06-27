@@ -96,11 +96,11 @@ Matratzenbreite: **1.100 mm** (passt in 1.120 mm Innenbreite).
 
 | Farbe | Bedeutung |
 |---|---|
-| Hellbraun | Holz / Korpus / Liegefläche (Birke-Multiplex) |
-| Türkis | Sitz-Brett L/R |
-| Orange | Tisch-Brett Mitte |
+| Dunkelbraun (transparent) | Holz / Korpus + Liegefläche (B1, B2, B3, B4, A1–A3 · Birke-Multiplex) |
+| Türkis (transparent) | Sitz-Brett L/R (C1, C2) |
+| Orange (transparent) | Tisch-Brett Mitte (C3) |
 | Blau (transparent) | Schubladen × 3 |
-| Dunkelgrau (transparent) | Schienen-Hohlräume (je 19 mm, beidseitig pro Sektion) |
+| Rot (transparent) | Führungsschienen-Innenmember — fahren mit Element aus |
 | Weiß (transparent) | Matratzenumriss |
 
 ---
@@ -114,13 +114,16 @@ Matratzenbreite: **1.100 mm** (passt in 1.120 mm Innenbreite).
 
 ### Render-Architektur
 
-Die 6 beweglichen Elemente leben permanent in der statischen Szenengruppe (`sg`) und werden beim Moduswechsel nur in ihrer Z-Position verschoben — nicht ein- oder ausgeblendet. Führungsschienen (`bankG`, `packG`) werden als separate Gruppen ein-/ausgeblendet.
+Alle Elemente — Korpusbretter, Liegefläche, Schubladen, Sitz-/Tischbretter und Führungsschienen — leben permanent in der statischen Szenengruppe `sg`. Beim Moduswechsel wird nur die Z-Position der 6 Elemente plus ihrer jeweils zugehörigen Schienen-Innenmember verschoben.
 
 ```
-sg    — Korpus, Trennwände, Liegefläche, Matratze, alle 6 Elemente (immer sichtbar)
-bankG — Führungsschienen der Sitz-/Tisch-Bretter (nur Bankmodus)
-packG — Führungsschienen der Schubladen (nur Packmodus)
+sg    — Korpus (B1, B2, B3, B4), Liegefläche (A1–A3), Matratze,
+        alle 6 Elemente + 12 Führungsschienen-Innenmember (immer sichtbar)
+bankG — (leer, reserviert)
+packG — (leer, reserviert)
 ```
+
+Der Korpus besteht aus Einzelbrettern (keine Vollbox): B2 links/rechts, B1 Rückwand, B4 Boden, B3 × 2 Trennwände. Die Vorderseite ist offen.
 
 ---
 
