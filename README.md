@@ -114,6 +114,8 @@ Matratzenbreite: **1.100 mm** (passt in 1.120 mm Innenbreite).
 
 ### Render-Architektur
 
+> Entscheidungsprotokoll: [docs/adrs/0004-static-scene-graph-with-z-position-toggle.md](docs/adrs/0004-static-scene-graph-with-z-position-toggle.md)
+
 Alle Elemente — Korpusbretter, Liegefläche, Schubladen, Sitz-/Tischbretter und Führungsschienen — leben permanent in der statischen Szenengruppe `sg`. Beim Moduswechsel wird nur die Z-Position der 6 Elemente plus ihrer jeweils zugehörigen Schienen-Innenmember verschoben.
 
 ```

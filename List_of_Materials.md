@@ -77,6 +77,8 @@ y = 18–286 mm = 268 mm hoch; 424 mm Innen − 2 × 19 mm Schiene − 2 mm Spal
 
 ## E — Vollauszug-Schienen (6 Paare gesamt)
 
+> Auswahlbegründung (900 mm/Schwerlast statt kürzer/SoftClose): [docs/adrs/0008-heavy-duty-full-extension-runners.md](docs/adrs/0008-heavy-duty-full-extension-runners.md)
+
 **6 Paare** insgesamt: 3× für Schubladen + 3× für Sitz-/Tisch-Bretter.  
 Mindestanforderung: **900 mm Auszug**, **Schwerlast**, mit Arretierung (Lock).
 
@@ -156,6 +158,8 @@ Vollauszug 550 mm · 3-teilig · SoftClose · Traglast 105 kg
 ---
 
 ## H — Verbindungstechnik Korpusbau
+
+> Entscheidungsprotokoll: [docs/adrs/0007-dowel-screw-bracket-joinery.md](docs/adrs/0007-dowel-screw-bracket-joinery.md)
 
 ### Ausgangslage
 

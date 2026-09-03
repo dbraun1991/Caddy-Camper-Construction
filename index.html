@@ -144,6 +144,8 @@
   </div>
 </div>
 
+<!-- Self-contained, kein Build-Schritt: docs/adrs/0001-self-contained-single-file-viewer.md -->
+<!-- Version bewusst gepinnt, nicht "latest": docs/adrs/0002-pinned-threejs-r128-via-cdn.md -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 (function () {
@@ -178,7 +180,7 @@
   scene.add(back);
 
   // ── Scale & Dimensions (mm) ───────────────────────────────────────────────
-  var S = 0.01; // 1 mm = 0.01 scene units
+  var S = 0.01; // 1 mm = 0.01 scene units — alle Maße unten in echten mm, siehe docs/adrs/0003-real-world-mm-scale-factor.md
 
   var UW = 1120;  // unit width
   var UD = 900;   // unit depth (front–back in car)
@@ -188,11 +190,12 @@
   var B2 = 400;   // extension board 2 (headrest area)
   var DW = 18;    // divider wall thickness
 
-  var runnerT = 19;                    // drawer-runner thickness per side (B086JQLXRJ)
+  var runnerT = 19;                    // drawer-runner thickness per side (B086JQLXRJ) — Auswahl: docs/adrs/0008-heavy-duty-full-extension-runners.md
   var boardH  = 32;                    // seat/table board height
   var drawerH = UH - TH - boardH - 10; // 320-18-32-10 = 260mm (5mm gap board↔drawer + 5mm drawer↔top)
   var yBase   = TH;                   // interior y-start: above bottom plate
 
+  // 3-Sektionen-Layout (312/424/312 mm), Begründung: docs/adrs/0006-three-section-corpus-layout.md
   // Section X centres — B2 side walls (18 mm) are inside the 1120 mm unit
   // Interior per side: (1120 - 2×18 walls - 2×18 dividers - 424 middle) / 2 = 312 mm
   var x1  = -386;  // left section centre  (between B2 inner face and divider 1)
@@ -213,9 +216,10 @@
   var mRailRed = new THREE.MeshLambertMaterial({ color: 0xFF1111, transparent: true, opacity: 0.90 });
 
   // ── Groups ────────────────────────────────────────────────────────────────
+  // Statischer Szenengraph + Z-Verschiebung statt Subtree-Wechsel je Modus: docs/adrs/0004-static-scene-graph-with-z-position-toggle.md
   var sg    = new THREE.Group(); // static
-  var bankG = new THREE.Group(); // Bankmodus extras
-  var packG = new THREE.Group(); // Packmodus extras
+  var bankG = new THREE.Group(); // Bankmodus extras — aktuell leer/reserviert, siehe ADR 0004
+  var packG = new THREE.Group(); // Packmodus extras — aktuell leer/reserviert, siehe ADR 0004
   scene.add(sg, bankG, packG);
   bankG.visible = false;
   packG.visible = false;
@@ -231,7 +235,7 @@
   }
 
   // railDuo: Innenmember (rot, fährt mit Element). dir: +1 = Element rechts, -1 = Element links.
-  // Außenmember weggelassen — kein visueller Overlap mit Spaltmaßen.
+  // Außenmember weggelassen — kein visueller Overlap mit Spaltmaßen. Begründung: docs/adrs/0005-simplified-rail-visualization.md
   function railDuo(x, y, dir) {
     return box(runnerT - 1, railH - 2, UD, mRailRed, x + dir * 0.5, y, zIn);
   }
@@ -399,7 +403,7 @@
     e.preventDefault();
   }, { passive: false });
 
-  // ── Mode switching ────────────────────────────────────────────────────────
+  // ── Mode switching — verschiebt nur Z, siehe docs/adrs/0004-static-scene-graph-with-z-position-toggle.md ──
   var infoEl = document.getElementById('info');
   var modeLabels = {
     schlafen: 'Schlafmodus — alles eingeklappt',
