@@ -11,6 +11,8 @@ Gebaut mit [Three.js r128](https://threejs.org) — keine Installation, kein Bui
 index.html            — vollständiger 3D-Viewer (self-contained)
 List_of_Materials.md  — Holzteile, Schienen, Befestigungsmaterial, Produktlinks
 README.md
+docs/adrs/             — Architecture Decision Records
+docs/pics/             — Screenshots des Viewers
 ```
 
 → Vollständige Stückliste, Maßtabellen, Schienen-Optionen und **Verbindungstechnik**: **[List_of_Materials.md](./List_of_Materials.md)**
@@ -46,7 +48,16 @@ Alle 6 beweglichen Elemente (3 Schubladen + 2 Sitz-Bretter + 1 Tisch-Brett) sind
 | **Bankmodus** | eingeklappt | 900 mm ausgefahren |
 | **Packmodus** | 900 mm ausgefahren | eingeklappt |
 
-Im ausgefahrenen Zustand werden die Führungsschienen als Linien eingeblendet.
+Die Führungsschienen-Innenmember (rot) sind immer Teil der 3D-Geometrie und fahren mit ihrem Element mit — im eingeklappten Zustand liegen sie verdeckt im Korpus, im ausgefahrenen Zustand werden sie sichtbar.
+
+---
+
+## Screenshots
+
+| Schlafmodus | Bankmodus | Packmodus |
+|---|---|---|
+| [![Schlafmodus](docs/pics/schlafmodus.jpg)](docs/pics/schlafmodus.jpg) | [![Bankmodus](docs/pics/bankmodus.jpg)](docs/pics/bankmodus.jpg) | [![Packmodus](docs/pics/packmodus.jpg)](docs/pics/packmodus.jpg) |
+| alles eingeklappt | Sitz-/Tisch-Bretter 900 mm ausgefahren | Schubladen 900 mm ausgefahren |
 
 ---
 
