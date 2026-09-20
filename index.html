@@ -136,6 +136,8 @@
     <span style="background:#EF9F27;"></span>Tisch-Brett Mitte (32 mm hoch · 900 mm Auszug)<br>
     <span style="background:#378ADD;"></span>Schubladen × 3 &nbsp;(260 mm hoch · 900 mm Auszug)<br>
     <span style="background:#9DB4C8;"></span>Caddy-Hülle (Platzhaltermaße, 60 % deckend)<br>
+    <span style="background:#B5E48C;"></span>Lade-Referenzebene Kofferraum (y = 0)<br>
+    <span style="background:#5F6B7A;"></span>Rücksitzbank (umgeklappt / ausgebaut)<br>
     <span style="background:#FF1111;"></span>Schienen × 12 &nbsp;(AOLISHENG · 18×74×900 mm · fährt mit Element)
   </div>
 
@@ -146,6 +148,7 @@
     <button id="btnBank"                   onclick="setMode('bank')">Bankmodus</button>
     <button id="btnPack"                   onclick="setMode('pack')">Packmodus</button>
     <button id="btnCaddy" class="active"   onclick="toggleCaddy()">Caddy-Hülle</button>
+    <button id="btnSeats"                  onclick="toggleRearSeats()">Rücksitze: umgeklappt</button>
     <button                                onclick="resetCam()">↺ Reset</button>
   </div>
 </div>
@@ -367,26 +370,65 @@
   var CW   = 1500;  // Innenbreite an den Wänden
   var CAW  = 1170;  // Breite zwischen den Radkästen
   var CH   = 1200;  // Laderaumhöhe
-  var CL   = 2400;  // Länge ab Heck bis Vorderwand (Sitze bei z = 2000)
+  var CL   = 3000;  // Länge ab Heck bis Vorderwand/Armaturenbrett (Vordersitz-Lehne bei z = 2000)
   var CT   = 10;    // Darstellungsstärke der Hüllenpaneele
   var carLen = 400, carH = 350, carZ = 300; // Radkasten: Länge, Höhe, Start-z
   var seatW = 450, seatD = 120, seatH = 700, seatY = 350; // Vordersitz-Rückenlehne inkl. Kopfstütze
+  var cushD = 440, cushH = 100;                            // Vordersitz-Sitzfläche (nach vorn)
+  var zFront = UD + B1 + B2;                               // Vordersitz-Lehne (Kopfstützenbereich, Brett 2)
 
-  function shell(w, h, d, x, y, z) { wireframe(box(w, h, d, mCaddy, x, y, z, caddyG), 0x6A8299); }
-  shell(CT, CH, CL, -(CW / 2 + CT / 2), CH / 2, CL / 2);   // Seitenwand links
-  shell(CT, CH, CL,  (CW / 2 + CT / 2), CH / 2, CL / 2);   // Seitenwand rechts
+  // Türöffnungen (Löcher in den Seitenwänden), je Seite gleich: z-Bereich, Unterkante y, Oberkante y
+  var doorOpenings = [
+    { z0:  850, z1: 1650, y0: 300, y1: 1100 },  // Schiebetür (hinter der B-Säule)
+    { z0: 1900, z1: 2850, y0: 350, y1: 1150 }   // Fronttür
+  ];
+
+  function shell(w, h, d, x, y, z, g) { wireframe(box(w, h, d, mCaddy, x, y, z, g || caddyG), 0x6A8299); }
+
+  // Seitenwand aus Feldern rund um die Türöffnungen (Wand-Innenkante bei xc, Stärke CT)
+  function sideWall(xc) {
+    var z = 0;
+    doorOpenings.forEach(function (o) {
+      if (o.z0 > z) shell(CT, CH, o.z0 - z, xc, CH / 2, (z + o.z0) / 2);                       // Feld vor der Öffnung
+      shell(CT, o.y0, o.z1 - o.z0, xc, o.y0 / 2, (o.z0 + o.z1) / 2);                           // Brüstung unter der Öffnung
+      shell(CT, CH - o.y1, o.z1 - o.z0, xc, (o.y1 + CH) / 2, (o.z0 + o.z1) / 2);               // Feld über der Öffnung
+      z = o.z1;
+    });
+    if (CL > z) shell(CT, CH, CL - z, xc, CH / 2, (z + CL) / 2);                                // Feld bis zur Vorderwand
+  }
+  sideWall(-(CW / 2 + CT / 2));   // Seitenwand links
+  sideWall( (CW / 2 + CT / 2));   // Seitenwand rechts
   shell(CW + 2 * CT, CT, CL, 0, CH + CT / 2, CL / 2);      // Dach
   shell(CW + 2 * CT, CH, CT, 0, CH / 2, CL + CT / 2);      // Vorderwand
   var arch = (CW - CAW) / 2;
   shell(arch, carH, carLen, -(CAW / 2 + arch / 2), carH / 2, carZ + carLen / 2); // Radkasten links
   shell(arch, carH, carLen,  (CAW / 2 + arch / 2), carH / 2, carZ + carLen / 2); // Radkasten rechts
-  shell(seatW, seatH, seatD, -(CAW / 4 + 20), seatY + seatH / 2, UD + B1 + B2 + seatD / 2); // Sitz links
-  shell(seatW, seatH, seatD,  (CAW / 4 + 20), seatY + seatH / 2, UD + B1 + B2 + seatD / 2); // Sitz rechts
-  caddyG.children.forEach(function (m) { m.renderOrder = 10; });
+
+  // Vordersitze: Lehne inkl. Kopfstütze + Sitzfläche
+  [-1, 1].forEach(function (sx) {
+    var x = sx * (CAW / 4 + 20);
+    shell(seatW, seatH, seatD, x, seatY + seatH / 2, zFront + seatD / 2);
+    shell(seatW, cushH, cushD, x, seatY + cushH / 2, zFront + seatD + cushD / 2);
+  });
+
+  // Lade-Referenzebene im Kofferraum (y = 0): dünne Platte, auf der der Unterbau startet
+  var mPlane = new THREE.MeshLambertMaterial({ color: 0xB5E48C, transparent: true, opacity: 0.45, depthWrite: false, side: THREE.DoubleSide });
+  var floorPlane = box(CW, 2, zFront, mPlane, 0, -1, zFront / 2, caddyG);
+  wireframe(floorPlane, 0x6B8F3A);
+
+  // Rücksitzbank (2. Reihe): umgeklappt (Standard) oder ausgebaut — per Button
+  // Umgeklappt: Sitzfläche/Unterbau + flach liegende Lehne, Oberkante knapp unter Plattformhöhe (Brett 1 liegt auf)
+  var mRearSeat = new THREE.MeshLambertMaterial({ color: 0x5F6B7A, transparent: true, opacity: 0.75, depthWrite: false });
+  var rearSeatsG = new THREE.Group();
+  caddyG.add(rearSeatsG);
+  var rsTop = UH - 4, rsBackH = 80;
+  wireframe(box(CAW - 40, rsTop - rsBackH, B1, mRearSeat, 0, (rsTop - rsBackH) / 2, UD + B1 / 2, rearSeatsG), 0x2E3640); // Sitzfläche/Unterbau
+  wireframe(box(CAW - 40, rsBackH, B1, mRearSeat, 0, rsTop - rsBackH / 2, UD + B1 / 2, rearSeatsG), 0x2E3640);           // umgeklappte Lehne
+  caddyG.traverse(function (m) { if (m.isMesh) m.renderOrder = 10; });
 
   // ── Camera orbit ──────────────────────────────────────────────────────────
   var drag = false, mx = 0, my = 0, pmx = 0, pmy = 0;
-  var DEF_THETA = -Math.PI + 0.68, DEF_PHI = 1.05, DEF_RADIUS = 48; // Standard: von hinten rechts, Hülle passt ins Bild
+  var DEF_THETA = -Math.PI + 0.68, DEF_PHI = 1.05, DEF_RADIUS = 56; // Standard: von hinten rechts, Hülle passt ins Bild
   var theta  = DEF_THETA;
   var phi    = DEF_PHI;
   var radius = DEF_RADIUS;
@@ -477,8 +519,13 @@
 
   window.toggleCaddy = function () {
     caddyG.visible = !caddyG.visible;
-    if (caddyG.visible && radius < 48) { radius = 48; updCam(); } // Hülle ist ~2,4 m lang: rauszoomen, damit sie ins Bild passt
+    if (caddyG.visible && radius < 56) { radius = 56; updCam(); } // Hülle ist ~3 m lang: rauszoomen, damit sie ins Bild passt
     document.getElementById('btnCaddy').classList.toggle('active', caddyG.visible);
+  };
+
+  window.toggleRearSeats = function () {
+    rearSeatsG.visible = !rearSeatsG.visible;
+    document.getElementById('btnSeats').textContent = rearSeatsG.visible ? 'Rücksitze: umgeklappt' : 'Rücksitze: ausgebaut';
   };
 
   window.resetCam = function () {

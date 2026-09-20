@@ -40,6 +40,7 @@ Einzige Voraussetzung: Internetverbindung beim ersten Öffnen (Three.js wird per
 | Zoomen | Scrollrad · Touch: Pinch (zwei Finger) |
 | Drehen (Touch) | Ein Finger ziehen |
 | Caddy-Hülle ein-/ausblenden | Button „Caddy-Hülle“ (transparente Fahrzeugkarosserie, Heck offen) |
+| Rücksitze umgeklappt / ausgebaut | Button „Rücksitze“ |
 | Ansicht zurücksetzen | Reset-Button (Standardansicht: von hinten rechts, Caddy-Hülle sichtbar) |
 
 ### Modi
@@ -117,7 +118,9 @@ Matratzenbreite: **1.100 mm** (passt in 1.120 mm Innenbreite).
 | Blau (transparent) | Schubladen × 3 |
 | Rot (transparent) | Führungsschienen-Innenmember — fahren mit Element aus |
 | Weiß (transparent) | Matratzenumriss |
-| Hellblau-grau (60 % deckend) | Caddy-Hülle (Platzhaltermaße, nicht nachgemessen) |
+| Hellblau-grau (60 % deckend) | Caddy-Hülle mit Türöffnungen (Platzhaltermaße, nicht nachgemessen) |
+| Hellgrün (transparent) | Lade-Referenzebene im Kofferraum (y = 0) |
+| Schiefergrau (transparent) | Rücksitzbank (umgeklappt oder ausgebaut) |
 
 ---
 
@@ -139,7 +142,7 @@ sg    — Korpus (B1, B2, B3, B4), Liegefläche (A1–A3), Matratze,
         alle 6 Elemente + 12 Führungsschienen-Innenmember (immer sichtbar)
 bankG — (leer, reserviert)
 packG — (leer, reserviert)
-caddyG — transparente Caddy-Hülle (Wände, Dach, Radkästen, Vordersitze), nur per Button sichtbar
+caddyG — transparente Caddy-Hülle (Wände mit Türöffnungen, Dach, Radkästen, Vordersitze, Lade-Referenzebene, Rücksitzbank), per Button ausblendbar
 ```
 
 Der Korpus besteht aus Einzelbrettern (keine Vollbox): B2 links/rechts, B1 Rückwand, B4 Boden, B3 × 2 Trennwände. Die Vorderseite ist offen.

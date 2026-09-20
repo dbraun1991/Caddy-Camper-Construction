@@ -66,7 +66,9 @@ Three.js CDN script).
 - Mobile support: pinch-zoom, controls clear of the phone's system navigation
   (`100dvh` + safe-area inset).
 - Translucent Caddy shell (60 % opacity, open rear, visible by default, toggle button) in its own group
-  `caddyG`, see [ADR 0009](docs/adrs/0009-translucent-caddy-shell-overlay.md).
+  `caddyG`, see [ADR 0009](docs/adrs/0009-translucent-caddy-shell-overlay.md) and
+  [ADR 0010](docs/adrs/0010-detailed-caddy-shell.md): door openings, front seats,
+  rear bench (flipped flat / removed toggle), load-floor reference plane.
   Its dimensions are unverified placeholders.
 - Full bill of materials with cut list, hardware options and links, and a
   documented joinery method ([List_of_Materials.md](List_of_Materials.md) §H).
@@ -83,7 +85,7 @@ Three.js CDN script).
 ### TODOs
 
 - Replace the placeholder Caddy shell dimensions (`CW`, `CAW`, `CH`, `CL`, wheel
-  arches, seats in `index.html`) with measured values from the real vehicle.
+  arches, seats, `doorOpenings` in `index.html`) with measured values from the real vehicle.
 - Mobile: the legend (top right) is wide and overlaps the scene on phones.
 
 ### Possible viewer improvements (not requested yet — candidates only)
