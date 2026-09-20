@@ -135,6 +135,7 @@
     <span style="background:#5DCAA5;"></span>Sitz-Brett L/R &nbsp;(32 mm hoch · 900 mm Auszug)<br>
     <span style="background:#EF9F27;"></span>Tisch-Brett Mitte (32 mm hoch · 900 mm Auszug)<br>
     <span style="background:#378ADD;"></span>Schubladen × 3 &nbsp;(260 mm hoch · 900 mm Auszug)<br>
+    <span style="background:#9DB4C8;"></span>Caddy-Hülle (Platzhaltermaße, 60 % deckend)<br>
     <span style="background:#FF1111;"></span>Schienen × 12 &nbsp;(AOLISHENG · 18×74×900 mm · fährt mit Element)
   </div>
 
@@ -144,6 +145,7 @@
     <button id="btnSchlafen" class="active" onclick="setMode('schlafen')">Schlafmodus</button>
     <button id="btnBank"                   onclick="setMode('bank')">Bankmodus</button>
     <button id="btnPack"                   onclick="setMode('pack')">Packmodus</button>
+    <button id="btnCaddy"                  onclick="toggleCaddy()">Caddy-Hülle</button>
     <button                                onclick="resetCam()">↺ Reset</button>
   </div>
 </div>
@@ -217,14 +219,18 @@
   var mAmber   = new THREE.MeshLambertMaterial({ color: 0xEF9F27, transparent: true, opacity: 0.90 });
   var mBlue    = new THREE.MeshLambertMaterial({ color: 0x378ADD, transparent: true, opacity: 0.88 });
   var mMat     = new THREE.MeshLambertMaterial({ color: 0xDDDDDD, transparent: true, opacity: 0.40 });
+  // Caddy-Hülle: 60 % deckend, kein Tiefenschreiben, damit der Aufbau dahinter sichtbar bleibt
+  var mCaddy   = new THREE.MeshLambertMaterial({ color: 0x9DB4C8, transparent: true, opacity: 0.60, depthWrite: false, side: THREE.DoubleSide });
   var mRailRed = new THREE.MeshLambertMaterial({ color: 0xFF1111, transparent: true, opacity: 0.90 });
 
   // ── Groups ────────────────────────────────────────────────────────────────
   // Statischer Szenengraph + Z-Verschiebung statt Subtree-Wechsel je Modus: docs/adrs/0004-static-scene-graph-with-z-position-toggle.md
   var sg    = new THREE.Group(); // static
+  var caddyG = new THREE.Group(); // Caddy-Hülle, per Button ein-/ausgeblendet — siehe docs/adrs/0009-translucent-caddy-shell-overlay.md
   var bankG = new THREE.Group(); // Bankmodus extras — aktuell leer/reserviert, siehe ADR 0004
   var packG = new THREE.Group(); // Packmodus extras — aktuell leer/reserviert, siehe ADR 0004
-  scene.add(sg, bankG, packG);
+  scene.add(sg, bankG, packG, caddyG);
+  caddyG.visible = false;
   bankG.visible = false;
   packG.visible = false;
 
@@ -355,6 +361,28 @@
   var mattress = box(1100, 80, 1980, mMat, 0, UH + TH + 40, 990);
   wireframe(mattress, 0xaaaaaa);
 
+  // ── Caddy-Hülle (VW Caddy Mk3 Kombi) ──────────────────────────────────────
+  // ACHTUNG: Platzhalterwerte aus öffentlichen Datenblättern, NICHT nachgemessen — bei Bedarf hier korrigieren.
+  // Heck (z = 0) bleibt offen, damit ausgefahrene Schubladen/Bretter sichtbar bleiben.
+  var CW   = 1500;  // Innenbreite an den Wänden
+  var CAW  = 1170;  // Breite zwischen den Radkästen
+  var CH   = 1200;  // Laderaumhöhe
+  var CL   = 2400;  // Länge ab Heck bis Vorderwand (Sitze bei z = 2000)
+  var CT   = 10;    // Darstellungsstärke der Hüllenpaneele
+  var carLen = 400, carH = 350, carZ = 300; // Radkasten: Länge, Höhe, Start-z
+  var seatW = 450, seatD = 120, seatH = 700, seatY = 350; // Vordersitz-Rückenlehne inkl. Kopfstütze
+
+  function shell(w, h, d, x, y, z) { wireframe(box(w, h, d, mCaddy, x, y, z, caddyG), 0x6A8299); }
+  shell(CT, CH, CL, -(CW / 2 + CT / 2), CH / 2, CL / 2);   // Seitenwand links
+  shell(CT, CH, CL,  (CW / 2 + CT / 2), CH / 2, CL / 2);   // Seitenwand rechts
+  shell(CW + 2 * CT, CT, CL, 0, CH + CT / 2, CL / 2);      // Dach
+  shell(CW + 2 * CT, CH, CT, 0, CH / 2, CL + CT / 2);      // Vorderwand
+  var arch = (CW - CAW) / 2;
+  shell(arch, carH, carLen, -(CAW / 2 + arch / 2), carH / 2, carZ + carLen / 2); // Radkasten links
+  shell(arch, carH, carLen,  (CAW / 2 + arch / 2), carH / 2, carZ + carLen / 2); // Radkasten rechts
+  shell(seatW, seatH, seatD, -(CAW / 4 + 20), seatY + seatH / 2, UD + B1 + B2 + seatD / 2); // Sitz links
+  shell(seatW, seatH, seatD,  (CAW / 4 + 20), seatY + seatH / 2, UD + B1 + B2 + seatD / 2); // Sitz rechts
+  caddyG.children.forEach(function (m) { m.renderOrder = 10; });
 
   // ── Camera orbit ──────────────────────────────────────────────────────────
   var drag = false, mx = 0, my = 0, pmx = 0, pmy = 0;
@@ -444,6 +472,12 @@
     });
     var map = { schlafen:'btnSchlafen', bank:'btnBank', pack:'btnPack' };
     if (map[m]) document.getElementById(map[m]).classList.add('active');
+  };
+
+  window.toggleCaddy = function () {
+    caddyG.visible = !caddyG.visible;
+    if (caddyG.visible && radius < 48) { radius = 48; updCam(); } // Hülle ist ~2,4 m lang: rauszoomen, damit sie ins Bild passt
+    document.getElementById('btnCaddy').classList.toggle('active', caddyG.visible);
   };
 
   window.resetCam = function () {

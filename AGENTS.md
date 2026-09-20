@@ -63,6 +63,11 @@ Three.js CDN script).
   dimensions, plus the three-piece sleeping platform and a mattress outline.
 - Rail visualization (inner/moving member only, see
   [ADR 0005](docs/adrs/0005-simplified-rail-visualization.md)).
+- Mobile support: pinch-zoom, controls clear of the phone's system navigation
+  (`100dvh` + safe-area inset).
+- Toggleable translucent Caddy shell (60 % opacity, open rear) in its own group
+  `caddyG`, see [ADR 0009](docs/adrs/0009-translucent-caddy-shell-overlay.md).
+  Its dimensions are unverified placeholders.
 - Full bill of materials with cut list, hardware options and links, and a
   documented joinery method ([List_of_Materials.md](List_of_Materials.md) §H).
 
@@ -74,6 +79,12 @@ Three.js CDN script).
 - Mattress spec finalization (1,100 × 2,000 × 80 mm cold foam assumed).
 - Ventilation / moisture protection for the enclosed under-floor volume.
 - 12V wiring / lighting.
+
+### TODOs
+
+- Replace the placeholder Caddy shell dimensions (`CW`, `CAW`, `CH`, `CL`, wheel
+  arches, seats in `index.html`) with measured values from the real vehicle.
+- Mobile: the legend (top right) is wide and overlaps the scene on phones.
 
 ### Possible viewer improvements (not requested yet — candidates only)
 

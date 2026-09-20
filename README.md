@@ -37,7 +37,9 @@ Einzige Voraussetzung: Internetverbindung beim ersten Öffnen (Three.js wird per
 | Aktion | Steuerung |
 |---|---|
 | Drehen | Linksklick + Ziehen |
-| Zoomen | Scrollrad |
+| Zoomen | Scrollrad · Touch: Pinch (zwei Finger) |
+| Drehen (Touch) | Ein Finger ziehen |
+| Caddy-Hülle ein-/ausblenden | Button „Caddy-Hülle“ (transparente Fahrzeugkarosserie, Heck offen) |
 | Ansicht zurücksetzen | Reset-Button |
 
 ### Modi
@@ -115,6 +117,7 @@ Matratzenbreite: **1.100 mm** (passt in 1.120 mm Innenbreite).
 | Blau (transparent) | Schubladen × 3 |
 | Rot (transparent) | Führungsschienen-Innenmember — fahren mit Element aus |
 | Weiß (transparent) | Matratzenumriss |
+| Hellblau-grau (60 % deckend) | Caddy-Hülle (Platzhaltermaße, nicht nachgemessen) |
 
 ---
 
@@ -127,7 +130,7 @@ Matratzenbreite: **1.100 mm** (passt in 1.120 mm Innenbreite).
 
 ### Render-Architektur
 
-> Entscheidungsprotokoll: [docs/adrs/0004-static-scene-graph-with-z-position-toggle.md](docs/adrs/0004-static-scene-graph-with-z-position-toggle.md)
+> Entscheidungsprotokolle: [ADR 0004](docs/adrs/0004-static-scene-graph-with-z-position-toggle.md) (Szenengraph), [ADR 0009](docs/adrs/0009-translucent-caddy-shell-overlay.md) (Caddy-Hülle)
 
 Alle Elemente — Korpusbretter, Liegefläche, Schubladen, Sitz-/Tischbretter und Führungsschienen — leben permanent in der statischen Szenengruppe `sg`. Beim Moduswechsel wird nur die Z-Position der 6 Elemente plus ihrer jeweils zugehörigen Schienen-Innenmember verschoben.
 
@@ -136,6 +139,7 @@ sg    — Korpus (B1, B2, B3, B4), Liegefläche (A1–A3), Matratze,
         alle 6 Elemente + 12 Führungsschienen-Innenmember (immer sichtbar)
 bankG — (leer, reserviert)
 packG — (leer, reserviert)
+caddyG — transparente Caddy-Hülle (Wände, Dach, Radkästen, Vordersitze), nur per Button sichtbar
 ```
 
 Der Korpus besteht aus Einzelbrettern (keine Vollbox): B2 links/rechts, B1 Rückwand, B4 Boden, B3 × 2 Trennwände. Die Vorderseite ist offen.

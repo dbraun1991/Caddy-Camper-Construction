@@ -18,3 +18,4 @@ Decision, Consequences.
 | [0006](0006-three-section-corpus-layout.md) | Three-section corpus layout (312 / 424 / 312 mm) | Accepted |
 | [0007](0007-dowel-screw-bracket-joinery.md) | Dowel + screw + corner-bracket joinery over glue-only or biscuits | Accepted |
 | [0008](0008-heavy-duty-full-extension-runners.md) | Heavy-duty 900 mm full-extension runners over shorter soft-close runners | Accepted |
+| [0009](0009-translucent-caddy-shell-overlay.md) | Translucent Caddy shell as a separate, toggled overlay group | Accepted |
