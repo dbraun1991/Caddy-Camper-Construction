@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>VW Caddy Camper — 3D Aufbau</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -12,6 +12,7 @@
       color: #e0e0e0;
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       height: 100vh;
+      height: 100dvh; /* dynamische Viewport-Höhe: schließt Browserleiste/Systemnavigation am Handy aus */
       display: flex;
       flex-direction: column;
     }
@@ -48,6 +49,7 @@
       width: 100%;
       height: 100%;
       cursor: grab;
+      touch-action: none; /* Pinch/Drag gehören dem Viewer, nicht dem Browser */
     }
     canvas:active { cursor: grabbing; }
 
@@ -81,12 +83,14 @@
 
     #controls {
       position: absolute;
-      bottom: 16px;
+      bottom: calc(16px + env(safe-area-inset-bottom, 0px));
       left: 0;
       right: 0;
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
       gap: 10px;
+      padding: 0 8px;
     }
 
     button {
@@ -104,7 +108,7 @@
 
     #info {
       position: absolute;
-      bottom: 56px;
+      bottom: calc(56px + env(safe-area-inset-bottom, 0px));
       left: 0;
       right: 0;
       text-align: center;
@@ -124,7 +128,7 @@
 <div id="viewport">
   <canvas id="c3d"></canvas>
 
-  <div id="hint">Ziehen: drehen &nbsp;·&nbsp; Scrollen: zoom &nbsp;·&nbsp; Rechtsklick: verschieben</div>
+  <div id="hint">Ziehen: drehen &nbsp;·&nbsp; Scrollen / Pinch: zoom &nbsp;·&nbsp; Rechtsklick: verschieben</div>
 
   <div id="legend">
     <span style="background:#8B6520;"></span>Holz / Korpus + Liegefläche (Birke-Multiplex)<br>
@@ -389,19 +393,33 @@
     updCam();
   }, { passive: false });
 
-  // Touch
-  var tp = null;
+  // Touch: 1 Finger = drehen, 2 Finger = Pinch-Zoom
+  var tp = null, pinchDist = 0;
+  function touchDist(t) {
+    return Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
+  }
   canvas.addEventListener('touchstart', function (e) {
-    tp = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    if (e.touches.length === 2) { pinchDist = touchDist(e.touches); tp = null; }
+    else if (e.touches.length === 1) { tp = { x: e.touches[0].clientX, y: e.touches[0].clientY }; pinchDist = 0; }
   }, { passive: true });
   canvas.addEventListener('touchmove', function (e) {
-    if (!tp) return;
-    theta -= (e.touches[0].clientX - tp.x) * 0.007;
-    phi = Math.max(0.1, Math.min(1.48, phi - (e.touches[0].clientY - tp.y) * 0.007));
-    tp = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    if (e.touches.length === 2 && pinchDist) {
+      var d = touchDist(e.touches);
+      radius = Math.max(8, Math.min(70, radius * pinchDist / d));
+      pinchDist = d;
+    } else if (e.touches.length === 1 && tp) {
+      theta -= (e.touches[0].clientX - tp.x) * 0.007;
+      phi = Math.max(0.1, Math.min(1.48, phi - (e.touches[0].clientY - tp.y) * 0.007));
+      tp = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    } else return;
     updCam();
     e.preventDefault();
   }, { passive: false });
+  // Fingerwechsel: Referenzpunkt neu setzen, sonst springt die Ansicht
+  canvas.addEventListener('touchend', function (e) {
+    pinchDist = 0;
+    tp = e.touches.length === 1 ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : null;
+  }, { passive: true });
 
   // ── Mode switching — verschiebt nur Z, siehe docs/adrs/0004-static-scene-graph-with-z-position-toggle.md ──
   var infoEl = document.getElementById('info');
