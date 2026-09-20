@@ -25,7 +25,7 @@ with every mode.
   without hiding them.
 - Enabling the shell zooms the camera out to a radius of at least 48 so the
   ~2.4 m long body fits the view.
-- The dimensions (1,500 mm wall width, 1,170 mm between arches, 1,200 mm height,
+- The dimensions (1,500 mm wall width, 1,120 mm between arches (the documented usable load width), 1,200 mm height,
   2,400 mm length) are placeholders from public data sheets and are **not
   measured**. They are collected in one constants block in `index.html` and must
   be verified against the real vehicle.
