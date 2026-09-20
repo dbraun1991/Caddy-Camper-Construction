@@ -13,7 +13,7 @@ with every mode.
 
 ## Decision
 
-- The shell lives in its own group `caddyG`, hidden by default, and is toggled
+- The shell lives in its own group `caddyG`, visible by default (default camera: rear right, radius 48), and is toggled
   only via `visible` by a "Caddy-Hülle" button. It is independent of the three
   modes and does not touch `sg`.
 - It is built from simple box panels (side walls, roof, front wall, two

@@ -65,7 +65,7 @@ Three.js CDN script).
   [ADR 0005](docs/adrs/0005-simplified-rail-visualization.md)).
 - Mobile support: pinch-zoom, controls clear of the phone's system navigation
   (`100dvh` + safe-area inset).
-- Toggleable translucent Caddy shell (60 % opacity, open rear) in its own group
+- Translucent Caddy shell (60 % opacity, open rear, visible by default, toggle button) in its own group
   `caddyG`, see [ADR 0009](docs/adrs/0009-translucent-caddy-shell-overlay.md).
   Its dimensions are unverified placeholders.
 - Full bill of materials with cut list, hardware options and links, and a

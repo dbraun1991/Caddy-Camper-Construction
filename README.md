@@ -40,7 +40,7 @@ Einzige Voraussetzung: Internetverbindung beim ersten Öffnen (Three.js wird per
 | Zoomen | Scrollrad · Touch: Pinch (zwei Finger) |
 | Drehen (Touch) | Ein Finger ziehen |
 | Caddy-Hülle ein-/ausblenden | Button „Caddy-Hülle“ (transparente Fahrzeugkarosserie, Heck offen) |
-| Ansicht zurücksetzen | Reset-Button |
+| Ansicht zurücksetzen | Reset-Button (Standardansicht: von hinten rechts, Caddy-Hülle sichtbar) |
 
 ### Modi
 

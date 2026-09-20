@@ -145,7 +145,7 @@
     <button id="btnSchlafen" class="active" onclick="setMode('schlafen')">Schlafmodus</button>
     <button id="btnBank"                   onclick="setMode('bank')">Bankmodus</button>
     <button id="btnPack"                   onclick="setMode('pack')">Packmodus</button>
-    <button id="btnCaddy"                  onclick="toggleCaddy()">Caddy-Hülle</button>
+    <button id="btnCaddy" class="active"   onclick="toggleCaddy()">Caddy-Hülle</button>
     <button                                onclick="resetCam()">↺ Reset</button>
   </div>
 </div>
@@ -230,7 +230,7 @@
   var bankG = new THREE.Group(); // Bankmodus extras — aktuell leer/reserviert, siehe ADR 0004
   var packG = new THREE.Group(); // Packmodus extras — aktuell leer/reserviert, siehe ADR 0004
   scene.add(sg, bankG, packG, caddyG);
-  caddyG.visible = false;
+  caddyG.visible = true; // Standardansicht: Hülle sichtbar
   bankG.visible = false;
   packG.visible = false;
 
@@ -386,9 +386,10 @@
 
   // ── Camera orbit ──────────────────────────────────────────────────────────
   var drag = false, mx = 0, my = 0, pmx = 0, pmy = 0;
-  var theta  = -0.68;
-  var phi    =  1.05;
-  var radius =  30;
+  var DEF_THETA = Math.PI - 0.68, DEF_PHI = 1.05, DEF_RADIUS = 48; // Standard: von hinten rechts, Hülle passt ins Bild
+  var theta  = DEF_THETA;
+  var phi    = DEF_PHI;
+  var radius = DEF_RADIUS;
   var tgt    = new THREE.Vector3(0, UH * S * 0.55, UD * S * 0.6);
 
   function updCam() {
@@ -481,7 +482,7 @@
   };
 
   window.resetCam = function () {
-    theta = -0.68; phi = 1.05; radius = 30; updCam();
+    theta = DEF_THETA; phi = DEF_PHI; radius = DEF_RADIUS; updCam();
   };
 
   // ── Render loop ───────────────────────────────────────────────────────────
