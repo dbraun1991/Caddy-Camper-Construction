@@ -10,12 +10,13 @@ Gebaut mit [Three.js r128](https://threejs.org) — keine Installation, kein Bui
 ## Dateien
 
 ```
-index.html            — vollständiger 3D-Viewer (self-contained)
-List_of_Materials.md  — Holzteile, Schienen, Befestigungsmaterial, Verbindungstechnik
-Einkaufsliste.md      — Einkaufsliste, Preise und Gesamtbudget
+index.html                  — vollständiger 3D-Viewer (self-contained)
+List_of_Materials.md        — Holzteile, Schienen, Befestigungsmaterial, Verbindungstechnik
+Einkaufsliste.md            — Einkaufsliste, Preise und Gesamtbudget
+Hinweise-Sommernutzung.md   — Rechtliches, Zuladung, Lüftung, Sicht-/Insektenschutz (Sommerbetrieb)
 README.md
-docs/adrs/             — Architecture Decision Records
-docs/pics/             — Screenshots des Viewers
+docs/adrs/                   — Architecture Decision Records
+docs/pics/                   — Screenshots des Viewers
 ```
 
 → Vollständige Stückliste, Maßtabellen, Schienen-Optionen und **Verbindungstechnik**: **[List_of_Materials.md](./List_of_Materials.md)**
@@ -158,11 +159,13 @@ Der Korpus besteht aus Einzelbrettern (keine Vollbox): B2 links/rechts, B1 Rück
 - [x] Befestigung Unterbau im Fahrzeug (L-Winkel, Zurrösen) — [§H5](./List_of_Materials.md#h5--befestigung-des-korpus-im-fahrzeug) · [ADR 0010](docs/adrs/0010-non-destructive-vehicle-tie-down.md)
 - [x] Brett 2/3 Befestigung an Vordersitz-Kopfstützen — [§H4](./List_of_Materials.md#h4--liegefläche-stöße-a1--a2--a3)
 - [x] Budget und Kaufreihenfolge — [Einkaufsliste.md](./Einkaufsliste.md)
+- [x] Rechtliches (Rasten vs. Campen), Zuladung, Lüftung, Sicht-/Insektenschutz für Sommerbetrieb — [Hinweise-Sommernutzung.md](./Hinweise-Sommernutzung.md)
 
 Offen:
 
 - [ ] **Entscheidung ADR 0011** — Schienenhöhe (53/76 mm) vs. Brettstärke (32 mm) bei C1–C3: [docs/adrs/0011-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0011-rail-carrier-cheeks-for-seat-and-table-boards.md). Blockiert den Kauf der Brett-Schienen.
 - [ ] Abweichung Schubladenhöhe: `index.html` rechnet 260 mm, `List_of_Materials.md` §D nennt 268 mm
 - [ ] Matratze (1.100 mm ist kein Handelsmaß — Varianten in [Einkaufsliste.md §4](./Einkaufsliste.md#4--ausbau--sonstiges))
-- [ ] Belüftung / Feuchteschutz Unterbau
+- [ ] Zuladung im Zulassungsschein prüfen (Feld F.1 − Leergewicht) — siehe [Hinweise-Sommernutzung.md §2](./Hinweise-Sommernutzung.md#2--zulassung--stvzo-serienfahrzeug-bleibt-verkehrssicher)
+- [ ] Belüftung / Feuchteschutz Unterbau — **nur für Nutzung außerhalb des Sommers relevant**, siehe [Hinweise-Sommernutzung.md](./Hinweise-Sommernutzung.md) (dort bewusst ausgeklammert)
 - [ ] 12V-Anschluss / Beleuchtung

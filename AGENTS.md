@@ -16,10 +16,14 @@ needed to view the model ships in one HTML file.
 ## Repo structure
 
 ```
-index.html            — self-contained 3D viewer (Three.js r128 via CDN, inline CSS/JS)
-List_of_Materials.md  — bill of materials, dimensions, hardware options, joinery (§H)
-Einkaufsliste.md      — shopping list, current prices, total budget estimate
-README.md             — usage, controls, dimensions overview, render architecture notes
+index.html                 — self-contained 3D viewer (Three.js r128 via CDN, inline CSS/JS)
+List_of_Materials.md       — bill of materials, dimensions, hardware options, joinery (§H)
+Einkaufsliste.md           — shopping list, current prices, total budget estimate
+Hinweise-Sommernutzung.md  — legal (rasten vs. campen), payload, ventilation, privacy/
+                              insect protection for summer-only use — not build-specific,
+                              but references the build where it's affected (Bankmodus,
+                              A3 headrest mounting, ADR 0010)
+README.md                  — usage, controls, dimensions overview, render architecture notes
 docs/adrs/            — architecture decision records (see below)
 ```
 
@@ -82,6 +86,14 @@ Three.js CDN script).
   sleeping-platform board joints (§H4), and vehicle tie-down (ADR 0010).
 - Shopping list with dated price estimates, a three-tier total budget, and a
   buy order derived from the assembly order ([Einkaufsliste.md](Einkaufsliste.md)).
+- Summer-use considerations beyond the physical build — legal distinction between
+  resting and camping (directly relevant because Bankmodus extends furniture out
+  the open tailgate), a rough build-weight estimate against vehicle payload,
+  ventilation/privacy/insect protection
+  ([Hinweise-Sommernutzung.md](Hinweise-Sommernutzung.md)). Standheizung and
+  breath-moisture/condensation management are deliberately out of scope there —
+  summer-only use was the stated assumption; revisit if the vehicle is ever used
+  outside summer.
 
 ### Open / planned (tracked in README "Weiterführende Planung")
 
