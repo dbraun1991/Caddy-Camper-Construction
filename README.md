@@ -159,7 +159,7 @@ Der Korpus besteht aus Einzelbrettern (keine Vollbox): B2 links/rechts, B1 Rück
 - [x] Befestigung Unterbau im Fahrzeug (L-Winkel, Zurrösen) — [§H5](./List_of_Materials.md#h5--befestigung-des-korpus-im-fahrzeug) · [ADR 0010](docs/adrs/0010-non-destructive-vehicle-tie-down.md)
 - [x] Brett 2/3 Befestigung an Vordersitz-Kopfstützen — [§H4](./List_of_Materials.md#h4--liegefläche-stöße-a1--a2--a3)
 - [x] Budget und Kaufreihenfolge — [Einkaufsliste.md](./Einkaufsliste.md)
-- [x] Rechtliches (Rasten vs. Campen), Zuladung, Lüftung, Sicht-/Insektenschutz für Sommerbetrieb — [Hinweise-Sommernutzung.md](./Hinweise-Sommernutzung.md)
+- [x] Rechtliches (Rasten vs. Campen), Zuladung, Lüftung (CO₂ + Hitze), Sicht-/Insektenschutz für Sommerbetrieb — [Hinweise-Sommernutzung.md](./Hinweise-Sommernutzung.md)
 
 Offen:
 

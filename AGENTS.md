@@ -89,11 +89,14 @@ Three.js CDN script).
 - Summer-use considerations beyond the physical build — legal distinction between
   resting and camping (directly relevant because Bankmodus extends furniture out
   the open tailgate), a rough build-weight estimate against vehicle payload,
-  ventilation/privacy/insect protection
+  ventilation (both heat buildup *and* CO2 from breathing — the latter is not
+  seasonal and is treated as in-scope, not deferred), privacy/insect protection
   ([Hinweise-Sommernutzung.md](Hinweise-Sommernutzung.md)). Standheizung and
-  breath-moisture/condensation management are deliberately out of scope there —
-  summer-only use was the stated assumption; revisit if the vehicle is ever used
-  outside summer.
+  condensation/mould management (moisture settling on cold surfaces) are
+  deliberately out of scope there — summer-only use was the stated assumption;
+  revisit if the vehicle is ever used outside summer. Don't conflate that
+  deferred condensation topic with the CO2/fresh-air one, which stays covered
+  year-round.
 
 ### Open / planned (tracked in README "Weiterführende Planung")
 

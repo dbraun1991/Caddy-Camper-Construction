@@ -7,10 +7,13 @@ aber jeder Nutzung eines Fahrzeugs als Schlafplatz anhaften.
 **Rahmenbedingungen dieser Einschätzung** (bewusst explizit gemacht, weil sie entscheiden,
 was hier wichtig ist und was nicht):
 
-- **Nur Sommer-/Übergangszeit.** Deshalb werden Standheizung und Feuchtigkeitsmanagement
-  der Atemluft (Kondensat an kalten Scheiben/Wänden, Schimmelrisiko über Wochen) hier
-  **bewusst nicht behandelt** — das sind primär Kälte-/Dauerbetrieb-Probleme. Bei Nutzung
-  außerhalb des Sommers (Übergangszeit, erste/letzte Törns) sollte das nachgezogen werden.
+- **Nur Sommer-/Übergangszeit.** Deshalb werden Standheizung und **Kondensat**
+  (Feuchtigkeit schlägt sich an kalten Scheiben/Wänden nieder, Schimmelrisiko über Wochen)
+  hier **bewusst nicht behandelt** — das sind primär Kälte-/Dauerbetrieb-Probleme. Bei
+  Nutzung außerhalb des Sommers (Übergangszeit, erste/letzte Törns) sollte das nachgezogen
+  werden. **Davon zu unterscheiden** ist der CO₂-/Frischluftbedarf durch die Atmung selbst
+  (→ Abschnitt 3) — der ist nicht saisonabhängig und bleibt deshalb vollständig in Scope,
+  auch im Sommer.
 - **Der Caddy ist aktuell ein normales Serienfahrzeug.** Keine Scheibentönung, keine
   Vorhänge, keine Dachluke, keine Mückengitter, keine Standheizung, keine Umbauten an
   Sitzen/Gurten/Kopfstützen außer dem hier geplanten Ausbau. Alles unten ist also etwas,
@@ -86,20 +89,41 @@ Punkte, die über die reine Konstruktion hinausgehen:
 
 ---
 
-## 3 — Lüftung im Sommer: Hitze ist das Problem, nicht Feuchtigkeit
+## 3 — Lüftung: Hitze und CO₂ sind die Probleme, nicht Feuchtigkeit
 
-Ohne Standheizung und ohne geschlossene Dauernutzung ist Kondensat zweitrangig — aber ein
-geschlossenes Fahrzeug in der Sommersonne heizt sich tagsüber stark auf (Hitzestau), und
-nachts fehlt ohne Luftaustausch frische Luft.
+Zwei getrennte, beide saisonunabhängige Gründe, warum ein komplett geschlossenes Fahrzeug
+über Nacht keine gute Idee ist — Kondensat (Abschnitt-übergreifend bewusst ausgeklammert,
+siehe oben) ist keiner davon:
 
-- Fenster über Nacht einen Spalt öffnen — dafür braucht es **Einbruchschutz am offenen
-  Spalt** (siehe Abschnitt 6) und einen **Insektenschutz** (Abschnitt 5), sonst ist die
-  Lüftung nachts nicht praktikabel.
+**a) CO₂-Anstieg durch Atmung.** Zwei schlafende Erwachsene atmen zusammen grob 25–30 l
+CO₂ pro Stunde aus. Bei einer Kabinenluftmenge von überschlägig ~3 m³ (3.000 l) und
+**keinem** Luftaustausch wäre die CO₂-Konzentration nach 8 Stunden rein rechnerisch im
+Bereich mehrerer Zehntausend ppm — weit über der Schwelle (ca. 2.000–5.000 ppm), ab der
+Kopfschmerzen, Benommenheit und schlechter, unruhiger Schlaf auftreten. In der Praxis ist
+kein Fahrzeug hundertprozentig luftdicht (Türdichtungen, Kabeldurchführungen, Ablauflöcher
+lassen immer etwas durch), ein echtes Erstickungsrisiko bei diesem Luftvolumen ist deshalb
+unwahrscheinlich — aber sich auf die Restundichtigkeit zu verlassen ist kein Sicherheitskonzept,
+und "schlecht geschlafen, Kopfschmerzen am Morgen" ist ein beim Autoschlafen häufig
+berichtetes, vermeidbares Problem.
+
+**b) Hitzestau.** Ein geschlossenes Fahrzeug in der Sommersonne heizt sich tagsüber stark
+auf; nachts kühlt es ohne Luftaustausch langsamer ab.
+
+Beide Probleme teilen dieselbe Lösung — Fenster angekippt lassen — aber aus zwei
+unabhängigen Gründen, nicht nur wegen der Hitze:
+
+- **Zwei gegenüberliegende Fenster ankippen, nicht nur eines** — Querlüftung sorgt auch
+  ohne Wind für echten Luftaustausch statt stehender Luft in einer Ecke.
+- Dafür braucht es **Einbruchschutz am offenen Spalt** (siehe Abschnitt 6) und einen
+  **Insektenschutz** (Abschnitt 5), sonst ist die Lüftung nachts nicht praktikabel.
 - Tagsüber beim Parken in der Sonne: Frontscheiben-Sonnenschutz von außen reduziert den
   Hitzestau deutlich mehr als jede Lüftungsmaßnahme im Innenraum.
 - Die bereits geplante offene Vorderseite des Korpus (`README.md` "Render-Architektur")
   und der nicht abgedichtete Laderaum helfen hier zufällig mit — es gibt ohnehin keinen
   luftdichten Kasten, der zusätzlich belüftet werden müsste.
+- **Objektive Kontrolle statt Bauchgefühl:** ein einfaches batteriebetriebenes CO₂-Messgerät
+  (ab ~30–50 €) zeigt, ob der gewählte Fensterspalt tatsächlich reicht — deutlich
+  verlässlicher, als am Morgen an Kopfschmerzen zu merken, dass er es nicht tat.
 
 ---
 
@@ -182,7 +206,9 @@ als Warnhinweis hier, falls ein Gas- oder Benzinkocher angeschafft wird:
 | 4 | Mückennetze für vordere Fenster + Heckklappe | Anschaffung |
 | 5 | Fenstersicherung für den gekippten Lüftungsspalt | Anschaffung |
 | 6 | Bankmodus nur an erlaubten Stellplätzen nutzen | Verhaltensregel, keine Anschaffung |
+| 7 | Immer 2 gegenüberliegende Fenster ankippen (CO₂ + Hitze, → Abschnitt 3) | Verhaltensregel, keine Anschaffung |
+| 8 | Optional: CO₂-Messgerät zur Kontrolle des Fensterspalts | Anschaffung (optional) |
 
 Diese Posten sind **nicht** in [Einkaufsliste.md](./Einkaufsliste.md) eingerechnet, da sie
-nicht zum Korpus-/Ausbau-Budget gehören. Geschätzte Zusatzkosten für Punkte 3–5: grob
-60–120 €.
+nicht zum Korpus-/Ausbau-Budget gehören. Geschätzte Zusatzkosten für Punkte 3–5 und 8: grob
+90–170 €.
