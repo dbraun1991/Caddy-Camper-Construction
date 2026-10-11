@@ -17,7 +17,8 @@ needed to view the model ships in one HTML file.
 
 ```
 index.html            — self-contained 3D viewer (Three.js r128 via CDN, inline CSS/JS)
-List_of_Materials.md  — bill of materials, dimensions, hardware options, joinery notes
+List_of_Materials.md  — bill of materials, dimensions, hardware options, joinery (§H)
+Einkaufsliste.md      — shopping list, current prices, total budget estimate
 README.md             — usage, controls, dimensions overview, render architecture notes
 docs/adrs/            — architecture decision records (see below)
 ```
@@ -39,10 +40,14 @@ Three.js CDN script).
   `index.html` into modules or add a bundler/framework unless explicitly asked —
   that would break the "just open it in a browser" workflow that's the whole point
   of this viewer.
-- **Keep the three files in sync.** A dimension, part, or hardware change made in
-  one of `index.html`, `List_of_Materials.md`, or `README.md` usually needs to be
-  reflected in the other two (e.g. section widths, rail specs, board thicknesses
-  appear in all three).
+- **Keep the files in sync.** A dimension, part, or hardware change made in one of
+  `index.html`, `List_of_Materials.md`, or `README.md` usually needs to be
+  reflected in the others (e.g. section widths, rail specs, board thicknesses
+  appear in all three), and a part or quantity change also affects
+  `Einkaufsliste.md`.
+- **Prices in `Einkaufsliste.md` are dated estimates**, not quotes. They carry a
+  "Preisstand" line — when refreshing them, re-check the sources and move that
+  date; don't edit individual numbers and leave a stale date behind.
 - **Scene graph**: all geometry lives permanently in the static group `sg`; mode
   switching (`setMode`) only moves the Z position of the 6 movable elements (3
   drawers + 2 seat boards + 1 table board) and their paired rail inner-members.
@@ -71,14 +76,25 @@ Three.js CDN script).
   rear bench (flipped flat / removed toggle), load-floor reference plane.
   Its dimensions are unverified placeholders.
 - Full bill of materials with cut list, hardware options and links, and a
-  documented joinery method ([List_of_Materials.md](List_of_Materials.md) §H).
+  documented joinery method for every junction in the build
+  ([List_of_Materials.md](List_of_Materials.md) §H): corpus shell (ADR 0007),
+  rail-to-wall attachment (§H1), drawer boxes and front panels (ADR 0009),
+  sleeping-platform board joints (§H4), and vehicle tie-down (ADR 0010).
+- Shopping list with dated price estimates, a three-tier total budget, and a
+  buy order derived from the assembly order ([Einkaufsliste.md](Einkaufsliste.md)).
 
-### Open / planned (tracked informally in README "Weiterführende Planung")
+### Open / planned (tracked in README "Weiterführende Planung")
 
-- Drawer details: runner mounting, front panel reveal/gap, handles.
-- Under-floor unit tie-down to the vehicle (L-brackets, lashing eyes).
-- Fastening of sleeping board 2 (B2/A3) to the front-seat headrests.
-- Mattress spec finalization (1,100 × 2,000 × 80 mm cold foam assumed).
+- **[ADR 0011](docs/adrs/0011-rail-carrier-cheeks-for-seat-and-table-boards.md) is
+  Proposed, not Accepted** — the seat/table boards are 32 mm thick but the runner
+  inner members are 53/76 mm high, so there is no full-height face to screw them
+  to. Deciding it changes `boardH` and the rail Y-bands in `index.html` plus the
+  height tables in the other two files. Don't cut `C1`–`C3` or buy the board
+  runners before it is resolved.
+- `index.html` computes `drawerH = 260` mm; `List_of_Materials.md` §D says 268 mm.
+  Same height chain as ADR 0011 — resolve both in one pass.
+- Mattress spec: 1,100 mm is not a stock width; options are in
+  [Einkaufsliste.md](Einkaufsliste.md) §4.
 - Ventilation / moisture protection for the enclosed under-floor volume.
 - 12V wiring / lighting.
 

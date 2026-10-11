@@ -11,7 +11,8 @@ Gebaut mit [Three.js r128](https://threejs.org) — keine Installation, kein Bui
 
 ```
 index.html            — vollständiger 3D-Viewer (self-contained)
-List_of_Materials.md  — Holzteile, Schienen, Befestigungsmaterial, Produktlinks
+List_of_Materials.md  — Holzteile, Schienen, Befestigungsmaterial, Verbindungstechnik
+Einkaufsliste.md      — Einkaufsliste, Preise und Gesamtbudget
 README.md
 docs/adrs/             — Architecture Decision Records
 docs/pics/             — Screenshots des Viewers
@@ -151,11 +152,17 @@ Der Korpus besteht aus Einzelbrettern (keine Vollbox): B2 links/rechts, B1 Rück
 
 ## Weiterführende Planung
 
-Offene Punkte für den realen Ausbau:
+- [x] Verbindungstechnik Korpus — [List_of_Materials.md §H](./List_of_Materials.md#h--verbindungstechnik) · [ADR 0007](docs/adrs/0007-dowel-screw-bracket-joinery.md)
+- [x] Schubladendetails (Kastenbau, Frontblende, Griffe) — [§H2/§H3](./List_of_Materials.md#h2--schubladenkästen-d1d3) · [ADR 0009](docs/adrs/0009-drawer-box-panel-shear-joinery.md)
+- [x] Schienenbefestigung an Wänden und Trennwänden — [§H1](./List_of_Materials.md#h1--schienenbefestigung-an-wänden-und-trennwänden)
+- [x] Befestigung Unterbau im Fahrzeug (L-Winkel, Zurrösen) — [§H5](./List_of_Materials.md#h5--befestigung-des-korpus-im-fahrzeug) · [ADR 0010](docs/adrs/0010-non-destructive-vehicle-tie-down.md)
+- [x] Brett 2/3 Befestigung an Vordersitz-Kopfstützen — [§H4](./List_of_Materials.md#h4--liegefläche-stöße-a1--a2--a3)
+- [x] Budget und Kaufreihenfolge — [Einkaufsliste.md](./Einkaufsliste.md)
 
-- [ ] Schubladendetails (Führungsschienen, Frontblende, Griffe)
-- [ ] Befestigung Unterbau im Fahrzeug (L-Winkel, Zurrösen)
-- [ ] Brett 2 Befestigung an Vordersitz-Kopfstützen
-- [ ] Matratze (z.B. 1.100 × 2.000 × 80 mm Kaltschaum)
+Offen:
+
+- [ ] **Entscheidung ADR 0011** — Schienenhöhe (53/76 mm) vs. Brettstärke (32 mm) bei C1–C3: [docs/adrs/0011-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0011-rail-carrier-cheeks-for-seat-and-table-boards.md). Blockiert den Kauf der Brett-Schienen.
+- [ ] Abweichung Schubladenhöhe: `index.html` rechnet 260 mm, `List_of_Materials.md` §D nennt 268 mm
+- [ ] Matratze (1.100 mm ist kein Handelsmaß — Varianten in [Einkaufsliste.md §4](./Einkaufsliste.md#4--ausbau--sonstiges))
 - [ ] Belüftung / Feuchteschutz Unterbau
 - [ ] 12V-Anschluss / Beleuchtung
