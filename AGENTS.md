@@ -119,7 +119,9 @@ down.
 - Shared part model (`modell/`) driving both the 3D tab and build123d workshop
   drawings (Draufsicht / Vorderansicht / Seitenansicht, A3 1:5, hidden edges
   dashed, overlaps red, intended groove overlaps green) for the two
-  corner-construction variants (`genutet`, `stumpf`), plus an overlap
+  corner-construction variants (`genutet`, `stumpf`), a fourth sheet
+  "Box-Bretter" (every corpus/platform board flat at 1:10 with grooves and a
+  cut list, `zeichne_bretter()`), plus an overlap
   report in the "Statisch" tab and a collision toggle in the 3D tab
   ([ADR 0015](docs/adrs/0015-shared-model-data-for-viewer-and-drawings.md)).
 - Full bill of materials with cut list, hardware options and links, and a

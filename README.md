@@ -80,13 +80,14 @@ Die Führungsschienen-Innenmember (rot) sind immer Teil der 3D-Geometrie und fah
 
 ## Werkzeichnungen
 
-Drei Ansichten nach Dreitafelprojektion, DIN A3 quer, Maßstab 1:5, erzeugt mit [build123d](https://github.com/gumyr/build123d) aus derselben Datenbasis wie der 3D-Viewer:
+Drei Ansichten nach Dreitafelprojektion (DIN A3 quer, Maßstab 1:5) und ein Zuschnittblatt „Box-Bretter“ (1:10), erzeugt mit [build123d](https://github.com/gumyr/build123d) aus derselben Datenbasis wie der 3D-Viewer:
 
 | Ansicht | Blickrichtung | Wände in Nut/Falz |
 |---|---|---|
 | **Vorderansicht** (Aufriss) | von der Heckklappe auf die offene Korpusfront | [SVG](docs/zeichnungen/genutet/vorderansicht.svg) |
 | **Draufsicht** (Grundriss) | von oben, Deckel A1 abgenommen | [SVG](docs/zeichnungen/genutet/draufsicht.svg) |
 | **Seitenansicht** (Seitenriss) | von der Fahrerseite | [SVG](docs/zeichnungen/genutet/seitenansicht.svg) |
+| **Box-Bretter** (Zuschnitt, 1:10) | jede Platte der Box und der Liegefläche einzeln, mit Maß, Stückzahl, Falz/Nut und Zuschnittliste | [SVG](docs/zeichnungen/genutet/box-bretter.svg) |
 
 Sichtbare Kanten durchgezogen, verdeckte Kanten gestrichelt. **Rot hinterlegt** sind rechnerische Überschneidungen zweier Bauteile — Stellen, an denen der Plan so nicht baubar ist. **Grün** hinterlegt sind gewollte Überdeckungen: Die Wände stecken in Falz/Nut von Boden und Deckel. Dieselben Blätter gibt es für die Rückfallvariante ohne Nut (`stumpf`, Ordner nebenan, im Viewer per Auswahlfeld).
 

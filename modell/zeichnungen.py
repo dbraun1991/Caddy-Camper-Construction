@@ -78,18 +78,19 @@ def fmt(wert):
 class Blatt:
     """Ein A3-Blatt: Ansicht in Modell-mm hinein, Ausgabe in Papier-mm."""
 
-    def __init__(self, mitte):
+    def __init__(self, mitte, massstab=M):
         self.mitte = mitte                     # Papierposition des Modell-Ursprungs (u=0, v=0)
+        self.m = massstab                      # mm Modell → mm Papier
         self.ebenen = {n: [] for n in ("rahmen", "verdeckt", "sichtbar", "nut", "kollision", "mass", "text")}
         self.draft = bd.Draft(font_size=3.0, font=SCHRIFT, decimal_precision=0, display_units=False,
                               arrow_length=2.2, line_width=0.18, pad_around_text=1.0, extension_gap=1.0)
 
     def p(self, u, v):                         # Modell (u, v) → Papier
-        return (self.mitte[0] + u * M, self.mitte[1] + v * M, 0)
+        return (self.mitte[0] + u * self.m, self.mitte[1] + v * self.m, 0)
 
     def kanten(self, kanten, ebene):
         verschiebung = bd.Location((self.mitte[0], self.mitte[1], 0))
-        self.ebenen[ebene] += [verschiebung * e.scale(M) for e in kanten]
+        self.ebenen[ebene] += [verschiebung * e.scale(self.m) for e in kanten]
 
     def text(self, s, u, v, groesse=3.0, papier=False, ausrichtung=(bd.TextAlign.CENTER, bd.TextAlign.CENTER)):
         x, y = (u, v) if papier else self.p(u, v)[:2]
@@ -128,7 +129,11 @@ class Blatt:
     def linie(self, *punkte, ebene="rahmen"):
         self.ebenen[ebene].append(bd.Polyline(*punkte))
 
-    def rahmen(self, titel, untertitel, nummer, variante):
+    def rechteck(self, u0, v0, u1, v1, ebene="sichtbar"):
+        a, b, c, d = self.p(u0, v0), self.p(u1, v0), self.p(u1, v1), self.p(u0, v1)
+        self.ebenen[ebene].append(bd.Polyline(a, b, c, d, a))
+
+    def rahmen(self, titel, untertitel, nummer, variante, massstab="1:5 (DIN A3)"):
         # DIN-Rand: 20 mm links (Heftrand), sonst 10 mm
         self.linie((20, 10), (BLATT_B - 10, 10), (BLATT_B - 10, BLATT_H - 10), (20, BLATT_H - 10), (20, 10))
         # Schriftfeld unten rechts, 180 × 36 mm
@@ -141,8 +146,8 @@ class Blatt:
         links = (bd.TextAlign.LEFT, bd.TextAlign.CENTER)
         felder = [
             (x0 + 2, 43, "Benennung", titel, 4.2), (x0 + 62, 43, "Projekt", "VW Caddy Mk3 Camper — Unterbau", 3.0),
-            (x0 + 2, 31, "Maßstab", "1:5 (DIN A3)", 3.0), (x0 + 62, 31, "Eckausbildung", variante, 2.6),
-            (x0 + 2, 19, "Blatt", f"{nummer} von 3", 3.0), (x0 + 62, 19, "Stand", date.today().isoformat(), 3.0),
+            (x0 + 2, 31, "Maßstab", massstab, 3.0), (x0 + 62, 31, "Eckausbildung", variante, 2.6),
+            (x0 + 2, 19, "Blatt", f"{nummer} von {len(ANSICHTEN) + 1}", 3.0), (x0 + 62, 19, "Stand", date.today().isoformat(), 3.0),
             (x0 + 122, 19, "Maße", "mm", 3.0),
         ]
         for x, y, kopf, wert, gr in felder:
@@ -321,12 +326,100 @@ def zeichne(variante, name, png=False):
     return pfad, len(koll)
 
 
+# ── Blatt 4: Box-Bretter (Zuschnitt) ────────────────────────────────────────
+# Jede Platte flach, einzeln, im Maßstab 1:10; gleiche Teile (B2-F/B2-B, B3-1/B3-2)
+# einmal mit Stückzahl. Lage auf dem Blatt in Papier-mm (linke untere Ecke).
+BRETTER = [  # (Kürzel, weitere gleiche Kürzel, Ansicht, x, y) — Ansicht: "oben" = Fläche x×z, "x" = x×y, "z" = z×y
+    ("F1", [], "oben", 34, 162), ("A1", [], "oben", 164, 162),
+    ("B2-F", ["B2-B"], "z", 294, 214), ("B1", [], "x", 294, 162),
+    ("A2", [], "oben", 34, 66), ("A3", [], "oben", 164, 66), ("B3-1", ["B3-2"], "z", 294, 66),
+]
+M_BRETTER = 1 / 10
+
+
+def zeichne_bretter(variante, png=False):
+    p = modell.lade_parameter()
+    alle = modell.teile(p, variante)
+    xa = p["korpus"]["breite"] / 2
+    blatt = Blatt((0, 0), M_BRETTER)
+    zeilen = []
+
+    for id, gleiche, ansicht, x, y in BRETTER:
+        t = teil(alle, id)
+        (x0, x1), (y0, y1), (z0, z1) = t["box"]
+        breite, hoehe, staerke = {"oben": (x1 - x0, z1 - z0, y1 - y0),
+                                  "x": (x1 - x0, y1 - y0, z1 - z0),
+                                  "z": (z1 - z0, y1 - y0, x1 - x0)}[ansicht]
+        stk = 1 + len(gleiche)
+        blatt.mitte = (x, y)
+        blatt.rechteck(0, 0, breite, hoehe)
+        blatt.mass((0, 0), (breite, 0), 7, fmt(breite))                 # unten
+        blatt.mass((0, hoehe), (0, 0), 7, fmt(hoehe))                   # links
+        name = t["name"].split(" (")[0]
+        if gleiche:
+            name = " / ".join(teil(alle, i)["name"].split(" (")[0] for i in [id] + gleiche)
+            name = name.replace("Seitenwand links / Seitenwand rechts", "Seitenwand links / rechts") \
+                       .replace("Trennwand links / Trennwand rechts", "Trennwand links / rechts")
+        kuerzel = " / ".join([id] + gleiche)
+        mitte_v = hoehe / 2
+        blatt.text(kuerzel, breite / 2, mitte_v + 0.45 / M_BRETTER * 10, 3.0)
+        blatt.text(name, breite / 2, mitte_v, 2.4)
+        blatt.text(f"{stk} Stk. · {fmt(staerke)} mm", breite / 2, mitte_v - 0.45 / M_BRETTER * 10, 2.2)
+
+        # Falze/Nuten auf Boden- und Deckplatte: Fußabdruck jeder Wand, die darin steckt
+        if ansicht == "oben" and id in ("F1", "A1"):
+            nuten = [w for w in alle if id in w.get("steckt_in", [])]
+            for w in nuten:
+                (wx0, wx1), _, (wz0, wz1) = w["box"]
+                blatt.rechteck(xa - wx1 - (xa - x1), wz0 - z0, xa - wx0 - (xa - x1), wz1 - z0, "verdeckt")
+            if nuten:
+                tiefe = p["korpus"]["nut_tiefe"]
+                seite = "Oberseite" if id == "F1" else "Unterseite"
+                blatt.text(f"Falz/Nut 18 × t auf der {seite} (t = 6–9, gez. {fmt(tiefe)})",
+                           breite / 2, hoehe * 0.2, 2.2)
+        zeilen.append((kuerzel, name, f"{fmt(breite)} × {fmt(hoehe)}", fmt(staerke), stk))
+
+    blatt.rahmen("Box-Bretter", "Zuschnitt aller Platten der Box und der Liegefläche — Birke-Multiplex, "
+                 "jede Platte einzeln, Fahrerseite links", len(ANSICHTEN) + 1, VARIANTEN[variante],
+                 massstab="1:10 (DIN A3)")
+
+    # Legende + Zuschnittliste unten
+    links = (bd.TextAlign.LEFT, bd.TextAlign.CENTER)
+    blatt.linie((25, 46), (37, 46), ebene="sichtbar")
+    blatt.text("Plattenkante (Zuschnitt)", 40, 46, 2.6, papier=True, ausrichtung=links)
+    if variante == "genutet":
+        blatt.linie((25, 41), (37, 41), ebene="verdeckt")
+        blatt.text("Falz/Nut — wird gefräst, Wände stecken darin", 40, 41, 2.6, papier=True, ausrichtung=links)
+        blatt.text("Wandhöhe = 302 + 2 × t (gezeichnet t = 6 mm).", 25, 34, 2.2, papier=True, ausrichtung=links)
+        blatt.text("Wände erst nach dem Fräsen ablängen.", 25, 30, 2.2, papier=True, ausrichtung=links)
+    blatt.text("Ohne Schubladen und Sitz-/Tischbretter — deren Maße werden am fertigen Korpus festgelegt.",
+               25, 14, 2.2, papier=True, ausrichtung=links)
+    x0, y0 = 120, 46
+    for x, kopf in ((x0, "Pos."), (x0 + 22, "Langname"), (x0 + 72, "Maß"), (x0 + 96, "mm"), (x0 + 104, "Stk.")):
+        blatt.text(kopf, x, y0, 2.4, papier=True, ausrichtung=links)
+    for i, (k, n, mass, st, stk) in enumerate(zeilen):
+        y = y0 - 4.5 - i * 3.9
+        for x, v in ((x0, k), (x0 + 22, n), (x0 + 72, mass), (x0 + 96, st), (x0 + 104, str(stk))):
+            blatt.text(v, x, y, 2.1, papier=True, ausrichtung=links)
+
+    ordner = ZIEL / variante
+    ordner.mkdir(parents=True, exist_ok=True)
+    pfad = ordner / "box-bretter.svg"
+    blatt.schreiben(pfad)
+    if png:
+        import cairosvg
+        cairosvg.svg2png(url=str(pfad), write_to=str(pfad.with_suffix(".png")),
+                         output_width=2400, background_color="white")
+    return pfad
+
+
 def main():
     png = "--png" in sys.argv
     for variante in VARIANTEN:
         for name in ANSICHTEN:
             pfad, n = zeichne(variante, name, png)
             print(f"{pfad.relative_to(ZIEL.parent.parent)}  ({n} Überschneidungen inkl. gewollter Nut/Falz)")
+        print(zeichne_bretter(variante, png).relative_to(ZIEL.parent.parent))
 
 
 if __name__ == "__main__":
