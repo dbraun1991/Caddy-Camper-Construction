@@ -78,7 +78,7 @@ window.MODELL = {
    "ladekante": 0
   },
   "eckausbildung": "genutet",
-  "_eckausbildung_werte": "Boden B4 und Deckel A1 laufen immer durch (ADR 0018). genutet = Wände stecken nut_tiefe in Falz/Nut von B4 und A1 · stumpf = Wände 302 mm, stumpf zwischen B4 und A1"
+  "_eckausbildung_werte": "Boden F1 und Deckel A1 laufen immer durch (ADR 0018). genutet = Wände stecken nut_tiefe in Falz/Nut von F1 und A1 · stumpf = Wände 302 mm, stumpf zwischen F1 und A1"
  },
  "eckausbildung": "genutet",
  "teile": [
@@ -103,7 +103,7 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "B4",
+    "F1",
     "A1"
    ]
   },
@@ -128,7 +128,7 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "B4",
+    "F1",
     "A1"
    ]
   },
@@ -153,12 +153,12 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "B4",
+    "F1",
     "A1"
    ]
   },
   {
-   "id": "B4",
+   "id": "F1",
    "name": "Bodenplatte",
    "gruppe": "korpus",
    "material": "holz",
@@ -199,7 +199,7 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "B4",
+    "F1",
     "A1"
    ]
   },
@@ -224,7 +224,7 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "B4",
+    "F1",
     "A1"
    ]
   },
@@ -896,7 +896,7 @@ window.MODELL = {
   }
  ],
  "kategorien": {
-  "nut": "Nut/Falz: Wand steckt in Bodenplatte B4 bzw. Deckplatte A1 (gewollt)",
+  "nut": "Nut/Falz: Wand steckt in Bodenplatte F1 bzw. Deckplatte A1 (gewollt)",
   "eckverbindung": "Eckausbildung Korpus — welche Platte läuft durch?",
   "rueckwand": "Rückwand B1 ragt in Schienen/Elemente (lichte Tiefe < Schienenlänge)",
   "frontblende": "Schubladenfront überdeckt Schienen bzw. Nachbarelement",
@@ -904,12 +904,13 @@ window.MODELL = {
   "sonstige": "Sonstige Überschneidung"
  },
  "gruppen": {
-  "A": "Liegefläche",
-  "B": "Korpus",
+  "A": "Liegefläche (waagerecht oben)",
+  "B": "Wände (senkrecht)",
+  "F": "Fußboden (waagerecht unten)",
   "C": "Auszugbretter",
   "D": "Schubladen",
   "E": "Schienen",
-  "F": "Befestigung & Beschläge",
+  "V": "Verbindungsmittel & Beschläge",
   "G": "Ausstattung",
   "S": "Scharniere"
  },
@@ -917,7 +918,7 @@ window.MODELL = {
   "genutet": [
    {
     "a": "B2-F",
-    "b": "B4",
+    "b": "F1",
     "box": [
      [
       542.0,
@@ -967,7 +968,7 @@ window.MODELL = {
    },
    {
     "a": "B2-B",
-    "b": "B4",
+    "b": "F1",
     "box": [
      [
       -560.0,
@@ -1017,7 +1018,7 @@ window.MODELL = {
    },
    {
     "a": "B1",
-    "b": "B4",
+    "b": "F1",
     "box": [
      [
       -542.0,
@@ -1066,7 +1067,7 @@ window.MODELL = {
     ]
    },
    {
-    "a": "B4",
+    "a": "F1",
     "b": "B3-1",
     "box": [
      [
@@ -1091,7 +1092,7 @@ window.MODELL = {
     ]
    },
    {
-    "a": "B4",
+    "a": "F1",
     "b": "B3-2",
     "box": [
      [
@@ -1972,7 +1973,7 @@ window.MODELL = {
  "kollisionen": [
   {
    "a": "B2-F",
-   "b": "B4",
+   "b": "F1",
    "box": [
     [
      542.0,
@@ -2022,7 +2023,7 @@ window.MODELL = {
   },
   {
    "a": "B2-B",
-   "b": "B4",
+   "b": "F1",
    "box": [
     [
      -560.0,
@@ -2072,7 +2073,7 @@ window.MODELL = {
   },
   {
    "a": "B1",
-   "b": "B4",
+   "b": "F1",
    "box": [
     [
      -542.0,
@@ -2121,7 +2122,7 @@ window.MODELL = {
    ]
   },
   {
-   "a": "B4",
+   "a": "F1",
    "b": "B3-1",
    "box": [
     [
@@ -2146,7 +2147,7 @@ window.MODELL = {
    ]
   },
   {
-   "a": "B4",
+   "a": "F1",
    "b": "B3-2",
    "box": [
     [

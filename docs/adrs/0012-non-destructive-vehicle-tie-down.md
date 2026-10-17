@@ -31,7 +31,7 @@ Options considered:
 Secure the corpus exclusively through the four factory lashing eyes. No new hole
 is drilled in the vehicle body, floor, or trim.
 
-- Four 40 × 40 × 2 mm steel L-brackets screwed to the corpus bottom plate (`B4`)
+- Four 40 × 40 × 2 mm steel L-brackets screwed to the corpus bottom plate (`F1`)
   from inside with 4 × 30 mm screws, each bracket connected to one lashing eye
   with an M8 bolt, washer and self-locking nut.
 - Two ratchet straps over the corpus as a redundant path, and as the only
@@ -49,8 +49,8 @@ the existing eyes — still no new holes.
 - The whole module stays removable with a socket wrench, which is the same
   property ADR 0007 deliberately preserved for the corpus joinery; the two
   decisions are consistent on purpose.
-- Bracket positions on `B4` cannot be laid out from the drawings. They have to be
-  transferred from the actual eye positions in the vehicle, which means `B4` is
+- Bracket positions on `F1` cannot be laid out from the drawings. They have to be
+  transferred from the actual eye positions in the vehicle, which means `F1` is
   drilled on the car, after the corpus shell is assembled — one more reason the
   assembly order in `List_of_Materials.md` §H ends with the vehicle, not starts
   with it.

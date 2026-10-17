@@ -13,13 +13,13 @@ Teilenummern beziehen sich auf [List_of_Materials.md](./List_of_Materials.md).
 |---|---|---|---|---|
 | — | Multiplex Birke 18 mm, 2.500 × 1.250 mm | 3 Platten | 105 – 147 € | **315 – 441 €** |
 | — | Multiplex Birke 12 mm, 2.500 × 1.250 mm | 1 Platte | 50 – 105 € | **50 – 105 €** |
-| F12 | Eckleiste Weichholz 20 × 20 mm | 3 m | ~2 €/m | **~6 €** |
-| F16 | Ausgleichsleisten 10 × 40 mm unter dem Klappbrett Rücksitz (A2) | 2 m | ~2,5 €/m ¹ | **~5 €** |
+| V12 | Eckleiste Weichholz 20 × 20 mm | 3 m | ~2 €/m | **~6 €** |
+| V16 | Ausgleichsleisten 10 × 40 mm unter dem Klappbrett Rücksitz (A2) | 2 m | ~2,5 €/m ¹ | **~5 €** |
 | | | | **Teilsumme** | **~376 – 557 €** |
 
 Spanne erklärt sich über die Qualitätsklasse (BB/BB vs. S/BB) und den Händler: Baumarkt (toom, Hornbach) am unteren Ende, Holzfachhandel (Holzland, Holzzentrum) am oberen.
 
-**Zuschnitt:** 8 – 25 € je nach Händler. Lohnt sich hier klar — die großen Teile (A1, A2, A3, B4 je 1.120 mm breit) sind ohne Formatkreissäge kaum exakt zu schneiden, und ADR 0007 setzt maßhaltige Stirnkanten voraus. **Budget: ~20 €.**
+**Zuschnitt:** 8 – 25 € je nach Händler. Lohnt sich hier klar — die großen Teile (A1, A2, A3, F1 je 1.120 mm breit) sind ohne Formatkreissäge kaum exakt zu schneiden, und ADR 0007 setzt maßhaltige Stirnkanten voraus. **Budget: ~20 €.**
 
 ---
 
@@ -42,22 +42,22 @@ Gut **ein Drittel des Gesamtbudgets**. Beide aus derselben 850-mm-Serie ([ADR 00
 
 | Pos | Artikel | Menge | Summe |
 |---|---|---|---|
-| F1 | Schrauben Torx Senkkopf 4 × 45 mm | ~80 Stk. (1 Pack 100) | ~12 € |
-| F2 | Schrauben Torx Senkkopf 3,5 × 16 mm | ~120 Stk. (1 Pack 200) | ~10 € |
-| F3 | Stahlwinkel 40 × 40 × 2 mm | 12 Stk. | ~18 € |
-| F4 | Holzdübel Ø 8 × 40 mm | ~30 Stk. (1 Pack 50) | ~6 € |
-| F5 | Holzleim D3 wasserfest, 750 ml | 1 Flasche | ~12 € |
-| F6 | Schubladengriffe | 3 Stk. | 15 – 45 € |
-| F7 | Schrauben 4 × 30 / 4 × 40 mm | je 1 Pack 100 | ~20 € |
-| F8 | Schrauben 3,5 × 30 mm | ~120 Stk. (1 Pack 200) | ~10 € |
-| F9 | M5 × 40 Durchsteckschrauben + U-Scheibe + Stoppmutter | 24 Sätze | ~14 € |
-| F10 | M8 × 30/40 + U-Scheibe + Stoppmutter | 4 Sätze | ~6 € |
-| F11 | Spanngurt mit Ratsche | 2 Stk. | ~20 € |
-| F15 | Gurtschlaufe verstellbar (Gurtband ~25 mm + Klemmschnalle), Klappbrett Kopfende (A3) ↔ Kopfstütze | 2 Stk. | ~10 € ¹ |
-| F17 | Klappscharniere Standard ~60 mm (3 × Deckplatte ↔ Klappbrett Rücksitz oben, 3 × zwischen den Klappbrettern unten) | 6 Stk. | ~15 € ¹ |
+| V1 | Schrauben Torx Senkkopf 4 × 45 mm | ~80 Stk. (1 Pack 100) | ~12 € |
+| V2 | Schrauben Torx Senkkopf 3,5 × 16 mm | ~120 Stk. (1 Pack 200) | ~10 € |
+| V3 | Stahlwinkel 40 × 40 × 2 mm | 12 Stk. | ~18 € |
+| V4 | Holzdübel Ø 8 × 40 mm | ~30 Stk. (1 Pack 50) | ~6 € |
+| V5 | Holzleim D3 wasserfest, 750 ml | 1 Flasche | ~12 € |
+| V6 | Schubladengriffe | 3 Stk. | 15 – 45 € |
+| V7 | Schrauben 4 × 30 / 4 × 40 mm | je 1 Pack 100 | ~20 € |
+| V8 | Schrauben 3,5 × 30 mm | ~120 Stk. (1 Pack 200) | ~10 € |
+| V9 | M5 × 40 Durchsteckschrauben + U-Scheibe + Stoppmutter | 24 Sätze | ~14 € |
+| V10 | M8 × 30/40 + U-Scheibe + Stoppmutter | 4 Sätze | ~6 € |
+| V11 | Spanngurt mit Ratsche | 2 Stk. | ~20 € |
+| V15 | Gurtschlaufe verstellbar (Gurtband ~25 mm + Klemmschnalle), Klappbrett Kopfende (A3) ↔ Kopfstütze | 2 Stk. | ~10 € ¹ |
+| V17 | Klappscharniere Standard ~60 mm (3 × Deckplatte ↔ Klappbrett Rücksitz oben, 3 × zwischen den Klappbrettern unten) | 6 Stk. | ~15 € ¹ |
 | | | **Teilsumme** | **~168 – 198 €** |
 
-¹ F15/F16/F17 am 2026-10-17 ergänzt — grobe Schätzung, Quellen noch nicht geprüft.
+¹ V15/V16/V17 am 2026-10-17 ergänzt — grobe Schätzung, Quellen noch nicht geprüft.
 
 ---
 
@@ -98,7 +98,7 @@ Gut **ein Drittel des Gesamtbudgets**. Beide aus derselben 850-mm-Serie ([ADR 00
 
 Das setzt voraus: Multiplex aus dem Baumarkt mit Zuschnitt, die empfohlenen Schienen, Matratze als zugeschnittene Schaumplatte, Werkzeug schon vorhanden.
 
-**Nicht enthalten:** Werkzeug (Akkuschrauber, Oberfräse mit 18-mm-Nutfräser für die Falze/Nuten in B4/A1 — oder Dübelhilfe bei stumpfer Variante, Stichsäge/Kreissäge, Forstnerbohrer für die Griffe, Senker), Versandkosten, sowie die noch offenen Punkte Belüftung und 12-V-Installation aus der [README](./README.md#weiterführende-planung).
+**Nicht enthalten:** Werkzeug (Akkuschrauber, Oberfräse mit 18-mm-Nutfräser für die Falze/Nuten in F1/A1 — oder Dübelhilfe bei stumpfer Variante, Stichsäge/Kreissäge, Forstnerbohrer für die Griffe, Senker), Versandkosten, sowie die noch offenen Punkte Belüftung und 12-V-Installation aus der [README](./README.md#weiterführende-planung).
 
 ---
 
@@ -112,7 +112,7 @@ Die kommerzielle Alternative [Moonbox 111](https://www.moonbox.de/products/moonb
 
 Die Montagereihenfolge in [§H](./List_of_Materials.md#montagereihenfolge) gibt die Kaufreihenfolge vor — der fertige Korpus liefert das verbindliche Innenmaß, nicht die Zeichnung:
 
-1. **Jetzt:** Holz 18 mm + 12 mm mit Zuschnitt, Leim, Dübel, Schrauben F1/F2/F7/F8, Winkel F3, Eckleisten F12, Spanngurte F11 → Korpus bauen
-2. **Sobald die Schienenstärke geprüft ist:** Schienen E1 (2 Paare) + E2 (4 Paare), Durchsteckschrauben F9 → einmessen und montieren (Bretter C1–C3 erst nach ADR 0013 zuschneiden)
-3. **Nach Einbau im Fahrzeug:** M8-Sätze F10 (Gewinde der Zurrösen erst am Auto prüfen; Rücksitz-Ösen liegen neben dem Korpus → Winkel außen an B2, ADR 0016), Griffe F6
-4. **Zuletzt:** Matratze G1 + Bezug G2 — erst messen, wenn die Liegefläche real liegt; Scharniere F17, Gurtschlaufen F15 und Ausgleich F16 beim Anpassen von A2/A3 im Fahrzeug
+1. **Jetzt:** Holz 18 mm + 12 mm mit Zuschnitt, Leim, Dübel, Schrauben V1/V2/V7/V8, Winkel V3, Eckleisten V12, Spanngurte V11 → Korpus bauen
+2. **Sobald die Schienenstärke geprüft ist:** Schienen E1 (2 Paare) + E2 (4 Paare), Durchsteckschrauben V9 → einmessen und montieren (Bretter C1–C3 erst nach ADR 0013 zuschneiden)
+3. **Nach Einbau im Fahrzeug:** M8-Sätze V10 (Gewinde der Zurrösen erst am Auto prüfen; Rücksitz-Ösen liegen neben dem Korpus → Winkel außen an B2, ADR 0016), Griffe V6
+4. **Zuletzt:** Matratze G1 + Bezug G2 — erst messen, wenn die Liegefläche real liegt; Scharniere V17, Gurtschlaufen V15 und Ausgleich V16 beim Anpassen von A2/A3 im Fahrzeug

@@ -5,13 +5,13 @@ Status: Accepted — amends [ADR 0012](0012-non-destructive-vehicle-tie-down.md)
 ## Context
 
 ADR 0012 secures the corpus through the four factory lashing eyes with four
-L-brackets screwed to the bottom plate `B4` from inside. It assumed all four eyes
+L-brackets screwed to the bottom plate `F1` from inside. It assumed all four eyes
 lie under the corpus footprint.
 
 Measured on the vehicle (2026-10-17):
 
 - The two eyes **at the rear seats** (z ≈ 900, the far end of the corpus) sit
-  **beside** the corpus, not under it — `B4` cannot reach them.
+  **beside** the corpus, not under it — `F1` cannot reach them.
 - The two eyes **at the tailgate** (z ≈ 0) are possibly under the corpus.
 
 The load case that matters most is not sliding but **tipping in Bankmodus**: a
@@ -42,7 +42,7 @@ den Rücksitzen wichtiger").
   to (§H1, ADR 0014), so the hold-down force goes from the rails into the
   anchor through one panel instead of through a panel joint.
 - **Tailgate eyes: optional.** If they turn out to be under the corpus, connect
-  them to `B4` from inside as in ADR 0012 (location against sliding/rattle).
+  them to `F1` from inside as in ADR 0012 (location against sliding/rattle).
   They are not counted on for tipping.
 - Unchanged from ADR 0012: no new holes in the body, two ratchet straps as a
   redundant path, anti-slip mat not counted as restraint.
@@ -50,7 +50,7 @@ den Rücksitzen wichtiger").
 ## Consequences
 
 - The four steel brackets and four M8 sets already on the shopping list stay;
-  two of them move from `B4` (inside) to the outside of `B2` (rear end).
+  two of them move from `F1` (inside) to the outside of `B2` (rear end).
 - The rear of each `B2` needs a clear outer face where the bracket sits. Between
   the wheel arches there are only 5–10 mm per side (1,130–1,140 mm measured vs.
   1,120 mm corpus) — too little for a bracket, so the brackets only work where

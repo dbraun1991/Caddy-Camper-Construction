@@ -71,7 +71,10 @@ down.
   User-facing German text pairs them with the long name from the glossary in
   `List_of_Materials.md` ("Bezeichnungen"), e.g. "Klappbrett Rücksitz (A2)";
   the model's `name` field holds the same long name (`GRUPPEN`, `ELEMENTE` in
-  `modell/modell.py`). Keep the three in sync when adding a part.
+  `modell/modell.py`). Keep the three in sync when adding a part. Board groups
+  follow orientation: `A` horizontal top, `B` vertical walls, `F` floor
+  (`F1` Bodenplatte); fasteners/fittings are `V1`–`V17` (renamed from `F1`–`F17`
+  on 2026-10-17, when the floor took `F`).
 - **Left/right means as seen from the driver's seat** (facing forward, LHD):
   left = driver side = +x, right = passenger side = −x. Section `L` (`C1`, `D1`,
   `B2-F`) is on the driver side. The Vorderansicht looks forward through the
@@ -152,12 +155,12 @@ down.
   a build decision for the user:
   - ~~Corner construction~~ — decided in
     [ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md):
-    `B4` and `A1` continuous, walls housed 6–9 mm deep depending on the tool
+    `F1` and `A1` continuous, walls housed 6–9 mm deep depending on the tool
     (model/drawings use the nominal 6 mm; `eckausbildung: genutet`,
     fallback `stumpf`). Wall-in-recess overlaps are flagged `gewollt` (green)
     and excluded from the problem count. Walls are cut *after* routing, to
     302 + 2 × measured depth. Never deeper than ~9 mm or through: the grooves
-    run the full depth, so a through-cut would split `B4`/`A1`.
+    run the full depth, so a through-cut would split `F1`/`A1`.
   - ~~Clear depth 882 mm < 900 mm rail length~~ — resolved by
     [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md): 850 mm
     runners, corpus stays 900 mm. Open: verify the 850 mm runner's thickness
@@ -183,8 +186,8 @@ down.
   user chose to ignore them for now. Don't ask for them again unless a decision
   depends on one.
 - A2 sits 10 mm above the folded seat backs (310 vs 320 mm); the shim is
-  documented in §H4 (F16). A3 hangs from the headrests on two adjustable loops
-  (F15); the user sets holes and loop length on the car — documented, otherwise
+  documented in §H4 (V16). A3 hangs from the headrests on two adjustable loops
+  (V15); the user sets holes and loop length on the car — documented, otherwise
   out of scope.
 - Mobile: the legend (top right) is wide and overlaps the scene on phones.
 

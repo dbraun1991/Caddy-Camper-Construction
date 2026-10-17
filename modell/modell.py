@@ -22,8 +22,9 @@ ECKAUSBILDUNGEN = ("genutet", "stumpf")   # Boden + Deckel immer durchlaufend, A
 # Kürzel bleiben feste Positionsnummern; der Buchstabe nennt die Gruppe, `name` den Langnamen
 # (Funktion + Lage, links/rechts aus Fahrersicht). Glossar: List_of_Materials.md „Bezeichnungen“.
 GRUPPEN = {
-    "A": "Liegefläche", "B": "Korpus", "C": "Auszugbretter", "D": "Schubladen",
-    "E": "Schienen", "F": "Befestigung & Beschläge", "G": "Ausstattung", "S": "Scharniere",
+    "A": "Liegefläche (waagerecht oben)", "B": "Wände (senkrecht)", "F": "Fußboden (waagerecht unten)",
+    "C": "Auszugbretter", "D": "Schubladen", "E": "Schienen",
+    "V": "Verbindungsmittel & Beschläge", "G": "Ausstattung", "S": "Scharniere",
 }
 ELEMENTE = {
     "C1": "Sitzbrett links", "C2": "Sitzbrett rechts", "C3": "Tischbrett Mitte",
@@ -53,19 +54,19 @@ def _korpus(p, eck):
     xa, xi = W / 2, W / 2 - T          # Außen- / Innenfläche der Seitenwände
     d = swM / 2                        # Innenfläche der Trennwände zur Mitte
 
-    # Boden B4 und Deckel A1 laufen voll durch (1.120 × 900); alle Wände stehen dazwischen.
-    # Genutet: jede Wand steckt nt tief in B4 und A1 — an den Außenkanten als Falz, innen als Nut.
+    # Boden F1 und Deckel A1 laufen voll durch (1.120 × 900); alle Wände stehen dazwischen.
+    # Genutet: jede Wand steckt nt tief in F1 und A1 — an den Außenkanten als Falz, innen als Nut.
     if eck not in ECKAUSBILDUNGEN:
         raise ValueError(f"unbekannte eckausbildung: {eck}")
     nt = k["nut_tiefe"] if eck == "genutet" else 0
     wand_y = (T - nt, H + nt)
-    nut = {"steckt_in": ["B4", "A1"]} if nt else {}
+    nut = {"steckt_in": ["F1", "A1"]} if nt else {}
 
     return [
         _teil("B2-F", "Seitenwand links (Fahrerseite)", "korpus", "holz", (xi, xa), wand_y, (0, D), **nut),
         _teil("B2-B", "Seitenwand rechts (Beifahrerseite)", "korpus", "holz", (-xa, -xi), wand_y, (0, D), **nut),
         _teil("B1", "Rückwand", "korpus", "holz", (-xi, xi), wand_y, (D - T, D), **nut),
-        _teil("B4", "Bodenplatte", "korpus", "holz", (-xa, xa), (0, T), (0, D)),
+        _teil("F1", "Bodenplatte", "korpus", "holz", (-xa, xa), (0, T), (0, D)),
         _teil("B3-1", "Trennwand links", "korpus", "holz", (d, d + DW), wand_y, (0, D - T), **nut),
         _teil("B3-2", "Trennwand rechts", "korpus", "holz", (-d - DW, -d), wand_y, (0, D - T), **nut),
         _teil("A1", "Deckplatte", "liegeflaeche", "holz", (-xa, xa), (H, H + T), (0, D)),
@@ -184,7 +185,7 @@ def teile(p=None, eckausbildung=None):
 
 
 KATEGORIEN = {
-    "nut": "Nut/Falz: Wand steckt in Bodenplatte B4 bzw. Deckplatte A1 (gewollt)",
+    "nut": "Nut/Falz: Wand steckt in Bodenplatte F1 bzw. Deckplatte A1 (gewollt)",
     "eckverbindung": "Eckausbildung Korpus — welche Platte läuft durch?",
     "rueckwand": "Rückwand B1 ragt in Schienen/Elemente (lichte Tiefe < Schienenlänge)",
     "frontblende": "Schubladenfront überdeckt Schienen bzw. Nachbarelement",

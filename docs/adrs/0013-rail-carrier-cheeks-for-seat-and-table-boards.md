@@ -32,7 +32,7 @@ Options:
    no rail screws. Board stays 32 mm, but its top surface rises to the top of the
    cheek, so the element's overall height grows to the rail height (53 or 76 mm)
    and the section's Y-bands in `index.html` shift.
-2. **Bottom-mounted runners** — lay the rails flat on the bottom plate (`B4`)
+2. **Bottom-mounted runners** — lay the rails flat on the bottom plate (`F1`)
    under `C1`/`C2`, which already rest on it. Avoids any edge-screwing, but costs
    the rail height out of the 302 mm interior and does not work for `C3`, which
    is at the *top* of the middle section.

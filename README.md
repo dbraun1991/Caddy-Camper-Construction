@@ -104,7 +104,7 @@ python3 -m venv .venv && .venv/bin/pip install -r modell/requirements.txt   # ei
 
 ## Aufbau / Maße
 
-> Bezeichnungen: A = Liegefläche, B = Korpus, C = Auszugbretter, D = Schubladen, E = Schienen, F = Befestigung, G = Ausstattung — vollständiges Glossar mit Langnamen in [List_of_Materials.md → Bezeichnungen](./List_of_Materials.md#bezeichnungen). Links/rechts immer aus Fahrersicht.
+> Bezeichnungen: A = Liegefläche (waagerecht oben), B = Wände (senkrecht), F = Fußboden (waagerecht unten), C = Auszugbretter, D = Schubladen, E = Schienen, V = Verbindungsmittel & Beschläge, G = Ausstattung — vollständiges Glossar mit Langnamen in [List_of_Materials.md → Bezeichnungen](./List_of_Materials.md#bezeichnungen). Links/rechts immer aus Fahrersicht.
 
 Basis: VW Caddy Mk3 Kombi, Erstzulassung 05/2012, Laderaumbreite nutzbar **1.120 mm**.
 
@@ -152,7 +152,7 @@ Matratzenbreite: **1.100 mm** (passt in 1.120 mm Innenbreite).
 
 | Farbe | Bedeutung |
 |---|---|
-| Dunkelbraun (transparent) | Holz / Korpus + Liegefläche (B1, B2, B3, B4, A1–A3 · Birke-Multiplex) |
+| Dunkelbraun (transparent) | Holz / Korpus + Liegefläche (B1, B2, B3, F1, A1–A3 · Birke-Multiplex) |
 | Türkis (transparent) | Sitzbrett L/R (C1, C2) |
 | Orange (transparent) | Tischbrett Mitte (C3) |
 | Blau (transparent) | Schubladen × 3 |
@@ -180,14 +180,14 @@ Alle Bauteile kommen aus `MODELL.teile` (`modell/modell.js`) — jeweils ein Qua
 Alle Elemente — Korpusbretter, Liegefläche, Schubladen, Sitz-/Tischbretter und Führungsschienen — leben permanent in der statischen Szenengruppe `sg`. Beim Moduswechsel wird nur die Z-Position der 6 Elemente plus ihrer jeweils zugehörigen Schienen-Innenmember verschoben.
 
 ```
-sg    — Korpus (B1, B2, B3, B4), Liegefläche (A1–A3), Matratze,
+sg    — Korpus (B1, B2, B3, F1), Liegefläche (A1–A3), Matratze,
         alle 6 Elemente + 12 Führungsschienen-Innenmember (immer sichtbar)
 bankG — (leer, reserviert)
 packG — (leer, reserviert)
 caddyG — transparente Caddy-Hülle (Wände mit Türöffnungen, Dach, Radkästen, Vordersitze, Lade-Referenzebene, Rücksitzbank), per Button ausblendbar
 ```
 
-Der Korpus besteht aus Einzelbrettern (keine Vollbox): B2 links/rechts, B1 Rückwand, B4 Boden, B3 × 2 Trennwände. Die Vorderseite ist offen.
+Der Korpus besteht aus Einzelbrettern (keine Vollbox): B2 links/rechts, B1 Rückwand, F1 Boden, B3 × 2 Trennwände. Die Vorderseite ist offen.
 
 ---
 
@@ -206,7 +206,7 @@ Der Korpus besteht aus Einzelbrettern (keine Vollbox): B2 links/rechts, B1 Rück
 Offen:
 
 - [ ] **Entscheidung ADR 0013** — Schienenhöhe (76 mm bei C1/C2, 53 mm bei C3) vs. Brettstärke (32 mm) bei C1–C3: [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Blockiert den Zuschnitt von C1–C3, nicht mehr den Schienenkauf.
-- [x] Eckausbildung Korpus — Boden B4 und Deckel A1 durchgehend, Wände in Falz/Nut t = 6–9 mm je nach Werkzeug; Wände nach dem Fräsen auf 302 + 2t ablängen — [ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md)
+- [x] Eckausbildung Korpus — Boden F1 und Deckel A1 durchgehend, Wände in Falz/Nut t = 6–9 mm je nach Werkzeug; Wände nach dem Fräsen auf 302 + 2t ablängen — [ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md)
 - [x] Lichte Tiefe 882 mm vs. Schienenlänge — gelöst mit 850-mm-Schienen, Korpus bleibt 900 mm (20–30 mm Luft zu den Rücksitzen, 32 mm hinter den Schienen) — [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)
 - [ ] Schienenstärke der 850-mm-Schiene prüfen (geplant 19 mm je Seite) — vor der Bestellung
 - [ ] **Frontblenden** (einliegend mit Luft oder aufliegend, Höhen mit ~2 mm Spalt, Lage der Schienen) — **wird nach dem Korpusbau entschieden:** Schienen am fertigen Korpus anhalten, messen, dann festlegen. Bis dahin bleiben die roten Stellen an den Blenden in den Zeichnungen bewusst stehen.

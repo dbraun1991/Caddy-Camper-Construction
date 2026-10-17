@@ -25,7 +25,7 @@ M = 1 / 5                                # Maßstab 1:5 — mm Modell → mm Pap
 BLATT_B, BLATT_H = 420, 297              # DIN A3 quer
 SCHRIFT = "DejaVu Sans"
 
-VARIANTEN = {   # Boden B4 und Deckel A1 laufen immer durch (ADR 0018)
+VARIANTEN = {   # Boden F1 und Deckel A1 laufen immer durch (ADR 0018)
     "genutet": "Boden- + Deckplatte durchlaufend, Wände in Nut/Falz",
     "stumpf": "Boden- + Deckplatte durchlaufend, Wände stumpf",
 }
@@ -213,12 +213,12 @@ def bemassen(name, blatt, teile, p):
     W, D = k["breite"], k["tiefe"]
     a1 = teil(teile, "A1")["box"]
     oben = a1[1][1]                                       # Oberkante Deckel
-    b4 = teil(teile, "B4")["box"]
+    b4 = teil(teile, "F1")["box"]
     b1 = teil(teile, "B1")["box"]
     wand_x = sorted({v for id in ("B2-F", "B2-B", "B3-1", "B3-2") for v in teil(teile, id)["box"][0]})
     hoehen = sorted({0, b4[1][1], a1[1][0], oben})
     r_ende = teil(teile, "E-C1-a")["box"][2][1]          # hinteres Schienenende
-    wand = teil(teile, "B2-F")["box"][1]                  # Wandhöhe inkl. Nut/Falz in B4 und A1
+    wand = teil(teile, "B2-F")["box"][1]                  # Wandhöhe inkl. Nut/Falz in F1 und A1
     genutet = wand[0] < b4[1][1]
 
     if name == "vorderansicht":
@@ -269,7 +269,7 @@ def bemassen(name, blatt, teile, p):
 
 # ── Teile-Beschriftung ───────────────────────────────────────────────────────
 BESCHRIFTUNG = {
-    "vorderansicht": ["B2-F", "B2-B", "B3-1", "B3-2", "B4", "A1", "C1", "C2", "C3", "D1-F", "D2-F", "D3-F"],
+    "vorderansicht": ["B2-F", "B2-B", "B3-1", "B3-2", "F1", "A1", "C1", "C2", "C3", "D1-F", "D2-F", "D3-F"],
     "draufsicht": ["B1", "B2-F", "B2-B", "B3-1", "B3-2", "D1", "D2", "C3"],
     "seitenansicht": ["B2-F", "A1"],
 }

@@ -5,6 +5,11 @@ This folder records the non-obvious decisions behind this project — both the
 short, immutable record: once accepted, don't edit it to reflect new
 information — write a new ADR that supersedes it and link back.
 
+Part codes in all ADRs follow the current scheme in `List_of_Materials.md`
+("Bezeichnungen"); on 2026-10-17 the floor plate `B4` became `F1` and the
+fastener positions `F1`–`F17` became `V1`–`V17`, and the ADRs were updated
+accordingly.
+
 Format: lightweight [MADR](https://adr.github.io/madr/)-style — Status, Context,
 Decision, Consequences.
 

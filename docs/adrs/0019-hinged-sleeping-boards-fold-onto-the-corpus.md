@@ -23,7 +23,7 @@ they fold back onto the box, using standard surface-mounted hinges.
   ~6 mm apart (the hinge leaves sit in between). Folded positions, computed and
   checked in the viewer: `A2` y 344–362, z 200–900; `A3` y 368–386, z 200–600
   — fully on the corpus; stack height 386 mm.
-- The overlap battens `F13` between `A1`/`A2`/`A3` are dropped: the hinges
+- The overlap battens `V13` between `A1`/`A2`/`A3` are dropped: the hinges
   locate the joints, and a batten under `A2`'s edge resting on `A1` would also
   block the fold.
 - Viewer: two new modes. **Fahrmodus 1** folds both boards onto the box and
@@ -38,7 +38,7 @@ they fold back onto the box, using standard surface-mounted hinges.
   nothing is created or removed per mode.
 - **Load securing while driving:** the folded stack is held only by the three
   hinges at z = 900. Strap it down to the corpus (e.g. one of the ratchet
-  straps `F11`) and stow the mattress securely — loose boards of this size are
+  straps `V11`) and stow the mattress securely — loose boards of this size are
   projectiles under hard braking.
 - The upright rear seat geometry in the viewer is a placeholder; only the
   position of the seat back (at the measured 920 mm load depth) is grounded.

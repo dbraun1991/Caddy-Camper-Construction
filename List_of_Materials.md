@@ -10,24 +10,26 @@ Maße der Bauteile: gemeinsame Datenbasis [`modell/parameter.json`](modell/param
 
 Die Kürzel sind feste Positionsnummern (Modell, Zeichnungen, ADRs). Der Buchstabe nennt die Gruppe, der Langname Funktion und Lage — **links/rechts immer aus Fahrersicht**. Im Text steht der Langname, das Kürzel in Klammern oder in Tabellen.
 
+Die Gruppen der Holzplatten folgen der Raumlage: **A** und **F** liegen waagerecht (oben die Liegefläche, unten der Fußboden), **B** steht senkrecht (alle Wände).
+
 | Gruppe | Kürzel | Langname |
 |---|---|---|
-| **A — Liegefläche** | A1 | Deckplatte (Deckel der Box, zugleich hinterer Teil der Liegefläche) |
+| **A — Liegefläche (waagerecht oben)** | A1 | Deckplatte (Deckel der Box, zugleich hinterer Teil der Liegefläche) |
 | | A2 | Klappbrett Rücksitz (liegt auf den umgeklappten Rücksitzlehnen) |
 | | A3 | Klappbrett Kopfende (zu den Kopfstützen der Vordersitze) |
-| **B — Korpus** | B1 | Rückwand (zu den Rücksitzen) |
+| **B — Wände (senkrecht)** | B1 | Rückwand (zu den Rücksitzen) |
 | | B2-F / B2-B | Seitenwand links (Fahrerseite) / Seitenwand rechts (Beifahrerseite) |
 | | B3-1 / B3-2 | Trennwand links / Trennwand rechts |
-| | B4 | Bodenplatte |
+| **F — Fußboden (waagerecht unten)** | F1 | Bodenplatte |
 | **C — Auszugbretter** | C1 / C2 | Sitzbrett links / Sitzbrett rechts |
 | | C3 | Tischbrett Mitte |
 | **D — Schubladen** | D1 / D2 / D3 | Schubladenkasten links / rechts / Mitte |
 | | D1-F / D2-F / D3-F | Schubladenfront links / rechts / Mitte |
 | **E — Schienen** | E1 / E2 | Schwerlastschiene 170 kg (Sitzbretter) / Schiene 80 kg (Schubladen + Tischbrett) |
 | | E-C1-a … | im Modell je Einzelschiene, z. B. „Schiene Sitzbrett links, an Seitenwand links“ |
-| **F — Befestigung & Beschläge** | F1 … F17 | Schrauben, Winkel, Dübel, Leim, Gurte, Scharniere — Langnamen in §F |
+| **V — Verbindungsmittel & Beschläge** | V1 … V17 | Schrauben, Winkel, Dübel, Leim, Gurte, Scharniere — Langnamen in §V |
 | **G — Ausstattung** | G1 … G5 | Matratze, Bezug, Antirutschmatte, Kantenband, Öl |
-| **S — Scharniere (Modell)** | S1-1…3 / S2-1…3 | Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben) / Klappbrett Rücksitz ↔ Kopfende (unten); Kaufposition F17 |
+| **S — Scharniere (Modell)** | S1-1…3 / S2-1…3 | Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben) / Klappbrett Rücksitz ↔ Kopfende (unten); Kaufposition V17 |
 
 ---
 
@@ -63,21 +65,21 @@ Alle drei Bretter gleich stark (18 mm), bündig auf Plattformhöhe 320 mm.
 
 ## B — Unterbau-Korpus (900 mm tief, 320 mm hoch, 1.120 mm breit)
 
-Eckausbildung ([ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md)): **Bodenplatte B4 und Deckel A1 laufen durch** (1.120 × 900 mm), alle Wände stehen dazwischen und stecken in Falz (Außenkanten) bzw. Nut (Trennwände) von B4 und A1 — **Nuttiefe t = 6–9 mm**, je nach Werkzeug (Zeichnungen mit 6 mm).
+Eckausbildung ([ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md)): **Bodenplatte F1 und Deckel A1 laufen durch** (1.120 × 900 mm), alle Wände stehen dazwischen und stecken in Falz (Außenkanten) bzw. Nut (Trennwände) von F1 und A1 — **Nuttiefe t = 6–9 mm**, je nach Werkzeug (Zeichnungen mit 6 mm).
 
 Nutzbare Innenhöhe: 320 mm − 18 mm (Bodenplatte) = **302 mm** (davon 32 mm Sitz/Tischbrett + 268 mm Schublade + 2 mm Spaltmaß oben); **Wandhöhe = 302 + 2 × t** (bei t = 6: 314 mm, bei t = 9: 320 mm).  
 Nutzbare Innenbreite L/R: 1.120 mm − 2 × 18 mm (B2 Seitenwand) − 2 × 18 mm (B3 Trennwand) = 1.048 mm → **312 mm** je Sektion L/R + **424 mm** Mitte.
 
 | Pos | Bezeichnung | Maß (B × T × H) | Menge | Hinweis |
 |---|---|---|---|---|
-| B1 | Rückwand | 1.084 × 18 × (302 + 2t) | 1 | Zur Rücksitz-Seite hin, zwischen den Seitenwänden; Falz hinten in B4/A1 |
+| B1 | Rückwand | 1.084 × 18 × (302 + 2t) | 1 | Zur Rücksitz-Seite hin, zwischen den Seitenwänden; Falz hinten in F1/A1 |
 | B2-F / B2-B | Seitenwand links / rechts | 18 × 900 × (302 + 2t) | 2 | Links + rechts — erforderlich: trägt die äußeren Schienen, Korpus bleibt als Ganzes ausbaubar ([ADR 0014](docs/adrs/0014-self-contained-corpus-with-own-side-walls.md)) |
-| B3-1 / B3-2 | Trennwand links / rechts | 18 × 882 × (302 + 2t) | 2 | Zwischen den 3 Sektionen, bis zur Rückwand; Nut in B4/A1 |
-| B4 | Bodenplatte | 1.120 × 900 × 18 | 1 | Durchgehend. Oberseite: Falz 18 × t links, rechts, hinten + 2 Nuten 18 × t für B3 |
+| B3-1 / B3-2 | Trennwand links / rechts | 18 × 882 × (302 + 2t) | 2 | Zwischen den 3 Sektionen, bis zur Rückwand; Nut in F1/A1 |
+| F1 | Bodenplatte | 1.120 × 900 × 18 | 1 | Durchgehend. Oberseite: Falz 18 × t links, rechts, hinten + 2 Nuten 18 × t für B3 |
 
-Deckel **A1** (§A) erhält dieselben Falze/Nuten auf der Unterseite. Ohne Nuten (Rückfallvariante „stumpf“) sind alle Wände 302 mm hoch; B4 und A1 bleiben gleich — **B4 und A1 können daher schon zugeschnitten werden. Die Wände erst nach dem Fräsen: Nuttiefe t messen, dann auf 302 + 2t ablängen.**
+Deckel **A1** (§A) erhält dieselben Falze/Nuten auf der Unterseite. Ohne Nuten (Rückfallvariante „stumpf“) sind alle Wände 302 mm hoch; F1 und A1 bleiben gleich — **F1 und A1 können daher schon zugeschnitten werden. Die Wände erst nach dem Fräsen: Nuttiefe t messen, dann auf 302 + 2t ablängen.**
 
-**Nicht tiefer als ~9 mm (halbe Plattenstärke) und nie durchsägen:** Die Nuten laufen über die volle Tiefe — ein durchgesägter Falz nimmt B4/A1 den Rand (Platte faktisch nur noch 1.084 breit), eine durchgesägte Nut zerteilt die Platte.
+**Nicht tiefer als ~9 mm (halbe Plattenstärke) und nie durchsägen:** Die Nuten laufen über die volle Tiefe — ein durchgesägter Falz nimmt F1/A1 den Rand (Platte faktisch nur noch 1.084 breit), eine durchgesägte Nut zerteilt die Platte.
 
 ---
 
@@ -198,27 +200,27 @@ Vollauszug 550 mm · 3-teilig · SoftClose · Traglast 105 kg
 
 ---
 
-## F — Befestigungsmaterial
+## V — Verbindungsmittel & Beschläge
 
 | Pos | Bezeichnung | Typ / Größe | Menge |
 |---|---|---|---|
-| F1 | Spanplattenschrauben (Korpus, Stirnkante) | Torx Senkkopf 4 × 45 mm | ~80 Stk. |
-| F2 | Spanplattenschrauben (Schienen) | Torx Senkkopf 3,5 × 16 mm | ~120 Stk. |
-| F3 | Stahlwinkel (Korpus 8× innen + Fahrzeug 4×: 2 außen an B2 hinten, 2 optional auf B4 vorne, → §H5) | 40 × 40 × 2 mm | 12 Stk. |
-| F4 | Holzdübel (nur ohne Nut nötig, ADR 0018) | Ø 8 × 40 mm | ~30 Stk. |
-| F5 | Holzleim D3 (wasserfest) | 750 ml | 1 Flasche |
-| F6 | Schubladengriff | nach Wahl, mind. 64 mm Bohrung | 3 Stk. |
-| F7 | Spanplattenschrauben (Schubladen-Ecken, Blenden, Winkel) | Torx Senkkopf 4 × 30/40 mm | je ~100 Stk. |
-| F8 | Spanplattenschrauben (Schubladenböden) | Torx Senkkopf 3,5 × 30 mm | ~120 Stk. |
-| F9 | Durchsteckschrauben Schienen-Vorderkante (→ §H1) | M5 × 40 mm + U-Scheibe + Stoppmutter | 24 Sätze |
-| F10 | Schrauben Zurrösen-Anbindung (→ §H5) | M8 × 30/40 mm + U-Scheibe + Stoppmutter | 4 Sätze |
-| F11 | Spanngurt (Ratsche) | ≥ 1,5 m, 2-teilig | 2 Stk. |
-| F12 | Eckleiste Weichholz (Schubladen-Innenecken, → §H2) | 20 × 20 mm, Länge ~3,0 m gesamt | 12 Stk. à 240 mm |
-| F13 | ~~Überlappungsleisten Liegefläche~~ — entfällt, ersetzt durch Scharniere F17 ([ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md)) | — | — |
-| F14 | Trägerwangen Sitz-/Tischbretter (→ §H1 / ADR 0013) | 18 mm × Schienenhöhe × 850 mm | 6 Stk. ⚠ erst nach ADR 0013 |
-| F15 | Gurtschlaufe A3 ↔ Kopfstütze, verstellbar (→ §H4) | Gurtband ~25 mm mit Klemmschnalle | 2 Stk. |
-| F17 | Klappscharnier, Standard, aufschraubbar, ~60 mm (→ §H4) — 3 × A1↔A2 oben, 3 × A2↔A3 unten | Schrauben max. 15 mm (Platte 18 mm) | 6 Stk. |
-| F16 | Ausgleich unter A2 (→ §H4) | Leiste 10 × 40 × 1.000 mm oder 10-mm-Gummistreifen | 2 Stk. |
+| V1 | Spanplattenschrauben (Korpus, Stirnkante) | Torx Senkkopf 4 × 45 mm | ~80 Stk. |
+| V2 | Spanplattenschrauben (Schienen) | Torx Senkkopf 3,5 × 16 mm | ~120 Stk. |
+| V3 | Stahlwinkel (Korpus 8× innen + Fahrzeug 4×: 2 außen an B2 hinten, 2 optional auf F1 vorne, → §H5) | 40 × 40 × 2 mm | 12 Stk. |
+| V4 | Holzdübel (nur ohne Nut nötig, ADR 0018) | Ø 8 × 40 mm | ~30 Stk. |
+| V5 | Holzleim D3 (wasserfest) | 750 ml | 1 Flasche |
+| V6 | Schubladengriff | nach Wahl, mind. 64 mm Bohrung | 3 Stk. |
+| V7 | Spanplattenschrauben (Schubladen-Ecken, Blenden, Winkel) | Torx Senkkopf 4 × 30/40 mm | je ~100 Stk. |
+| V8 | Spanplattenschrauben (Schubladenböden) | Torx Senkkopf 3,5 × 30 mm | ~120 Stk. |
+| V9 | Durchsteckschrauben Schienen-Vorderkante (→ §H1) | M5 × 40 mm + U-Scheibe + Stoppmutter | 24 Sätze |
+| V10 | Schrauben Zurrösen-Anbindung (→ §H5) | M8 × 30/40 mm + U-Scheibe + Stoppmutter | 4 Sätze |
+| V11 | Spanngurt (Ratsche) | ≥ 1,5 m, 2-teilig | 2 Stk. |
+| V12 | Eckleiste Weichholz (Schubladen-Innenecken, → §H2) | 20 × 20 mm, Länge ~3,0 m gesamt | 12 Stk. à 240 mm |
+| V13 | ~~Überlappungsleisten Liegefläche~~ — entfällt, ersetzt durch Scharniere V17 ([ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md)) | — | — |
+| V14 | Trägerwangen Sitz-/Tischbretter (→ §H1 / ADR 0013) | 18 mm × Schienenhöhe × 850 mm | 6 Stk. ⚠ erst nach ADR 0013 |
+| V15 | Gurtschlaufe A3 ↔ Kopfstütze, verstellbar (→ §H4) | Gurtband ~25 mm mit Klemmschnalle | 2 Stk. |
+| V17 | Klappscharnier, Standard, aufschraubbar, ~60 mm (→ §H4) — 3 × A1↔A2 oben, 3 × A2↔A3 unten | Schrauben max. 15 mm (Platte 18 mm) | 6 Stk. |
+| V16 | Ausgleich unter A2 (→ §H4) | Leiste 10 × 40 × 1.000 mm oder 10-mm-Gummistreifen | 2 Stk. |
 
 ---
 
@@ -242,7 +244,7 @@ Abschnitte: Korpus (unten) · [H1 Schienen](#h1--schienenbefestigung-an-wänden-
 
 ### Ausgangslage
 
-Birke-Multiplex hält Schrauben in der Fläche sehr gut, aber schlecht in der Stirnkante (Hirnholz). Boden B4 und Deckel A1 laufen durch; die Wände (B1, B2 × 2, B3 × 2) stehen dazwischen — ohne weitere Maßnahme stünden sie nur mit ihrer Stirnkante auf B4 bzw. unter A1. Schrauben allein würden bei Fahrvibrationen über Zeit ausreißen; Leim allein macht den Korpus unlösbar und ist für einen Fahrzeugausbau unpraktisch.
+Birke-Multiplex hält Schrauben in der Fläche sehr gut, aber schlecht in der Stirnkante (Hirnholz). Boden F1 und Deckel A1 laufen durch; die Wände (B1, B2 × 2, B3 × 2) stehen dazwischen — ohne weitere Maßnahme stünden sie nur mit ihrer Stirnkante auf F1 bzw. unter A1. Schrauben allein würden bei Fahrvibrationen über Zeit ausreißen; Leim allein macht den Korpus unlösbar und ist für einen Fahrzeugausbau unpraktisch.
 
 ### Empfohlene Verbindung: Boden/Deckel → Wände
 
@@ -250,17 +252,17 @@ Birke-Multiplex hält Schrauben in der Fläche sehr gut, aber schlecht in der St
 
 | Reihenfolge | Mittel | Zweck |
 |---|---|---|
-| 1 | **Falz/Nut 18 × t (6–9 mm)** in B4 (oben) und A1 (unten), Wände stecken darin | Exakte Ausrichtung, Scherkräfte — ersetzt die Dübel |
-| 2 | Schrauben 4 × 45 mm Senkkopf durch A1 von oben und durch B4 von unten in die Wandkanten, alle 120–150 mm | Zugfestigkeit senkrecht zur Fuge |
+| 1 | **Falz/Nut 18 × t (6–9 mm)** in F1 (oben) und A1 (unten), Wände stecken darin | Exakte Ausrichtung, Scherkräfte — ersetzt die Dübel |
+| 2 | Schrauben 4 × 45 mm Senkkopf durch A1 von oben und durch F1 von unten in die Wandkanten, alle 120–150 mm | Zugfestigkeit senkrecht zur Fuge |
 | 3 | Innenwinkel 40 × 40 mm an den 4 Ecken Deckel ↔ Seitenwand | Vibrationsreserve, optional |
 
-Ohne Nut (Rückfallvariante „stumpf“): statt Schritt 1 Holzdübel Ø 8 × 40 mm alle ~200 mm (F4), Winkel dann nicht optional.
+Ohne Nut (Rückfallvariante „stumpf“): statt Schritt 1 Holzdübel Ø 8 × 40 mm alle ~200 mm (V4), Winkel dann nicht optional.
 
 Nutbreite an der **tatsächlichen** Plattenstärke einstellen (Multiplex ist oft etwas dicker als 18 mm): erst eine Probenut im Reststück fräsen. Werkzeug: Oberfräse mit 18-mm-Nutfräser oder Kreissäge in mehreren Durchgängen — die meisten Zuschnittservices fräsen keine Nuten.
 
 ### Trennwände und Rückwand
 
-Die Trennwände (B3) stecken in den Nuten von B4 und A1 und werden durch B4 (von unten), A1 (von oben) und die Rückwand B1 (von hinten) in ihre Stirnkanten verschraubt, Leim D3 in der Nut. *(Früher stand hier „von außen durch die Seitenwände“ — das geht nicht: B3 steht parallel zu B2 und berührt sie nicht.)* Die **Rückwand (B1) ist die Aussteifungsscheibe** gegen Verwindung: sie sitzt zwischen den Seitenwänden im hinteren Falz, vollflächig verleimen und mit mindestens 6 Schrauben durch die Seitenwände sichern.
+Die Trennwände (B3) stecken in den Nuten von F1 und A1 und werden durch F1 (von unten), A1 (von oben) und die Rückwand B1 (von hinten) in ihre Stirnkanten verschraubt, Leim D3 in der Nut. *(Früher stand hier „von außen durch die Seitenwände“ — das geht nicht: B3 steht parallel zu B2 und berührt sie nicht.)* Die **Rückwand (B1) ist die Aussteifungsscheibe** gegen Verwindung: sie sitzt zwischen den Seitenwänden im hinteren Falz, vollflächig verleimen und mit mindestens 6 Schrauben durch die Seitenwände sichern.
 
 ### H1 — Schienenbefestigung an Wänden und Trennwänden
 
@@ -299,7 +301,7 @@ Die Frontblende ist kein tragendes Teil und wird **zuletzt** montiert, erst wenn
 2. Spaltmaß zur Nachbarsektion mit Pappstreifen (1–2 mm) einstellen, Schublade mehrfach auf- und zufahren
 3. Erst dann 4 × Schrauben 4 × 30 mm **von innen** durch die Kastenfront in die Blende
 
-Von außen ist nie eine Schraube sichtbar. Griffe (F6) erst nach Fixierung der Blende bohren.
+Von außen ist nie eine Schraube sichtbar. Griffe (V6) erst nach Fixierung der Blende bohren.
 
 ### H4 — Liegefläche: Stöße A1 / A2 / A3
 
@@ -307,15 +309,15 @@ Deckplatte (A1), Klappbrett Rücksitz (A2) und Klappbrett Kopfende (A3) sind mit
 
 | Stoß | Verbindung |
 |---|---|
-| A1 ↔ A2 | **3 Scharniere oben** (F17) — A2 kann nur nach oben über die Box klappen, nicht durchhängen. Geklappt liegt A2 umgedreht auf A1 (z 200–900, ~6 mm Abstand durch die Scharnierblätter) |
-| A2 ↔ A3 | **3 Scharniere unten** (F17) — flach klappt A3 nur nach unten; liegt A2 umgedreht auf der Box, zeigt „unten“ nach oben und A3 legt sich auf A2 (z 200–600). Stapelhöhe 386 mm |
-| A2 ↔ Rücksitzlehnen | Lehnen liegen bei **310 mm**, Unterkante A2 bei 320 mm (gemessen) → **10 mm Ausgleich** (F16): 2 Leisten 10 × 40 mm quer unter A2 auf Höhe der Lehnen, oder 10-mm-Gummistreifen; sonst federt A2 durch und die Überlappungsleisten tragen allein |
-| A3 ↔ Kopfstützen | **2 verstellbare Gurtschlaufen** (F15), je Seite eine: jede Schlaufe läuft durch **2 Bohrungen in A3** und um die Kopfstützenstangen; die Zuglast tragen die Kopfstützen. Bohrungen und Schlaufenlänge werden beim Einbau am Fahrzeug festgelegt |
+| A1 ↔ A2 | **3 Scharniere oben** (V17) — A2 kann nur nach oben über die Box klappen, nicht durchhängen. Geklappt liegt A2 umgedreht auf A1 (z 200–900, ~6 mm Abstand durch die Scharnierblätter) |
+| A2 ↔ A3 | **3 Scharniere unten** (V17) — flach klappt A3 nur nach unten; liegt A2 umgedreht auf der Box, zeigt „unten“ nach oben und A3 legt sich auf A2 (z 200–600). Stapelhöhe 386 mm |
+| A2 ↔ Rücksitzlehnen | Lehnen liegen bei **310 mm**, Unterkante A2 bei 320 mm (gemessen) → **10 mm Ausgleich** (V16): 2 Leisten 10 × 40 mm quer unter A2 auf Höhe der Lehnen, oder 10-mm-Gummistreifen; sonst federt A2 durch und die Überlappungsleisten tragen allein |
+| A3 ↔ Kopfstützen | **2 verstellbare Gurtschlaufen** (V15), je Seite eine: jede Schlaufe läuft durch **2 Bohrungen in A3** und um die Kopfstützenstangen; die Zuglast tragen die Kopfstützen. Bohrungen und Schlaufenlänge werden beim Einbau am Fahrzeug festgelegt |
 | alle Auflageflächen | Antirutschmatte / Gummistreifen (G3-Reststücke) | 
 
 A3 trägt wenig Last (Kopfbereich) — hier ist Sicherung gegen Verrutschen wichtiger als Tragfähigkeit. Vor dem Klappen die Kopfstützen-Schlaufen lösen.
 
-**Beim Fahren:** Der geklappte Stapel hängt nur an den Scharnieren bei z = 900 — mit einem Spanngurt (F11) am Korpus sichern, Matratze separat verstaut und gesichert. Kopfstützen dabei nicht verstellen oder blockieren (→ [Hinweise-Sommernutzung.md](./Hinweise-Sommernutzung.md)).
+**Beim Fahren:** Der geklappte Stapel hängt nur an den Scharnieren bei z = 900 — mit einem Spanngurt (V11) am Korpus sichern, Matratze separat verstaut und gesichert. Kopfstützen dabei nicht verstellen oder blockieren (→ [Hinweise-Sommernutzung.md](./Hinweise-Sommernutzung.md)).
 
 ### H5 — Befestigung des Korpus im Fahrzeug
 
@@ -325,23 +327,23 @@ A3 trägt wenig Last (Kopfbereich) — hier ist Sicherung gegen Verrutschen wich
 
 Maßgeblicher Lastfall ist **Sitzen im Bankmodus**: Eine Person auf dem 850 mm ausgefahrenen Brett hebelt den Korpus um seine Unterkante an der Heckklappe; das Ende an den Rücksitzen will hoch. Grob (mit 900 mm gerechnet, also leicht konservativ): 100 kg am Brettende → **ca. 700 N Niederhaltekraft** am hinteren Ende (≈ 350 N je Öse). Deshalb:
 
-1. **Rücksitz-Ösen (wichtig):** liegen seitlich neben dem Korpus. Je Seite 1 Stahlwinkel (F3) **außen auf die Seitenwand B2**, hinteres Ende, in die Fläche geschraubt (4 × 30 mm), M8-Schraube mit U-Scheibe und Stoppmutter (F10) in die Öse. Winkelform/Biegung nach der tatsächlichen Ösenlage.
-2. **Heckklappen-Ösen (optional):** falls unter dem Korpus, je 1 Winkel von innen auf B4 — nur gegen Verrutschen/Klappern; gegen Kippen bringen sie fast nichts, weil sie am Drehpunkt sitzen.
-3. 2 × Spanngurt (F11) als redundanter Pfad — und als einzige Sicherung, solange die Winkel noch nicht sitzen.
+1. **Rücksitz-Ösen (wichtig):** liegen seitlich neben dem Korpus. Je Seite 1 Stahlwinkel (V3) **außen auf die Seitenwand B2**, hinteres Ende, in die Fläche geschraubt (4 × 30 mm), M8-Schraube mit U-Scheibe und Stoppmutter (V10) in die Öse. Winkelform/Biegung nach der tatsächlichen Ösenlage.
+2. **Heckklappen-Ösen (optional):** falls unter dem Korpus, je 1 Winkel von innen auf F1 — nur gegen Verrutschen/Klappern; gegen Kippen bringen sie fast nichts, weil sie am Drehpunkt sitzen.
+3. 2 × Spanngurt (V11) als redundanter Pfad — und als einzige Sicherung, solange die Winkel noch nicht sitzen.
 4. Antirutschmatte (G3) unter den Korpus — gegen Klappern, **nicht** als Sicherung gerechnet.
 
 Die Winkelpositionen lassen sich nicht aus der Zeichnung ableiten: sie werden im Fahrzeug von den tatsächlichen Ösenpositionen abgenommen.
 
 ### Montagereihenfolge
 
-1. Falze und Nuten in B4 und A1 fräsen (Probenut zuerst), tatsächliche Nuttiefe t messen, Wände auf 302 + 2t ablängen
-2. Seitenwände, Rückwand und Trennwände in B4 stecken, verleimen, von unten verschrauben
+1. Falze und Nuten in F1 und A1 fräsen (Probenut zuerst), tatsächliche Nuttiefe t messen, Wände auf 302 + 2t ablängen
+2. Seitenwände, Rückwand und Trennwände in F1 stecken, verleimen, von unten verschrauben
 3. A1 aufsetzen (Wände greifen in Falz/Nut), von oben einschrauben; Innenwinkel optional
 4. Schienen erst danach einmessen und montieren — der fertige Korpus gibt das verbindliche Innenmaß (→ H1)
 5. Schubladenkästen bauen (→ H2), einhängen, Lauf prüfen
 6. Frontblenden einstellen und von innen festschrauben (→ H3), danach Griffe bohren
-7. Korpus ins Fahrzeug, Positionen der Rücksitz-Ösen außen an B2 anreißen (ggf. Heckklappen-Ösen auf B4), Winkel setzen (→ H5)
-8. Klappbretter A2/A3 mit den Scharnieren F17 an der Deckplatte anschlagen, Ausgleich F16 und Kopfstützen-Schlaufen F15 anpassen (→ H4) — im Fahrzeug, bei umgeklappten Sitzen
+7. Korpus ins Fahrzeug, Positionen der Rücksitz-Ösen außen an B2 anreißen (ggf. Heckklappen-Ösen auf F1), Winkel setzen (→ H5)
+8. Klappbretter A2/A3 mit den Scharnieren V17 an der Deckplatte anschlagen, Ausgleich V16 und Kopfstützen-Schlaufen V15 anpassen (→ H4) — im Fahrzeug, bei umgeklappten Sitzen
 
 ### Was vermieden werden sollte
 
@@ -378,6 +380,6 @@ Sinnvoll als Referenz für Maße, Verarbeitung und Preiseinschätzung auch wenn 
 
 Standardformat Multiplex-Platte: 2.500 × 1.250 mm → **ca. 3 Platten à 18 mm** + **1 Platte à 12 mm**.
 
-Zusätzlich Leisten (Weichholz/Multiplex-Reste): ca. 3,0 m Eckleiste 20 × 20 mm (F12), Leisten F13 entfallen (Scharniere F17). Die Trägerwangen (F14) lassen sich aus dem 18-mm-Verschnitt schneiden.
+Zusätzlich Leisten (Weichholz/Multiplex-Reste): ca. 3,0 m Eckleiste 20 × 20 mm (V12), Leisten V13 entfallen (Scharniere V17). Die Trägerwangen (V14) lassen sich aus dem 18-mm-Verschnitt schneiden.
 
 → Preise und Gesamtbudget: **[Einkaufsliste.md](./Einkaufsliste.md)**

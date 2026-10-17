@@ -26,7 +26,7 @@ Keep both side walls `B2` (18 × 900 × 320 mm, 2 pcs). **All rails are fastened
 to the corpus's own wood only** — outer members on `B2` and `B3`, inner members
 on the drawer boxes and seat/table boards. Nothing that moves or carries load is
 attached to the vehicle; the only connection to the car is the tie-down from
-ADR 0012 (four brackets on `B4` to the factory lashing eyes, plus straps).
+ADR 0012 (four brackets on `F1` to the factory lashing eyes, plus straps).
 
 This matches the geometry already in use: the section-width formula in
 [ADR 0006](0006-three-section-corpus-layout.md) and `index.html`
@@ -54,6 +54,6 @@ This matches the geometry already in use: the section-width formula in
   tailgate (step 7), whatever fits in also comes out — but the tailgate opening
   width has not been measured; the Caddy shell dimensions in `index.html` are
   placeholders. Measure it, together with the 1,120 mm between the wheel arches,
-  before cutting `B1`, `B4` and `A1`.
+  before cutting `B1`, `F1` and `A1`.
 - The 36 mm of width spent on the two side walls is not available to the
   sections; this was already the case in all published dimensions.
