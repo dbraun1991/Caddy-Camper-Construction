@@ -142,10 +142,12 @@ down.
   a build decision for the user:
   - ~~Corner construction~~ — decided in
     [ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md):
-    `B4` and `A1` continuous, walls housed 6 mm deep (`eckausbildung: genutet`,
+    `B4` and `A1` continuous, walls housed 6–9 mm deep depending on the tool
+    (model/drawings use the nominal 6 mm; `eckausbildung: genutet`,
     fallback `stumpf`). Wall-in-recess overlaps are flagged `gewollt` (green)
-    and excluded from the problem count. Open: confirm the 6 mm groove depth
-    before cutting the walls (314 vs. 302 mm); `B4`/`A1` can be cut now.
+    and excluded from the problem count. Walls are cut *after* routing, to
+    302 + 2 × measured depth. Never deeper than ~9 mm or through: the grooves
+    run the full depth, so a through-cut would split `B4`/`A1`.
   - ~~Clear depth 882 mm < 900 mm rail length~~ — resolved by
     [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md): 850 mm
     runners, corpus stays 900 mm. Open: verify the 850 mm runner's thickness

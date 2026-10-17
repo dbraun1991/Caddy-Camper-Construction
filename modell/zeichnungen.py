@@ -216,7 +216,7 @@ def bemassen(name, blatt, teile, p):
         blatt.kette([(W / 2, v) for v in hoehen], 10)                    # rechts im Bild = Beifahrerseite (R)
         blatt.mass((W / 2, 0), (W / 2, oben), 22, fmt(oben))
         if genutet:
-            blatt.mass((W / 2, wand[0]), (W / 2, wand[1]), 32, f"Wand {fmt(wand[1] - wand[0])}")
+            blatt.mass((W / 2, wand[0]), (W / 2, wand[1]), 32, f"Wand 302+2t = {fmt(wand[1] - wand[0])}")
         # Höhenkette in der Sektion (Fahrerseite = links im Bild): Sitz-Brett, Spalt, Kasten, Spalt
         c2, d2 = teil(teile, "C1")["box"], teil(teile, "D1")["box"]   # Sektion L = links im Bild
         uL = -W / 2
@@ -250,7 +250,7 @@ def bemassen(name, blatt, teile, p):
         blatt.kette([(0, v) for v in hoehen], 10)                         # rechts = Korpusfront
         blatt.mass((0, 0), (0, oben), 22, fmt(oben))
         if genutet:                                                    # links = Rückseite
-            blatt.mass((-D, wand[1]), (-D, wand[0]), 10, f"Wand {fmt(wand[1] - wand[0])}, Nut je {fmt(b4[1][1] - wand[0])}")
+            blatt.mass((-D, wand[1]), (-D, wand[0]), 10, f"Wand {fmt(wand[1] - wand[0])}, Nut t = {fmt(b4[1][1] - wand[0])} (6–9)")
         r = teil(teile, "E-C1-b")["box"]
         v = (r[1][0] + r[1][1]) / 2
         blatt.masslinie((-r[2][0], v), (-r[2][1], v), f"Schiene {fmt(r[2][1] - r[2][0])}")

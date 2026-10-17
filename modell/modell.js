@@ -9,7 +9,8 @@ window.MODELL = {
    "plattenstaerke": 18,
    "trennwandstaerke": 18,
    "sektion_mitte_innen": 424,
-   "nut_tiefe": 6
+   "nut_tiefe": 6,
+   "_nut_tiefe": "Nennwert für Modell und Zeichnungen. Real 6–9 mm je nach Werkzeug (max. halbe Plattenstärke, nie durch); Wände nach dem Fräsen auf 302 + 2 × gemessene Nuttiefe ablängen"
   },
   "liegeflaeche": {
    "laenge_a2": 700,

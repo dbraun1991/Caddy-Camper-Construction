@@ -1,6 +1,6 @@
 # 0018: Continuous bottom and lid; walls housed in grooves between them
 
-Status: Accepted (continuous `B4`/`A1`) — grooves planned, depth 6 mm to be confirmed at the bench. Amends [ADR 0007](0007-dowel-screw-bracket-joinery.md).
+Status: Accepted. Amends [ADR 0007](0007-dowel-screw-bracket-joinery.md).
 
 ## Context
 
@@ -17,17 +17,23 @@ which turns the overlap into an intended housing joint.
 ## Decision
 
 - `B4` and `A1`: 1,120 × 900 × 18 mm, uninterrupted. All walls stand between them.
-- Walls are housed in `B4` and `A1`, **6 mm deep** (⅓ of the 18 mm board, the
-  usual limit), as a **rebate (Falz)** along the open-to-the-outside edges
+- Walls are housed in `B4` and `A1`, **6–9 mm deep depending on the tool**
+  (model and drawings use the nominal 6 mm), as a **rebate (Falz)** along the open-to-the-outside edges
   (`B2` left/right, `B1` back) and as a **groove (Nut)** for the dividers `B3`.
-  Wall height becomes 302 + 2 × 6 = **314 mm**; clear interior height stays 302 mm.
+  Wall height = **302 + 2 × depth** (314 mm at 6 mm); clear interior height
+  stays 302 mm. The walls are cut **after** routing, to the measured depth.
+- Not deeper than about half the board (~9 mm), and never sawn through: the
+  recesses run the full 900 mm, so a through-rebate would remove the edge of
+  `B4`/`A1` (contradicting "continuous") and a through-groove would split the
+  board. The builder's first idea (6–20 mm, "ausgespart oder durchgesägt")
+  was narrowed to this for that reason.
 - `B1` sits between the side walls (1,084 mm), `B3` runs up to `B1` (882 mm).
 - Parameters: `korpus.nut_tiefe` and `eckausbildung` (`genutet` | `stumpf`) in
   `modell/parameter.json`. `stumpf` (walls 302 mm, no recess) is kept as the
   fallback if routing turns out impractical — the cut sizes of `B4`/`A1` are the
   same in both.
 
-Cut sizes (`genutet`):
+Cut sizes (`genutet`, at the nominal 6 mm):
 
 | Part | Size |
 |---|---|
@@ -50,8 +56,7 @@ Cut sizes (`genutet`):
   walls" was geometrically impossible (`B3` is parallel to `B2` and does not
   touch it). Dividers are now fixed by their grooves plus screws through `B4`,
   `A1` and `B1`.
-- `B4` and `A1` can be cut now; the walls only once the groove depth is
-  confirmed (314 vs. 302 mm).
+- `B4` and `A1` can be cut now; the walls after routing (302 + 2 × depth).
 - Tooling: router with an 18 mm straight bit (or table saw in several passes).
   Birch multiplex is often slightly over nominal thickness — rout a test groove
   in an offcut and fit it to the actual board before cutting the real panels.

@@ -199,8 +199,7 @@ Der Korpus besteht aus Einzelbrettern (keine Vollbox): B2 links/rechts, B1 Rück
 Offen:
 
 - [ ] **Entscheidung ADR 0013** — Schienenhöhe (76 mm bei C1/C2, 53 mm bei C3) vs. Brettstärke (32 mm) bei C1–C3: [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Blockiert den Zuschnitt von C1–C3, nicht mehr den Schienenkauf.
-- [x] Eckausbildung Korpus — Boden B4 und Deckel A1 durchgehend, Wände 6 mm in Falz/Nut (Wandhöhe 314 mm) — [ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md)
-- [ ] Nuttiefe bestätigen (geplant 6 mm, Probenut) — erst dann die Wände B1–B3 zuschneiden; B4 und A1 sind zuschnittbereit
+- [x] Eckausbildung Korpus — Boden B4 und Deckel A1 durchgehend, Wände in Falz/Nut t = 6–9 mm je nach Werkzeug; Wände nach dem Fräsen auf 302 + 2t ablängen — [ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md)
 - [x] Lichte Tiefe 882 mm vs. Schienenlänge — gelöst mit 850-mm-Schienen, Korpus bleibt 900 mm (20–30 mm Luft zu den Rücksitzen, 32 mm hinter den Schienen) — [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)
 - [ ] Schienenstärke der 850-mm-Schiene prüfen (geplant 19 mm je Seite) — vor der Bestellung
 - [ ] **Frontblenden vs. Schienen** — Blenden sind so breit wie die Sektion (312/424 mm) und sitzen als einliegende Front vor den Schienen; einliegend mit Luft oder aufliegend klären

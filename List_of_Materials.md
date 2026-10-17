@@ -38,19 +38,21 @@ Alle drei Bretter gleich stark (18 mm), bündig auf Plattformhöhe 320 mm.
 
 ## B — Unterbau-Korpus (900 mm tief, 320 mm hoch, 1.120 mm breit)
 
-Eckausbildung ([ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md)): **Bodenplatte B4 und Deckel A1 laufen durch** (1.120 × 900 mm), alle Wände stehen dazwischen und stecken **6 mm** tief in Falz (Außenkanten) bzw. Nut (Trennwände) von B4 und A1.
+Eckausbildung ([ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md)): **Bodenplatte B4 und Deckel A1 laufen durch** (1.120 × 900 mm), alle Wände stehen dazwischen und stecken in Falz (Außenkanten) bzw. Nut (Trennwände) von B4 und A1 — **Nuttiefe t = 6–9 mm**, je nach Werkzeug (Zeichnungen mit 6 mm).
 
-Nutzbare Innenhöhe: 320 mm − 18 mm (Bodenplatte) = **302 mm** (davon 32 mm Sitz/Tisch-Brett + 268 mm Schublade + 2 mm Spaltmaß oben); Wandhöhe 302 + 2 × 6 mm Nut = **314 mm**.  
+Nutzbare Innenhöhe: 320 mm − 18 mm (Bodenplatte) = **302 mm** (davon 32 mm Sitz/Tisch-Brett + 268 mm Schublade + 2 mm Spaltmaß oben); **Wandhöhe = 302 + 2 × t** (bei t = 6: 314 mm, bei t = 9: 320 mm).  
 Nutzbare Innenbreite L/R: 1.120 mm − 2 × 18 mm (B2 Seitenwand) − 2 × 18 mm (B3 Trennwand) = 1.048 mm → **312 mm** je Sektion L/R + **424 mm** Mitte.
 
 | Pos | Bezeichnung | Maß (B × T × H) | Menge | Hinweis |
 |---|---|---|---|---|
-| B1 | Rückwand | 1.084 × 18 × 314 | 1 | Zur Rücksitz-Seite hin, zwischen den Seitenwänden; Falz hinten in B4/A1 |
-| B2 | Seitenwand | 18 × 900 × 314 | 2 | Links + rechts — erforderlich: trägt die äußeren Schienen, Korpus bleibt als Ganzes ausbaubar ([ADR 0014](docs/adrs/0014-self-contained-corpus-with-own-side-walls.md)) |
-| B3 | Trennwand | 18 × 882 × 314 | 2 | Zwischen den 3 Sektionen, bis zur Rückwand; Nut in B4/A1 |
-| B4 | Bodenplatte | 1.120 × 900 × 18 | 1 | Durchgehend. Oberseite: Falz 18 × 6 mm links, rechts, hinten + 2 Nuten 18 × 6 mm für B3 |
+| B1 | Rückwand | 1.084 × 18 × (302 + 2t) | 1 | Zur Rücksitz-Seite hin, zwischen den Seitenwänden; Falz hinten in B4/A1 |
+| B2 | Seitenwand | 18 × 900 × (302 + 2t) | 2 | Links + rechts — erforderlich: trägt die äußeren Schienen, Korpus bleibt als Ganzes ausbaubar ([ADR 0014](docs/adrs/0014-self-contained-corpus-with-own-side-walls.md)) |
+| B3 | Trennwand | 18 × 882 × (302 + 2t) | 2 | Zwischen den 3 Sektionen, bis zur Rückwand; Nut in B4/A1 |
+| B4 | Bodenplatte | 1.120 × 900 × 18 | 1 | Durchgehend. Oberseite: Falz 18 × t links, rechts, hinten + 2 Nuten 18 × t für B3 |
 
-Deckel **A1** (§A) erhält dieselben Falze/Nuten auf der Unterseite. Ohne Nuten (Rückfallvariante „stumpf“) sind alle Wände 302 mm hoch; B4 und A1 bleiben gleich — **B4 und A1 können daher schon zugeschnitten werden, die Wände erst, wenn die Nuttiefe feststeht.**
+Deckel **A1** (§A) erhält dieselben Falze/Nuten auf der Unterseite. Ohne Nuten (Rückfallvariante „stumpf“) sind alle Wände 302 mm hoch; B4 und A1 bleiben gleich — **B4 und A1 können daher schon zugeschnitten werden. Die Wände erst nach dem Fräsen: Nuttiefe t messen, dann auf 302 + 2t ablängen.**
+
+**Nicht tiefer als ~9 mm (halbe Plattenstärke) und nie durchsägen:** Die Nuten laufen über die volle Tiefe — ein durchgesägter Falz nimmt B4/A1 den Rand (Platte faktisch nur noch 1.084 breit), eine durchgesägte Nut zerteilt die Platte.
 
 ---
 
@@ -222,7 +224,7 @@ Birke-Multiplex hält Schrauben in der Fläche sehr gut, aber schlecht in der St
 
 | Reihenfolge | Mittel | Zweck |
 |---|---|---|
-| 1 | **Falz/Nut 18 × 6 mm** in B4 (oben) und A1 (unten), Wände stecken darin | Exakte Ausrichtung, Scherkräfte — ersetzt die Dübel |
+| 1 | **Falz/Nut 18 × t (6–9 mm)** in B4 (oben) und A1 (unten), Wände stecken darin | Exakte Ausrichtung, Scherkräfte — ersetzt die Dübel |
 | 2 | Schrauben 4 × 45 mm Senkkopf durch A1 von oben und durch B4 von unten in die Wandkanten, alle 120–150 mm | Zugfestigkeit senkrecht zur Fuge |
 | 3 | Innenwinkel 40 × 40 mm an den 4 Ecken Deckel ↔ Seitenwand | Vibrationsreserve, optional |
 
@@ -304,7 +306,7 @@ Die Winkelpositionen lassen sich nicht aus der Zeichnung ableiten: sie werden im
 
 ### Montagereihenfolge
 
-1. Falze und Nuten in B4 und A1 fräsen (Probenut zuerst), Wände auf 314 mm zuschneiden
+1. Falze und Nuten in B4 und A1 fräsen (Probenut zuerst), tatsächliche Nuttiefe t messen, Wände auf 302 + 2t ablängen
 2. Seitenwände, Rückwand und Trennwände in B4 stecken, verleimen, von unten verschrauben
 3. A1 aufsetzen (Wände greifen in Falz/Nut), von oben einschrauben; Innenwinkel optional
 4. Schienen erst danach einmessen und montieren — der fertige Korpus gibt das verbindliche Innenmaß (→ H1)
