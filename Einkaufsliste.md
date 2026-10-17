@@ -98,7 +98,7 @@ Gut **ein Drittel des Gesamtbudgets**. Beide aus derselben 850-mm-Serie ([ADR 00
 
 Das setzt voraus: Multiplex aus dem Baumarkt mit Zuschnitt, die empfohlenen Schienen, Matratze als zugeschnittene Schaumplatte, Werkzeug schon vorhanden.
 
-**Nicht enthalten:** Werkzeug (Akkuschrauber, Dübelhilfe, Stichsäge/Kreissäge, Forstnerbohrer für die Griffe, Senker), Versandkosten, sowie die noch offenen Punkte Belüftung und 12-V-Installation aus der [README](./README.md#weiterführende-planung).
+**Nicht enthalten:** Werkzeug (Akkuschrauber, Oberfräse mit 18-mm-Nutfräser für die Falze/Nuten in B4/A1 — oder Dübelhilfe bei stumpfer Variante, Stichsäge/Kreissäge, Forstnerbohrer für die Griffe, Senker), Versandkosten, sowie die noch offenen Punkte Belüftung und 12-V-Installation aus der [README](./README.md#weiterführende-planung).
 
 ---
 

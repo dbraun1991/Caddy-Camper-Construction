@@ -17,7 +17,7 @@ import json
 from pathlib import Path
 
 ORDNER = Path(__file__).resolve().parent
-ECKAUSBILDUNGEN = ("stueckliste", "boden_durchlaufend", "seiten_durchlaufend")
+ECKAUSBILDUNGEN = ("genutet", "stumpf")   # Boden + Deckel immer durchlaufend, ADR 0018
 
 
 def lade_parameter():
@@ -38,26 +38,21 @@ def _korpus(p, eck):
     xa, xi = W / 2, W / 2 - T          # Außen- / Innenfläche der Seitenwände
     d = swM / 2                        # Innenfläche der Trennwände zur Mitte
 
-    if eck == "stueckliste":           # Maße 1:1 aus List_of_Materials.md §B
-        wand_y, b4_x, b4_z = (0, H), (-xa, xa), (0, D)
-        b1_x, b1_y, b3_z = (-xa, xa), (0, H), (0, D)
-    elif eck == "boden_durchlaufend":  # B4 durchgehend, alle Wände stehen darauf
-        wand_y, b4_x, b4_z = (T, H), (-xa, xa), (0, D)
-        b1_x, b1_y, b3_z = (-xi, xi), (T, H), (0, D - T)
-    elif eck == "seiten_durchlaufend":  # B2 bis zum Ladeboden, B4/B1 dazwischen
-        wand_y, b4_x, b4_z = (0, H), (-xi, xi), (0, D)
-        b1_x, b1_y, b3_z = (-xi, xi), (T, H), (0, D - T)
-    else:
+    # Boden B4 und Deckel A1 laufen voll durch (1.120 × 900); alle Wände stehen dazwischen.
+    # Genutet: jede Wand steckt nt tief in B4 und A1 — an den Außenkanten als Falz, innen als Nut.
+    if eck not in ECKAUSBILDUNGEN:
         raise ValueError(f"unbekannte eckausbildung: {eck}")
-    b3_y = (T, H) if eck != "stueckliste" else (0, H)
+    nt = k["nut_tiefe"] if eck == "genutet" else 0
+    wand_y = (T - nt, H + nt)
+    nut = {"steckt_in": ["B4", "A1"]} if nt else {}
 
     return [
-        _teil("B2-F", "Seitenwand Fahrerseite", "korpus", "holz", (xi, xa), wand_y, (0, D)),
-        _teil("B2-B", "Seitenwand Beifahrerseite", "korpus", "holz", (-xa, -xi), wand_y, (0, D)),
-        _teil("B1", "Rückwand", "korpus", "holz", b1_x, b1_y, (D - T, D)),
-        _teil("B4", "Bodenplatte", "korpus", "holz", b4_x, (0, T), b4_z),
-        _teil("B3-1", "Trennwand 1", "korpus", "holz", (-d - DW, -d), b3_y, b3_z),
-        _teil("B3-2", "Trennwand 2", "korpus", "holz", (d, d + DW), b3_y, b3_z),
+        _teil("B2-F", "Seitenwand Fahrerseite", "korpus", "holz", (xi, xa), wand_y, (0, D), **nut),
+        _teil("B2-B", "Seitenwand Beifahrerseite", "korpus", "holz", (-xa, -xi), wand_y, (0, D), **nut),
+        _teil("B1", "Rückwand", "korpus", "holz", (-xi, xi), wand_y, (D - T, D), **nut),
+        _teil("B4", "Bodenplatte", "korpus", "holz", (-xa, xa), (0, T), (0, D)),
+        _teil("B3-1", "Trennwand 1", "korpus", "holz", (-d - DW, -d), wand_y, (0, D - T), **nut),
+        _teil("B3-2", "Trennwand 2", "korpus", "holz", (d, d + DW), wand_y, (0, D - T), **nut),
         _teil("A1", "Unterbau-Deckel", "liegeflaeche", "holz", (-xa, xa), (H, H + T), (0, D)),
     ]
 
@@ -147,6 +142,7 @@ def teile(p=None, eckausbildung=None):
 
 
 KATEGORIEN = {
+    "nut": "Nut/Falz: Wand steckt in Boden B4 bzw. Deckel A1 (gewollt)",
     "eckverbindung": "Eckausbildung Korpus — welche Platte läuft durch?",
     "rueckwand": "Rückwand B1 ragt in Schienen/Elemente (lichte Tiefe < Schienenlänge)",
     "frontblende": "Frontblende überdeckt Schienen bzw. Nachbarelement",
@@ -156,6 +152,8 @@ KATEGORIEN = {
 
 def _kategorie(a, b):
     ids = {a["id"], b["id"]}
+    if b["id"] in a.get("steckt_in", []) or a["id"] in b.get("steckt_in", []):
+        return "nut"
     if a["gruppe"] == b["gruppe"] == "korpus":
         return "eckverbindung"
     if "B1" in ids:
@@ -177,7 +175,8 @@ def kollisionen(liste, toleranz=0.01):
                     break
                 box.append([round(lo, 2), round(hi, 2)])
             else:
-                out.append({"a": a["id"], "b": b["id"], "box": box, "kategorie": _kategorie(a, b),
+                kat = _kategorie(a, b)
+                out.append({"a": a["id"], "b": b["id"], "box": box, "kategorie": kat, "gewollt": kat == "nut",
                             "mass": [round(hi - lo, 2) for lo, hi in box]})
     return out
 
@@ -227,8 +226,9 @@ def main():
         "// GENERIERT von modell/modell.py aus modell/parameter.json — nicht von Hand bearbeiten.\n"
         "window.MODELL = " + json.dumps(daten, ensure_ascii=False, indent=1) + ";\n",
         encoding="utf-8")
+    gewollt = sum(k["gewollt"] for k in daten["kollisionen"])
     print(f"{ziel.relative_to(ORDNER.parent)}: {len(daten['teile'])} Teile, "
-          f"{len(daten['kollisionen'])} Überschneidungen")
+          f"{len(daten['kollisionen']) - gewollt} Überschneidungen (+ {gewollt} gewollte Nut/Falz)")
     for pr in daten["fahrzeug_pruefung"]:
         print(f"  [{pr['status']:8}] {pr['was']}: Plan {pr['plan']} / Fahrzeug {pr['fahrzeug']} → {pr['ergebnis']}")
 

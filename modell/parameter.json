@@ -7,7 +7,8 @@
     "hoehe": 320,
     "plattenstaerke": 18,
     "trennwandstaerke": 18,
-    "sektion_mitte_innen": 424
+    "sektion_mitte_innen": 424,
+    "nut_tiefe": 6
   },
 
   "liegeflaeche": {
@@ -51,6 +52,6 @@
     "ladekante": 0
   },
 
-  "eckausbildung": "stueckliste",
-  "_eckausbildung_werte": "stueckliste = Maße wie in List_of_Materials.md (B2/B3 320 hoch, B1/B4 1.120 breit, ungeklärte Überschneidung) · boden_durchlaufend = B4 durchgehend, Wände stehen darauf · seiten_durchlaufend = B2 bis zum Ladeboden, B4 und B1 dazwischen"
+  "eckausbildung": "genutet",
+  "_eckausbildung_werte": "Boden B4 und Deckel A1 laufen immer durch (ADR 0018). genutet = Wände stecken nut_tiefe in Falz/Nut von B4 und A1 · stumpf = Wände 302 mm, stumpf zwischen B4 und A1"
 }

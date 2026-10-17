@@ -8,7 +8,8 @@ window.MODELL = {
    "hoehe": 320,
    "plattenstaerke": 18,
    "trennwandstaerke": 18,
-   "sektion_mitte_innen": 424
+   "sektion_mitte_innen": 424,
+   "nut_tiefe": 6
   },
   "liegeflaeche": {
    "laenge_a2": 700,
@@ -67,10 +68,10 @@ window.MODELL = {
    "heckklappe_passt": true,
    "ladekante": 0
   },
-  "eckausbildung": "stueckliste",
-  "_eckausbildung_werte": "stueckliste = Maße wie in List_of_Materials.md (B2/B3 320 hoch, B1/B4 1.120 breit, ungeklärte Überschneidung) · boden_durchlaufend = B4 durchgehend, Wände stehen darauf · seiten_durchlaufend = B2 bis zum Ladeboden, B4 und B1 dazwischen"
+  "eckausbildung": "genutet",
+  "_eckausbildung_werte": "Boden B4 und Deckel A1 laufen immer durch (ADR 0018). genutet = Wände stecken nut_tiefe in Falz/Nut von B4 und A1 · stumpf = Wände 302 mm, stumpf zwischen B4 und A1"
  },
- "eckausbildung": "stueckliste",
+ "eckausbildung": "genutet",
  "teile": [
   {
    "id": "B2-F",
@@ -84,13 +85,17 @@ window.MODELL = {
      560.0
     ],
     [
-     0,
-     320
+     12,
+     326
     ],
     [
      0,
      900
     ]
+   ],
+   "steckt_in": [
+    "B4",
+    "A1"
    ]
   },
   {
@@ -105,13 +110,17 @@ window.MODELL = {
      -542.0
     ],
     [
-     0,
-     320
+     12,
+     326
     ],
     [
      0,
      900
     ]
+   ],
+   "steckt_in": [
+    "B4",
+    "A1"
    ]
   },
   {
@@ -122,17 +131,21 @@ window.MODELL = {
    "faehrt": null,
    "box": [
     [
-     -560.0,
-     560.0
+     -542.0,
+     542.0
     ],
     [
-     0,
-     320
+     12,
+     326
     ],
     [
      882,
      900
     ]
+   ],
+   "steckt_in": [
+    "B4",
+    "A1"
    ]
   },
   {
@@ -168,13 +181,17 @@ window.MODELL = {
      -212.0
     ],
     [
-     0,
-     320
+     12,
+     326
     ],
     [
      0,
-     900
+     882
     ]
+   ],
+   "steckt_in": [
+    "B4",
+    "A1"
    ]
   },
   {
@@ -189,13 +206,17 @@ window.MODELL = {
      230.0
     ],
     [
-     0,
-     320
+     12,
+     326
     ],
     [
      0,
-     900
+     882
     ]
+   ],
+   "steckt_in": [
+    "B4",
+    "A1"
    ]
   },
   {
@@ -737,37 +758,14 @@ window.MODELL = {
   }
  ],
  "kategorien": {
+  "nut": "Nut/Falz: Wand steckt in Boden B4 bzw. Deckel A1 (gewollt)",
   "eckverbindung": "Eckausbildung Korpus — welche Platte läuft durch?",
   "rueckwand": "Rückwand B1 ragt in Schienen/Elemente (lichte Tiefe < Schienenlänge)",
   "frontblende": "Frontblende überdeckt Schienen bzw. Nachbarelement",
   "sonstige": "Sonstige Überschneidung"
  },
  "varianten": {
-  "stueckliste": [
-   {
-    "a": "B2-F",
-    "b": "B1",
-    "box": [
-     [
-      542.0,
-      560.0
-     ],
-     [
-      0,
-      320
-     ],
-     [
-      882,
-      900
-     ]
-    ],
-    "kategorie": "eckverbindung",
-    "mass": [
-     18.0,
-     320,
-     18
-    ]
-   },
+  "genutet": [
    {
     "a": "B2-F",
     "b": "B4",
@@ -777,7 +775,7 @@ window.MODELL = {
       560.0
      ],
      [
-      0,
+      12,
       18
      ],
      [
@@ -785,35 +783,37 @@ window.MODELL = {
       900
      ]
     ],
-    "kategorie": "eckverbindung",
+    "kategorie": "nut",
+    "gewollt": true,
     "mass": [
      18.0,
-     18,
+     6,
      900
     ]
    },
    {
-    "a": "B2-B",
-    "b": "B1",
+    "a": "B2-F",
+    "b": "A1",
     "box": [
      [
-      -560.0,
-      -542.0
+      542.0,
+      560.0
+     ],
+     [
+      320,
+      326
      ],
      [
       0,
-      320
-     ],
-     [
-      882,
       900
      ]
     ],
-    "kategorie": "eckverbindung",
+    "kategorie": "nut",
+    "gewollt": true,
     "mass": [
      18.0,
-     320,
-     18
+     6,
+     900
     ]
    },
    {
@@ -825,7 +825,7 @@ window.MODELL = {
       -542.0
      ],
      [
-      0,
+      12,
       18
      ],
      [
@@ -833,10 +833,36 @@ window.MODELL = {
       900
      ]
     ],
-    "kategorie": "eckverbindung",
+    "kategorie": "nut",
+    "gewollt": true,
     "mass": [
      18.0,
-     18,
+     6,
+     900
+    ]
+   },
+   {
+    "a": "B2-B",
+    "b": "A1",
+    "box": [
+     [
+      -560.0,
+      -542.0
+     ],
+     [
+      320,
+      326
+     ],
+     [
+      0,
+      900
+     ]
+    ],
+    "kategorie": "nut",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     6,
      900
     ]
    },
@@ -845,11 +871,11 @@ window.MODELL = {
     "b": "B4",
     "box": [
      [
-      -560.0,
-      560.0
+      -542.0,
+      542.0
      ],
      [
-      0,
+      12,
       18
      ],
      [
@@ -857,58 +883,36 @@ window.MODELL = {
       900
      ]
     ],
-    "kategorie": "eckverbindung",
+    "kategorie": "nut",
+    "gewollt": true,
     "mass": [
-     1120.0,
-     18,
+     1084.0,
+     6,
      18
     ]
    },
    {
     "a": "B1",
-    "b": "B3-1",
+    "b": "A1",
     "box": [
      [
-      -230.0,
-      -212.0
+      -542.0,
+      542.0
      ],
      [
-      0,
-      320
+      320,
+      326
      ],
      [
       882,
       900
      ]
     ],
-    "kategorie": "eckverbindung",
+    "kategorie": "nut",
+    "gewollt": true,
     "mass": [
-     18.0,
-     320,
-     18
-    ]
-   },
-   {
-    "a": "B1",
-    "b": "B3-2",
-    "box": [
-     [
-      212.0,
-      230.0
-     ],
-     [
-      0,
-      320
-     ],
-     [
-      882,
-      900
-     ]
-    ],
-    "kategorie": "eckverbindung",
-    "mass": [
-     18.0,
-     320,
+     1084.0,
+     6,
      18
     ]
    },
@@ -921,19 +925,20 @@ window.MODELL = {
       -212.0
      ],
      [
-      0,
+      12,
       18
      ],
      [
       0,
-      900
+      882
      ]
     ],
-    "kategorie": "eckverbindung",
+    "kategorie": "nut",
+    "gewollt": true,
     "mass": [
      18.0,
-     18,
-     900
+     6,
+     882
     ]
    },
    {
@@ -945,19 +950,70 @@ window.MODELL = {
       230.0
      ],
      [
-      0,
+      12,
       18
      ],
      [
       0,
-      900
+      882
      ]
     ],
-    "kategorie": "eckverbindung",
+    "kategorie": "nut",
+    "gewollt": true,
     "mass": [
      18.0,
-     18,
-     900
+     6,
+     882
+    ]
+   },
+   {
+    "a": "B3-1",
+    "b": "A1",
+    "box": [
+     [
+      -230.0,
+      -212.0
+     ],
+     [
+      320,
+      326
+     ],
+     [
+      0,
+      882
+     ]
+    ],
+    "kategorie": "nut",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     6,
+     882
+    ]
+   },
+   {
+    "a": "B3-2",
+    "b": "A1",
+    "box": [
+     [
+      212.0,
+      230.0
+     ],
+     [
+      320,
+      326
+     ],
+     [
+      0,
+      882
+     ]
+    ],
+    "kategorie": "nut",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     6,
+     882
     ]
    },
    {
@@ -978,6 +1034,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      19.0,
      44,
@@ -1002,6 +1059,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      19.0,
      44,
@@ -1026,6 +1084,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      19.0,
      53.0,
@@ -1050,6 +1109,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      19.0,
      53.0,
@@ -1074,6 +1134,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      19.0,
      44,
@@ -1098,6 +1159,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      19.0,
      44,
@@ -1122,6 +1184,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      19.0,
      53.0,
@@ -1146,6 +1209,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      19.0,
      53.0,
@@ -1170,6 +1234,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      384.0,
      3,
@@ -1194,6 +1259,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      19.0,
      53.0,
@@ -1218,6 +1284,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      19.0,
      53.0,
@@ -1242,6 +1309,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      19.0,
      24,
@@ -1266,6 +1334,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      19.0,
      24,
@@ -1273,7 +1342,7 @@ window.MODELL = {
     ]
    }
   ],
-  "boden_durchlaufend": [
+  "stumpf": [
    {
     "a": "D1-F",
     "b": "E-C1-a",
@@ -1292,6 +1361,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      19.0,
      44,
@@ -1316,6 +1386,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      19.0,
      44,
@@ -1340,6 +1411,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      19.0,
      53.0,
@@ -1364,6 +1436,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      19.0,
      53.0,
@@ -1388,6 +1461,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      19.0,
      44,
@@ -1412,6 +1486,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      19.0,
      44,
@@ -1436,6 +1511,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      19.0,
      53.0,
@@ -1460,6 +1536,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      19.0,
      53.0,
@@ -1484,6 +1561,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      384.0,
      3,
@@ -1508,6 +1586,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      19.0,
      53.0,
@@ -1532,6 +1611,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      19.0,
      53.0,
@@ -1556,6 +1636,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      19.0,
      24,
@@ -1580,320 +1661,7 @@ window.MODELL = {
      ]
     ],
     "kategorie": "frontblende",
-    "mass": [
-     19.0,
-     24,
-     16.5
-    ]
-   }
-  ],
-  "seiten_durchlaufend": [
-   {
-    "a": "D1-F",
-    "b": "E-C1-a",
-    "box": [
-     [
-      -542.0,
-      -523.0
-     ],
-     [
-      50,
-      94
-     ],
-     [
-      0,
-      16.5
-     ]
-    ],
-    "kategorie": "frontblende",
-    "mass": [
-     19.0,
-     44,
-     16.5
-    ]
-   },
-   {
-    "a": "D1-F",
-    "b": "E-C1-b",
-    "box": [
-     [
-      -249.0,
-      -230.0
-     ],
-     [
-      50,
-      94
-     ],
-     [
-      0,
-      16.5
-     ]
-    ],
-    "kategorie": "frontblende",
-    "mass": [
-     19.0,
-     44,
-     16.5
-    ]
-   },
-   {
-    "a": "D1-F",
-    "b": "E-D1-a",
-    "box": [
-     [
-      -542.0,
-      -523.0
-     ],
-     [
-      201.83,
-      254.83
-     ],
-     [
-      0,
-      16.5
-     ]
-    ],
-    "kategorie": "frontblende",
-    "mass": [
-     19.0,
-     53.0,
-     16.5
-    ]
-   },
-   {
-    "a": "D1-F",
-    "b": "E-D1-b",
-    "box": [
-     [
-      -249.0,
-      -230.0
-     ],
-     [
-      201.83,
-      254.83
-     ],
-     [
-      0,
-      16.5
-     ]
-    ],
-    "kategorie": "frontblende",
-    "mass": [
-     19.0,
-     53.0,
-     16.5
-    ]
-   },
-   {
-    "a": "D2-F",
-    "b": "E-C2-a",
-    "box": [
-     [
-      230.0,
-      249.0
-     ],
-     [
-      50,
-      94
-     ],
-     [
-      0,
-      16.5
-     ]
-    ],
-    "kategorie": "frontblende",
-    "mass": [
-     19.0,
-     44,
-     16.5
-    ]
-   },
-   {
-    "a": "D2-F",
-    "b": "E-C2-b",
-    "box": [
-     [
-      523.0,
-      542.0
-     ],
-     [
-      50,
-      94
-     ],
-     [
-      0,
-      16.5
-     ]
-    ],
-    "kategorie": "frontblende",
-    "mass": [
-     19.0,
-     44,
-     16.5
-    ]
-   },
-   {
-    "a": "D2-F",
-    "b": "E-D2-a",
-    "box": [
-     [
-      230.0,
-      249.0
-     ],
-     [
-      201.83,
-      254.83
-     ],
-     [
-      0,
-      16.5
-     ]
-    ],
-    "kategorie": "frontblende",
-    "mass": [
-     19.0,
-     53.0,
-     16.5
-    ]
-   },
-   {
-    "a": "D2-F",
-    "b": "E-D2-b",
-    "box": [
-     [
-      523.0,
-      542.0
-     ],
-     [
-      201.83,
-      254.83
-     ],
-     [
-      0,
-      16.5
-     ]
-    ],
-    "kategorie": "frontblende",
-    "mass": [
-     19.0,
-     53.0,
-     16.5
-    ]
-   },
-   {
-    "a": "D3-F",
-    "b": "C3",
-    "box": [
-     [
-      -192.0,
-      192.0
-     ],
-     [
-      283,
-      286
-     ],
-     [
-      -1.5,
-      16.5
-     ]
-    ],
-    "kategorie": "frontblende",
-    "mass": [
-     384.0,
-     3,
-     18.0
-    ]
-   },
-   {
-    "a": "D3-F",
-    "b": "E-D3-a",
-    "box": [
-     [
-      -212.0,
-      -193.0
-     ],
-     [
-      78.17,
-      131.17
-     ],
-     [
-      0,
-      16.5
-     ]
-    ],
-    "kategorie": "frontblende",
-    "mass": [
-     19.0,
-     53.0,
-     16.5
-    ]
-   },
-   {
-    "a": "D3-F",
-    "b": "E-D3-b",
-    "box": [
-     [
-      193.0,
-      212.0
-     ],
-     [
-      78.17,
-      131.17
-     ],
-     [
-      0,
-      16.5
-     ]
-    ],
-    "kategorie": "frontblende",
-    "mass": [
-     19.0,
-     53.0,
-     16.5
-    ]
-   },
-   {
-    "a": "D3-F",
-    "b": "E-C3-a",
-    "box": [
-     [
-      -212.0,
-      -193.0
-     ],
-     [
-      262,
-      286
-     ],
-     [
-      0,
-      16.5
-     ]
-    ],
-    "kategorie": "frontblende",
-    "mass": [
-     19.0,
-     24,
-     16.5
-    ]
-   },
-   {
-    "a": "D3-F",
-    "b": "E-C3-b",
-    "box": [
-     [
-      193.0,
-      212.0
-     ],
-     [
-      262,
-      286
-     ],
-     [
-      0,
-      16.5
-     ]
-    ],
-    "kategorie": "frontblende",
+    "gewollt": false,
     "mass": [
      19.0,
      24,
@@ -1905,74 +1673,52 @@ window.MODELL = {
  "kollisionen": [
   {
    "a": "B2-F",
-   "b": "B1",
+   "b": "B4",
    "box": [
     [
      542.0,
      560.0
     ],
     [
-     0,
-     320
+     12,
+     18
     ],
     [
-     882,
+     0,
      900
     ]
    ],
-   "kategorie": "eckverbindung",
+   "kategorie": "nut",
+   "gewollt": true,
    "mass": [
     18.0,
-    320,
-    18
+    6,
+    900
    ]
   },
   {
    "a": "B2-F",
-   "b": "B4",
+   "b": "A1",
    "box": [
     [
      542.0,
      560.0
     ],
     [
-     0,
-     18
+     320,
+     326
     ],
     [
      0,
      900
     ]
    ],
-   "kategorie": "eckverbindung",
+   "kategorie": "nut",
+   "gewollt": true,
    "mass": [
     18.0,
-    18,
+    6,
     900
-   ]
-  },
-  {
-   "a": "B2-B",
-   "b": "B1",
-   "box": [
-    [
-     -560.0,
-     -542.0
-    ],
-    [
-     0,
-     320
-    ],
-    [
-     882,
-     900
-    ]
-   ],
-   "kategorie": "eckverbindung",
-   "mass": [
-    18.0,
-    320,
-    18
    ]
   },
   {
@@ -1984,7 +1730,7 @@ window.MODELL = {
      -542.0
     ],
     [
-     0,
+     12,
      18
     ],
     [
@@ -1992,10 +1738,36 @@ window.MODELL = {
      900
     ]
    ],
-   "kategorie": "eckverbindung",
+   "kategorie": "nut",
+   "gewollt": true,
    "mass": [
     18.0,
-    18,
+    6,
+    900
+   ]
+  },
+  {
+   "a": "B2-B",
+   "b": "A1",
+   "box": [
+    [
+     -560.0,
+     -542.0
+    ],
+    [
+     320,
+     326
+    ],
+    [
+     0,
+     900
+    ]
+   ],
+   "kategorie": "nut",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    6,
     900
    ]
   },
@@ -2004,11 +1776,11 @@ window.MODELL = {
    "b": "B4",
    "box": [
     [
-     -560.0,
-     560.0
+     -542.0,
+     542.0
     ],
     [
-     0,
+     12,
      18
     ],
     [
@@ -2016,58 +1788,36 @@ window.MODELL = {
      900
     ]
    ],
-   "kategorie": "eckverbindung",
+   "kategorie": "nut",
+   "gewollt": true,
    "mass": [
-    1120.0,
-    18,
+    1084.0,
+    6,
     18
    ]
   },
   {
    "a": "B1",
-   "b": "B3-1",
+   "b": "A1",
    "box": [
     [
-     -230.0,
-     -212.0
+     -542.0,
+     542.0
     ],
     [
-     0,
-     320
+     320,
+     326
     ],
     [
      882,
      900
     ]
    ],
-   "kategorie": "eckverbindung",
+   "kategorie": "nut",
+   "gewollt": true,
    "mass": [
-    18.0,
-    320,
-    18
-   ]
-  },
-  {
-   "a": "B1",
-   "b": "B3-2",
-   "box": [
-    [
-     212.0,
-     230.0
-    ],
-    [
-     0,
-     320
-    ],
-    [
-     882,
-     900
-    ]
-   ],
-   "kategorie": "eckverbindung",
-   "mass": [
-    18.0,
-    320,
+    1084.0,
+    6,
     18
    ]
   },
@@ -2080,19 +1830,20 @@ window.MODELL = {
      -212.0
     ],
     [
-     0,
+     12,
      18
     ],
     [
      0,
-     900
+     882
     ]
    ],
-   "kategorie": "eckverbindung",
+   "kategorie": "nut",
+   "gewollt": true,
    "mass": [
     18.0,
-    18,
-    900
+    6,
+    882
    ]
   },
   {
@@ -2104,19 +1855,70 @@ window.MODELL = {
      230.0
     ],
     [
-     0,
+     12,
      18
     ],
     [
      0,
-     900
+     882
     ]
    ],
-   "kategorie": "eckverbindung",
+   "kategorie": "nut",
+   "gewollt": true,
    "mass": [
     18.0,
-    18,
-    900
+    6,
+    882
+   ]
+  },
+  {
+   "a": "B3-1",
+   "b": "A1",
+   "box": [
+    [
+     -230.0,
+     -212.0
+    ],
+    [
+     320,
+     326
+    ],
+    [
+     0,
+     882
+    ]
+   ],
+   "kategorie": "nut",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    6,
+    882
+   ]
+  },
+  {
+   "a": "B3-2",
+   "b": "A1",
+   "box": [
+    [
+     212.0,
+     230.0
+    ],
+    [
+     320,
+     326
+    ],
+    [
+     0,
+     882
+    ]
+   ],
+   "kategorie": "nut",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    6,
+    882
    ]
   },
   {
@@ -2137,6 +1939,7 @@ window.MODELL = {
     ]
    ],
    "kategorie": "frontblende",
+   "gewollt": false,
    "mass": [
     19.0,
     44,
@@ -2161,6 +1964,7 @@ window.MODELL = {
     ]
    ],
    "kategorie": "frontblende",
+   "gewollt": false,
    "mass": [
     19.0,
     44,
@@ -2185,6 +1989,7 @@ window.MODELL = {
     ]
    ],
    "kategorie": "frontblende",
+   "gewollt": false,
    "mass": [
     19.0,
     53.0,
@@ -2209,6 +2014,7 @@ window.MODELL = {
     ]
    ],
    "kategorie": "frontblende",
+   "gewollt": false,
    "mass": [
     19.0,
     53.0,
@@ -2233,6 +2039,7 @@ window.MODELL = {
     ]
    ],
    "kategorie": "frontblende",
+   "gewollt": false,
    "mass": [
     19.0,
     44,
@@ -2257,6 +2064,7 @@ window.MODELL = {
     ]
    ],
    "kategorie": "frontblende",
+   "gewollt": false,
    "mass": [
     19.0,
     44,
@@ -2281,6 +2089,7 @@ window.MODELL = {
     ]
    ],
    "kategorie": "frontblende",
+   "gewollt": false,
    "mass": [
     19.0,
     53.0,
@@ -2305,6 +2114,7 @@ window.MODELL = {
     ]
    ],
    "kategorie": "frontblende",
+   "gewollt": false,
    "mass": [
     19.0,
     53.0,
@@ -2329,6 +2139,7 @@ window.MODELL = {
     ]
    ],
    "kategorie": "frontblende",
+   "gewollt": false,
    "mass": [
     384.0,
     3,
@@ -2353,6 +2164,7 @@ window.MODELL = {
     ]
    ],
    "kategorie": "frontblende",
+   "gewollt": false,
    "mass": [
     19.0,
     53.0,
@@ -2377,6 +2189,7 @@ window.MODELL = {
     ]
    ],
    "kategorie": "frontblende",
+   "gewollt": false,
    "mass": [
     19.0,
     53.0,
@@ -2401,6 +2214,7 @@ window.MODELL = {
     ]
    ],
    "kategorie": "frontblende",
+   "gewollt": false,
    "mass": [
     19.0,
     24,
@@ -2425,6 +2239,7 @@ window.MODELL = {
     ]
    ],
    "kategorie": "frontblende",
+   "gewollt": false,
    "mass": [
     19.0,
     24,

@@ -29,7 +29,7 @@ Alle drei Bretter gleich stark (18 mm), bündig auf Plattformhöhe 320 mm.
 
 | Pos | Bezeichnung | Maß (B × T × H) | Menge | Hinweis |
 |---|---|---|---|---|
-| A1 | Unterbau-Deckel | 1.120 × 900 × 18 | 1 | Fest, über Kofferraum-Korpus |
+| A1 | Unterbau-Deckel | 1.120 × 900 × 18 | 1 | Fest, über Kofferraum-Korpus; durchgehend, Unterseite mit Falz/Nut für die Wände (§B) |
 | A2 | Brett Sitzrücken | 1.120 × 700 × 18 | 1 | Liegt auf umgeklappten Rücksitzlehnen auf (Lehnen bei 310 mm → 10 mm Ausgleich, §H4) |
 | A3 | Brett Kopfbereich | 1.120 × 400 × 18 | 1 | Wenig Last, mit 2 Gurtschlaufen an den Vordersitz-Kopfstützen (§H4) |
 
@@ -37,15 +37,19 @@ Alle drei Bretter gleich stark (18 mm), bündig auf Plattformhöhe 320 mm.
 
 ## B — Unterbau-Korpus (900 mm tief, 320 mm hoch, 1.120 mm breit)
 
-Nutzbare Innenhöhe: 320 mm − 18 mm (Bodenplatte) = **302 mm** (davon 32 mm Sitz/Tisch-Brett + 268 mm Schublade + 2 mm Spaltmaß oben).  
+Eckausbildung ([ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md)): **Bodenplatte B4 und Deckel A1 laufen durch** (1.120 × 900 mm), alle Wände stehen dazwischen und stecken **6 mm** tief in Falz (Außenkanten) bzw. Nut (Trennwände) von B4 und A1.
+
+Nutzbare Innenhöhe: 320 mm − 18 mm (Bodenplatte) = **302 mm** (davon 32 mm Sitz/Tisch-Brett + 268 mm Schublade + 2 mm Spaltmaß oben); Wandhöhe 302 + 2 × 6 mm Nut = **314 mm**.  
 Nutzbare Innenbreite L/R: 1.120 mm − 2 × 18 mm (B2 Seitenwand) − 2 × 18 mm (B3 Trennwand) = 1.048 mm → **312 mm** je Sektion L/R + **424 mm** Mitte.
 
 | Pos | Bezeichnung | Maß (B × T × H) | Menge | Hinweis |
 |---|---|---|---|---|
-| B1 | Rückwand | 1.120 × 18 × 320 | 1 | Zur Rücksitz-Seite hin |
-| B2 | Seitenwand | 18 × 900 × 320 | 2 | Links + rechts — erforderlich: trägt die äußeren Schienen, Korpus bleibt als Ganzes ausbaubar ([ADR 0014](docs/adrs/0014-self-contained-corpus-with-own-side-walls.md)) |
-| B3 | Trennwand | 18 × 900 × 320 | 2 | Zwischen den 3 Sektionen |
-| B4 | Bodenplatte | 1.120 × 900 × 18 | 1 | Trägt Sitz-/Schubladenlast; Sitzbretter ruhen darauf |
+| B1 | Rückwand | 1.084 × 18 × 314 | 1 | Zur Rücksitz-Seite hin, zwischen den Seitenwänden; Falz hinten in B4/A1 |
+| B2 | Seitenwand | 18 × 900 × 314 | 2 | Links + rechts — erforderlich: trägt die äußeren Schienen, Korpus bleibt als Ganzes ausbaubar ([ADR 0014](docs/adrs/0014-self-contained-corpus-with-own-side-walls.md)) |
+| B3 | Trennwand | 18 × 882 × 314 | 2 | Zwischen den 3 Sektionen, bis zur Rückwand; Nut in B4/A1 |
+| B4 | Bodenplatte | 1.120 × 900 × 18 | 1 | Durchgehend. Oberseite: Falz 18 × 6 mm links, rechts, hinten + 2 Nuten 18 × 6 mm für B3 |
+
+Deckel **A1** (§A) erhält dieselben Falze/Nuten auf der Unterseite. Ohne Nuten (Rückfallvariante „stumpf“) sind alle Wände 302 mm hoch; B4 und A1 bleiben gleich — **B4 und A1 können daher schon zugeschnitten werden, die Wände erst, wenn die Nuttiefe feststeht.**
 
 ---
 
@@ -173,7 +177,7 @@ Vollauszug 550 mm · 3-teilig · SoftClose · Traglast 105 kg
 | F1 | Spanplattenschrauben (Korpus, Stirnkante) | Torx Senkkopf 4 × 45 mm | ~80 Stk. |
 | F2 | Spanplattenschrauben (Schienen) | Torx Senkkopf 3,5 × 16 mm | ~120 Stk. |
 | F3 | Stahlwinkel (Korpus 8× innen + Fahrzeug 4×: 2 außen an B2 hinten, 2 optional auf B4 vorne, → §H5) | 40 × 40 × 2 mm | 12 Stk. |
-| F4 | Holzdübel | Ø 8 × 40 mm | ~30 Stk. |
+| F4 | Holzdübel (nur ohne Nut nötig, ADR 0018) | Ø 8 × 40 mm | ~30 Stk. |
 | F5 | Holzleim D3 (wasserfest) | 750 ml | 1 Flasche |
 | F6 | Schubladengriff | nach Wahl, mind. 64 mm Bohrung | 3 Stk. |
 | F7 | Spanplattenschrauben (Schubladen-Ecken, Blenden, Winkel) | Torx Senkkopf 4 × 30/40 mm | je ~100 Stk. |
@@ -209,21 +213,25 @@ Abschnitte: Korpus (unten) · [H1 Schienen](#h1--schienenbefestigung-an-wänden-
 
 ### Ausgangslage
 
-Birke-Multiplex hält Schrauben in der Fläche sehr gut, aber schlecht in der Stirnkante (Hirnholz). Das Dachbrett (A1) liegt auf den Stirnkanten der vier Vertikalen (B2 × 2, B3 × 2) auf — genau die schwache Seite. Schrauben allein würden bei Fahrvibrationen über Zeit ausreißen; Leim allein macht den Korpus unlösbar und ist für einen Fahrzeugausbau unpraktisch.
+Birke-Multiplex hält Schrauben in der Fläche sehr gut, aber schlecht in der Stirnkante (Hirnholz). Boden B4 und Deckel A1 laufen durch; die Wände (B1, B2 × 2, B3 × 2) stehen dazwischen — ohne weitere Maßnahme stünden sie nur mit ihrer Stirnkante auf B4 bzw. unter A1. Schrauben allein würden bei Fahrvibrationen über Zeit ausreißen; Leim allein macht den Korpus unlösbar und ist für einen Fahrzeugausbau unpraktisch.
 
-### Empfohlene Verbindung: Dachbrett → Vertikale
+### Empfohlene Verbindung: Boden/Deckel → Wände
 
-Drei Elemente kombiniert, von außen nicht sichtbar:
+> Entscheidungsprotokolle: [ADR 0007](docs/adrs/0007-dowel-screw-bracket-joinery.md) · [ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md) (Nut/Falz)
 
 | Reihenfolge | Mittel | Zweck |
 |---|---|---|
-| 1 | Holzdübel Ø8 × 40 mm, alle ~200 mm | Exakte Ausrichtung, Scherkräfte |
-| 2 | Schrauben 4 × 45 mm Senkkopf von oben, alle 120–150 mm (versetzt zu Dübeln) | Zugfestigkeit senkrecht zur Fuge |
-| 3 | Innenwinkel 40 × 40 mm an allen 4 Ecken (Dachbrett trifft Seitenwand) | Dynamische Last / Vibrationsreserve |
+| 1 | **Falz/Nut 18 × 6 mm** in B4 (oben) und A1 (unten), Wände stecken darin | Exakte Ausrichtung, Scherkräfte — ersetzt die Dübel |
+| 2 | Schrauben 4 × 45 mm Senkkopf durch A1 von oben und durch B4 von unten in die Wandkanten, alle 120–150 mm | Zugfestigkeit senkrecht zur Fuge |
+| 3 | Innenwinkel 40 × 40 mm an den 4 Ecken Deckel ↔ Seitenwand | Vibrationsreserve, optional |
+
+Ohne Nut (Rückfallvariante „stumpf“): statt Schritt 1 Holzdübel Ø 8 × 40 mm alle ~200 mm (F4), Winkel dann nicht optional.
+
+Nutbreite an der **tatsächlichen** Plattenstärke einstellen (Multiplex ist oft etwas dicker als 18 mm): erst eine Probenut im Reststück fräsen. Werkzeug: Oberfräse mit 18-mm-Nutfräser oder Kreissäge in mehreren Durchgängen — die meisten Zuschnittservices fräsen keine Nuten.
 
 ### Trennwände und Rückwand
 
-Die Trennwände (B3) werden von außen durch die Seitenwände (B2) verschraubt und verleimt — Schrauben in die Stirnkante der Trennwand, Leim D3 auf der Anlagefläche. Die **Rückwand (B1) ist die Aussteifungsscheibe** gegen Verwindung: vollflächig verleimen und mit mindestens 6 Schrauben sichern.
+Die Trennwände (B3) stecken in den Nuten von B4 und A1 und werden durch B4 (von unten), A1 (von oben) und die Rückwand B1 (von hinten) in ihre Stirnkanten verschraubt, Leim D3 in der Nut. *(Früher stand hier „von außen durch die Seitenwände“ — das geht nicht: B3 steht parallel zu B2 und berührt sie nicht.)* Die **Rückwand (B1) ist die Aussteifungsscheibe** gegen Verwindung: sie sitzt zwischen den Seitenwänden im hinteren Falz, vollflächig verleimen und mit mindestens 6 Schrauben durch die Seitenwände sichern.
 
 ### H1 — Schienenbefestigung an Wänden und Trennwänden
 
@@ -295,9 +303,9 @@ Die Winkelpositionen lassen sich nicht aus der Zeichnung ableiten: sie werden im
 
 ### Montagereihenfolge
 
-1. Rückwand + Seitenwände + Trennwände zusammensetzen (Korpus ohne Deckel), verleimen und verschrauben
-2. Innenwinkel an allen 4 Oberkanten (Seitenwand innen oben) vorsetzen
-3. Dachbrett auflegen, dübeln, von oben einschrauben
+1. Falze und Nuten in B4 und A1 fräsen (Probenut zuerst), Wände auf 314 mm zuschneiden
+2. Seitenwände, Rückwand und Trennwände in B4 stecken, verleimen, von unten verschrauben
+3. A1 aufsetzen (Wände greifen in Falz/Nut), von oben einschrauben; Innenwinkel optional
 4. Schienen erst danach einmessen und montieren — der fertige Korpus gibt das verbindliche Innenmaß (→ H1)
 5. Schubladenkästen bauen (→ H2), einhängen, Lauf prüfen
 6. Frontblenden einstellen und von innen festschrauben (→ H3), danach Griffe bohren

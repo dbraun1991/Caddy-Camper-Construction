@@ -101,7 +101,8 @@ down.
   `fahrzeug` block in `modell/parameter.json`; everything else is a placeholder.
 - Shared part model (`modell/`) driving both the 3D tab and build123d workshop
   drawings (Draufsicht / Vorderansicht / Seitenansicht, A3 1:5, hidden edges
-  dashed, overlaps red) for three corner-construction variants, plus an overlap
+  dashed, overlaps red, intended groove overlaps green) for the two
+  corner-construction variants (`genutet`, `stumpf`), plus an overlap
   report in the "Statisch" tab and a collision toggle in the 3D tab
   ([ADR 0015](docs/adrs/0015-shared-model-data-for-viewer-and-drawings.md)).
 - Full bill of materials with cut list, hardware options and links, and a
@@ -133,11 +134,14 @@ down.
   plus the height tables in `List_of_Materials.md` and `README.md`. Don't cut
   `C1`–`C3` before it is resolved (the runner itself is no longer blocked).
 - **Open findings from the overlap check** (red in the drawings; details in the
-  "Statisch" tab report). None is decided yet — don't silently "fix" them in the
-  model; each is a build decision for the user:
-  - Corner construction of the corpus is unspecified (`eckausbildung` parameter;
-    `stueckliste` reproduces the current, overlapping cut list). Blocks cutting
-    `B1`–`B4`.
+  "Statisch" tab report). Don't silently "fix" open ones in the model; each is
+  a build decision for the user:
+  - ~~Corner construction~~ — decided in
+    [ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md):
+    `B4` and `A1` continuous, walls housed 6 mm deep (`eckausbildung: genutet`,
+    fallback `stumpf`). Wall-in-recess overlaps are flagged `gewollt` (green)
+    and excluded from the problem count. Open: confirm the 6 mm groove depth
+    before cutting the walls (314 vs. 302 mm); `B4`/`A1` can be cut now.
   - ~~Clear depth 882 mm < 900 mm rail length~~ — resolved by
     [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md): 850 mm
     runners, corpus stays 900 mm. Open: verify the 850 mm runner's thickness

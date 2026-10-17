@@ -3,7 +3,8 @@
 Baut jedes Teil aus modell.teile() als Volumenkörper in build123d auf, projiziert
 orthogonal mit getrennten sichtbaren und verdeckten Kanten und schreibt je
 Eckausbildung drei DIN-A3-Blätter im Maßstab 1:5 nach docs/zeichnungen/<variante>/.
-Rechnerische Überschneidungen (modell.kollisionen) werden rot hinterlegt.
+Rechnerische Überschneidungen (modell.kollisionen) werden rot hinterlegt, gewollte
+Überdeckungen (Wand steckt in Nut/Falz von Boden und Deckel) grün.
 
 Benötigt build123d (siehe modell/requirements.txt):
   python3 -m venv .venv && .venv/bin/pip install -r modell/requirements.txt
@@ -24,10 +25,9 @@ M = 1 / 5                                # Maßstab 1:5 — mm Modell → mm Pap
 BLATT_B, BLATT_H = 420, 297              # DIN A3 quer
 SCHRIFT = "DejaVu Sans"
 
-VARIANTEN = {
-    "stueckliste": "Ist-Stand Stückliste (B2/B3 320 hoch, B1/B4 1.120 breit)",
-    "boden_durchlaufend": "Variante: Boden B4 durchlaufend, Wände stehen darauf",
-    "seiten_durchlaufend": "Variante: Seitenwände B2 durchlaufend, B4/B1 dazwischen",
+VARIANTEN = {   # Boden B4 und Deckel A1 laufen immer durch (ADR 0018)
+    "genutet": "B4 + A1 durchlaufend, Wände in Nut/Falz",
+    "stumpf": "B4 + A1 durchlaufend, Wände stumpf dazwischen",
 }
 
 # Blickrichtung je Ansicht: Kamera-Position, Bild-oben, und dieselbe Abbildung
@@ -40,7 +40,10 @@ ANSICHTEN = {
         kamera=(0, 0, -20000), oben=(0, 1, 0), uv=lambda x, y, z: (-x, y),
         ohne={"A2", "A3", "G1"},
         # Rückwand-Kollisionen liegen 882–900 mm tief — frontal projiziert würden sie ganze Schubladen rot färben
-        zeige={"eckverbindung", "frontblende", "sonstige"}),
+        zeige={"nut", "eckverbindung", "frontblende", "sonstige"},
+        # die Rückwand liegt ganz hinten über die volle Breite — ihre Nut/Falz würde frontal
+        # wie eine durchgehende Nut in Boden und Deckel aussehen
+        ohne_koll_mit={"B1"}),
     "draufsicht": dict(
         titel="Draufsicht", nr=2,
         blick="Blick von oben, Deckel A1 abgenommen — Korpusfront (Heckklappe) unten im Bild",
@@ -77,7 +80,7 @@ class Blatt:
 
     def __init__(self, mitte):
         self.mitte = mitte                     # Papierposition des Modell-Ursprungs (u=0, v=0)
-        self.ebenen = {n: [] for n in ("rahmen", "verdeckt", "sichtbar", "kollision", "mass", "text")}
+        self.ebenen = {n: [] for n in ("rahmen", "verdeckt", "sichtbar", "nut", "kollision", "mass", "text")}
         self.draft = bd.Draft(font_size=3.0, font=SCHRIFT, decimal_precision=0, display_units=False,
                               arrow_length=2.2, line_width=0.18, pad_around_text=1.0, extension_gap=1.0)
 
@@ -117,9 +120,9 @@ class Blatt:
         """Maß direkt im Bild, ohne Hilfslinien."""
         self.ebenen["mass"].append(bd.DimensionLine(path=[self.p(*a), self.p(*b)], draft=self.draft, label=label))
 
-    def flaeche(self, u0, v0, u1, v1):
+    def flaeche(self, u0, v0, u1, v1, ebene="kollision"):
         (x0, y0, _), (x1, y1, _) = self.p(u0, v0), self.p(u1, v1)
-        self.ebenen["kollision"].append(
+        self.ebenen[ebene].append(
             bd.Pos((x0 + x1) / 2, (y0 + y1) / 2) * bd.Rectangle(max(x1 - x0, 0.4), max(y1 - y0, 0.4)))
 
     def linie(self, *punkte, ebene="rahmen"):
@@ -156,7 +159,10 @@ class Blatt:
         self.linie((x, y - 5), (x + 12, y - 5), ebene="verdeckt")
         self.text("verdeckte Kante", x + 15, y - 5, 2.6, papier=True, ausrichtung=links)
         self.ebenen["kollision"].append(bd.Pos(x + 6, y - 10) * bd.Rectangle(12, 3))
-        self.text("rechnerische Überschneidung zweier Teile", x + 15, y - 10, 2.6, papier=True, ausrichtung=links)
+        self.text("rechnerische Überschneidung zweier Teile (Fehler)", x + 15, y - 10, 2.6, papier=True, ausrichtung=links)
+        self.ebenen["nut"].append(bd.Pos(x + 6, y - 15) * bd.Rectangle(12, 3))
+        self.text("gewollte Überdeckung: Wand steckt in Nut/Falz", x + 15, y - 15, 2.6, papier=True, ausrichtung=links)
+        y -= 5
         zaehler = {}
         for k in kollisionen:
             zaehler[k["kategorie"]] = zaehler.get(k["kategorie"], 0) + 1
@@ -170,6 +176,7 @@ class Blatt:
     def schreiben(self, pfad):
         svg = bd.ExportSVG(unit=bd.Unit.MM, margin=0, fit_to_stroke=False)
         svg.add_layer("rahmen", line_weight=0.5, fill_color=None, line_color=(0.0, 0.0, 0.0))
+        svg.add_layer("nut", line_weight=0.1, fill_color=(0.2, 0.65, 0.3, 0.55), line_color=(0.1, 0.45, 0.2))
         svg.add_layer("kollision", line_weight=0.1, fill_color=(0.9, 0.16, 0.16, 0.45), line_color=(0.78, 0.0, 0.0))
         svg.add_layer("verdeckt", line_weight=0.18, fill_color=None, line_color=(0.43, 0.43, 0.43),
                       line_type=bd.LineType.ISO_DASH)
@@ -200,12 +207,16 @@ def bemassen(name, blatt, teile, p):
     wand_x = sorted({v for id in ("B2-F", "B2-B", "B3-1", "B3-2") for v in teil(teile, id)["box"][0]})
     hoehen = sorted({0, b4[1][1], a1[1][0], oben})
     r_ende = teil(teile, "E-C1-a")["box"][2][1]          # hinteres Schienenende
+    wand = teil(teile, "B2-F")["box"][1]                  # Wandhöhe inkl. Nut/Falz in B4 und A1
+    genutet = wand[0] < b4[1][1]
 
     if name == "vorderansicht":
         blatt.mass((-W / 2, 0), (W / 2, 0), 14, fmt(W))                  # unten, Gesamtbreite
         blatt.kette([(-x, oben) for x in wand_x], 8)                      # oben, Sektionen + Wände
         blatt.kette([(W / 2, v) for v in hoehen], 10)                    # rechts im Bild = Beifahrerseite
         blatt.mass((W / 2, 0), (W / 2, oben), 22, fmt(oben))
+        if genutet:
+            blatt.mass((W / 2, wand[0]), (W / 2, wand[1]), 32, f"Wand {fmt(wand[1] - wand[0])}")
         # Höhenkette in der Sektion (Fahrerseite = links im Bild): Sitz-Brett, Spalt, Kasten, Spalt
         c2, d2 = teil(teile, "C2")["box"], teil(teile, "D2")["box"]
         uL = -W / 2
@@ -238,6 +249,8 @@ def bemassen(name, blatt, teile, p):
         blatt.kette([(-z, oben) for z in tiefen], 8)                      # oben: Schiene, Spiel, Rückwand
         blatt.kette([(0, v) for v in hoehen], 10)                         # rechts = Korpusfront
         blatt.mass((0, 0), (0, oben), 22, fmt(oben))
+        if genutet:                                                    # links = Rückseite
+            blatt.mass((-D, wand[1]), (-D, wand[0]), 10, f"Wand {fmt(wand[1] - wand[0])}, Nut je {fmt(b4[1][1] - wand[0])}")
         r = teil(teile, "E-C2-b")["box"]
         v = (r[1][0] + r[1][1]) / 2
         blatt.masslinie((-r[2][0], v), (-r[2][1], v), f"Schiene {fmt(r[2][1] - r[2][0])}")
@@ -271,8 +284,8 @@ def zeichne(variante, name, png=False):
     blatt.kanten(verdeckt, "verdeckt")
     blatt.kanten(sichtbar, "sichtbar")
     for k in koll:
-        if k["kategorie"] in a["zeige"]:
-            blatt.flaeche(*rechteck_uv(k["box"], a["uv"]))
+        if k["kategorie"] in a["zeige"] and not {k["a"], k["b"]} & a.get("ohne_koll_mit", set()):
+            blatt.flaeche(*rechteck_uv(k["box"], a["uv"]), ebene="nut" if k["gewollt"] else "kollision")
     bemassen(name, blatt, alle, p)
     for id in BESCHRIFTUNG[name]:
         if id in ids:
@@ -300,7 +313,7 @@ def main():
     for variante in VARIANTEN:
         for name in ANSICHTEN:
             pfad, n = zeichne(variante, name, png)
-            print(f"{pfad.relative_to(ZIEL.parent.parent)}  ({n} Überschneidungen)")
+            print(f"{pfad.relative_to(ZIEL.parent.parent)}  ({n} Überschneidungen inkl. gewollter Nut/Falz)")
 
 
 if __name__ == "__main__":
