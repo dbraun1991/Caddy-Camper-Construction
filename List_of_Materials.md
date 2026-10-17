@@ -100,15 +100,17 @@ y = 18–286 mm = 268 mm hoch; 424 mm Innen − 2 × 19 mm Schiene − 2 mm Spal
 **6 Paare** insgesamt: 3× für Schubladen + 3× für Sitz-/Tisch-Bretter.  
 Mindestanforderung: **850 mm Auszug**, **Schwerlast**, mit Arretierung (Lock). 900-mm-Schienen passen nicht: hinter der Rückwand bleiben nur 882 mm lichte Tiefe.
 
-| # | Element | Schienen-Paare |
-|---|---|---|
-| 1 | Schublade Links | 1 Paar |
-| 2 | Schublade Mitte | 1 Paar |
-| 3 | Schublade Rechts | 1 Paar |
-| 4 | Sitz-Brett Links | 1 Paar |
-| 5 | Sitz-Brett Rechts | 1 Paar |
-| 6 | Tisch-Brett Mitte | 1 Paar |
-| | **Gesamt** | **6 Paare (12 Einzelschienen)** |
+| # | Element | Schiene | Paare |
+|---|---|---|---|
+| 1 | Schublade Links (D1) | Option 2 · 80 kg · 53 mm | 1 |
+| 2 | Schublade Mitte (D3) | Option 2 · 80 kg · 53 mm | 1 |
+| 3 | Schublade Rechts (D2) | Option 2 · 80 kg · 53 mm | 1 |
+| 4 | Sitz-Brett Links (C1) | Option 1 · 170 kg · 76 mm | 1 |
+| 5 | Sitz-Brett Rechts (C2) | Option 1 · 170 kg · 76 mm | 1 |
+| 6 | Tisch-Brett Mitte (C3) | Option 2 · 80 kg · 53 mm | 1 |
+| | **Gesamt** | 2 × Option 1 + 4 × Option 2 | **6 Paare (12 Einzelschienen)** |
+
+Zuordnung und Maße stehen in [`modell/parameter.json`](modell/parameter.json) (`schienen.typen` / `schienen.zuordnung`).
 
 ### Optionen
 
@@ -116,14 +118,25 @@ Mindestanforderung: **850 mm Auszug**, **Schwerlast**, mit Arretierung (Lock). 9
 
 ---
 
-#### Option 1 — AOLISHENG 850 mm · 170 kg ⭐ Gewählt für **alle 6 Paare** (Schubladen + Sitz-/Tisch-Bretter)
+#### Option 1 — AOLISHENG 850 mm · 170 kg ⭐ Gewählt für die Sitz-Bretter C1/C2 (2 Paare) — dort sitzt eine Person
 **170 kg Traglast** · 76 mm Höhe · mit Arretierung · 104,99 €/Paar (gesehen 2026-10-17) · Link/ASIN noch nachtragen  
 ⚠ **Stärke je Seite vor Bestellung prüfen** — die Elementbreiten rechnen mit 19 mm (wie die 900-mm-Variante).
 
 ```
 Vollauszug 850 mm · Höhe 76 mm · Stärke 19 mm je Seite (zu prüfen) · Traglast 170 kg · Arretierung: Ja
-Einbaumaß: Sektionsbreite − 2 × 19 mm − 2 mm Spalt = Schubladenbreite
+Einbaumaß: Sektionsbreite − 2 × 19 mm − 2 mm Spalt = Elementbreite
 Hinter der Schiene: 882 mm lichte Tiefe − 850 mm = 32 mm Luft
+```
+
+---
+
+#### Option 2 — AOLISHENG 850 mm · 80 kg ⭐ Gewählt für Schubladen D1–D3 + Tisch-Brett C3 (4 Paare)
+**80 kg Traglast** · 53 mm Höhe · mit Arretierung · 61,99 €/Paar (gesehen 2026-10-17) · Link/ASIN noch nachtragen  
+⚠ **Stärke je Seite vor Bestellung prüfen** — geplant sind 19 mm; ist sie anders, ändern sich die Breiten von D1–D3 und C3.
+
+```
+Vollauszug 850 mm · Höhe 53 mm · Stärke 19 mm je Seite (zu prüfen) · Traglast 80 kg · Arretierung: Ja
+Geeignet für: Gepäck in den Schubladen, Tisch — nicht zum Draufsetzen
 ```
 
 Bisherige Wahl, **verworfen** (passt nicht in 882 mm lichte Tiefe): AOLISHENG 900 mm · 150 kg · 19 mm Stärke  
@@ -131,8 +144,8 @@ Bisherige Wahl, **verworfen** (passt nicht in 882 mm lichte Tiefe): AOLISHENG 90
 
 ---
 
-#### Option 2 — Schwerlast 95 kg · 53 mm hoch ✗ Verworfen — alle Positionen nutzen Option 1 (ADR 0017)
-**95 kg Traglast** · 53 mm Höhe · mit Arretierung · war für die Sitz-/Tisch-Bretter vorgesehen (nur als 900 mm gefunden)  
+#### Früher erwogen — Schwerlast 95 kg · 53 mm hoch ✗ Verworfen (nur als 900 mm gefunden)
+**95 kg Traglast** · 53 mm Höhe · mit Arretierung · war für die Sitz-/Tisch-Bretter vorgesehen  
 → [Amazon.de — B09XXDHW1C](https://www.amazon.de/dp/B09XXDHW1C/ref=sspa_dk_hqp_detail_aax_0?aref=gn8XpWgrVu&sp_csd=d2lkZ2V0TmFtZT1zcF9ocXBfc2hhcmVk&th=1)
 
 ```
@@ -221,11 +234,11 @@ Die Außenmember der Schienen werden auf die **Flächen** von Seitenwänden (B2)
 | Punkt | Vorgabe | Grund |
 |---|---|---|
 | Schraubenlänge in B3 | max. **3,5 × 16 mm** | Trennwände tragen Schienen auf **beiden** Seiten; längere Schrauben durchstoßen die 18 mm Platte |
-| Höhenversatz der Schienenbänder | wie in `index.html` dokumentiert (Sitz 18–94, Schublade L/R 190–266, Schublade M 67–143, Tisch M 239–315 mm) | Kein Überlapp → keine Schraubenkollision in der Trennwand |
+| Höhenversatz der Schienenbänder | aus `modell/modell.py`: Sektion L/R Sitz-Brett 18–94 (76 mm), Schublade ≈ 202–255 (53 mm); Mitte Schublade ≈ 78–131, Tisch 262–315 (je 53 mm) | Kein Überlapp → keine Schraubenkollision in der Trennwand |
 | Vorderste 2 Bohrungen je Schiene | **M5 Durchsteckschraube** mit U-Scheibe + Stoppmutter statt Holzschraube | Am Korpusvorderkant ist das Kippmoment bei 850 mm Auszug maximal — hier reißen Holzschrauben zuerst aus |
 | Verschrauben | von innen nach außen anreißen, Schienen **paarweise** auf gleiche Höhe lehren (Reststück Multiplex als Abstandslehre) | 1 mm Höhenversatz im Paar blockiert den Vollauszug |
 
-⚠ Zuerst ADR 0013 entscheiden: die Sitz-/Tisch-Bretter (32 mm) sind niedriger als die Schienen-Innenmember (76 mm, AOLISHENG 850 an allen Positionen) — siehe [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Empfehlung: **Trägerwangen** 18 mm × Schienenhöhe × 850 mm, verleimt + verschraubt an beiden Längskanten; die Schiene greift dann in Faserfläche, nicht in Stirnkante.
+⚠ Zuerst ADR 0013 entscheiden: die Sitz-/Tisch-Bretter (32 mm) sind niedriger als die Schienen-Innenmember (76 mm bei C1/C2, 53 mm bei C3) — siehe [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Empfehlung: **Trägerwangen** 18 mm × Schienenhöhe × 850 mm, verleimt + verschraubt an beiden Längskanten; die Schiene greift dann in Faserfläche, nicht in Stirnkante.
 
 ### H2 — Schubladenkästen (D1–D3)
 

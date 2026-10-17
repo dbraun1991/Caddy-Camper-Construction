@@ -126,7 +126,7 @@ Sektionsbreiten nach Abzug B2-Seitenwände (18 mm innen): **312 mm** L/R · **42
 | Rechts | 312 mm | Schublade 268 mm hoch · 272 mm breit | Sitz-Brett 32 mm hoch · 272 mm breit |
 
 Breitenformel: Innenbreite − 2 × 19 mm Schiene − 2 mm Spalt = Elementbreite.  
-Schienenstärke (AOLISHENG 850 mm): 19 mm je Seite — vor der Bestellung am Produkt prüfen. Im Render dunkelgrau dargestellt.
+Schienen: AOLISHENG 850 mm — 170 kg / 76 mm für die Sitz-Bretter C1/C2, 80 kg / 53 mm für Schubladen und Tisch-Brett. Stärke je Seite: 19 mm angenommen, vor der Bestellung am Produkt prüfen. Im Render dunkelgrau dargestellt.
 
 Alle Elemente fahren auf **Vollauszug-Schienen 850 mm Schwerlast** aus ([ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)): Korpus 900 mm − Rückwand 18 mm = 882 mm lichte Tiefe → 32 mm Luft hinter Schienen, Kästen (830 mm) und Brettern (850 mm).
 
@@ -198,7 +198,7 @@ Der Korpus besteht aus Einzelbrettern (keine Vollbox): B2 links/rechts, B1 Rück
 
 Offen:
 
-- [ ] **Entscheidung ADR 0013** — Schienenhöhe (76 mm, überall AOLISHENG 850) vs. Brettstärke (32 mm) bei C1–C3: [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Blockiert den Zuschnitt von C1–C3, nicht mehr den Schienenkauf.
+- [ ] **Entscheidung ADR 0013** — Schienenhöhe (76 mm bei C1/C2, 53 mm bei C3) vs. Brettstärke (32 mm) bei C1–C3: [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Blockiert den Zuschnitt von C1–C3, nicht mehr den Schienenkauf.
 - [ ] **Eckausbildung Korpus** — Stückliste nennt B2/B3 320 mm hoch *und* B4/B1 1.120 mm breit; das überschneidet sich an allen Ecken. Varianten im Reiter „Statisch“ vergleichen, dann Stückliste anpassen. **Vor dem Zuschnitt von B1–B4 klären.**
 - [x] Lichte Tiefe 882 mm vs. Schienenlänge — gelöst mit 850-mm-Schienen, Korpus bleibt 900 mm (20–30 mm Luft zu den Rücksitzen, 32 mm hinter den Schienen) — [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)
 - [ ] Schienenstärke der 850-mm-Schiene prüfen (geplant 19 mm je Seite) — vor der Bestellung

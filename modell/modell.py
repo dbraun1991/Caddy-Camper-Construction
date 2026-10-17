@@ -74,7 +74,10 @@ def _sektionen(p):
 def _einbauten(p):
     k, s, e = p["korpus"], p["schienen"], p["elemente"]
     D, H, T = k["tiefe"], k["hoehe"], k["plattenstaerke"]
-    rs, rh, rl = s["staerke"], s["hoehe"], s["laenge"]
+    rl = s["laenge"]
+
+    def typ(element_id):                # Schienentyp je Element (C1/C2 schwer, Rest leicht)
+        return s["typen"][s["zuordnung"][element_id]]
     bh, sp, spiel = e["brett_hoehe"], e["spalt_hoehe"], e["spiel_seitlich"]
     vor, bs = e["vorstand_front"], e["blende_staerke"]
     yB = T                              # Oberkante Bodenplatte
@@ -86,37 +89,41 @@ def _einbauten(p):
     sek = _sektionen(p)
     out = []
 
-    def element(sx):                    # Breite: Innen − 2 × Schiene − 2 × Spiel
+    def element(sx, id):                # Breite: Innen − 2 × Schiene − 2 × Spiel
+        rs = typ(id)["staerke"]
         return (sx[0] + rs + spiel, sx[1] - rs - spiel)
 
     def schienenpaar(sek_id, y0, faehrt, zu):
         x0, x1 = sek[sek_id]
+        rs, rh = typ(zu)["staerke"], typ(zu)["hoehe"]
         y = (round(y0, 2), round(y0 + rh, 2))
-        out.append(_teil(f"E-{zu}-a", f"Schiene {zu} (−x)", "schiene",
+        out.append(_teil(f"E-{zu}-a", f"Schiene {zu} (−x) · {typ(zu)['name']}", "schiene",
                          "schiene", (x0, x0 + rs), y, (0, rl), faehrt, richtung=1))
-        out.append(_teil(f"E-{zu}-b", f"Schiene {zu} (+x)", "schiene",
+        out.append(_teil(f"E-{zu}-b", f"Schiene {zu} (+x) · {typ(zu)['name']}", "schiene",
                          "schiene", (x1 - rs, x1), y, (0, rl), faehrt, richtung=-1))
 
     # Seiten L/R: unten Sitz-Brett, darüber Schublade
     for nr, sid in ((1, "L"), (2, "R")):
-        x = element(sek[sid])
-        out.append(_teil(f"C{nr}", f"Sitz-Brett {sid}", "brett", "sitz", x, (yB, yB + bh), zB, "bretter"))
+        out.append(_teil(f"C{nr}", f"Sitz-Brett {sid}", "brett", "sitz", element(sek[sid], f"C{nr}"),
+                         (yB, yB + bh), zB, "bretter"))
         y0 = yB + bh + sp
-        out.append(_teil(f"D{nr}", f"Schublade {sid} — Kasten", "schublade", "schublade", x, (y0, y0 + hK), zK, "schubladen"))
+        out.append(_teil(f"D{nr}", f"Schublade {sid} — Kasten", "schublade", "schublade", element(sek[sid], f"D{nr}"),
+                         (y0, y0 + hK), zK, "schubladen"))
         out.append(_teil(f"D{nr}-F", f"Schublade {sid} — Frontblende", "schublade", "blende",
                          sek[sid], (yB + bh, yB + bh + e["blende_hoehe"]), zF, "schubladen"))
         schienenpaar(sid, yB, "bretter", f"C{nr}")
-        schienenpaar(sid, yB + bh + sp + hK * 2 / 3 - rh / 2, "schubladen", f"D{nr}")
+        # Schubladenschiene mittig auf 2/3 Kastenhöhe — Bänder dürfen sich an B3 nicht überlappen (§H1)
+        schienenpaar(sid, yB + bh + sp + hK * 2 / 3 - typ(f"D{nr}")["hoehe"] / 2, "schubladen", f"D{nr}")
 
     # Mitte: unten Schublade, oben Tisch-Brett
-    x = element(sek["M"])
-    out.append(_teil("D3", "Schublade M — Kasten", "schublade", "schublade", x, (yB, yB + hK), zK, "schubladen"))
+    out.append(_teil("D3", "Schublade M — Kasten", "schublade", "schublade", element(sek["M"], "D3"),
+                     (yB, yB + hK), zK, "schubladen"))
     out.append(_teil("D3-F", "Schublade M — Frontblende", "schublade", "blende",
                      sek["M"], (yB, yB + e["blende_hoehe"]), zF, "schubladen"))
     yT = yB + hK + sp
-    out.append(_teil("C3", "Tisch-Brett M", "brett", "tisch", x, (yT, yT + bh), zB, "bretter"))
-    schienenpaar("M", yB + hK / 3 - rh / 2, "schubladen", "D3")
-    schienenpaar("M", yT + bh - rh, "bretter", "C3")
+    out.append(_teil("C3", "Tisch-Brett M", "brett", "tisch", element(sek["M"], "C3"), (yT, yT + bh), zB, "bretter"))
+    schienenpaar("M", yB + hK / 3 - typ("D3")["hoehe"] / 2, "schubladen", "D3")
+    schienenpaar("M", yT + bh - typ("C3")["hoehe"], "bretter", "C3")
     return out
 
 

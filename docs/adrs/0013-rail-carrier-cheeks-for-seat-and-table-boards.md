@@ -40,13 +40,14 @@ Options:
    expensive in multiplex, and still only usable with the 53 mm runner.
 
 > **Update 2026-10-17 ([ADR 0017](0017-850-mm-runners-in-900-mm-corpus.md)):**
-> all six positions now use the same AOLISHENG 850 mm runner, **76 mm high**.
-> The 53 mm board runner is gone, so option 3 drops out, and the cheeks in
-> option 1 would be 76 mm high — the element grows by 44 mm instead of 21 mm
-> and no longer fits the current height chain (seat board y 18–50 directly
-> below the drawer zone from y 50). The recommendation below was made for the
-> 53 mm runner and has to be re-evaluated; the board runner is no longer the
-> blocking purchase, only cutting `C1`–`C3` is.
+> runners are now AOLISHENG 850 mm: **76 mm high on the seat boards `C1`/`C2`**
+> (170 kg) and **53 mm on the table board `C3`** (80 kg). For `C3` the analysis
+> below is unchanged. For `C1`/`C2`, option-1 cheeks would be 76 mm high — the
+> element grows by 44 mm instead of 21 mm and no longer fits the current height
+> chain (seat board y 18–50 directly below the drawer zone from y 50); option 3
+> would mean a 76 mm board. The recommendation has to be re-evaluated for
+> `C1`/`C2`. The runners themselves are chosen; only cutting `C1`–`C3` is
+> blocked.
 
 ## Decision
 

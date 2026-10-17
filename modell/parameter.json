@@ -18,9 +18,13 @@
   "matratze": { "breite": 1100, "laenge": 1980, "hoehe": 80 },
 
   "schienen": {
-    "staerke": 19,
-    "hoehe": 76,
-    "laenge": 850
+    "laenge": 850,
+    "typen": {
+      "schwer": { "name": "AOLISHENG 850 mm · 170 kg", "staerke": 19, "hoehe": 76, "traglast": 170 },
+      "leicht": { "name": "AOLISHENG 850 mm · 80 kg",  "staerke": 19, "hoehe": 53, "traglast": 80 }
+    },
+    "_staerke": "Stärke je Seite bei beiden Typen noch am Produkt prüfen — die Elementbreiten hängen davon ab",
+    "zuordnung": { "C1": "schwer", "C2": "schwer", "C3": "leicht", "D1": "leicht", "D2": "leicht", "D3": "leicht" }
   },
 
   "elemente": {

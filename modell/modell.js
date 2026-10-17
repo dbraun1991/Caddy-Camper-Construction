@@ -20,9 +20,30 @@ window.MODELL = {
    "hoehe": 80
   },
   "schienen": {
-   "staerke": 19,
-   "hoehe": 76,
-   "laenge": 850
+   "laenge": 850,
+   "typen": {
+    "schwer": {
+     "name": "AOLISHENG 850 mm · 170 kg",
+     "staerke": 19,
+     "hoehe": 76,
+     "traglast": 170
+    },
+    "leicht": {
+     "name": "AOLISHENG 850 mm · 80 kg",
+     "staerke": 19,
+     "hoehe": 53,
+     "traglast": 80
+    }
+   },
+   "_staerke": "Stärke je Seite bei beiden Typen noch am Produkt prüfen — die Elementbreiten hängen davon ab",
+   "zuordnung": {
+    "C1": "schwer",
+    "C2": "schwer",
+    "C3": "leicht",
+    "D1": "leicht",
+    "D2": "leicht",
+    "D3": "leicht"
+   }
   },
   "elemente": {
    "brett_hoehe": 32,
@@ -263,7 +284,7 @@ window.MODELL = {
   },
   {
    "id": "E-C1-a",
-   "name": "Schiene C1 (−x)",
+   "name": "Schiene C1 (−x) · AOLISHENG 850 mm · 170 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "bretter",
@@ -285,7 +306,7 @@ window.MODELL = {
   },
   {
    "id": "E-C1-b",
-   "name": "Schiene C1 (+x)",
+   "name": "Schiene C1 (+x) · AOLISHENG 850 mm · 170 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "bretter",
@@ -307,7 +328,7 @@ window.MODELL = {
   },
   {
    "id": "E-D1-a",
-   "name": "Schiene D1 (−x)",
+   "name": "Schiene D1 (−x) · AOLISHENG 850 mm · 80 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "schubladen",
@@ -317,8 +338,8 @@ window.MODELL = {
      -523.0
     ],
     [
-     190.33,
-     266.33
+     201.83,
+     254.83
     ],
     [
      0,
@@ -329,7 +350,7 @@ window.MODELL = {
   },
   {
    "id": "E-D1-b",
-   "name": "Schiene D1 (+x)",
+   "name": "Schiene D1 (+x) · AOLISHENG 850 mm · 80 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "schubladen",
@@ -339,8 +360,8 @@ window.MODELL = {
      -230.0
     ],
     [
-     190.33,
-     266.33
+     201.83,
+     254.83
     ],
     [
      0,
@@ -414,7 +435,7 @@ window.MODELL = {
   },
   {
    "id": "E-C2-a",
-   "name": "Schiene C2 (−x)",
+   "name": "Schiene C2 (−x) · AOLISHENG 850 mm · 170 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "bretter",
@@ -436,7 +457,7 @@ window.MODELL = {
   },
   {
    "id": "E-C2-b",
-   "name": "Schiene C2 (+x)",
+   "name": "Schiene C2 (+x) · AOLISHENG 850 mm · 170 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "bretter",
@@ -458,7 +479,7 @@ window.MODELL = {
   },
   {
    "id": "E-D2-a",
-   "name": "Schiene D2 (−x)",
+   "name": "Schiene D2 (−x) · AOLISHENG 850 mm · 80 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "schubladen",
@@ -468,8 +489,8 @@ window.MODELL = {
      249.0
     ],
     [
-     190.33,
-     266.33
+     201.83,
+     254.83
     ],
     [
      0,
@@ -480,7 +501,7 @@ window.MODELL = {
   },
   {
    "id": "E-D2-b",
-   "name": "Schiene D2 (+x)",
+   "name": "Schiene D2 (+x) · AOLISHENG 850 mm · 80 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "schubladen",
@@ -490,8 +511,8 @@ window.MODELL = {
      542.0
     ],
     [
-     190.33,
-     266.33
+     201.83,
+     254.83
     ],
     [
      0,
@@ -565,7 +586,7 @@ window.MODELL = {
   },
   {
    "id": "E-D3-a",
-   "name": "Schiene D3 (−x)",
+   "name": "Schiene D3 (−x) · AOLISHENG 850 mm · 80 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "schubladen",
@@ -575,8 +596,8 @@ window.MODELL = {
      -193.0
     ],
     [
-     66.67,
-     142.67
+     78.17,
+     131.17
     ],
     [
      0,
@@ -587,7 +608,7 @@ window.MODELL = {
   },
   {
    "id": "E-D3-b",
-   "name": "Schiene D3 (+x)",
+   "name": "Schiene D3 (+x) · AOLISHENG 850 mm · 80 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "schubladen",
@@ -597,8 +618,8 @@ window.MODELL = {
      212.0
     ],
     [
-     66.67,
-     142.67
+     78.17,
+     131.17
     ],
     [
      0,
@@ -609,7 +630,7 @@ window.MODELL = {
   },
   {
    "id": "E-C3-a",
-   "name": "Schiene C3 (−x)",
+   "name": "Schiene C3 (−x) · AOLISHENG 850 mm · 80 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "bretter",
@@ -619,7 +640,7 @@ window.MODELL = {
      -193.0
     ],
     [
-     239,
+     262,
      315
     ],
     [
@@ -631,7 +652,7 @@ window.MODELL = {
   },
   {
    "id": "E-C3-b",
-   "name": "Schiene C3 (+x)",
+   "name": "Schiene C3 (+x) · AOLISHENG 850 mm · 80 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "bretter",
@@ -641,7 +662,7 @@ window.MODELL = {
      212.0
     ],
     [
-     239,
+     262,
      315
     ],
     [
@@ -996,8 +1017,8 @@ window.MODELL = {
       -523.0
      ],
      [
-      190.33,
-      266.33
+      201.83,
+      254.83
      ],
      [
       0,
@@ -1007,7 +1028,7 @@ window.MODELL = {
     "kategorie": "frontblende",
     "mass": [
      19.0,
-     76.0,
+     53.0,
      16.5
     ]
    },
@@ -1020,8 +1041,8 @@ window.MODELL = {
       -230.0
      ],
      [
-      190.33,
-      266.33
+      201.83,
+      254.83
      ],
      [
       0,
@@ -1031,7 +1052,7 @@ window.MODELL = {
     "kategorie": "frontblende",
     "mass": [
      19.0,
-     76.0,
+     53.0,
      16.5
     ]
    },
@@ -1092,8 +1113,8 @@ window.MODELL = {
       249.0
      ],
      [
-      190.33,
-      266.33
+      201.83,
+      254.83
      ],
      [
       0,
@@ -1103,7 +1124,7 @@ window.MODELL = {
     "kategorie": "frontblende",
     "mass": [
      19.0,
-     76.0,
+     53.0,
      16.5
     ]
    },
@@ -1116,8 +1137,8 @@ window.MODELL = {
       542.0
      ],
      [
-      190.33,
-      266.33
+      201.83,
+      254.83
      ],
      [
       0,
@@ -1127,7 +1148,7 @@ window.MODELL = {
     "kategorie": "frontblende",
     "mass": [
      19.0,
-     76.0,
+     53.0,
      16.5
     ]
    },
@@ -1164,8 +1185,8 @@ window.MODELL = {
       -193.0
      ],
      [
-      66.67,
-      142.67
+      78.17,
+      131.17
      ],
      [
       0,
@@ -1175,7 +1196,7 @@ window.MODELL = {
     "kategorie": "frontblende",
     "mass": [
      19.0,
-     76.0,
+     53.0,
      16.5
     ]
    },
@@ -1188,8 +1209,8 @@ window.MODELL = {
       212.0
      ],
      [
-      66.67,
-      142.67
+      78.17,
+      131.17
      ],
      [
       0,
@@ -1199,7 +1220,7 @@ window.MODELL = {
     "kategorie": "frontblende",
     "mass": [
      19.0,
-     76.0,
+     53.0,
      16.5
     ]
    },
@@ -1212,7 +1233,7 @@ window.MODELL = {
       -193.0
      ],
      [
-      239,
+      262,
       286
      ],
      [
@@ -1223,7 +1244,7 @@ window.MODELL = {
     "kategorie": "frontblende",
     "mass": [
      19.0,
-     47,
+     24,
      16.5
     ]
    },
@@ -1236,7 +1257,7 @@ window.MODELL = {
       212.0
      ],
      [
-      239,
+      262,
       286
      ],
      [
@@ -1247,7 +1268,7 @@ window.MODELL = {
     "kategorie": "frontblende",
     "mass": [
      19.0,
-     47,
+     24,
      16.5
     ]
    }
@@ -1310,8 +1331,8 @@ window.MODELL = {
       -523.0
      ],
      [
-      190.33,
-      266.33
+      201.83,
+      254.83
      ],
      [
       0,
@@ -1321,7 +1342,7 @@ window.MODELL = {
     "kategorie": "frontblende",
     "mass": [
      19.0,
-     76.0,
+     53.0,
      16.5
     ]
    },
@@ -1334,8 +1355,8 @@ window.MODELL = {
       -230.0
      ],
      [
-      190.33,
-      266.33
+      201.83,
+      254.83
      ],
      [
       0,
@@ -1345,7 +1366,7 @@ window.MODELL = {
     "kategorie": "frontblende",
     "mass": [
      19.0,
-     76.0,
+     53.0,
      16.5
     ]
    },
@@ -1406,8 +1427,8 @@ window.MODELL = {
       249.0
      ],
      [
-      190.33,
-      266.33
+      201.83,
+      254.83
      ],
      [
       0,
@@ -1417,7 +1438,7 @@ window.MODELL = {
     "kategorie": "frontblende",
     "mass": [
      19.0,
-     76.0,
+     53.0,
      16.5
     ]
    },
@@ -1430,8 +1451,8 @@ window.MODELL = {
       542.0
      ],
      [
-      190.33,
-      266.33
+      201.83,
+      254.83
      ],
      [
       0,
@@ -1441,7 +1462,7 @@ window.MODELL = {
     "kategorie": "frontblende",
     "mass": [
      19.0,
-     76.0,
+     53.0,
      16.5
     ]
    },
@@ -1478,8 +1499,8 @@ window.MODELL = {
       -193.0
      ],
      [
-      66.67,
-      142.67
+      78.17,
+      131.17
      ],
      [
       0,
@@ -1489,7 +1510,7 @@ window.MODELL = {
     "kategorie": "frontblende",
     "mass": [
      19.0,
-     76.0,
+     53.0,
      16.5
     ]
    },
@@ -1502,8 +1523,8 @@ window.MODELL = {
       212.0
      ],
      [
-      66.67,
-      142.67
+      78.17,
+      131.17
      ],
      [
       0,
@@ -1513,7 +1534,7 @@ window.MODELL = {
     "kategorie": "frontblende",
     "mass": [
      19.0,
-     76.0,
+     53.0,
      16.5
     ]
    },
@@ -1526,7 +1547,7 @@ window.MODELL = {
       -193.0
      ],
      [
-      239,
+      262,
       286
      ],
      [
@@ -1537,7 +1558,7 @@ window.MODELL = {
     "kategorie": "frontblende",
     "mass": [
      19.0,
-     47,
+     24,
      16.5
     ]
    },
@@ -1550,7 +1571,7 @@ window.MODELL = {
       212.0
      ],
      [
-      239,
+      262,
       286
      ],
      [
@@ -1561,7 +1582,7 @@ window.MODELL = {
     "kategorie": "frontblende",
     "mass": [
      19.0,
-     47,
+     24,
      16.5
     ]
    }
@@ -1624,8 +1645,8 @@ window.MODELL = {
       -523.0
      ],
      [
-      190.33,
-      266.33
+      201.83,
+      254.83
      ],
      [
       0,
@@ -1635,7 +1656,7 @@ window.MODELL = {
     "kategorie": "frontblende",
     "mass": [
      19.0,
-     76.0,
+     53.0,
      16.5
     ]
    },
@@ -1648,8 +1669,8 @@ window.MODELL = {
       -230.0
      ],
      [
-      190.33,
-      266.33
+      201.83,
+      254.83
      ],
      [
       0,
@@ -1659,7 +1680,7 @@ window.MODELL = {
     "kategorie": "frontblende",
     "mass": [
      19.0,
-     76.0,
+     53.0,
      16.5
     ]
    },
@@ -1720,8 +1741,8 @@ window.MODELL = {
       249.0
      ],
      [
-      190.33,
-      266.33
+      201.83,
+      254.83
      ],
      [
       0,
@@ -1731,7 +1752,7 @@ window.MODELL = {
     "kategorie": "frontblende",
     "mass": [
      19.0,
-     76.0,
+     53.0,
      16.5
     ]
    },
@@ -1744,8 +1765,8 @@ window.MODELL = {
       542.0
      ],
      [
-      190.33,
-      266.33
+      201.83,
+      254.83
      ],
      [
       0,
@@ -1755,7 +1776,7 @@ window.MODELL = {
     "kategorie": "frontblende",
     "mass": [
      19.0,
-     76.0,
+     53.0,
      16.5
     ]
    },
@@ -1792,8 +1813,8 @@ window.MODELL = {
       -193.0
      ],
      [
-      66.67,
-      142.67
+      78.17,
+      131.17
      ],
      [
       0,
@@ -1803,7 +1824,7 @@ window.MODELL = {
     "kategorie": "frontblende",
     "mass": [
      19.0,
-     76.0,
+     53.0,
      16.5
     ]
    },
@@ -1816,8 +1837,8 @@ window.MODELL = {
       212.0
      ],
      [
-      66.67,
-      142.67
+      78.17,
+      131.17
      ],
      [
       0,
@@ -1827,7 +1848,7 @@ window.MODELL = {
     "kategorie": "frontblende",
     "mass": [
      19.0,
-     76.0,
+     53.0,
      16.5
     ]
    },
@@ -1840,7 +1861,7 @@ window.MODELL = {
       -193.0
      ],
      [
-      239,
+      262,
       286
      ],
      [
@@ -1851,7 +1872,7 @@ window.MODELL = {
     "kategorie": "frontblende",
     "mass": [
      19.0,
-     47,
+     24,
      16.5
     ]
    },
@@ -1864,7 +1885,7 @@ window.MODELL = {
       212.0
      ],
      [
-      239,
+      262,
       286
      ],
      [
@@ -1875,7 +1896,7 @@ window.MODELL = {
     "kategorie": "frontblende",
     "mass": [
      19.0,
-     47,
+     24,
      16.5
     ]
    }
@@ -2155,8 +2176,8 @@ window.MODELL = {
      -523.0
     ],
     [
-     190.33,
-     266.33
+     201.83,
+     254.83
     ],
     [
      0,
@@ -2166,7 +2187,7 @@ window.MODELL = {
    "kategorie": "frontblende",
    "mass": [
     19.0,
-    76.0,
+    53.0,
     16.5
    ]
   },
@@ -2179,8 +2200,8 @@ window.MODELL = {
      -230.0
     ],
     [
-     190.33,
-     266.33
+     201.83,
+     254.83
     ],
     [
      0,
@@ -2190,7 +2211,7 @@ window.MODELL = {
    "kategorie": "frontblende",
    "mass": [
     19.0,
-    76.0,
+    53.0,
     16.5
    ]
   },
@@ -2251,8 +2272,8 @@ window.MODELL = {
      249.0
     ],
     [
-     190.33,
-     266.33
+     201.83,
+     254.83
     ],
     [
      0,
@@ -2262,7 +2283,7 @@ window.MODELL = {
    "kategorie": "frontblende",
    "mass": [
     19.0,
-    76.0,
+    53.0,
     16.5
    ]
   },
@@ -2275,8 +2296,8 @@ window.MODELL = {
      542.0
     ],
     [
-     190.33,
-     266.33
+     201.83,
+     254.83
     ],
     [
      0,
@@ -2286,7 +2307,7 @@ window.MODELL = {
    "kategorie": "frontblende",
    "mass": [
     19.0,
-    76.0,
+    53.0,
     16.5
    ]
   },
@@ -2323,8 +2344,8 @@ window.MODELL = {
      -193.0
     ],
     [
-     66.67,
-     142.67
+     78.17,
+     131.17
     ],
     [
      0,
@@ -2334,7 +2355,7 @@ window.MODELL = {
    "kategorie": "frontblende",
    "mass": [
     19.0,
-    76.0,
+    53.0,
     16.5
    ]
   },
@@ -2347,8 +2368,8 @@ window.MODELL = {
      212.0
     ],
     [
-     66.67,
-     142.67
+     78.17,
+     131.17
     ],
     [
      0,
@@ -2358,7 +2379,7 @@ window.MODELL = {
    "kategorie": "frontblende",
    "mass": [
     19.0,
-    76.0,
+    53.0,
     16.5
    ]
   },
@@ -2371,7 +2392,7 @@ window.MODELL = {
      -193.0
     ],
     [
-     239,
+     262,
      286
     ],
     [
@@ -2382,7 +2403,7 @@ window.MODELL = {
    "kategorie": "frontblende",
    "mass": [
     19.0,
-    47,
+    24,
     16.5
    ]
   },
@@ -2395,7 +2416,7 @@ window.MODELL = {
      212.0
     ],
     [
-     239,
+     262,
      286
     ],
     [
@@ -2406,7 +2427,7 @@ window.MODELL = {
    "kategorie": "frontblende",
    "mass": [
     19.0,
-    47,
+    24,
     16.5
    ]
   }
