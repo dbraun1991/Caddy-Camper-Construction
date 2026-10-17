@@ -198,7 +198,7 @@ Der Korpus besteht aus Einzelbrettern (keine Vollbox): B2 links/rechts, B1 Rück
 
 Offen:
 
-- [ ] **Entscheidung ADR 0013** — Schienenhöhe (53/76 mm) vs. Brettstärke (32 mm) bei C1–C3: [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Blockiert den Kauf der Brett-Schienen.
+- [ ] **Entscheidung ADR 0013** — Schienenhöhe (76 mm, überall AOLISHENG 850) vs. Brettstärke (32 mm) bei C1–C3: [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Blockiert den Zuschnitt von C1–C3, nicht mehr den Schienenkauf.
 - [ ] **Eckausbildung Korpus** — Stückliste nennt B2/B3 320 mm hoch *und* B4/B1 1.120 mm breit; das überschneidet sich an allen Ecken. Varianten im Reiter „Statisch“ vergleichen, dann Stückliste anpassen. **Vor dem Zuschnitt von B1–B4 klären.**
 - [x] Lichte Tiefe 882 mm vs. Schienenlänge — gelöst mit 850-mm-Schienen, Korpus bleibt 900 mm (20–30 mm Luft zu den Rücksitzen, 32 mm hinter den Schienen) — [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)
 - [ ] Schienenstärke der 850-mm-Schiene prüfen (geplant 19 mm je Seite) — vor der Bestellung

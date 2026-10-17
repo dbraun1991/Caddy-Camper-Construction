@@ -39,6 +39,15 @@ Options:
 3. **Thicken the boards to rail height** — 53 mm solid board. Simple, but heavy,
    expensive in multiplex, and still only usable with the 53 mm runner.
 
+> **Update 2026-10-17 ([ADR 0017](0017-850-mm-runners-in-900-mm-corpus.md)):**
+> all six positions now use the same AOLISHENG 850 mm runner, **76 mm high**.
+> The 53 mm board runner is gone, so option 3 drops out, and the cheeks in
+> option 1 would be 76 mm high — the element grows by 44 mm instead of 21 mm
+> and no longer fits the current height chain (seat board y 18–50 directly
+> below the drawer zone from y 50). The recommendation below was made for the
+> 53 mm runner and has to be re-evaluated; the board runner is no longer the
+> blocking purchase, only cutting `C1`–`C3` is.
+
 ## Decision
 
 *Not yet taken.* Recommendation is **option 1 (carrier cheeks)** with the 53 mm

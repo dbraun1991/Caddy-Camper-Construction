@@ -116,7 +116,7 @@ Mindestanforderung: **850 mm Auszug**, **Schwerlast**, mit Arretierung (Lock). 9
 
 ---
 
-#### Option 1 — AOLISHENG 850 mm · 170 kg ⭐ Gewählt für Schubladen
+#### Option 1 — AOLISHENG 850 mm · 170 kg ⭐ Gewählt für **alle 6 Paare** (Schubladen + Sitz-/Tisch-Bretter)
 **170 kg Traglast** · 76 mm Höhe · mit Arretierung · 104,99 €/Paar (gesehen 2026-10-17) · Link/ASIN noch nachtragen  
 ⚠ **Stärke je Seite vor Bestellung prüfen** — die Elementbreiten rechnen mit 19 mm (wie die 900-mm-Variante).
 
@@ -131,12 +131,12 @@ Bisherige Wahl, **verworfen** (passt nicht in 882 mm lichte Tiefe): AOLISHENG 90
 
 ---
 
-#### Option 2 — Schwerlast 95 kg ⭐ Für Sitz-/Tisch-Bretter — **in 850 mm Länge** nötig, Modell offen (ADR 0013)
-**95 kg Traglast** · 53 mm Höhe · mit Arretierung · verlinkt ist die 900-mm-Ausführung als Referenz — eine 850-mm-Ausführung ist noch zu finden  
+#### Option 2 — Schwerlast 95 kg · 53 mm hoch ✗ Verworfen — alle Positionen nutzen Option 1 (ADR 0017)
+**95 kg Traglast** · 53 mm Höhe · mit Arretierung · war für die Sitz-/Tisch-Bretter vorgesehen (nur als 900 mm gefunden)  
 → [Amazon.de — B09XXDHW1C](https://www.amazon.de/dp/B09XXDHW1C/ref=sspa_dk_hqp_detail_aax_0?aref=gn8XpWgrVu&sp_csd=d2lkZ2V0TmFtZT1zcF9ocXBfc2hhcmVk&th=1)
 
 ```
-Vollauszug 850 mm (gesucht) · Höhe 53 mm · Traglast 95 kg · Arretierung: Ja
+Vollauszug 900 mm · Höhe 53 mm · Traglast 95 kg · Arretierung: Ja
 Geeignet für: leichtere Elemente (Sitz- und Tisch-Bretter)
 ```
 
@@ -225,7 +225,7 @@ Die Außenmember der Schienen werden auf die **Flächen** von Seitenwänden (B2)
 | Vorderste 2 Bohrungen je Schiene | **M5 Durchsteckschraube** mit U-Scheibe + Stoppmutter statt Holzschraube | Am Korpusvorderkant ist das Kippmoment bei 850 mm Auszug maximal — hier reißen Holzschrauben zuerst aus |
 | Verschrauben | von innen nach außen anreißen, Schienen **paarweise** auf gleiche Höhe lehren (Reststück Multiplex als Abstandslehre) | 1 mm Höhenversatz im Paar blockiert den Vollauszug |
 
-⚠ Zuerst ADR 0013 entscheiden: die Sitz-/Tisch-Bretter (32 mm) sind niedriger als die Schienen-Innenmember (53 bzw. 76 mm) — siehe [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Empfehlung: **Trägerwangen** 18 mm × Schienenhöhe × 850 mm, verleimt + verschraubt an beiden Längskanten; die Schiene greift dann in Faserfläche, nicht in Stirnkante.
+⚠ Zuerst ADR 0013 entscheiden: die Sitz-/Tisch-Bretter (32 mm) sind niedriger als die Schienen-Innenmember (76 mm, AOLISHENG 850 an allen Positionen) — siehe [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Empfehlung: **Trägerwangen** 18 mm × Schienenhöhe × 850 mm, verleimt + verschraubt an beiden Längskanten; die Schiene greift dann in Faserfläche, nicht in Stirnkante.
 
 ### H2 — Schubladenkästen (D1–D3)
 

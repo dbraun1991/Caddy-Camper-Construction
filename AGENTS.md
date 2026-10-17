@@ -128,10 +128,10 @@ down.
 
 - **[ADR 0013](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md) is
   Proposed, not Accepted** — the seat/table boards are 32 mm thick but the runner
-  inner members are 53/76 mm high, so there is no full-height face to screw them
+  inner members are 76 mm high (AOLISHENG 850 mm at all six positions, ADR 0017), so there is no full-height face to screw them
   to. Deciding it changes `elemente.brett_hoehe` / the rail bands in `modell/`
   plus the height tables in `List_of_Materials.md` and `README.md`. Don't cut
-  `C1`–`C3` or buy the board runners before it is resolved.
+  `C1`–`C3` before it is resolved (the runner itself is no longer blocked).
 - **Open findings from the overlap check** (red in the drawings; details in the
   "Statisch" tab report). None is decided yet — don't silently "fix" them in the
   model; each is a build decision for the user:

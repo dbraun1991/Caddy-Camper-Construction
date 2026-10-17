@@ -3,7 +3,7 @@
 Preisstand: **Oktober 2026**, Richtpreise aus deutschen Online-Shops (Brutto, inkl. 19 % MwSt., ohne Versand).
 Teilenummern beziehen sich auf [List_of_Materials.md](./List_of_Materials.md).
 
-> ⚠ **Vor dem Kauf der Brett-Schienen und der Sitz-/Tisch-Bretter:** [ADR 0013](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md) ist noch offen (Schienenhöhe vs. 32 mm Brettstärke). Alles andere ist kaufbereit.
+> ⚠ **Vor dem Zuschnitt der Sitz-/Tisch-Bretter C1–C3:** [ADR 0013](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md) ist noch offen (Schienenhöhe 76 mm vs. 32 mm Brettstärke). **Vor dem Kauf der Schienen:** Stärke je Seite prüfen (geplant 19 mm). Alles andere ist kaufbereit.
 
 ---
 
@@ -28,15 +28,12 @@ Spanne erklärt sich über die Qualitätsklasse (BB/BB vs. S/BB) und den Händle
 
 | Pos | Artikel | Menge | Einzelpreis/Paar | Summe |
 |---|---|---|---|---|
-| E1 | AOLISHENG 850 mm · 170 kg · Arretierung — Schubladen (Stärke 19 mm vor Kauf prüfen) | 3 Paare | 104,99 € | **~315 €** |
-| E2 | Schwerlast-Vollauszug **850 mm** · ≥ 95 kg · Arretierung — Sitz-/Tisch-Bretter (Modell offen, ADR 0013; Preis aus der 900-mm-Recherche übernommen) | 3 Paare | 45 – 85 € | **135 – 255 €** |
-| | | | **Teilsumme** | **~450 – 570 €** |
+| E1 | AOLISHENG 850 mm · 170 kg · 76 mm hoch · Arretierung — **alle 6 Positionen** (3 Schubladen + 3 Sitz-/Tisch-Bretter; Stärke 19 mm vor Kauf prüfen) | 6 Paare | 104,99 € | **~630 €** |
+| | | | **Teilsumme** | **~630 €** |
 
-Das sind grob **40 % des Gesamtbudgets**. Sparpotenzial, falls das Budget drückt:
+Das sind gut **40 % des Gesamtbudgets**. Bewusst eine einzige Schiene für alle sechs Positionen ([ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)): gleiche Länge, gleiche Stärke, gleiche Einbauhöhe, und auch die Bretter, auf denen jemand sitzt, haben 170 kg statt 95 kg Reserve.
 
-- Die Schubladen tragen Gepäck, keine Person — eine leichtere Schiene (z. B. 80 kg, bei 900 mm um ~85 €/Paar) wäre dort vertretbar, sofern es sie in 850 mm gibt. Die 170-kg-Variante ist Reserve, keine Notwendigkeit.
-- Bei den Sitz-/Tisch-Brettern **nicht** sparen: dort sitzt eine Person bei 850 mm Auszug, und ADR 0008 macht die Arretierung zur harten Anforderung.
-- Nicht-Amazon-Quellen (teleskopschienen-shop.de, teleskopschienen24.de) lagen bei 900 mm/120 kg um ~84 €/Paar (850 mm dort prüfen) — bei 6 Paaren ein Preisvergleich wert.
+- Preisvergleich lohnt bei 6 Paaren: Nicht-Amazon-Quellen (teleskopschienen-shop.de, teleskopschienen24.de) lagen bei 900 mm/120 kg um ~84 €/Paar — 850 mm / ≥ 150 kg mit Arretierung dort prüfen.
 
 ---
 
@@ -88,14 +85,14 @@ Das sind grob **40 % des Gesamtbudgets**. Sparpotenzial, falls das Budget drück
 | Block | Günstig | Mittel (realistisch) | Komfort |
 |---|---|---|---|
 | Holz + Zuschnitt | 404 € | 481 € | 585 € |
-| Schienen | 450 € | 508 € | 570 € |
+| Schienen | 630 € | 630 € | 630 € |
 | Befestigungsmaterial | 153 € | 168 € | 183 € |
 | Ausbau / Sonstiges | 135 € | 230 € | 680 € |
-| **Summe** | **~1.145 €** | **~1.390 €** | **~2.020 €** |
-| + Puffer 10 % (Verschnitt, Nachkauf, Versand) | ~115 € | ~140 € | ~200 € |
-| **Gesamt** | **~1.260 €** | **~1.530 €** | **~2.220 €** |
+| **Summe** | **~1.320 €** | **~1.510 €** | **~2.080 €** |
+| + Puffer 10 % (Verschnitt, Nachkauf, Versand) | ~130 € | ~150 € | ~210 € |
+| **Gesamt** | **~1.455 €** | **~1.660 €** | **~2.285 €** |
 
-### Realistische Planungsgröße: **~1.500 €**
+### Realistische Planungsgröße: **~1.650 €**
 
 Das setzt voraus: Multiplex aus dem Baumarkt mit Zuschnitt, die empfohlenen Schienen, Matratze als zugeschnittene Schaumplatte, Werkzeug schon vorhanden.
 
@@ -114,6 +111,6 @@ Die kommerzielle Alternative [Moonbox 111](https://www.moonbox.de/products/moonb
 Die Montagereihenfolge in [§H](./List_of_Materials.md#montagereihenfolge) gibt die Kaufreihenfolge vor — der fertige Korpus liefert das verbindliche Innenmaß, nicht die Zeichnung:
 
 1. **Jetzt:** Holz 18 mm + 12 mm mit Zuschnitt, Leim, Dübel, Schrauben F1/F2/F7/F8, Winkel F3, Leisten F12/F13, Spanngurte F11 → Korpus bauen
-2. **Nach ADR-0013-Entscheidung:** Schienen E1 + E2, Durchsteckschrauben F9 → einmessen und montieren
+2. **Sobald die Schienenstärke geprüft ist:** Schienen E1 (6 Paare), Durchsteckschrauben F9 → einmessen und montieren (Bretter C1–C3 erst nach ADR 0013 zuschneiden)
 3. **Nach Einbau im Fahrzeug:** M8-Sätze F10 (Gewinde der Zurrösen erst am Auto prüfen; Rücksitz-Ösen liegen neben dem Korpus → Winkel außen an B2, ADR 0016), Griffe F6
 4. **Zuletzt:** Matratze G1 + Bezug G2 — erst messen, wenn die Liegefläche real liegt; Gurtschlaufen F15 und Ausgleich F16 beim Anpassen von A2/A3 im Fahrzeug

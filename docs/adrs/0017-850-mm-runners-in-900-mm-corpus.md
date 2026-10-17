@@ -27,10 +27,11 @@ Options:
 ## Decision
 
 - Corpus stays **900 mm** deep; 20–30 mm air to the rear seats.
-- All runners are **850 mm** full-extension with lock. For the drawers:
-  AOLISHENG 850 mm, 170 kg, 76 mm high, with lock (104.99 € per pair, seen
-  2026-10-17). The board runners (`E2`) are also taken in 850 mm; which model
-  stays open with ADR 0013.
+- **One runner for all six positions** (3 drawers, 2 seat boards, 1 table
+  board): AOLISHENG 850 mm full-extension, 170 kg, 76 mm high, with lock
+  (104.99 € per pair, seen 2026-10-17). The separate 95 kg / 53 mm board
+  runner from ADR 0008 is dropped — it was only found in 900 mm, and one part
+  for every position means one thickness, one height and one mounting pattern.
 - Derived in `modell/parameter.json`: drawer box depth **830 mm** (runner − 20,
   as before), seat/table board depth **850 mm** (= runner length).
 - Behind the runners and elements: **32 mm** clear space before `B1`.
@@ -45,4 +46,8 @@ Options:
   gives the 76 mm height but not the thickness; every element width is computed
   with 19 mm (ADR 0006/0008). A different thickness changes all element widths
   and must go into `schienen.staerke`.
-- The lock requirement of ADR 0008 is unchanged.
+- The lock requirement of ADR 0008 is unchanged. ADR 0008's note that the 95 kg
+  board runners are the limit of the seating arrangement no longer applies —
+  the boards now run on 170 kg runners.
+- The seat/table boards now face a **76 mm** runner instead of 53 mm, which
+  changes the numbers in the still-open ADR 0013.
