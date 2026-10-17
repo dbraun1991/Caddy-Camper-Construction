@@ -25,7 +25,7 @@ Nutzbare Innenbreite L/R: 1.120 mm − 2 × 18 mm (B2 Seitenwand) − 2 × 18 mm
 | Pos | Bezeichnung | Maß (B × T × H) | Menge | Hinweis |
 |---|---|---|---|---|
 | B1 | Rückwand | 1.120 × 18 × 320 | 1 | Zur Rücksitz-Seite hin |
-| B2 | Seitenwand | 18 × 900 × 320 | 2 | Links + rechts (ggf. entfällt wenn Karosserie als Wand dient) |
+| B2 | Seitenwand | 18 × 900 × 320 | 2 | Links + rechts — erforderlich: trägt die äußeren Schienen, Korpus bleibt als Ganzes ausbaubar ([ADR 0014](docs/adrs/0014-self-contained-corpus-with-own-side-walls.md)) |
 | B3 | Trennwand | 18 × 900 × 320 | 2 | Zwischen den 3 Sektionen |
 | B4 | Bodenplatte | 1.120 × 900 × 18 | 1 | Trägt Sitz-/Schubladenlast; Sitzbretter ruhen darauf |
 
