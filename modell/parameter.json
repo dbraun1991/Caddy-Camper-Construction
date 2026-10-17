@@ -20,7 +20,7 @@
   "schienen": {
     "staerke": 19,
     "hoehe": 76,
-    "laenge": 900
+    "laenge": 850
   },
 
   "elemente": {
@@ -28,7 +28,8 @@
     "spalt_hoehe": 5,
     "spiel_seitlich": 1,
     "vorstand_front": 1.5,
-    "kasten_tiefe": 880,
+    "kasten_tiefe": 830,
+    "brett_tiefe": 850,
     "blende_staerke": 18,
     "blende_hoehe": 268
   },

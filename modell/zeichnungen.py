@@ -100,8 +100,18 @@ class Blatt:
             label=label or fmt(round(laenge, 1))))
 
     def kette(self, punkte, abstand):
+        versatz = 0
         for a, b in zip(punkte, punkte[1:]):
-            self.mass(a, b, abstand)
+            laenge = ((b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2) ** 0.5
+            if laenge * M >= 10:                 # Zahl passt zwischen die Pfeile
+                self.mass(a, b, abstand)
+                continue
+            # Kurzes Maß: Linie ohne Zahl, Zahl gestaffelt außerhalb (rechts der Richtung a→b)
+            self.mass(a, b, abstand, label=" ")
+            versatz = 4.5 if versatz != 4.5 else 8.5
+            nx, ny = (b[1] - a[1]) / laenge, -(b[0] - a[0]) / laenge
+            weg = (abstand + versatz) / M
+            self.text(fmt(round(laenge, 1)), (a[0] + b[0]) / 2 + nx * weg, (a[1] + b[1]) / 2 + ny * weg, 2.6)
 
     def masslinie(self, a, b, label):
         """Maß direkt im Bild, ohne Hilfslinien."""
@@ -189,6 +199,7 @@ def bemassen(name, blatt, teile, p):
     b1 = teil(teile, "B1")["box"]
     wand_x = sorted({v for id in ("B2-F", "B2-B", "B3-1", "B3-2") for v in teil(teile, id)["box"][0]})
     hoehen = sorted({0, b4[1][1], a1[1][0], oben})
+    r_ende = teil(teile, "E-C1-a")["box"][2][1]          # hinteres Schienenende
 
     if name == "vorderansicht":
         blatt.mass((-W / 2, 0), (W / 2, 0), 14, fmt(W))                  # unten, Gesamtbreite
@@ -214,7 +225,7 @@ def bemassen(name, blatt, teile, p):
     elif name == "draufsicht":
         blatt.mass((-W / 2, 0), (W / 2, 0), 16, fmt(W))
         blatt.kette([(-x, D) for x in wand_x], 8)
-        tiefen = sorted({0, b1[2][0], D})
+        tiefen = sorted({0, r_ende, b1[2][0], D})
         blatt.kette([(-W / 2, z) for z in reversed(tiefen)], 10)         # links im Bild = Fahrerseite
         blatt.mass((-W / 2, D), (-W / 2, 0), 20, fmt(D))
         r = teil(teile, "E-D2-b")["box"]
@@ -223,8 +234,8 @@ def bemassen(name, blatt, teile, p):
 
     elif name == "seitenansicht":
         blatt.mass((-D, 0), (0, 0), 14, fmt(D))                          # unten, Korpustiefe
-        tiefen = sorted({0, b1[2][0], D})
-        blatt.kette([(-z, oben) for z in tiefen], 8)                      # oben: lichte Tiefe + Rückwand
+        tiefen = sorted({0, r_ende, b1[2][0], D})
+        blatt.kette([(-z, oben) for z in tiefen], 8)                      # oben: Schiene, Spiel, Rückwand
         blatt.kette([(0, v) for v in hoehen], 10)                         # rechts = Korpusfront
         blatt.mass((0, 0), (0, oben), 22, fmt(oben))
         r = teil(teile, "E-C2-b")["box"]

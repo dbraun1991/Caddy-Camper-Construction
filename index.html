@@ -183,14 +183,14 @@
 
   <div id="legend">
     <span style="background:#8B6520;"></span>Holz / Korpus + Liegefläche (Birke-Multiplex)<br>
-    <span style="background:#5DCAA5;"></span>Sitz-Brett L/R &nbsp;(32 mm hoch · 900 mm Auszug)<br>
-    <span style="background:#EF9F27;"></span>Tisch-Brett Mitte (32 mm hoch · 900 mm Auszug)<br>
-    <span style="background:#378ADD;"></span>Schubladen × 3 &nbsp;(Kasten 260 · Blende 268 mm hoch · 900 mm Auszug)<br>
+    <span style="background:#5DCAA5;"></span>Sitz-Brett L/R &nbsp;(32 mm hoch · 850 mm Auszug)<br>
+    <span style="background:#EF9F27;"></span>Tisch-Brett Mitte (32 mm hoch · 850 mm Auszug)<br>
+    <span style="background:#378ADD;"></span>Schubladen × 3 &nbsp;(Kasten 260 · Blende 268 mm hoch · 850 mm Auszug)<br>
     <span style="background:#E62929;"></span>Rechnerische Überschneidung (Button „Überschneidungen“)<br>
     <span style="background:#9DB4C8;"></span>Caddy-Hülle, Heckklappe offen (60 % · teils nachgemessen)<br>
     <span style="background:#B5E48C;"></span>Lade-Referenzebene Kofferraum (y = 0)<br>
     <span style="background:#5F6B7A;"></span>Rücksitzbank (umgeklappt / ausgebaut)<br>
-    <span style="background:#FF1111;"></span>Schienen × 12 &nbsp;(AOLISHENG · 18×74×900 mm · fährt mit Element)
+    <span style="background:#FF1111;"></span>Schienen × 12 &nbsp;(AOLISHENG · 19×76×850 mm · fährt mit Element)
   </div>
 
   <div id="info">Schlafmodus — alles eingeklappt</div>
@@ -274,7 +274,7 @@
   var TH = P.korpus.plattenstaerke;         // 18
   var LA2 = P.liegeflaeche.laenge_a2;       // 700, Brett über den Rücksitzlehnen
   var LA3 = P.liegeflaeche.laenge_a3;       // 400, Brett Kopfbereich
-  var AUSZUG = P.schienen.laenge;           // 900 — Auswahl: docs/adrs/0008-heavy-duty-full-extension-runners.md
+  var AUSZUG = P.schienen.laenge;           // 850 — docs/adrs/0008-heavy-duty-full-extension-runners.md, Länge: docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md
 
   // ── Materials ─────────────────────────────────────────────────────────────
   var mWoodDk  = new THREE.MeshLambertMaterial({ color: 0x8B6520, transparent: true, opacity: 0.90 });
@@ -518,8 +518,8 @@
   var infoEl = document.getElementById('info');
   var modeLabels = {
     schlafen: 'Schlafmodus — alles eingeklappt',
-    bank:     'Bankmodus — Bretter 900 mm ausgefahren',
-    pack:     'Packmodus — Schubladen 900 mm ausgefahren'
+    bank:     'Bankmodus — Bretter ' + AUSZUG + ' mm ausgefahren',
+    pack:     'Packmodus — Schubladen ' + AUSZUG + ' mm ausgefahren'
   };
 
   window.setMode = function (m) {

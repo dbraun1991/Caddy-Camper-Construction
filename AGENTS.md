@@ -138,8 +138,10 @@ down.
   - Corner construction of the corpus is unspecified (`eckausbildung` parameter;
     `stueckliste` reproduces the current, overlapping cut list). Blocks cutting
     `B1`–`B4`.
-  - Clear depth 882 mm behind `B1` < 900 mm rail length. Measured load depth is
-    920–930 mm, so a 918 mm corpus (900 clear) would still fit with 2–12 mm.
+  - ~~Clear depth 882 mm < 900 mm rail length~~ — resolved by
+    [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md): 850 mm
+    runners, corpus stays 900 mm. Open: verify the 850 mm runner's thickness
+    (19 mm assumed in `schienen.staerke`).
   - Full-section-width inset drawer fronts sit in front of the runners.
   - Drawer heights: box 260 (= 248 sides + 12 bottom) and front 268 in
     `List_of_Materials.md` §D are consistent with each other; the remaining

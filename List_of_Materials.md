@@ -52,13 +52,13 @@ Nutzbare Innenbreite L/R: 1.120 mm − 2 × 18 mm (B2 Seitenwand) − 2 × 18 mm
 ## C — Sitz- und Tisch-Bretter (auf Vollauszug-Schienen)
 
 Untere 10 % der Sektionshöhe (32 mm) bei L/R, obere 10 % bei Mitte.  
-Alle drei fahren 900 mm auf Vollauszug-Schienen aus — **kein Klappen**, reine Zugbewegung.
+Alle drei fahren 850 mm auf Vollauszug-Schienen aus — **kein Klappen**, reine Zugbewegung.
 
 | Pos | Bezeichnung | Maß (B × T × H) | Menge | Position im Korpus |
 |---|---|---|---|---|
-| C1 | Sitz-Brett Links | 272 × 900 × 32 | 1 | y 18–50 mm; 312 mm Innen − 38 mm Schienen − 2 mm Spalt |
-| C2 | Sitz-Brett Rechts | 272 × 900 × 32 | 1 | y 18–50 mm; 312 mm Innen − 38 mm Schienen − 2 mm Spalt |
-| C3 | Tisch-Brett Mitte | 384 × 900 × 32 | 1 | y 286–318 mm; 424 mm Innen − 38 mm Schienen − 2 mm Spalt |
+| C1 | Sitz-Brett Links | 272 × 850 × 32 | 1 | y 18–50 mm; 312 mm Innen − 38 mm Schienen − 2 mm Spalt |
+| C2 | Sitz-Brett Rechts | 272 × 850 × 32 | 1 | y 18–50 mm; 312 mm Innen − 38 mm Schienen − 2 mm Spalt |
+| C3 | Tisch-Brett Mitte | 384 × 850 × 32 | 1 | y 286–318 mm; 424 mm Innen − 38 mm Schienen − 2 mm Spalt |
 
 > **Hinweis:** 32 mm Brettstärke = 18 mm Multiplex + 14 mm Auflageleiste, oder direkt aus 32 mm Leimholz.
 
@@ -67,7 +67,7 @@ Alle drei fahren 900 mm auf Vollauszug-Schienen aus — **kein Klappen**, reine 
 ## D — Schubladen (3 Stück)
 
 Schubladen-Boxen aus 18 mm Korpus + 12 mm Boden.  
-Innentiefe folgt der Schienen-Länge (900 mm Auszug → Boxtiefe ca. 880 mm).
+Innentiefe folgt der Schienen-Länge (850 mm Auszug → Kastentiefe 830 mm; dahinter 32 mm Luft bis zur Rückwand B1, [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)).
 
 ### D1 + D2 — Schublade Links & Rechts (je 1×)
 
@@ -75,8 +75,8 @@ y = 50–318 mm = 268 mm hoch; 312 mm Innen − 2 × 19 mm Schiene − 2 mm Spal
 
 | Bauteil | Maß (B × T × H) | Stärke | Menge |
 |---|---|---|---|
-| Boden | 272 × 880 | 12 mm | 2 |
-| Seitenwand lang | 12 × 880 × 248 | 18 mm | 4 |
+| Boden | 272 × 830 | 12 mm | 2 |
+| Seitenwand lang | 12 × 830 × 248 | 18 mm | 4 |
 | Front + Rück | 272 × 18 × 248 | 18 mm | 4 |
 | Frontblende (sichtbar) | 312 × 18 × 268 | 18 mm | 2 |
 
@@ -86,8 +86,8 @@ y = 18–286 mm = 268 mm hoch; 424 mm Innen − 2 × 19 mm Schiene − 2 mm Spal
 
 | Bauteil | Maß (B × T × H) | Stärke | Menge |
 |---|---|---|---|
-| Boden | 384 × 880 | 12 mm | 1 |
-| Seitenwand lang | 12 × 880 × 248 | 18 mm | 2 |
+| Boden | 384 × 830 | 12 mm | 1 |
+| Seitenwand lang | 12 × 830 × 248 | 18 mm | 2 |
 | Front + Rück | 384 × 18 × 248 | 18 mm | 2 |
 | Frontblende (sichtbar) | 424 × 18 × 268 | 18 mm | 1 |
 
@@ -95,10 +95,10 @@ y = 18–286 mm = 268 mm hoch; 424 mm Innen − 2 × 19 mm Schiene − 2 mm Spal
 
 ## E — Vollauszug-Schienen (6 Paare gesamt)
 
-> Auswahlbegründung (900 mm/Schwerlast statt kürzer/SoftClose): [docs/adrs/0008-heavy-duty-full-extension-runners.md](docs/adrs/0008-heavy-duty-full-extension-runners.md)
+> Auswahlbegründung: [ADR 0008](docs/adrs/0008-heavy-duty-full-extension-runners.md) (Schwerlast + Arretierung) · [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md) (850 statt 900 mm: lichte Tiefe hinter B1 nur 882 mm)
 
 **6 Paare** insgesamt: 3× für Schubladen + 3× für Sitz-/Tisch-Bretter.  
-Mindestanforderung: **900 mm Auszug**, **Schwerlast**, mit Arretierung (Lock).
+Mindestanforderung: **850 mm Auszug**, **Schwerlast**, mit Arretierung (Lock). 900-mm-Schienen passen nicht: hinter der Rückwand bleiben nur 882 mm lichte Tiefe.
 
 | # | Element | Schienen-Paare |
 |---|---|---|
@@ -116,31 +116,34 @@ Mindestanforderung: **900 mm Auszug**, **Schwerlast**, mit Arretierung (Lock).
 
 ---
 
-#### Option 1 — AOLISHENG 900 mm · 150 kg ⭐ Empfohlen für Schubladen
-**150 kg Traglast** · 76 mm Breite · **19 mm Stärke (Einbautiefe je Seite)** · mit Arretierung  
-→ [Amazon.de — B086JQLXRJ](https://www.amazon.de/dp/B086JQLXRJ?ref=cm_sw_r_mwn_dp_F4691SK4DH72WBHHXHVK&ref_=cm_sw_r_mwn_dp_F4691SK4DH72WBHHXHVK&social_share=cm_sw_r_mwn_dp_F4691SK4DH72WBHHXHVK&th=1)
+#### Option 1 — AOLISHENG 850 mm · 170 kg ⭐ Gewählt für Schubladen
+**170 kg Traglast** · 76 mm Höhe · mit Arretierung · 104,99 €/Paar (gesehen 2026-10-17) · Link/ASIN noch nachtragen  
+⚠ **Stärke je Seite vor Bestellung prüfen** — die Elementbreiten rechnen mit 19 mm (wie die 900-mm-Variante).
 
 ```
-Vollauszug 900 mm · Breite 76 mm · Stärke 19 mm je Seite · Traglast 150 kg · Arretierung: Ja
+Vollauszug 850 mm · Höhe 76 mm · Stärke 19 mm je Seite (zu prüfen) · Traglast 170 kg · Arretierung: Ja
 Einbaumaß: Sektionsbreite − 2 × 19 mm − 2 mm Spalt = Schubladenbreite
-Geeignet für: Werkstatt, Industrie, Fahrzeugeinbau
+Hinter der Schiene: 882 mm lichte Tiefe − 850 mm = 32 mm Luft
 ```
+
+Bisherige Wahl, **verworfen** (passt nicht in 882 mm lichte Tiefe): AOLISHENG 900 mm · 150 kg · 19 mm Stärke  
+→ [Amazon.de — B086JQLXRJ](https://www.amazon.de/dp/B086JQLXRJ?ref=cm_sw_r_mwn_dp_F4691SK4DH72WBHHXHVK&ref_=cm_sw_r_mwn_dp_F4691SK4DH72WBHHXHVK&social_share=cm_sw_r_mwn_dp_F4691SK4DH72WBHHXHVK&th=1)
 
 ---
 
-#### Option 2 — Schwerlast 900 mm · 95 kg ⭐ Empfohlen für Sitz-/Tisch-Bretter
-**95 kg Traglast** · 53 mm Höhe · mit Arretierung  
+#### Option 2 — Schwerlast 95 kg ⭐ Für Sitz-/Tisch-Bretter — **in 850 mm Länge** nötig, Modell offen (ADR 0013)
+**95 kg Traglast** · 53 mm Höhe · mit Arretierung · verlinkt ist die 900-mm-Ausführung als Referenz — eine 850-mm-Ausführung ist noch zu finden  
 → [Amazon.de — B09XXDHW1C](https://www.amazon.de/dp/B09XXDHW1C/ref=sspa_dk_hqp_detail_aax_0?aref=gn8XpWgrVu&sp_csd=d2lkZ2V0TmFtZT1zcF9ocXBfc2hhcmVk&th=1)
 
 ```
-Vollauszug 900 mm · Höhe 53 mm · Traglast 95 kg · Arretierung: Ja
+Vollauszug 850 mm (gesucht) · Höhe 53 mm · Traglast 95 kg · Arretierung: Ja
 Geeignet für: leichtere Elemente (Sitz- und Tisch-Bretter)
 ```
 
 ---
 
 #### Option 3 — VADANIA SoftClose 550 mm · 105 kg ⚠ Nicht geeignet für diesen Ausbau
-**550 mm Auszug** — zu kurz für 900 mm Auszugstiefe.  
+**550 mm Auszug** — zu kurz für 850 mm Auszugstiefe.  
 → [Amazon.de — B08625F5G9](https://www.amazon.de/dp/B08625F5G9/ref=syn_sd_onsite_desktop_0?ie=UTF8&pd_rd_plhdr=t&aref=x4jkmhKkxO&th=1)
 
 ```
@@ -167,7 +170,7 @@ Vollauszug 550 mm · 3-teilig · SoftClose · Traglast 105 kg
 | F11 | Spanngurt (Ratsche) | ≥ 1,5 m, 2-teilig | 2 Stk. |
 | F12 | Eckleiste Weichholz (Schubladen-Innenecken, → §H2) | 20 × 20 mm, Länge ~3,0 m gesamt | 12 Stk. à 240 mm |
 | F13 | Überlappungsleisten Liegefläche (→ §H4) | 18 × 40 × 1.000 mm | 2 Stk. |
-| F14 | Trägerwangen Sitz-/Tisch-Bretter (→ §H1 / ADR 0013) | 18 mm × Schienenhöhe × 900 mm | 6 Stk. ⚠ erst nach ADR 0013 |
+| F14 | Trägerwangen Sitz-/Tisch-Bretter (→ §H1 / ADR 0013) | 18 mm × Schienenhöhe × 850 mm | 6 Stk. ⚠ erst nach ADR 0013 |
 | F15 | Gurtschlaufe A3 ↔ Kopfstütze, verstellbar (→ §H4) | Gurtband ~25 mm mit Klemmschnalle | 2 Stk. |
 | F16 | Ausgleich unter A2 (→ §H4) | Leiste 10 × 40 × 1.000 mm oder 10-mm-Gummistreifen | 2 Stk. |
 
@@ -219,10 +222,10 @@ Die Außenmember der Schienen werden auf die **Flächen** von Seitenwänden (B2)
 |---|---|---|
 | Schraubenlänge in B3 | max. **3,5 × 16 mm** | Trennwände tragen Schienen auf **beiden** Seiten; längere Schrauben durchstoßen die 18 mm Platte |
 | Höhenversatz der Schienenbänder | wie in `index.html` dokumentiert (Sitz 18–94, Schublade L/R 190–266, Schublade M 67–143, Tisch M 239–315 mm) | Kein Überlapp → keine Schraubenkollision in der Trennwand |
-| Vorderste 2 Bohrungen je Schiene | **M5 Durchsteckschraube** mit U-Scheibe + Stoppmutter statt Holzschraube | Am Korpusvorderkant ist das Kippmoment bei 900 mm Auszug maximal — hier reißen Holzschrauben zuerst aus |
+| Vorderste 2 Bohrungen je Schiene | **M5 Durchsteckschraube** mit U-Scheibe + Stoppmutter statt Holzschraube | Am Korpusvorderkant ist das Kippmoment bei 850 mm Auszug maximal — hier reißen Holzschrauben zuerst aus |
 | Verschrauben | von innen nach außen anreißen, Schienen **paarweise** auf gleiche Höhe lehren (Reststück Multiplex als Abstandslehre) | 1 mm Höhenversatz im Paar blockiert den Vollauszug |
 
-⚠ Zuerst ADR 0013 entscheiden: die Sitz-/Tisch-Bretter (32 mm) sind niedriger als die Schienen-Innenmember (53 bzw. 76 mm) — siehe [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Empfehlung: **Trägerwangen** 18 mm × Schienenhöhe × 900 mm, verleimt + verschraubt an beiden Längskanten; die Schiene greift dann in Faserfläche, nicht in Stirnkante.
+⚠ Zuerst ADR 0013 entscheiden: die Sitz-/Tisch-Bretter (32 mm) sind niedriger als die Schienen-Innenmember (53 bzw. 76 mm) — siehe [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Empfehlung: **Trägerwangen** 18 mm × Schienenhöhe × 850 mm, verleimt + verschraubt an beiden Längskanten; die Schiene greift dann in Faserfläche, nicht in Stirnkante.
 
 ### H2 — Schubladenkästen (D1–D3)
 
@@ -268,7 +271,7 @@ A3 trägt wenig Last (Kopfbereich) — hier ist Sicherung gegen Verrutschen wich
 
 **Keine neue Bohrung in Karosserie, Ladeboden oder Verkleidung.** Befestigung ausschließlich über die werkseitigen Zurrösen.
 
-Maßgeblicher Lastfall ist **Sitzen im Bankmodus**: Eine Person auf dem 900 mm ausgefahrenen Brett hebelt den Korpus um seine Unterkante an der Heckklappe; das Ende an den Rücksitzen will hoch. Grob: 100 kg am Brettende → **ca. 700 N Niederhaltekraft** am hinteren Ende (≈ 350 N je Öse). Deshalb:
+Maßgeblicher Lastfall ist **Sitzen im Bankmodus**: Eine Person auf dem 850 mm ausgefahrenen Brett hebelt den Korpus um seine Unterkante an der Heckklappe; das Ende an den Rücksitzen will hoch. Grob (mit 900 mm gerechnet, also leicht konservativ): 100 kg am Brettende → **ca. 700 N Niederhaltekraft** am hinteren Ende (≈ 350 N je Öse). Deshalb:
 
 1. **Rücksitz-Ösen (wichtig):** liegen seitlich neben dem Korpus. Je Seite 1 Stahlwinkel (F3) **außen auf die Seitenwand B2**, hinteres Ende, in die Fläche geschraubt (4 × 30 mm), M8-Schraube mit U-Scheibe und Stoppmutter (F10) in die Öse. Winkelform/Biegung nach der tatsächlichen Ösenlage.
 2. **Heckklappen-Ösen (optional):** falls unter dem Korpus, je 1 Winkel von innen auf B4 — nur gegen Verrutschen/Klappern; gegen Kippen bringen sie fast nichts, weil sie am Drehpunkt sitzen.

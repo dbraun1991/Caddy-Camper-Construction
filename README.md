@@ -58,8 +58,8 @@ Alle 6 beweglichen Elemente (3 Schubladen + 2 Sitz-Bretter + 1 Tisch-Brett) sind
 | Modus | Schubladen | Sitz-Bretter L/R + Tisch-Brett M |
 |---|---|---|
 | **Schlafmodus** | eingeklappt | eingeklappt |
-| **Bankmodus** | eingeklappt | 900 mm ausgefahren |
-| **Packmodus** | 900 mm ausgefahren | eingeklappt |
+| **Bankmodus** | eingeklappt | 850 mm ausgefahren |
+| **Packmodus** | 850 mm ausgefahren | eingeklappt |
 
 Die Führungsschienen-Innenmember (rot) sind immer Teil der 3D-Geometrie und fahren mit ihrem Element mit — im eingeklappten Zustand liegen sie verdeckt im Korpus, im ausgefahrenen Zustand werden sie sichtbar.
 
@@ -70,7 +70,7 @@ Die Führungsschienen-Innenmember (rot) sind immer Teil der 3D-Geometrie und fah
 | Schlafmodus | Bankmodus | Packmodus |
 |---|---|---|
 | [![Schlafmodus](docs/pics/schlafmodus.jpg)](docs/pics/schlafmodus.jpg) | [![Bankmodus](docs/pics/bankmodus.jpg)](docs/pics/bankmodus.jpg) | [![Packmodus](docs/pics/packmodus.jpg)](docs/pics/packmodus.jpg) |
-| alles eingeklappt | Sitz-/Tisch-Bretter 900 mm ausgefahren | Schubladen 900 mm ausgefahren |
+| alles eingeklappt | Sitz-/Tisch-Bretter ausgefahren (Screenshot noch mit 900 mm) | Schubladen ausgefahren (Screenshot noch mit 900 mm) |
 
 ---
 
@@ -126,9 +126,9 @@ Sektionsbreiten nach Abzug B2-Seitenwände (18 mm innen): **312 mm** L/R · **42
 | Rechts | 312 mm | Schublade 268 mm hoch · 272 mm breit | Sitz-Brett 32 mm hoch · 272 mm breit |
 
 Breitenformel: Innenbreite − 2 × 19 mm Schiene − 2 mm Spalt = Elementbreite.  
-Schienenstärke (AOLISHENG B086JQLXRJ): 19 mm je Seite. Im Render dunkelgrau dargestellt.
+Schienenstärke (AOLISHENG 850 mm): 19 mm je Seite — vor der Bestellung am Produkt prüfen. Im Render dunkelgrau dargestellt.
 
-Alle Elemente fahren auf **Vollauszug-Schienen 900 mm Schwerlast** aus.
+Alle Elemente fahren auf **Vollauszug-Schienen 850 mm Schwerlast** aus ([ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)): Korpus 900 mm − Rückwand 18 mm = 882 mm lichte Tiefe → 32 mm Luft hinter Schienen, Kästen (830 mm) und Brettern (850 mm).
 
 ### Liegefläche (gesamt ~2.000 mm)
 
@@ -200,7 +200,8 @@ Offen:
 
 - [ ] **Entscheidung ADR 0013** — Schienenhöhe (53/76 mm) vs. Brettstärke (32 mm) bei C1–C3: [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Blockiert den Kauf der Brett-Schienen.
 - [ ] **Eckausbildung Korpus** — Stückliste nennt B2/B3 320 mm hoch *und* B4/B1 1.120 mm breit; das überschneidet sich an allen Ecken. Varianten im Reiter „Statisch“ vergleichen, dann Stückliste anpassen. **Vor dem Zuschnitt von B1–B4 klären.**
-- [ ] **Lichte Tiefe 882 mm < Schienenlänge 900 mm** — die Rückwand B1 nimmt 18 mm der 900 mm Korpustiefe; Schienen, Kästen und Bretter ragen hinein (Seitenansicht/Draufsicht, rot). Nachgemessen sind 920–930 mm Ladetiefe: ein Korpus mit 900 mm lichter Tiefe (918 mm außen) passt noch mit 2–12 mm Luft
+- [x] Lichte Tiefe 882 mm vs. Schienenlänge — gelöst mit 850-mm-Schienen, Korpus bleibt 900 mm (20–30 mm Luft zu den Rücksitzen, 32 mm hinter den Schienen) — [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)
+- [ ] Schienenstärke der 850-mm-Schiene prüfen (geplant 19 mm je Seite) — vor der Bestellung
 - [ ] **Frontblenden vs. Schienen** — Blenden sind so breit wie die Sektion (312/424 mm) und sitzen als einliegende Front vor den Schienen; einliegend mit Luft oder aufliegend klären
 - [ ] Schubladenhöhe: Kasten 260 mm (248 + 12 Boden) und Blende 268 mm passen zueinander; offen bleibt D3-Blende (bis y 286) vs. Tisch-Brett C3 (ab y 283, Viewer) bzw. 286 (Stückliste) — 3 mm Überschneidung
 - [ ] Bezeichnung „links/rechts“: Sektion L liegt bei −x = **Beifahrerseite**. Ggf. in der Stückliste umbenennen, damit L beim Blick durch die Heckklappe links liegt

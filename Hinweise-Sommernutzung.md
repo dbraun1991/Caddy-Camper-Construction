@@ -33,7 +33,7 @@ ausgelegt. Die Grenze zwischen beidem ist nicht gesetzlich scharf definiert, son
 Einzelfallrechtsprechung — "wirkt es wie ein Zeltplatz" ist das informelle Kriterium.
 
 ⚠ **Das betrifft diesen Ausbau konkret:** Der **Bankmodus** fährt Sitz- und Tischbrett
-900 mm nach hinten aus der offenen Heckklappe heraus — das ist im Erscheinungsbild genau
+850 mm nach hinten aus der offenen Heckklappe heraus — das ist im Erscheinungsbild genau
 die Camping-Geste (Tisch + Sitzgelegenheit außerhalb des Fahrzeugs), die diese Abgrenzung
 adressiert, auch wenn technisch alles am Fahrzeug montiert bleibt.
 

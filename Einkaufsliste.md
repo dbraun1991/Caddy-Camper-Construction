@@ -28,15 +28,15 @@ Spanne erklärt sich über die Qualitätsklasse (BB/BB vs. S/BB) und den Händle
 
 | Pos | Artikel | Menge | Einzelpreis/Paar | Summe |
 |---|---|---|---|---|
-| E1 | AOLISHENG 900 mm · 150 kg · Arretierung (B086JQLXRJ) — Schubladen | 3 Paare | ~109 € | **~327 €** |
-| E2 | Schwerlast-Vollauszug 900 mm · 95 kg · Arretierung (B09XXDHW1C o. ä.) — Sitz-/Tisch-Bretter | 3 Paare | 45 – 85 € | **135 – 255 €** |
-| | | | **Teilsumme** | **~462 – 582 €** |
+| E1 | AOLISHENG 850 mm · 170 kg · Arretierung — Schubladen (Stärke 19 mm vor Kauf prüfen) | 3 Paare | 104,99 € | **~315 €** |
+| E2 | Schwerlast-Vollauszug **850 mm** · ≥ 95 kg · Arretierung — Sitz-/Tisch-Bretter (Modell offen, ADR 0013; Preis aus der 900-mm-Recherche übernommen) | 3 Paare | 45 – 85 € | **135 – 255 €** |
+| | | | **Teilsumme** | **~450 – 570 €** |
 
 Das sind grob **40 % des Gesamtbudgets**. Sparpotenzial, falls das Budget drückt:
 
-- Die Schubladen tragen Gepäck, keine Person — eine 80-kg-Schiene (AOLISHENG 900 mm, ~85 €/Paar) wäre dort vertretbar und spart ~70 €. Die 150-kg-Variante ist Reserve, keine Notwendigkeit.
-- Bei den Sitz-/Tisch-Brettern **nicht** sparen: dort sitzt eine Person bei 900 mm Auszug, und ADR 0008 macht die Arretierung zur harten Anforderung.
-- Nicht-Amazon-Quellen (teleskopschienen-shop.de, teleskopschienen24.de) liegen bei 900 mm/120 kg um ~84 €/Paar — bei 6 Paaren ein Preisvergleich wert.
+- Die Schubladen tragen Gepäck, keine Person — eine leichtere Schiene (z. B. 80 kg, bei 900 mm um ~85 €/Paar) wäre dort vertretbar, sofern es sie in 850 mm gibt. Die 170-kg-Variante ist Reserve, keine Notwendigkeit.
+- Bei den Sitz-/Tisch-Brettern **nicht** sparen: dort sitzt eine Person bei 850 mm Auszug, und ADR 0008 macht die Arretierung zur harten Anforderung.
+- Nicht-Amazon-Quellen (teleskopschienen-shop.de, teleskopschienen24.de) lagen bei 900 mm/120 kg um ~84 €/Paar (850 mm dort prüfen) — bei 6 Paaren ein Preisvergleich wert.
 
 ---
 
@@ -88,12 +88,12 @@ Das sind grob **40 % des Gesamtbudgets**. Sparpotenzial, falls das Budget drück
 | Block | Günstig | Mittel (realistisch) | Komfort |
 |---|---|---|---|
 | Holz + Zuschnitt | 404 € | 481 € | 585 € |
-| Schienen | 462 € | 520 € | 582 € |
+| Schienen | 450 € | 508 € | 570 € |
 | Befestigungsmaterial | 153 € | 168 € | 183 € |
 | Ausbau / Sonstiges | 135 € | 230 € | 680 € |
-| **Summe** | **~1.155 €** | **~1.400 €** | **~2.030 €** |
-| + Puffer 10 % (Verschnitt, Nachkauf, Versand) | ~115 € | ~140 € | ~205 € |
-| **Gesamt** | **~1.270 €** | **~1.540 €** | **~2.235 €** |
+| **Summe** | **~1.145 €** | **~1.390 €** | **~2.020 €** |
+| + Puffer 10 % (Verschnitt, Nachkauf, Versand) | ~115 € | ~140 € | ~200 € |
+| **Gesamt** | **~1.260 €** | **~1.530 €** | **~2.220 €** |
 
 ### Realistische Planungsgröße: **~1.500 €**
 

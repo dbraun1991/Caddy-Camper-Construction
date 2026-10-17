@@ -81,7 +81,7 @@ def _einbauten(p):
     hK = H - T - bh - 2 * sp            # Schubladenkasten-Höhe (320−18−32−10 = 260)
     zF = (-vor, -vor + bs)              # Frontblende, 1,5 mm vor der Korpusfront
     zK = (zF[1], zF[1] + e["kasten_tiefe"])
-    zB = (-vor, -vor + D)               # Sitz-/Tisch-Brett, volle Korpustiefe
+    zB = (-vor, -vor + e["brett_tiefe"])  # Sitz-/Tisch-Brett, so lang wie die Schiene
 
     sek = _sektionen(p)
     out = []
@@ -191,11 +191,9 @@ def fahrzeug_pruefung(p=None):
                         f"{lo}–{hi} mm Spiel (bewusst nicht genutzt)",
                         "ok" if lo > 0 else ("knapp" if lo == 0 else "anpassen")))
     lo, hi = f["ladetiefe_min"] - k["tiefe"], f["ladetiefe_max"] - k["tiefe"]
-    lo2, hi2 = lo - T, hi - T
     out.append(pruefung("Korpustiefe Heckklappe → Rücksitze", k["tiefe"],
                         f"{f['ladetiefe_min']}–{f['ladetiefe_max']}",
-                        f"{lo}–{hi} mm Luft; mit Rückwand hinter 900 mm lichter Tiefe "
-                        f"({k['tiefe'] + T} mm) noch {lo2}–{hi2} mm",
+                        f"{lo}–{hi} mm Luft zu den Rücksitzen",
                         "ok" if lo > 0 else "anpassen"))
     lang = k["tiefe"] + l["laenge_a2"] + l["laenge_a3"]
     luft = f["laenge_heck_bis_kopfstuetzen"] - lang
