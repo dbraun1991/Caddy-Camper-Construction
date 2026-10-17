@@ -213,12 +213,12 @@ def bemassen(name, blatt, teile, p):
     if name == "vorderansicht":
         blatt.mass((-W / 2, 0), (W / 2, 0), 14, fmt(W))                  # unten, Gesamtbreite
         blatt.kette([(-x, oben) for x in wand_x], 8)                      # oben, Sektionen + Wände
-        blatt.kette([(W / 2, v) for v in hoehen], 10)                    # rechts im Bild = Beifahrerseite
+        blatt.kette([(W / 2, v) for v in hoehen], 10)                    # rechts im Bild = Beifahrerseite (R)
         blatt.mass((W / 2, 0), (W / 2, oben), 22, fmt(oben))
         if genutet:
             blatt.mass((W / 2, wand[0]), (W / 2, wand[1]), 32, f"Wand {fmt(wand[1] - wand[0])}")
         # Höhenkette in der Sektion (Fahrerseite = links im Bild): Sitz-Brett, Spalt, Kasten, Spalt
-        c2, d2 = teil(teile, "C2")["box"], teil(teile, "D2")["box"]
+        c2, d2 = teil(teile, "C1")["box"], teil(teile, "D1")["box"]   # Sektion L = links im Bild
         uL = -W / 2
         blatt.mass((uL, c2[1][1]), (uL, c2[1][0]), 10, fmt(c2[1][1] - c2[1][0]))
         blatt.mass((uL, d2[1][1]), (uL, d2[1][0]), 10, fmt(d2[1][1] - d2[1][0]))
@@ -229,7 +229,7 @@ def bemassen(name, blatt, teile, p):
         blatt.masslinie((u, d3[1][0]), (u, d3[1][1]), f"D3 {fmt(d3[1][1] - d3[1][0])}")
         blatt.masslinie((u, c3[1][0]), (u, c3[1][1]), fmt(c3[1][1] - c3[1][0]))
         # Blendenhöhen
-        d2f = teil(teile, "D2-F")["box"]
+        d2f = teil(teile, "D1-F")["box"]
         u = -(d2f[0][0] + 30)
         blatt.masslinie((u, d2f[1][0]), (u, d2f[1][1]), f"Blende {fmt(d2f[1][1] - d2f[1][0])}")
 
@@ -239,7 +239,7 @@ def bemassen(name, blatt, teile, p):
         tiefen = sorted({0, r_ende, b1[2][0], D})
         blatt.kette([(-W / 2, z) for z in reversed(tiefen)], 10)         # links im Bild = Fahrerseite
         blatt.mass((-W / 2, D), (-W / 2, 0), 20, fmt(D))
-        r = teil(teile, "E-D2-b")["box"]
+        r = teil(teile, "E-D1-b")["box"]
         u = -(r[0][0] - 25)
         blatt.masslinie((u, r[2][0]), (u, r[2][1]), f"Schiene {fmt(r[2][1] - r[2][0])}")
 
@@ -251,7 +251,7 @@ def bemassen(name, blatt, teile, p):
         blatt.mass((0, 0), (0, oben), 22, fmt(oben))
         if genutet:                                                    # links = Rückseite
             blatt.mass((-D, wand[1]), (-D, wand[0]), 10, f"Wand {fmt(wand[1] - wand[0])}, Nut je {fmt(b4[1][1] - wand[0])}")
-        r = teil(teile, "E-C2-b")["box"]
+        r = teil(teile, "E-C1-b")["box"]
         v = (r[1][0] + r[1][1]) / 2
         blatt.masslinie((-r[2][0], v), (-r[2][1], v), f"Schiene {fmt(r[2][1] - r[2][0])}")
 

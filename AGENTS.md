@@ -66,6 +66,10 @@ down.
   usually needs to be reflected in `List_of_Materials.md` and `README.md` (e.g.
   section widths, rail specs, board thicknesses), and a part or quantity change
   also affects `Einkaufsliste.md`.
+- **Left/right means as seen from the driver's seat** (facing forward, LHD):
+  left = driver side = +x, right = passenger side = −x. Section `L` (`C1`, `D1`,
+  `B2-F`) is on the driver side. The Vorderansicht looks forward through the
+  tailgate, so left in the drawing is left for the driver too.
 - **Prices in `Einkaufsliste.md` are dated estimates**, not quotes. They carry a
   "Preisstand" line — when refreshing them, re-check the sources and move that
   date; don't edit individual numbers and leave a stale date behind.
@@ -150,12 +154,11 @@ down.
   - Drawer heights: box 260 (= 248 sides + 12 bottom) and front 268 in
     `List_of_Materials.md` §D are consistent with each other; the remaining
     conflict is `D3-F` vs `C3` (3 mm). Same height chain as ADR 0013.
-  - Section "L" is at −x, which is the **passenger** side (+x = driver side,
-    LHD); seen through the tailgate it appears on the right.
-- Mattress spec: 1,100 mm is not a stock width; options are in
-  [Einkaufsliste.md](Einkaufsliste.md) §4.
-- Ventilation / moisture protection for the enclosed under-floor volume.
-- 12V wiring / lighting.
+- **Deliberately left open by the user** (2026-10-17) — don't push for a
+  decision or plan them unless asked: mattress spec (1,100 mm is not a stock
+  width, options in [Einkaufsliste.md](Einkaufsliste.md) §4), payload check
+  against the registration document, 12V wiring / lighting, and ventilation /
+  moisture protection (only relevant outside summer).
 
 ### TODOs
 

@@ -47,12 +47,12 @@ def _korpus(p, eck):
     nut = {"steckt_in": ["B4", "A1"]} if nt else {}
 
     return [
-        _teil("B2-F", "Seitenwand Fahrerseite", "korpus", "holz", (xi, xa), wand_y, (0, D), **nut),
-        _teil("B2-B", "Seitenwand Beifahrerseite", "korpus", "holz", (-xa, -xi), wand_y, (0, D), **nut),
+        _teil("B2-F", "Seitenwand links (Fahrerseite)", "korpus", "holz", (xi, xa), wand_y, (0, D), **nut),
+        _teil("B2-B", "Seitenwand rechts (Beifahrerseite)", "korpus", "holz", (-xa, -xi), wand_y, (0, D), **nut),
         _teil("B1", "Rückwand", "korpus", "holz", (-xi, xi), wand_y, (D - T, D), **nut),
         _teil("B4", "Bodenplatte", "korpus", "holz", (-xa, xa), (0, T), (0, D)),
-        _teil("B3-1", "Trennwand 1", "korpus", "holz", (-d - DW, -d), wand_y, (0, D - T), **nut),
-        _teil("B3-2", "Trennwand 2", "korpus", "holz", (d, d + DW), wand_y, (0, D - T), **nut),
+        _teil("B3-1", "Trennwand 1 (links)", "korpus", "holz", (d, d + DW), wand_y, (0, D - T), **nut),
+        _teil("B3-2", "Trennwand 2 (rechts)", "korpus", "holz", (-d - DW, -d), wand_y, (0, D - T), **nut),
         _teil("A1", "Unterbau-Deckel", "liegeflaeche", "holz", (-xa, xa), (H, H + T), (0, D)),
     ]
 
@@ -62,8 +62,9 @@ def _sektionen(p):
     xi = k["breite"] / 2 - k["plattenstaerke"]
     d = k["sektion_mitte_innen"] / 2
     DW = k["trennwandstaerke"]
-    # Reihenfolge und Namen wie in List_of_Materials.md: L = −x, R = +x
-    return {"L": (-xi, -d - DW), "M": (-d, d), "R": (d + DW, xi)}
+    # Links/rechts immer aus Sicht des Fahrers (Blick nach vorn, Linkslenker):
+    # L = Fahrerseite = +x, R = Beifahrerseite = −x. Beim Blick durch die Heckklappe ebenso.
+    return {"L": (d + DW, xi), "M": (-d, d), "R": (-xi, -d - DW)}
 
 
 def _einbauten(p):

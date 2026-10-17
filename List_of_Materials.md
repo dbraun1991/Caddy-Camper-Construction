@@ -1,6 +1,7 @@
 # Materialliste — VW Caddy Mk3 Camper Ausbau
 
 Alle Maße in mm. Holz: **Birke-Multiplex**, verleimte Qualität (WISA oder gleichwertig).  
+**Links/rechts** immer aus Sicht des Fahrers (Blick nach vorn): links = Fahrerseite, rechts = Beifahrerseite — gilt auch beim Blick durch die Heckklappe.  
 Maße der Bauteile: gemeinsame Datenbasis [`modell/parameter.json`](modell/parameter.json) (3D-Viewer und Werkzeichnungen, [ADR 0015](docs/adrs/0015-shared-model-data-for-viewer-and-drawings.md)).
 
 ---

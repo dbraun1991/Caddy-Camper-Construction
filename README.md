@@ -205,8 +205,11 @@ Offen:
 - [ ] Schienenstärke der 850-mm-Schiene prüfen (geplant 19 mm je Seite) — vor der Bestellung
 - [ ] **Frontblenden vs. Schienen** — Blenden sind so breit wie die Sektion (312/424 mm) und sitzen als einliegende Front vor den Schienen; einliegend mit Luft oder aufliegend klären
 - [ ] Schubladenhöhe: Kasten 260 mm (248 + 12 Boden) und Blende 268 mm passen zueinander; offen bleibt D3-Blende (bis y 286) vs. Tisch-Brett C3 (ab y 283, Viewer) bzw. 286 (Stückliste) — 3 mm Überschneidung
-- [ ] Bezeichnung „links/rechts“: Sektion L liegt bei −x = **Beifahrerseite**. Ggf. in der Stückliste umbenennen, damit L beim Blick durch die Heckklappe links liegt
-- [ ] Matratze (1.100 mm ist kein Handelsmaß — Varianten in [Einkaufsliste.md §4](./Einkaufsliste.md#4--ausbau--sonstiges))
-- [ ] Zuladung im Zulassungsschein prüfen (Feld F.1 − Leergewicht) — siehe [Hinweise-Sommernutzung.md §2](./Hinweise-Sommernutzung.md#2--zulassung--stvzo-serienfahrzeug-bleibt-verkehrssicher)
-- [ ] Belüftung / Feuchteschutz Unterbau — **nur für Nutzung außerhalb des Sommers relevant**, siehe [Hinweise-Sommernutzung.md](./Hinweise-Sommernutzung.md) (dort bewusst ausgeklammert)
-- [ ] 12V-Anschluss / Beleuchtung
+- [x] Bezeichnung links/rechts: immer aus Sicht des Fahrers — Sektion L (C1, D1) = Fahrerseite, R (C2, D2) = Beifahrerseite
+
+Bewusst offen gelassen (keine Entscheidung nötig, um weiterzubauen):
+
+- Matratze (1.100 mm ist kein Handelsmaß — Varianten in [Einkaufsliste.md §4](./Einkaufsliste.md#4--ausbau--sonstiges))
+- Zuladung im Zulassungsschein prüfen (Feld F.1 − Leergewicht) — siehe [Hinweise-Sommernutzung.md §2](./Hinweise-Sommernutzung.md#2--zulassung--stvzo-serienfahrzeug-bleibt-verkehrssicher)
+- 12V-Anschluss / Beleuchtung
+- Belüftung / Feuchteschutz Unterbau — nur für Nutzung außerhalb des Sommers relevant, siehe [Hinweise-Sommernutzung.md](./Hinweise-Sommernutzung.md)
