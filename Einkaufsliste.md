@@ -14,8 +14,9 @@ Teilenummern beziehen sich auf [List_of_Materials.md](./List_of_Materials.md).
 | — | Multiplex Birke 18 mm, 2.500 × 1.250 mm | 3 Platten | 105 – 147 € | **315 – 441 €** |
 | — | Multiplex Birke 12 mm, 2.500 × 1.250 mm | 1 Platte | 50 – 105 € | **50 – 105 €** |
 | F12 | Eckleiste Weichholz 20 × 20 mm | 3 m | ~2 €/m | **~6 €** |
-| F13 | Leisten 18 × 40 mm / 18 × 60 mm | 3 m | ~4 €/m | **~12 €** |
-| | | | **Teilsumme** | **~383 – 564 €** |
+| F13 | Leisten 18 × 40 mm (Überlappung A1/A2/A3) | 2 m | ~4 €/m | **~8 €** |
+| F16 | Ausgleichsleisten 10 × 40 mm unter A2 | 2 m | ~2,5 €/m ¹ | **~5 €** |
+| | | | **Teilsumme** | **~384 – 565 €** |
 
 Spanne erklärt sich über die Qualitätsklasse (BB/BB vs. S/BB) und den Händler: Baumarkt (toom, Hornbach) am unteren Ende, Holzfachhandel (Holzland, Holzzentrum) am oberen.
 
@@ -54,7 +55,10 @@ Das sind grob **40 % des Gesamtbudgets**. Sparpotenzial, falls das Budget drück
 | F9 | M5 × 40 Durchsteckschrauben + U-Scheibe + Stoppmutter | 24 Sätze | ~14 € |
 | F10 | M8 × 30/40 + U-Scheibe + Stoppmutter | 4 Sätze | ~6 € |
 | F11 | Spanngurt mit Ratsche | 2 Stk. | ~20 € |
-| | | **Teilsumme** | **~143 – 173 €** |
+| F15 | Gurtschlaufe verstellbar (Gurtband ~25 mm + Klemmschnalle), A3 ↔ Kopfstütze | 2 Stk. | ~10 € ¹ |
+| | | **Teilsumme** | **~153 – 183 €** |
+
+¹ F15/F16 am 2026-10-17 nach dem Nachmessen ergänzt — grobe Schätzung, Quellen noch nicht geprüft.
 
 ---
 
@@ -83,13 +87,13 @@ Das sind grob **40 % des Gesamtbudgets**. Sparpotenzial, falls das Budget drück
 
 | Block | Günstig | Mittel (realistisch) | Komfort |
 |---|---|---|---|
-| Holz + Zuschnitt | 403 € | 480 € | 584 € |
+| Holz + Zuschnitt | 404 € | 481 € | 585 € |
 | Schienen | 462 € | 520 € | 582 € |
-| Befestigungsmaterial | 143 € | 158 € | 173 € |
+| Befestigungsmaterial | 153 € | 168 € | 183 € |
 | Ausbau / Sonstiges | 135 € | 230 € | 680 € |
-| **Summe** | **~1.145 €** | **~1.390 €** | **~2.020 €** |
-| + Puffer 10 % (Verschnitt, Nachkauf, Versand) | ~115 € | ~140 € | ~200 € |
-| **Gesamt** | **~1.260 €** | **~1.530 €** | **~2.220 €** |
+| **Summe** | **~1.155 €** | **~1.400 €** | **~2.030 €** |
+| + Puffer 10 % (Verschnitt, Nachkauf, Versand) | ~115 € | ~140 € | ~205 € |
+| **Gesamt** | **~1.270 €** | **~1.540 €** | **~2.235 €** |
 
 ### Realistische Planungsgröße: **~1.500 €**
 
@@ -111,5 +115,5 @@ Die Montagereihenfolge in [§H](./List_of_Materials.md#montagereihenfolge) gibt 
 
 1. **Jetzt:** Holz 18 mm + 12 mm mit Zuschnitt, Leim, Dübel, Schrauben F1/F2/F7/F8, Winkel F3, Leisten F12/F13, Spanngurte F11 → Korpus bauen
 2. **Nach ADR-0013-Entscheidung:** Schienen E1 + E2, Durchsteckschrauben F9 → einmessen und montieren
-3. **Nach Einbau im Fahrzeug:** M8-Sätze F10 (Gewinde der Zurrösen erst am Auto prüfen), Griffe F6
-4. **Zuletzt:** Matratze G1 + Bezug G2 — erst messen, wenn die Liegefläche real liegt
+3. **Nach Einbau im Fahrzeug:** M8-Sätze F10 (Gewinde der Zurrösen erst am Auto prüfen; Rücksitz-Ösen liegen neben dem Korpus → Winkel außen an B2, ADR 0016), Griffe F6
+4. **Zuletzt:** Matratze G1 + Bezug G2 — erst messen, wenn die Liegefläche real liegt; Gurtschlaufen F15 und Ausgleich F16 beim Anpassen von A2/A3 im Fahrzeug

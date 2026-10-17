@@ -45,7 +45,7 @@ Einzige Voraussetzung: Internetverbindung beim ersten Öffnen (Three.js wird per
 | Drehen | Linksklick + Ziehen |
 | Zoomen | Scrollrad · Touch: Pinch (zwei Finger) |
 | Drehen (Touch) | Ein Finger ziehen |
-| Caddy-Hülle ein-/ausblenden | Button „Caddy-Hülle“ (transparente Fahrzeugkarosserie, Heck offen) |
+| Caddy-Hülle ein-/ausblenden | Button „Caddy-Hülle“ (transparente Fahrzeugkarosserie, Heckklappe hochgeklappt) |
 | Rücksitze umgeklappt / ausgebaut | Button „Rücksitze“ |
 | Ansicht zurücksetzen | Reset-Button (Standardansicht: von hinten rechts, Caddy-Hülle sichtbar) |
 | Überschneidungen anzeigen | Button „Überschneidungen“ — rot, bezogen auf den eingefahrenen Zustand |
@@ -102,6 +102,8 @@ python3 -m venv .venv && .venv/bin/pip install -r modell/requirements.txt   # ei
 
 Basis: VW Caddy Mk3 Kombi, Erstzulassung 05/2012, Laderaumbreite nutzbar **1.120 mm**.
 
+**Am Fahrzeug nachgemessen (2026-10-17):** Breite zwischen den Radkästen 1.120 mm (= Korpus, kein Spiel) · Box 1.120 × 900 × 338 mm passt durch die Heckklappe, keine Ladekante · Ladetiefe bis zu den Rücksitzen 920–930 mm · Boden eben · umgeklappte Rücksitzlehnen 310 mm hoch · Heck → Kopfstützen 2.000 mm. Details: [List_of_Materials.md → Fahrzeugmaße](./List_of_Materials.md#fahrzeugmaße-am-eigenen-fahrzeug-nachgemessen-2026-10-17). Im Viewer prüft der Reiter „Statisch“ den Plan automatisch gegen diese Werte.
+
 ### Unterbau (Kofferraum)
 
 | Maß | Wert |
@@ -133,8 +135,8 @@ Alle Elemente fahren auf **Vollauszug-Schienen 900 mm Schwerlast** aus.
 | Segment | Länge | Funktion |
 |---|---|---|
 | Unterbau-Deckel | 900 mm | Fest, über Kofferraum |
-| Brett 1 | 700 mm | Auf umgeklappten Rücksitzlehnen |
-| Brett 2 | 400 mm | Kopfbereich, an Vordersitz-Kopfstützen |
+| Brett 1 | 700 mm | Auf umgeklappten Rücksitzlehnen (310 mm hoch → 10 mm Ausgleich) |
+| Brett 2 | 400 mm | Kopfbereich, 2 Gurtschlaufen um die Vordersitz-Kopfstützen |
 
 Matratzenbreite: **1.100 mm** (passt in 1.120 mm Innenbreite).
 
@@ -150,7 +152,7 @@ Matratzenbreite: **1.100 mm** (passt in 1.120 mm Innenbreite).
 | Blau (transparent) | Schubladen × 3 |
 | Rot (transparent) | Führungsschienen-Innenmember — fahren mit Element aus |
 | Weiß (transparent) | Matratzenumriss |
-| Hellblau-grau (60 % deckend) | Caddy-Hülle mit Türöffnungen (Platzhaltermaße, nicht nachgemessen) |
+| Hellblau-grau (60 % deckend) | Caddy-Hülle mit Türöffnungen und offener Heckklappe (Ladebreite, Lehnenhöhe und Länge nachgemessen, übrige Maße Platzhalter) |
 | Hellgrün (transparent) | Lade-Referenzebene im Kofferraum (y = 0) |
 | Schiefergrau (transparent) | Rücksitzbank (umgeklappt oder ausgebaut) |
 
@@ -188,8 +190,9 @@ Der Korpus besteht aus Einzelbrettern (keine Vollbox): B2 links/rechts, B1 Rück
 - [x] Verbindungstechnik Korpus — [List_of_Materials.md §H](./List_of_Materials.md#h--verbindungstechnik) · [ADR 0007](docs/adrs/0007-dowel-screw-bracket-joinery.md)
 - [x] Schubladendetails (Kastenbau, Frontblende, Griffe) — [§H2/§H3](./List_of_Materials.md#h2--schubladenkästen-d1d3) · [ADR 0011](docs/adrs/0011-drawer-box-panel-shear-joinery.md)
 - [x] Schienenbefestigung an Wänden und Trennwänden — [§H1](./List_of_Materials.md#h1--schienenbefestigung-an-wänden-und-trennwänden)
-- [x] Befestigung Unterbau im Fahrzeug (L-Winkel, Zurrösen) — [§H5](./List_of_Materials.md#h5--befestigung-des-korpus-im-fahrzeug) · [ADR 0012](docs/adrs/0012-non-destructive-vehicle-tie-down.md)
-- [x] Brett 2/3 Befestigung an Vordersitz-Kopfstützen — [§H4](./List_of_Materials.md#h4--liegefläche-stöße-a1--a2--a3)
+- [x] Befestigung Unterbau im Fahrzeug — Rücksitz-Ösen neben dem Korpus, Winkel außen an B2 — [§H5](./List_of_Materials.md#h5--befestigung-des-korpus-im-fahrzeug) · [ADR 0012](docs/adrs/0012-non-destructive-vehicle-tie-down.md) · [ADR 0016](docs/adrs/0016-rear-lashing-eyes-carry-the-hold-down.md)
+- [x] Brett 3 (A3) an den Vordersitz-Kopfstützen: 2 verstellbare Gurtschlaufen — [§H4](./List_of_Materials.md#h4--liegefläche-stöße-a1--a2--a3)
+- [x] Fahrzeug nachgemessen (Breite, Heckklappe, Tiefe, Lehnenhöhe, Länge, Zurrösen) — [List_of_Materials.md](./List_of_Materials.md#fahrzeugmaße-am-eigenen-fahrzeug-nachgemessen-2026-10-17)
 - [x] Budget und Kaufreihenfolge — [Einkaufsliste.md](./Einkaufsliste.md)
 - [x] Rechtliches (Rasten vs. Campen), Zuladung, Lüftung (CO₂ + Hitze), Sicht-/Insektenschutz für Sommerbetrieb — [Hinweise-Sommernutzung.md](./Hinweise-Sommernutzung.md)
 
@@ -197,7 +200,7 @@ Offen:
 
 - [ ] **Entscheidung ADR 0013** — Schienenhöhe (53/76 mm) vs. Brettstärke (32 mm) bei C1–C3: [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Blockiert den Kauf der Brett-Schienen.
 - [ ] **Eckausbildung Korpus** — Stückliste nennt B2/B3 320 mm hoch *und* B4/B1 1.120 mm breit; das überschneidet sich an allen Ecken. Varianten im Reiter „Statisch“ vergleichen, dann Stückliste anpassen. **Vor dem Zuschnitt von B1–B4 klären.**
-- [ ] **Lichte Tiefe 882 mm < Schienenlänge 900 mm** — die Rückwand B1 nimmt 18 mm der 900 mm Korpustiefe; Schienen, Kästen und Bretter ragen hinein (Seitenansicht/Draufsicht, rot)
+- [ ] **Lichte Tiefe 882 mm < Schienenlänge 900 mm** — die Rückwand B1 nimmt 18 mm der 900 mm Korpustiefe; Schienen, Kästen und Bretter ragen hinein (Seitenansicht/Draufsicht, rot). Nachgemessen sind 920–930 mm Ladetiefe: ein Korpus mit 900 mm lichter Tiefe (918 mm außen) passt noch mit 2–12 mm Luft
 - [ ] **Frontblenden vs. Schienen** — Blenden sind so breit wie die Sektion (312/424 mm) und sitzen als einliegende Front vor den Schienen; einliegend mit Luft oder aufliegend klären
 - [ ] Schubladenhöhe: Kasten 260 mm (248 + 12 Boden) und Blende 268 mm passen zueinander; offen bleibt D3-Blende (bis y 286) vs. Tisch-Brett C3 (ab y 283, Viewer) bzw. 286 (Stückliste) — 3 mm Überschneidung
 - [ ] Bezeichnung „links/rechts“: Sektion L liegt bei −x = **Beifahrerseite**. Ggf. in der Stückliste umbenennen, damit L beim Blick durch die Heckklappe links liegt

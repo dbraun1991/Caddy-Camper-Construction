@@ -1,7 +1,25 @@
 # Materialliste — VW Caddy Mk3 Camper Ausbau
 
 Alle Maße in mm. Holz: **Birke-Multiplex**, verleimte Qualität (WISA oder gleichwertig).  
-Letzte Aktualisierung entspricht 3D-Modell `caddy_camper_3d.html`.
+Maße der Bauteile: gemeinsame Datenbasis [`modell/parameter.json`](modell/parameter.json) (3D-Viewer und Werkzeichnungen, [ADR 0015](docs/adrs/0015-shared-model-data-for-viewer-and-drawings.md)).
+
+---
+
+## Fahrzeugmaße (am eigenen Fahrzeug nachgemessen, 2026-10-17)
+
+| Maß | Gemessen | Plan | Ergebnis |
+|---|---|---|---|
+| Breite zwischen den Radkästen | 1.120 mm | Korpus, A1–A3: 1.120 mm | passt, **kein seitliches Spiel** |
+| Heckklappenöffnung | fertige Box 1.120 × 900 × 338 mm passt durch | — | passt; Klappe öffnet nach oben |
+| Ladekante / Stufe | keine, Ladeboden eben | — | passt |
+| Ladetiefe Heckklappe (geschlossen, innen) → Rücksitze | 920–930 mm | Korpus 900 mm | 20–30 mm Luft |
+| Ladeboden | eben, Reserverad unter dem Fahrzeug | — | passt |
+| Oberkante umgeklappte Rücksitzlehnen | 310 mm | Unterkante A2: 320 mm | **10 mm Spalt** → Ausgleich unter A2 (§H4) |
+| Länge Heck → Vordersitz-Kopfstützen (Schlafposition) | 2.000 mm | A1 + A2 + A3 = 2.000 mm | passt, kein Spiel |
+| Zurrösen an den Rücksitzen | seitlich **neben** dem Korpus | — | Anbindung außen an B2 ([ADR 0016](docs/adrs/0016-rear-lashing-eyes-carry-the-hold-down.md)) |
+| Zurrösen an der Heckklappe | evtl. unter dem Korpus | — | optional, für Kippen unwichtig |
+
+Radkasten-Länge/-Höhe, Wandbreite oberhalb der Radkästen und Innenhöhe sind nicht gemessen; die Caddy-Hülle im Viewer verwendet dafür weiter Platzhalter.
 
 ---
 
@@ -12,8 +30,8 @@ Alle drei Bretter gleich stark (18 mm), bündig auf Plattformhöhe 320 mm.
 | Pos | Bezeichnung | Maß (B × T × H) | Menge | Hinweis |
 |---|---|---|---|---|
 | A1 | Unterbau-Deckel | 1.120 × 900 × 18 | 1 | Fest, über Kofferraum-Korpus |
-| A2 | Brett Sitzrücken | 1.120 × 700 × 18 | 1 | Liegt auf umgeklappten Rücksitzlehnen auf |
-| A3 | Brett Kopfbereich | 1.120 × 400 × 18 | 1 | Wenig Last, an Vordersitz-Kopfstützen befestigt |
+| A2 | Brett Sitzrücken | 1.120 × 700 × 18 | 1 | Liegt auf umgeklappten Rücksitzlehnen auf (Lehnen bei 310 mm → 10 mm Ausgleich, §H4) |
+| A3 | Brett Kopfbereich | 1.120 × 400 × 18 | 1 | Wenig Last, mit 2 Gurtschlaufen an den Vordersitz-Kopfstützen (§H4) |
 
 ---
 
@@ -138,7 +156,7 @@ Vollauszug 550 mm · 3-teilig · SoftClose · Traglast 105 kg
 |---|---|---|---|
 | F1 | Spanplattenschrauben (Korpus, Stirnkante) | Torx Senkkopf 4 × 45 mm | ~80 Stk. |
 | F2 | Spanplattenschrauben (Schienen) | Torx Senkkopf 3,5 × 16 mm | ~120 Stk. |
-| F3 | Innenwinkel Stahl (Korpus 8× + Fahrzeug 4×) | 40 × 40 × 2 mm | 12 Stk. |
+| F3 | Stahlwinkel (Korpus 8× innen + Fahrzeug 4×: 2 außen an B2 hinten, 2 optional auf B4 vorne, → §H5) | 40 × 40 × 2 mm | 12 Stk. |
 | F4 | Holzdübel | Ø 8 × 40 mm | ~30 Stk. |
 | F5 | Holzleim D3 (wasserfest) | 750 ml | 1 Flasche |
 | F6 | Schubladengriff | nach Wahl, mind. 64 mm Bohrung | 3 Stk. |
@@ -148,8 +166,10 @@ Vollauszug 550 mm · 3-teilig · SoftClose · Traglast 105 kg
 | F10 | Schrauben Zurrösen-Anbindung (→ §H5) | M8 × 30/40 mm + U-Scheibe + Stoppmutter | 4 Sätze |
 | F11 | Spanngurt (Ratsche) | ≥ 1,5 m, 2-teilig | 2 Stk. |
 | F12 | Eckleiste Weichholz (Schubladen-Innenecken, → §H2) | 20 × 20 mm, Länge ~3,0 m gesamt | 12 Stk. à 240 mm |
-| F13 | Überlappungs-/Querleisten Liegefläche (→ §H4) | 18 × 40 mm (2 ×) + 18 × 60 mm (1 ×), je 1.000 mm | 3 Stk. |
+| F13 | Überlappungsleisten Liegefläche (→ §H4) | 18 × 40 × 1.000 mm | 2 Stk. |
 | F14 | Trägerwangen Sitz-/Tisch-Bretter (→ §H1 / ADR 0013) | 18 mm × Schienenhöhe × 900 mm | 6 Stk. ⚠ erst nach ADR 0013 |
+| F15 | Gurtschlaufe A3 ↔ Kopfstütze, verstellbar (→ §H4) | Gurtband ~25 mm mit Klemmschnalle | 2 Stk. |
+| F16 | Ausgleich unter A2 (→ §H4) | Leiste 10 × 40 × 1.000 mm oder 10-mm-Gummistreifen | 2 Stk. |
 
 ---
 
@@ -236,23 +256,26 @@ Die drei Liegebretter sind nicht verbunden (sie müssen zum Umklappen der Rücks
 |---|---|
 | A1 ↔ A2 | Leiste 18 × 40 × 1.000 mm unter die Vorderkante von A2 geschraubt, **40 mm Überlappung** auf A1 → formschlüssige Zunge, kein Beschlag |
 | A2 ↔ A3 | gleiche Leiste unter die Vorderkante von A3 |
-| A3 ↔ Kopfstützen | Querleiste 18 × 60 × 1.000 mm unter A3 mit **2 Aussparungen Ø 14 mm** für die Kopfstützenstangen; A3 liegt formschlüssig auf, zusätzlich 1 Spanngurt um Stange und Leiste |
+| A2 ↔ Rücksitzlehnen | Lehnen liegen bei **310 mm**, Unterkante A2 bei 320 mm (gemessen) → **10 mm Ausgleich** (F16): 2 Leisten 10 × 40 mm quer unter A2 auf Höhe der Lehnen, oder 10-mm-Gummistreifen; sonst federt A2 durch und die Überlappungsleisten tragen allein |
+| A3 ↔ Kopfstützen | **2 verstellbare Gurtschlaufen** (F15), je Seite eine: jede Schlaufe läuft durch **2 Bohrungen in A3** und um die Kopfstützenstangen; die Zuglast tragen die Kopfstützen. Bohrungen und Schlaufenlänge werden beim Einbau am Fahrzeug festgelegt |
 | alle Auflageflächen | Antirutschmatte / Gummistreifen (G3-Reststücke) | 
 
-A3 trägt wenig Last (Kopfbereich) — hier ist Formschluss gegen Verrutschen wichtiger als Tragfähigkeit.
+A3 trägt wenig Last (Kopfbereich) — hier ist Sicherung gegen Verrutschen wichtiger als Tragfähigkeit. Kopfstützen dabei nicht verstellen oder blockieren (→ [Hinweise-Sommernutzung.md](./Hinweise-Sommernutzung.md)).
 
 ### H5 — Befestigung des Korpus im Fahrzeug
 
-> Entscheidungsprotokoll: [docs/adrs/0012-non-destructive-vehicle-tie-down.md](docs/adrs/0012-non-destructive-vehicle-tie-down.md)
+> Entscheidungsprotokolle: [ADR 0012](docs/adrs/0012-non-destructive-vehicle-tie-down.md) (keine Bohrungen) · [ADR 0016](docs/adrs/0016-rear-lashing-eyes-carry-the-hold-down.md) (Rücksitz-Ösen tragen die Niederhaltung)
 
-**Keine neue Bohrung in Karosserie, Ladeboden oder Verkleidung.** Befestigung ausschließlich über die 4 werkseitigen Zurrösen:
+**Keine neue Bohrung in Karosserie, Ladeboden oder Verkleidung.** Befestigung ausschließlich über die werkseitigen Zurrösen.
 
-1. 4 × Stahlwinkel 40 × 40 × 2 mm von innen auf die Bodenplatte B4 schrauben (4 × 30 mm)
-2. Je Winkel eine M8-Schraube mit U-Scheibe und Stoppmutter in die Zuröse
-3. 2 × Spanngurt über den Korpus als redundanter Pfad — und als einzige Sicherung, solange die Winkel noch nicht sitzen
-4. Antirutschmatte (G3) unter den Korpus — gegen Klappern, **nicht** als Sicherung gerechnet
+Maßgeblicher Lastfall ist **Sitzen im Bankmodus**: Eine Person auf dem 900 mm ausgefahrenen Brett hebelt den Korpus um seine Unterkante an der Heckklappe; das Ende an den Rücksitzen will hoch. Grob: 100 kg am Brettende → **ca. 700 N Niederhaltekraft** am hinteren Ende (≈ 350 N je Öse). Deshalb:
 
-Die Winkelpositionen auf B4 lassen sich nicht aus der Zeichnung ableiten: sie werden im Fahrzeug von den tatsächlichen Ösenpositionen abgenommen.
+1. **Rücksitz-Ösen (wichtig):** liegen seitlich neben dem Korpus. Je Seite 1 Stahlwinkel (F3) **außen auf die Seitenwand B2**, hinteres Ende, in die Fläche geschraubt (4 × 30 mm), M8-Schraube mit U-Scheibe und Stoppmutter (F10) in die Öse. Winkelform/Biegung nach der tatsächlichen Ösenlage.
+2. **Heckklappen-Ösen (optional):** falls unter dem Korpus, je 1 Winkel von innen auf B4 — nur gegen Verrutschen/Klappern; gegen Kippen bringen sie fast nichts, weil sie am Drehpunkt sitzen.
+3. 2 × Spanngurt (F11) als redundanter Pfad — und als einzige Sicherung, solange die Winkel noch nicht sitzen.
+4. Antirutschmatte (G3) unter den Korpus — gegen Klappern, **nicht** als Sicherung gerechnet.
+
+Die Winkelpositionen lassen sich nicht aus der Zeichnung ableiten: sie werden im Fahrzeug von den tatsächlichen Ösenpositionen abgenommen.
 
 ### Montagereihenfolge
 
@@ -262,7 +285,7 @@ Die Winkelpositionen auf B4 lassen sich nicht aus der Zeichnung ableiten: sie we
 4. Schienen erst danach einmessen und montieren — der fertige Korpus gibt das verbindliche Innenmaß (→ H1)
 5. Schubladenkästen bauen (→ H2), einhängen, Lauf prüfen
 6. Frontblenden einstellen und von innen festschrauben (→ H3), danach Griffe bohren
-7. Korpus ins Fahrzeug, Zurrösen-Positionen auf B4 anreißen, Winkel setzen (→ H5)
+7. Korpus ins Fahrzeug, Positionen der Rücksitz-Ösen außen an B2 anreißen (ggf. Heckklappen-Ösen auf B4), Winkel setzen (→ H5)
 8. Liegebretter A2/A3 mit Überlappungsleisten anpassen (→ H4) — im Fahrzeug, bei umgeklappten Sitzen
 
 ### Was vermieden werden sollte
@@ -300,6 +323,6 @@ Sinnvoll als Referenz für Maße, Verarbeitung und Preiseinschätzung auch wenn 
 
 Standardformat Multiplex-Platte: 2.500 × 1.250 mm → **ca. 3 Platten à 18 mm** + **1 Platte à 12 mm**.
 
-Zusätzlich Leisten (Weichholz/Multiplex-Reste): ca. 3,0 m Eckleiste 20 × 20 mm (F12), 3,0 m Leiste 18 × 40/60 mm (F13). Die Trägerwangen (F14) lassen sich aus dem 18-mm-Verschnitt schneiden.
+Zusätzlich Leisten (Weichholz/Multiplex-Reste): ca. 3,0 m Eckleiste 20 × 20 mm (F12), 2,0 m Leiste 18 × 40 mm (F13). Die Trägerwangen (F14) lassen sich aus dem 18-mm-Verschnitt schneiden.
 
 → Preise und Gesamtbudget: **[Einkaufsliste.md](./Einkaufsliste.md)**

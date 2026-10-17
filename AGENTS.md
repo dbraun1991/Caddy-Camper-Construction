@@ -96,7 +96,9 @@ down.
   `caddyG`, see [ADR 0009](docs/adrs/0009-translucent-caddy-shell-overlay.md) and
   [ADR 0010](docs/adrs/0010-detailed-caddy-shell.md): door openings, front seats,
   rear bench (flipped flat / removed toggle), load-floor reference plane.
-  Its dimensions are unverified placeholders.
+  Tailgate shown permanently open (hinged at the roof edge). Load width, folded
+  rear-seat height and length to the headrests come from the measured
+  `fahrzeug` block in `modell/parameter.json`; everything else is a placeholder.
 - Shared part model (`modell/`) driving both the 3D tab and build123d workshop
   drawings (Draufsicht / Vorderansicht / Seitenansicht, A3 1:5, hidden edges
   dashed, overlaps red) for three corner-construction variants, plus an overlap
@@ -106,7 +108,8 @@ down.
   documented joinery method for every junction in the build
   ([List_of_Materials.md](List_of_Materials.md) §H): corpus shell (ADR 0007),
   rail-to-wall attachment (§H1), drawer boxes and front panels (ADR 0011),
-  sleeping-platform board joints (§H4), and vehicle tie-down (ADR 0012).
+  sleeping-platform board joints (§H4), and vehicle tie-down (ADR 0012, amended by ADR 0016:
+  rear lashing eyes beside the corpus, brackets on the outside of `B2`).
 - Shopping list with dated price estimates, a three-tier total budget, and a
   buy order derived from the assembly order ([Einkaufsliste.md](Einkaufsliste.md)).
 - Summer-use considerations beyond the physical build — legal distinction between
@@ -135,7 +138,8 @@ down.
   - Corner construction of the corpus is unspecified (`eckausbildung` parameter;
     `stueckliste` reproduces the current, overlapping cut list). Blocks cutting
     `B1`–`B4`.
-  - Clear depth 882 mm behind `B1` < 900 mm rail length.
+  - Clear depth 882 mm behind `B1` < 900 mm rail length. Measured load depth is
+    920–930 mm, so a 918 mm corpus (900 clear) would still fit with 2–12 mm.
   - Full-section-width inset drawer fronts sit in front of the runners.
   - Drawer heights: box 260 (= 248 sides + 12 bottom) and front 268 in
     `List_of_Materials.md` §D are consistent with each other; the remaining
@@ -149,8 +153,16 @@ down.
 
 ### TODOs
 
-- Replace the placeholder Caddy shell dimensions (`CW`, `CAW`, `CH`, `CL`, wheel
-  arches, seats, `doorOpenings` in `index.html`) with measured values from the real vehicle.
+- Vehicle measurements (2026-10-17) live in `modell/parameter.json` → `fahrzeug`
+  and are checked by `modell.fahrzeug_pruefung()` (shown in the "Statisch" tab).
+  The remaining shell placeholders (`CW`, `CH`, `CL`, wheel arches, seats,
+  `doorOpenings`, tailgate length/angle) were explicitly **not** measured — the
+  user chose to ignore them for now. Don't ask for them again unless a decision
+  depends on one.
+- A2 sits 10 mm above the folded seat backs (310 vs 320 mm); the shim is
+  documented in §H4 (F16). A3 hangs from the headrests on two adjustable loops
+  (F15); the user sets holes and loop length on the car — documented, otherwise
+  out of scope.
 - Mobile: the legend (top right) is wide and overlaps the scene on phones.
 
 ### Possible viewer improvements (not requested yet — candidates only)

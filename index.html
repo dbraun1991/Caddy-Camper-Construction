@@ -187,7 +187,7 @@
     <span style="background:#EF9F27;"></span>Tisch-Brett Mitte (32 mm hoch · 900 mm Auszug)<br>
     <span style="background:#378ADD;"></span>Schubladen × 3 &nbsp;(Kasten 260 · Blende 268 mm hoch · 900 mm Auszug)<br>
     <span style="background:#E62929;"></span>Rechnerische Überschneidung (Button „Überschneidungen“)<br>
-    <span style="background:#9DB4C8;"></span>Caddy-Hülle (Platzhaltermaße, 60 % deckend)<br>
+    <span style="background:#9DB4C8;"></span>Caddy-Hülle, Heckklappe offen (60 % · teils nachgemessen)<br>
     <span style="background:#B5E48C;"></span>Lade-Referenzebene Kofferraum (y = 0)<br>
     <span style="background:#5F6B7A;"></span>Rücksitzbank (umgeklappt / ausgebaut)<br>
     <span style="background:#FF1111;"></span>Schienen × 12 &nbsp;(AOLISHENG · 18×74×900 mm · fährt mit Element)
@@ -377,10 +377,13 @@
   });
 
   // ── Caddy-Hülle (VW Caddy Mk3 Kombi) ──────────────────────────────────────
-  // ACHTUNG: Platzhalterwerte aus öffentlichen Datenblättern, NICHT nachgemessen — bei Bedarf hier korrigieren.
-  // Heck (z = 0) bleibt offen, damit ausgefahrene Schubladen/Bretter sichtbar bleiben.
-  var CW   = 1500;  // Innenbreite an den Wänden
-  var CAW  = 1120;  // Breite zwischen den Radkästen = nutzbare Laderaumbreite (README/AGENTS: 1.120 mm)
+  // Nachgemessen (2026-10-17) und daher aus MODELL.parameter.fahrzeug: Breite zwischen den Radkästen,
+  // Höhe der umgeklappten Rücksitzlehnen, Länge bis zu den Kopfstützen (= zFront).
+  // ACHTUNG: alle übrigen Werte sind Platzhalter aus öffentlichen Datenblättern, NICHT nachgemessen.
+  // Heck (z = 0) ist offen, die Heckklappe steht hochgeklappt — so wird der Bankmodus benutzt.
+  var FZ   = P.fahrzeug;
+  var CW   = 1500;  // Innenbreite an den Wänden (Platzhalter)
+  var CAW  = FZ.ladebreite_radkaesten;  // 1120, nachgemessen
   var CH   = 1200;  // Laderaumhöhe
   var CL   = 3000;  // Länge ab Heck bis Vorderwand/Armaturenbrett (Vordersitz-Lehne bei z = 2000)
   var CT   = 10;    // Darstellungsstärke der Hüllenpaneele
@@ -429,13 +432,20 @@
   wireframe(floorPlane, 0x6B8F3A);
 
   // Rücksitzbank (2. Reihe): umgeklappt (Standard) oder ausgebaut — per Button
-  // Umgeklappt: Sitzfläche/Unterbau + flach liegende Lehne, Oberkante knapp unter Plattformhöhe (Brett 1 liegt auf)
+  // Umgeklappt: Sitzfläche/Unterbau + flach liegende Lehne; Brett A2 liegt darauf (mit Ausgleich)
   var mRearSeat = new THREE.MeshLambertMaterial({ color: 0x5F6B7A, transparent: true, opacity: 0.75, depthWrite: false });
   var rearSeatsG = new THREE.Group();
   caddyG.add(rearSeatsG);
-  var rsTop = UH - 4, rsBackH = 80;
+  var rsTop = FZ.ruecksitzlehne_hoehe, rsBackH = 80;   // 310 mm nachgemessen → 10 mm Spalt unter A2 (List_of_Materials.md §H4)
   wireframe(box(CAW - 40, rsTop - rsBackH, LA2, mRearSeat, 0, (rsTop - rsBackH) / 2, UD + LA2 / 2, rearSeatsG), 0x2E3640); // Sitzfläche/Unterbau
   wireframe(box(CAW - 40, rsBackH, LA2, mRearSeat, 0, rsTop - rsBackH / 2, UD + LA2 / 2, rearSeatsG), 0x2E3640);           // umgeklappte Lehne
+  // Heckklappe, immer geöffnet: Scharnier an der Dachhinterkante, ca. 15° über der Waagerechten
+  // (Länge und Winkel Platzhalter; nachgemessen ist nur, dass die fertige Box durch die Öffnung passt)
+  var tailG = new THREE.Group();
+  tailG.position.set(0, (CH + CT) * S, 0);
+  tailG.rotation.x = 15 * Math.PI / 180;     // positive Drehung hebt das freie Ende (−z) an
+  caddyG.add(tailG);
+  shell(CW + 2 * CT, CT, CH, 0, 0, -CH / 2, tailG);
   caddyG.traverse(function (m) { if (m.isMesh) m.renderOrder = 10; });
 
   // ── Camera orbit ──────────────────────────────────────────────────────────
@@ -594,7 +604,14 @@
     var koll = MODELL.varianten[variante] || [];
     var nachKat = {};
     koll.forEach(function (k) { (nachKat[k.kategorie] = nachKat[k.kategorie] || []).push(k); });
-    var html = '<h2>Prüfbericht · ' + VARIANTEN[variante] + '</h2>';
+    var html = '<h2>Passt ins Fahrzeug? · nachgemessen ' + MODELL.parameter.fahrzeug._stand.match(/\d{4}-\d{2}-\d{2}/)[0] + '</h2><table>';
+    var ZEICHEN = { ok: ['ok', '✓'], knapp: ['ok', '✓ kein Spiel'], anpassen: ['fehler', '!'] };
+    MODELL.fahrzeug_pruefung.forEach(function (p) {
+      var z = ZEICHEN[p.status];
+      html += '<tr><td class="' + z[0] + '">' + z[1] + '</td><td>' + p.was + '</td><td>Plan ' + p.plan +
+              ' · Fahrzeug ' + p.fahrzeug + ' mm</td><td>' + p.ergebnis + '</td></tr>';
+    });
+    html += '</table><h2>Prüfbericht · ' + VARIANTEN[variante] + '</h2>';
     html += koll.length
       ? '<div class="fehler">' + koll.length + ' rechnerische Überschneidungen zwischen Bauteilen</div>'
       : '<div class="ok">Keine Überschneidungen</div>';

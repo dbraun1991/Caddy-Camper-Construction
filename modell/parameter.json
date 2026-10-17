@@ -33,6 +33,17 @@
     "blende_hoehe": 268
   },
 
+  "fahrzeug": {
+    "_stand": "Am eigenen Fahrzeug nachgemessen am 2026-10-17. Alles andere an der Caddy-Hülle in index.html bleibt Platzhalter.",
+    "ladebreite_radkaesten": 1120,
+    "ladetiefe_min": 920,
+    "ladetiefe_max": 930,
+    "ruecksitzlehne_hoehe": 310,
+    "laenge_heck_bis_kopfstuetzen": 2000,
+    "heckklappe_passt": true,
+    "ladekante": 0
+  },
+
   "eckausbildung": "stueckliste",
   "_eckausbildung_werte": "stueckliste = Maße wie in List_of_Materials.md (B2/B3 320 hoch, B1/B4 1.120 breit, ungeklärte Überschneidung) · boden_durchlaufend = B4 durchgehend, Wände stehen darauf · seiten_durchlaufend = B2 bis zum Ladeboden, B4 und B1 dazwischen"
 }

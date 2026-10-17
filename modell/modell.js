@@ -33,6 +33,16 @@ window.MODELL = {
    "blende_staerke": 18,
    "blende_hoehe": 268
   },
+  "fahrzeug": {
+   "_stand": "Am eigenen Fahrzeug nachgemessen am 2026-10-17. Alles andere an der Caddy-Hülle in index.html bleibt Platzhalter.",
+   "ladebreite_radkaesten": 1120,
+   "ladetiefe_min": 920,
+   "ladetiefe_max": 930,
+   "ruecksitzlehne_hoehe": 310,
+   "laenge_heck_bis_kopfstuetzen": 2000,
+   "heckklappe_passt": true,
+   "ladekante": 0
+  },
   "eckausbildung": "stueckliste",
   "_eckausbildung_werte": "stueckliste = Maße wie in List_of_Materials.md (B2/B3 320 hoch, B1/B4 1.120 breit, ungeklärte Überschneidung) · boden_durchlaufend = B4 durchgehend, Wände stehen darauf · seiten_durchlaufend = B2 bis zum Ladeboden, B4 und B1 dazwischen"
  },
@@ -4124,6 +4134,36 @@ window.MODELL = {
     47,
     16.5
    ]
+  }
+ ],
+ "fahrzeug_pruefung": [
+  {
+   "was": "Korpusbreite zwischen den Radkästen",
+   "plan": 1120,
+   "fahrzeug": 1120,
+   "ergebnis": "0 mm Spiel",
+   "status": "knapp"
+  },
+  {
+   "was": "Korpustiefe Heckklappe → Rücksitze",
+   "plan": 900,
+   "fahrzeug": "920–930",
+   "ergebnis": "20–30 mm Luft; mit Rückwand hinter 900 mm lichter Tiefe (918 mm) noch 2–12 mm",
+   "status": "ok"
+  },
+  {
+   "was": "Liegefläche A1 + A2 + A3 bis zu den Kopfstützen",
+   "plan": 2000,
+   "fahrzeug": 2000,
+   "ergebnis": "0 mm Luft",
+   "status": "knapp"
+  },
+  {
+   "was": "Unterkante A2 über umgeklappten Rücksitzlehnen",
+   "plan": 320,
+   "fahrzeug": 310,
+   "ergebnis": "10 mm Spalt — unter A2 ausgleichen (§H4)",
+   "status": "anpassen"
   }
  ]
 };

@@ -175,6 +175,38 @@ def kollisionen(liste, toleranz=0.01):
     return out
 
 
+def fahrzeug_pruefung(p=None):
+    """Passt der Plan ins nachgemessene Fahrzeug? Status: ok · knapp (kein Spiel) · anpassen."""
+    p = p or lade_parameter()
+    k, l, f = p["korpus"], p["liegeflaeche"], p["fahrzeug"]
+    T = k["plattenstaerke"]
+
+    def pruefung(was, soll, ist, luft_text, status):
+        return {"was": was, "plan": soll, "fahrzeug": ist, "ergebnis": luft_text, "status": status}
+
+    out = []
+    luft = f["ladebreite_radkaesten"] - k["breite"]
+    out.append(pruefung("Korpusbreite zwischen den Radkästen", k["breite"], f["ladebreite_radkaesten"],
+                        f"{luft} mm Spiel", "ok" if luft > 0 else ("knapp" if luft == 0 else "anpassen")))
+    lo, hi = f["ladetiefe_min"] - k["tiefe"], f["ladetiefe_max"] - k["tiefe"]
+    lo2, hi2 = lo - T, hi - T
+    out.append(pruefung("Korpustiefe Heckklappe → Rücksitze", k["tiefe"],
+                        f"{f['ladetiefe_min']}–{f['ladetiefe_max']}",
+                        f"{lo}–{hi} mm Luft; mit Rückwand hinter 900 mm lichter Tiefe "
+                        f"({k['tiefe'] + T} mm) noch {lo2}–{hi2} mm",
+                        "ok" if lo > 0 else "anpassen"))
+    lang = k["tiefe"] + l["laenge_a2"] + l["laenge_a3"]
+    luft = f["laenge_heck_bis_kopfstuetzen"] - lang
+    out.append(pruefung("Liegefläche A1 + A2 + A3 bis zu den Kopfstützen", lang,
+                        f["laenge_heck_bis_kopfstuetzen"], f"{luft} mm Luft",
+                        "ok" if luft > 0 else ("knapp" if luft == 0 else "anpassen")))
+    spalt = k["hoehe"] - f["ruecksitzlehne_hoehe"]
+    out.append(pruefung("Unterkante A2 über umgeklappten Rücksitzlehnen", k["hoehe"], f["ruecksitzlehne_hoehe"],
+                        f"{spalt} mm Spalt — unter A2 ausgleichen (§H4)" if spalt else "liegt bündig auf",
+                        "anpassen" if spalt else "ok"))
+    return out
+
+
 def main():
     p = lade_parameter()
     daten = {"parameter": p, "eckausbildung": p["eckausbildung"], "teile": teile(p),
@@ -182,6 +214,7 @@ def main():
              # je Variante nur die Kollisionen — der Viewer zeigt immer die eingestellte Variante
              "varianten": {e: kollisionen(teile(p, e)) for e in ECKAUSBILDUNGEN}}
     daten["kollisionen"] = daten["varianten"][p["eckausbildung"]]
+    daten["fahrzeug_pruefung"] = fahrzeug_pruefung(p)
     ziel = ORDNER / "modell.js"
     ziel.write_text(
         "// GENERIERT von modell/modell.py aus modell/parameter.json — nicht von Hand bearbeiten.\n"
@@ -189,6 +222,8 @@ def main():
         encoding="utf-8")
     print(f"{ziel.relative_to(ORDNER.parent)}: {len(daten['teile'])} Teile, "
           f"{len(daten['kollisionen'])} Überschneidungen")
+    for pr in daten["fahrzeug_pruefung"]:
+        print(f"  [{pr['status']:8}] {pr['was']}: Plan {pr['plan']} / Fahrzeug {pr['fahrzeug']} → {pr['ergebnis']}")
 
 
 if __name__ == "__main__":
