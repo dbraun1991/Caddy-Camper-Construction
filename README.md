@@ -202,8 +202,7 @@ Offen:
 - [x] Eckausbildung Korpus — Boden B4 und Deckel A1 durchgehend, Wände in Falz/Nut t = 6–9 mm je nach Werkzeug; Wände nach dem Fräsen auf 302 + 2t ablängen — [ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md)
 - [x] Lichte Tiefe 882 mm vs. Schienenlänge — gelöst mit 850-mm-Schienen, Korpus bleibt 900 mm (20–30 mm Luft zu den Rücksitzen, 32 mm hinter den Schienen) — [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)
 - [ ] Schienenstärke der 850-mm-Schiene prüfen (geplant 19 mm je Seite) — vor der Bestellung
-- [ ] **Frontblenden vs. Schienen** — Blenden sind so breit wie die Sektion (312/424 mm) und sitzen als einliegende Front vor den Schienen; einliegend mit Luft oder aufliegend klären
-- [ ] Schubladenhöhe: Kasten 260 mm (248 + 12 Boden) und Blende 268 mm passen zueinander; offen bleibt D3-Blende (bis y 286) vs. Tisch-Brett C3 (ab y 283, Viewer) bzw. 286 (Stückliste) — 3 mm Überschneidung
+- [ ] **Frontblenden** (einliegend mit Luft oder aufliegend, Höhen mit ~2 mm Spalt, Lage der Schienen) — **wird nach dem Korpusbau entschieden:** Schienen am fertigen Korpus anhalten, messen, dann festlegen. Bis dahin bleiben die roten Stellen an den Blenden in den Zeichnungen bewusst stehen.
 - [x] Bezeichnung links/rechts: immer aus Sicht des Fahrers — Sektion L (C1, D1) = Fahrerseite, R (C2, D2) = Beifahrerseite
 
 Bewusst offen gelassen (keine Entscheidung nötig, um weiterzubauen):

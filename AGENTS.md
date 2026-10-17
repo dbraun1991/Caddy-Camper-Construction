@@ -153,9 +153,11 @@ down.
     runners, corpus stays 900 mm. Open: verify the 850 mm runner's thickness
     (19 mm assumed in `schienen.typen.*.staerke`, both types).
   - Full-section-width inset drawer fronts sit in front of the runners.
-  - Drawer heights: box 260 (= 248 sides + 12 bottom) and front 268 in
-    `List_of_Materials.md` §D are consistent with each other; the remaining
-    conflict is `D3-F` vs `C3` (3 mm). Same height chain as ADR 0013.
+  - Drawer fronts (inset vs. overlay, ~2 mm gaps all round, rails set back
+    18 mm if inset — 868 ≤ 882 fits) and the 3 mm `D3-F`/`C3` overlap:
+    **deferred by the user until the corpus is built** — rails will be held
+    against the real box and measured first. The remaining red front-panel
+    overlaps in the drawings are expected until then; don't "fix" them.
 - **Deliberately left open by the user** (2026-10-17) — don't push for a
   decision or plan them unless asked: mattress spec (1,100 mm is not a stock
   width, options in [Einkaufsliste.md](Einkaufsliste.md) §4), payload check

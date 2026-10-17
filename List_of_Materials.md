@@ -267,7 +267,7 @@ Nach dem Verschrauben des Bodens und **vor** dem Abbinden des Leims die Diagonal
 
 ### H3 — Frontblenden
 
-Die Frontblende ist kein tragendes Teil und wird **zuletzt** montiert, erst wenn der Kasten auf den Schienen läuft:
+Die Frontblende ist kein tragendes Teil und wird **zuletzt** montiert, erst wenn der Kasten auf den Schienen läuft. **Art und Maße der Blenden (einliegend/aufliegend, Spaltmaße) werden erst am fertigen Korpus festgelegt** — Schienen anhalten, messen, dann entscheiden; die Blendenmaße in §D sind bis dahin vorläufig.
 
 1. Blende mit 2 Schrauben provisorisch von innen fixieren
 2. Spaltmaß zur Nachbarsektion mit Pappstreifen (1–2 mm) einstellen, Schublade mehrfach auf- und zufahren
