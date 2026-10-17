@@ -26,8 +26,8 @@ BLATT_B, BLATT_H = 420, 297              # DIN A3 quer
 SCHRIFT = "DejaVu Sans"
 
 VARIANTEN = {   # Boden B4 und Deckel A1 laufen immer durch (ADR 0018)
-    "genutet": "B4 + A1 durchlaufend, Wände in Nut/Falz",
-    "stumpf": "B4 + A1 durchlaufend, Wände stumpf dazwischen",
+    "genutet": "Boden- + Deckplatte durchlaufend, Wände in Nut/Falz",
+    "stumpf": "Boden- + Deckplatte durchlaufend, Wände stumpf",
 }
 
 # Blickrichtung je Ansicht: Kamera-Position, Bild-oben, und dieselbe Abbildung
@@ -170,8 +170,19 @@ class Blatt:
                   for k, n in zaehler.items()] or ["keine Überschneidungen"]
         for i, z in enumerate(zeilen):
             self.text(z, x + 15, y - 16 - i * 4.2, 2.4, papier=True, ausrichtung=links)
-        self.text("Schlafmodus (alles eingefahren) · Liegebretter A2/A3, Scharniere und Matratze nicht dargestellt",
+        self.text("Schlafmodus (alles eingefahren) · Klappbretter A2/A3, Scharniere und Matratze nicht dargestellt",
                   x, 14, 2.2, papier=True, ausrichtung=links)
+
+    def positionsliste(self, eintraege):
+        """Kürzel → Langname der beschrifteten Teile, zweispaltig zwischen Legende und Schriftfeld."""
+        links = (bd.TextAlign.LEFT, bd.TextAlign.CENTER)
+        x0, y0, zeilen = 128, 46, 6
+        self.text("Positionen", x0, y0, 2.6, papier=True, ausrichtung=links)
+        for i, (id, name) in enumerate(eintraege):
+            x = x0 + (i // zeilen) * 50
+            y = y0 - 5 - (i % zeilen) * 4
+            self.text(id, x, y, 2.2, papier=True, ausrichtung=links)
+            self.text(name, x + 10, y, 2.2, papier=True, ausrichtung=links)
 
     def schreiben(self, pfad):
         svg = bd.ExportSVG(unit=bd.Unit.MM, margin=0, fit_to_stroke=False)
@@ -296,6 +307,8 @@ def zeichne(variante, name, png=False):
             blatt.text(id, u, v, 2.8)
     blatt.rahmen(a["titel"], a["blick"], a["nr"], VARIANTEN[variante])
     blatt.legende(koll, a["zeige"])
+    blatt.positionsliste([(id, teil(alle, id)["name"].split(" (")[0])
+                          for id in BESCHRIFTUNG[name] if id in ids])
 
     ordner = ZIEL / variante
     ordner.mkdir(parents=True, exist_ok=True)

@@ -19,6 +19,21 @@ from pathlib import Path
 ORDNER = Path(__file__).resolve().parent
 ECKAUSBILDUNGEN = ("genutet", "stumpf")   # Boden + Deckel immer durchlaufend, ADR 0018
 
+# Kürzel bleiben feste Positionsnummern; der Buchstabe nennt die Gruppe, `name` den Langnamen
+# (Funktion + Lage, links/rechts aus Fahrersicht). Glossar: List_of_Materials.md „Bezeichnungen“.
+GRUPPEN = {
+    "A": "Liegefläche", "B": "Korpus", "C": "Auszugbretter", "D": "Schubladen",
+    "E": "Schienen", "F": "Befestigung & Beschläge", "G": "Ausstattung", "S": "Scharniere",
+}
+ELEMENTE = {
+    "C1": "Sitzbrett links", "C2": "Sitzbrett rechts", "C3": "Tischbrett Mitte",
+    "D1": "Schublade links", "D2": "Schublade rechts", "D3": "Schublade Mitte",
+}
+# Wand an der −x- bzw. +x-Seite jeder Sektion (L = Fahrerseite = +x)
+SEKTIONSWAENDE = {"L": ("Trennwand links", "Seitenwand links"),
+                  "M": ("Trennwand rechts", "Trennwand links"),
+                  "R": ("Seitenwand rechts", "Trennwand rechts")}
+
 
 def lade_parameter():
     return json.loads((ORDNER / "parameter.json").read_text(encoding="utf-8"))
@@ -51,9 +66,9 @@ def _korpus(p, eck):
         _teil("B2-B", "Seitenwand rechts (Beifahrerseite)", "korpus", "holz", (-xa, -xi), wand_y, (0, D), **nut),
         _teil("B1", "Rückwand", "korpus", "holz", (-xi, xi), wand_y, (D - T, D), **nut),
         _teil("B4", "Bodenplatte", "korpus", "holz", (-xa, xa), (0, T), (0, D)),
-        _teil("B3-1", "Trennwand 1 (links)", "korpus", "holz", (d, d + DW), wand_y, (0, D - T), **nut),
-        _teil("B3-2", "Trennwand 2 (rechts)", "korpus", "holz", (-d - DW, -d), wand_y, (0, D - T), **nut),
-        _teil("A1", "Unterbau-Deckel", "liegeflaeche", "holz", (-xa, xa), (H, H + T), (0, D)),
+        _teil("B3-1", "Trennwand links", "korpus", "holz", (d, d + DW), wand_y, (0, D - T), **nut),
+        _teil("B3-2", "Trennwand rechts", "korpus", "holz", (-d - DW, -d), wand_y, (0, D - T), **nut),
+        _teil("A1", "Deckplatte", "liegeflaeche", "holz", (-xa, xa), (H, H + T), (0, D)),
     ]
 
 
@@ -93,31 +108,32 @@ def _einbauten(p):
         x0, x1 = sek[sek_id]
         rs, rh = typ(zu)["staerke"], typ(zu)["hoehe"]
         y = (round(y0, 2), round(y0 + rh, 2))
-        out.append(_teil(f"E-{zu}-a", f"Schiene {zu} (−x) · {typ(zu)['name']}", "schiene",
+        wand_a, wand_b = SEKTIONSWAENDE[sek_id]
+        out.append(_teil(f"E-{zu}-a", f"Schiene {ELEMENTE[zu]}, an {wand_a} · {typ(zu)['name']}", "schiene",
                          "schiene", (x0, x0 + rs), y, (0, rl), faehrt, richtung=1))
-        out.append(_teil(f"E-{zu}-b", f"Schiene {zu} (+x) · {typ(zu)['name']}", "schiene",
+        out.append(_teil(f"E-{zu}-b", f"Schiene {ELEMENTE[zu]}, an {wand_b} · {typ(zu)['name']}", "schiene",
                          "schiene", (x1 - rs, x1), y, (0, rl), faehrt, richtung=-1))
 
     # Seiten L/R: unten Sitz-Brett, darüber Schublade
     for nr, sid in ((1, "L"), (2, "R")):
-        out.append(_teil(f"C{nr}", f"Sitz-Brett {sid}", "brett", "sitz", element(sek[sid], f"C{nr}"),
+        out.append(_teil(f"C{nr}", ELEMENTE[f"C{nr}"], "brett", "sitz", element(sek[sid], f"C{nr}"),
                          (yB, yB + bh), zB, "bretter"))
         y0 = yB + bh + sp
-        out.append(_teil(f"D{nr}", f"Schublade {sid} — Kasten", "schublade", "schublade", element(sek[sid], f"D{nr}"),
+        out.append(_teil(f"D{nr}", f"Schubladenkasten {ELEMENTE[f'D{nr}'].split()[-1]}", "schublade", "schublade", element(sek[sid], f"D{nr}"),
                          (y0, y0 + hK), zK, "schubladen"))
-        out.append(_teil(f"D{nr}-F", f"Schublade {sid} — Frontblende", "schublade", "blende",
+        out.append(_teil(f"D{nr}-F", f"Schubladenfront {ELEMENTE[f'D{nr}'].split()[-1]}", "schublade", "blende",
                          sek[sid], (yB + bh, yB + bh + e["blende_hoehe"]), zF, "schubladen"))
         schienenpaar(sid, yB, "bretter", f"C{nr}")
         # Schubladenschiene mittig auf 2/3 Kastenhöhe — Bänder dürfen sich an B3 nicht überlappen (§H1)
         schienenpaar(sid, yB + bh + sp + hK * 2 / 3 - typ(f"D{nr}")["hoehe"] / 2, "schubladen", f"D{nr}")
 
     # Mitte: unten Schublade, oben Tisch-Brett
-    out.append(_teil("D3", "Schublade M — Kasten", "schublade", "schublade", element(sek["M"], "D3"),
+    out.append(_teil("D3", "Schubladenkasten Mitte", "schublade", "schublade", element(sek["M"], "D3"),
                      (yB, yB + hK), zK, "schubladen"))
-    out.append(_teil("D3-F", "Schublade M — Frontblende", "schublade", "blende",
+    out.append(_teil("D3-F", "Schubladenfront Mitte", "schublade", "blende",
                      sek["M"], (yB, yB + e["blende_hoehe"]), zF, "schubladen"))
     yT = yB + hK + sp
-    out.append(_teil("C3", "Tisch-Brett M", "brett", "tisch", element(sek["M"], "C3"), (yT, yT + bh), zB, "bretter"))
+    out.append(_teil("C3", ELEMENTE["C3"], "brett", "tisch", element(sek["M"], "C3"), (yT, yT + bh), zB, "bretter"))
     schienenpaar("M", yB + hK / 3 - typ("D3")["hoehe"] / 2, "schubladen", "D3")
     schienenpaar("M", yT + bh - typ("C3")["hoehe"], "bretter", "C3")
     return out
@@ -138,9 +154,9 @@ def _scharniere(p):
          [W * (i + 1) / (s["je_fuge"] + 1) - W / 2 for i in range(s["je_fuge"])]
     out = []
     for i, x in enumerate(sorted(xs), 1):
-        out.append(_teil(f"S1-{i}", "Scharnier A1↔A2 (oben)", "scharnier", "scharnier",
+        out.append(_teil(f"S1-{i}", "Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben)", "scharnier", "scharnier",
                          (x - b / 2, x + b / 2), (H + T, H + T + 2 * a), (z12 - lo / 2, z12 + lo / 2)))
-        out.append(_teil(f"S2-{i}", "Scharnier A2↔A3 (unten)", "scharnier", "scharnier",
+        out.append(_teil(f"S2-{i}", "Scharnier Klappbrett Rücksitz ↔ Kopfende (unten)", "scharnier", "scharnier",
                          (x - b / 2, x + b / 2), (H - 2 * a, H), (z23 - lo / 2, z23 + lo / 2), klappt_mit="A2"))
     # Achsen (y, z) im flachen Zustand und Klappwinkel um x für die Fahrmodi
     achsen = {"A2": {"y": H + T + a, "z": z12, "winkel": -180},
@@ -153,8 +169,8 @@ def _liegeflaeche(p):
     W, D, H, T = k["breite"], k["tiefe"], k["hoehe"], k["plattenstaerke"]
     y = (H, H + T)
     return _scharniere(p)[0] + [
-        _teil("A2", "Brett Sitzrücken", "liegeflaeche", "holz", (-W / 2, W / 2), y, (D, D + l["laenge_a2"])),
-        _teil("A3", "Brett Kopfbereich", "liegeflaeche", "holz", (-W / 2, W / 2), y,
+        _teil("A2", "Klappbrett Rücksitz", "liegeflaeche", "holz", (-W / 2, W / 2), y, (D, D + l["laenge_a2"])),
+        _teil("A3", "Klappbrett Kopfende", "liegeflaeche", "holz", (-W / 2, W / 2), y,
               (D + l["laenge_a2"], D + l["laenge_a2"] + l["laenge_a3"])),
         _teil("G1", "Matratze", "matratze", "matratze", (-m["breite"] / 2, m["breite"] / 2),
               (H + T, H + T + m["hoehe"]), (0, m["laenge"])),
@@ -168,10 +184,10 @@ def teile(p=None, eckausbildung=None):
 
 
 KATEGORIEN = {
-    "nut": "Nut/Falz: Wand steckt in Boden B4 bzw. Deckel A1 (gewollt)",
+    "nut": "Nut/Falz: Wand steckt in Bodenplatte B4 bzw. Deckplatte A1 (gewollt)",
     "eckverbindung": "Eckausbildung Korpus — welche Platte läuft durch?",
     "rueckwand": "Rückwand B1 ragt in Schienen/Elemente (lichte Tiefe < Schienenlänge)",
-    "frontblende": "Frontblende überdeckt Schienen bzw. Nachbarelement",
+    "frontblende": "Schubladenfront überdeckt Schienen bzw. Nachbarelement",
     "auflage": "Matratze liegt auf den Scharnieren (weich, unkritisch)",
     "sonstige": "Sonstige Überschneidung",
 }
@@ -246,7 +262,7 @@ def fahrzeug_pruefung(p=None):
 def main():
     p = lade_parameter()
     daten = {"parameter": p, "eckausbildung": p["eckausbildung"], "teile": teile(p),
-             "kategorien": KATEGORIEN,
+             "kategorien": KATEGORIEN, "gruppen": GRUPPEN,
              # je Variante nur die Kollisionen — der Viewer zeigt immer die eingestellte Variante
              "varianten": {e: kollisionen(teile(p, e)) for e in ECKAUSBILDUNGEN}}
     daten["kollisionen"] = daten["varianten"][p["eckausbildung"]]

@@ -58,11 +58,11 @@ Punkte, die über die reine Konstruktion hinausgehen:
 - **Sichtfeld:** Sichtschutz/Verdunkelung (→ Abschnitt 4) darf **nur im Stand** angebracht
   sein, nie während der Fahrt — auch nicht an Seiten- oder Heckscheiben, falls diese für
   Schulterblick/Rückspiegel relevant sind.
-- **Fahren mit geklappter Liegefläche (Fahrmodus 1/2):** Die auf die Box geklappten Bretter
-  A2/A3 hängen nur an den Scharnieren — vor der Fahrt mit einem Spanngurt am Korpus sichern,
+- **Fahren mit geklappter Liegefläche (Fahrmodus 1/2):** Die auf die Box geklappten
+  Klappbretter (A2, A3) hängen nur an den Scharnieren — vor der Fahrt mit einem Spanngurt am Korpus sichern,
   Matratze gesichert verstauen. Lose Platten dieser Größe werden bei einer Vollbremsung zu
   Geschossen.
-- **Kopfstützenfunktion bei Brett A3:** Brett A3 wird laut `List_of_Materials.md` §H4 mit
+- **Kopfstützenfunktion beim Klappbrett Kopfende (A3):** Das Klappbrett Kopfende wird laut `List_of_Materials.md` §H4 mit
   zwei verstellbaren Gurtschlaufen an den Vordersitz-Kopfstützen fixiert; die Zuglast tragen
   die Kopfstützen. Die Kopfstützen müssen dafür in Normalposition
   bleiben und ihre HWS-Schutzfunktion (Kopfstütze fängt den Kopf bei Auffahrunfall) behalten

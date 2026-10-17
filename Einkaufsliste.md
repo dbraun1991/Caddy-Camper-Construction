@@ -3,7 +3,7 @@
 Preisstand: **Oktober 2026**, Richtpreise aus deutschen Online-Shops (Brutto, inkl. 19 % MwSt., ohne Versand).
 Teilenummern beziehen sich auf [List_of_Materials.md](./List_of_Materials.md).
 
-> ⚠ **Vor dem Zuschnitt der Sitz-/Tisch-Bretter C1–C3:** [ADR 0013](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md) ist noch offen (Schienenhöhe 76/53 mm vs. 32 mm Brettstärke). **Vor dem Kauf der Schienen:** Stärke je Seite prüfen (geplant 19 mm). Alles andere ist kaufbereit.
+> ⚠ **Vor dem Zuschnitt der Sitz-/Tischbretter C1–C3:** [ADR 0013](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md) ist noch offen (Schienenhöhe 76/53 mm vs. 32 mm Brettstärke). **Vor dem Kauf der Schienen:** Stärke je Seite prüfen (geplant 19 mm). Alles andere ist kaufbereit.
 
 ---
 
@@ -14,7 +14,7 @@ Teilenummern beziehen sich auf [List_of_Materials.md](./List_of_Materials.md).
 | — | Multiplex Birke 18 mm, 2.500 × 1.250 mm | 3 Platten | 105 – 147 € | **315 – 441 €** |
 | — | Multiplex Birke 12 mm, 2.500 × 1.250 mm | 1 Platte | 50 – 105 € | **50 – 105 €** |
 | F12 | Eckleiste Weichholz 20 × 20 mm | 3 m | ~2 €/m | **~6 €** |
-| F16 | Ausgleichsleisten 10 × 40 mm unter A2 | 2 m | ~2,5 €/m ¹ | **~5 €** |
+| F16 | Ausgleichsleisten 10 × 40 mm unter dem Klappbrett Rücksitz (A2) | 2 m | ~2,5 €/m ¹ | **~5 €** |
 | | | | **Teilsumme** | **~376 – 557 €** |
 
 Spanne erklärt sich über die Qualitätsklasse (BB/BB vs. S/BB) und den Händler: Baumarkt (toom, Hornbach) am unteren Ende, Holzfachhandel (Holzland, Holzzentrum) am oberen.
@@ -27,13 +27,13 @@ Spanne erklärt sich über die Qualitätsklasse (BB/BB vs. S/BB) und den Händle
 
 | Pos | Artikel | Menge | Einzelpreis/Paar | Summe |
 |---|---|---|---|---|
-| E1 | AOLISHENG 850 mm · 170 kg · 76 mm hoch · Arretierung — Sitz-Bretter C1/C2 | 2 Paare | 104,99 € | **~210 €** |
-| E2 | AOLISHENG 850 mm · 80 kg · 53 mm hoch · Arretierung — Schubladen D1–D3 + Tisch-Brett C3 | 4 Paare | 61,99 € | **~248 €** |
+| E1 | Schwerlastschiene AOLISHENG 850 mm · 170 kg · 76 mm hoch · Arretierung — Sitzbretter links/rechts (C1/C2) | 2 Paare | 104,99 € | **~210 €** |
+| E2 | Schiene AOLISHENG 850 mm · 80 kg · 53 mm hoch · Arretierung — Schubladen (D1–D3) + Tischbrett Mitte (C3) | 4 Paare | 61,99 € | **~248 €** |
 | | | | **Teilsumme** | **~458 €** |
 
 Gut **ein Drittel des Gesamtbudgets**. Beide aus derselben 850-mm-Serie ([ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)); Schwerlast nur dort, wo eine Person sitzt. Bei beiden die **Stärke je Seite vor dem Kauf prüfen** (geplant 19 mm).
 
-- Bei den Sitz-Brettern **nicht** sparen: dort sitzt eine Person bei 850 mm Auszug, und ADR 0008 macht die Arretierung zur harten Anforderung.
+- Bei den Sitzbrettern **nicht** sparen: dort sitzt eine Person bei 850 mm Auszug, und ADR 0008 macht die Arretierung zur harten Anforderung.
 - Preisvergleich: Nicht-Amazon-Quellen (teleskopschienen-shop.de, teleskopschienen24.de) lagen bei 900 mm/120 kg um ~84 €/Paar — 850 mm dort prüfen.
 
 ---
@@ -53,8 +53,8 @@ Gut **ein Drittel des Gesamtbudgets**. Beide aus derselben 850-mm-Serie ([ADR 00
 | F9 | M5 × 40 Durchsteckschrauben + U-Scheibe + Stoppmutter | 24 Sätze | ~14 € |
 | F10 | M8 × 30/40 + U-Scheibe + Stoppmutter | 4 Sätze | ~6 € |
 | F11 | Spanngurt mit Ratsche | 2 Stk. | ~20 € |
-| F15 | Gurtschlaufe verstellbar (Gurtband ~25 mm + Klemmschnalle), A3 ↔ Kopfstütze | 2 Stk. | ~10 € ¹ |
-| F17 | Klappscharniere Standard ~60 mm (3 × A1↔A2 oben, 3 × A2↔A3 unten) | 6 Stk. | ~15 € ¹ |
+| F15 | Gurtschlaufe verstellbar (Gurtband ~25 mm + Klemmschnalle), Klappbrett Kopfende (A3) ↔ Kopfstütze | 2 Stk. | ~10 € ¹ |
+| F17 | Klappscharniere Standard ~60 mm (3 × Deckplatte ↔ Klappbrett Rücksitz oben, 3 × zwischen den Klappbrettern unten) | 6 Stk. | ~15 € ¹ |
 | | | **Teilsumme** | **~168 – 198 €** |
 
 ¹ F15/F16/F17 am 2026-10-17 ergänzt — grobe Schätzung, Quellen noch nicht geprüft.

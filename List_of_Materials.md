@@ -6,6 +6,31 @@ Maße der Bauteile: gemeinsame Datenbasis [`modell/parameter.json`](modell/param
 
 ---
 
+## Bezeichnungen
+
+Die Kürzel sind feste Positionsnummern (Modell, Zeichnungen, ADRs). Der Buchstabe nennt die Gruppe, der Langname Funktion und Lage — **links/rechts immer aus Fahrersicht**. Im Text steht der Langname, das Kürzel in Klammern oder in Tabellen.
+
+| Gruppe | Kürzel | Langname |
+|---|---|---|
+| **A — Liegefläche** | A1 | Deckplatte (Deckel der Box, zugleich hinterer Teil der Liegefläche) |
+| | A2 | Klappbrett Rücksitz (liegt auf den umgeklappten Rücksitzlehnen) |
+| | A3 | Klappbrett Kopfende (zu den Kopfstützen der Vordersitze) |
+| **B — Korpus** | B1 | Rückwand (zu den Rücksitzen) |
+| | B2-F / B2-B | Seitenwand links (Fahrerseite) / Seitenwand rechts (Beifahrerseite) |
+| | B3-1 / B3-2 | Trennwand links / Trennwand rechts |
+| | B4 | Bodenplatte |
+| **C — Auszugbretter** | C1 / C2 | Sitzbrett links / Sitzbrett rechts |
+| | C3 | Tischbrett Mitte |
+| **D — Schubladen** | D1 / D2 / D3 | Schubladenkasten links / rechts / Mitte |
+| | D1-F / D2-F / D3-F | Schubladenfront links / rechts / Mitte |
+| **E — Schienen** | E1 / E2 | Schwerlastschiene 170 kg (Sitzbretter) / Schiene 80 kg (Schubladen + Tischbrett) |
+| | E-C1-a … | im Modell je Einzelschiene, z. B. „Schiene Sitzbrett links, an Seitenwand links“ |
+| **F — Befestigung & Beschläge** | F1 … F17 | Schrauben, Winkel, Dübel, Leim, Gurte, Scharniere — Langnamen in §F |
+| **G — Ausstattung** | G1 … G5 | Matratze, Bezug, Antirutschmatte, Kantenband, Öl |
+| **S — Scharniere (Modell)** | S1-1…3 / S2-1…3 | Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben) / Klappbrett Rücksitz ↔ Kopfende (unten); Kaufposition F17 |
+
+---
+
 ## Fahrzeugmaße (am eigenen Fahrzeug nachgemessen, 2026-10-17)
 
 | Maß | Gemessen | Plan | Ergebnis |
@@ -30,9 +55,9 @@ Alle drei Bretter gleich stark (18 mm), bündig auf Plattformhöhe 320 mm.
 
 | Pos | Bezeichnung | Maß (B × T × H) | Menge | Hinweis |
 |---|---|---|---|---|
-| A1 | Unterbau-Deckel | 1.120 × 900 × 18 | 1 | Fest, über Kofferraum-Korpus; durchgehend, Unterseite mit Falz/Nut für die Wände (§B) |
-| A2 | Brett Sitzrücken | 1.120 × 700 × 18 | 1 | Liegt auf umgeklappten Rücksitzlehnen auf (Lehnen bei 310 mm → 10 mm Ausgleich, §H4) |
-| A3 | Brett Kopfbereich | 1.120 × 400 × 18 | 1 | Wenig Last, mit 2 Gurtschlaufen an den Vordersitz-Kopfstützen (§H4) |
+| A1 | Deckplatte | 1.120 × 900 × 18 | 1 | Fest, über Kofferraum-Korpus; durchgehend, Unterseite mit Falz/Nut für die Wände (§B) |
+| A2 | Klappbrett Rücksitz | 1.120 × 700 × 18 | 1 | Liegt auf umgeklappten Rücksitzlehnen auf (Lehnen bei 310 mm → 10 mm Ausgleich, §H4) |
+| A3 | Klappbrett Kopfende | 1.120 × 400 × 18 | 1 | Wenig Last, mit 2 Gurtschlaufen an den Vordersitz-Kopfstützen (§H4) |
 
 ---
 
@@ -40,14 +65,14 @@ Alle drei Bretter gleich stark (18 mm), bündig auf Plattformhöhe 320 mm.
 
 Eckausbildung ([ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md)): **Bodenplatte B4 und Deckel A1 laufen durch** (1.120 × 900 mm), alle Wände stehen dazwischen und stecken in Falz (Außenkanten) bzw. Nut (Trennwände) von B4 und A1 — **Nuttiefe t = 6–9 mm**, je nach Werkzeug (Zeichnungen mit 6 mm).
 
-Nutzbare Innenhöhe: 320 mm − 18 mm (Bodenplatte) = **302 mm** (davon 32 mm Sitz/Tisch-Brett + 268 mm Schublade + 2 mm Spaltmaß oben); **Wandhöhe = 302 + 2 × t** (bei t = 6: 314 mm, bei t = 9: 320 mm).  
+Nutzbare Innenhöhe: 320 mm − 18 mm (Bodenplatte) = **302 mm** (davon 32 mm Sitz/Tischbrett + 268 mm Schublade + 2 mm Spaltmaß oben); **Wandhöhe = 302 + 2 × t** (bei t = 6: 314 mm, bei t = 9: 320 mm).  
 Nutzbare Innenbreite L/R: 1.120 mm − 2 × 18 mm (B2 Seitenwand) − 2 × 18 mm (B3 Trennwand) = 1.048 mm → **312 mm** je Sektion L/R + **424 mm** Mitte.
 
 | Pos | Bezeichnung | Maß (B × T × H) | Menge | Hinweis |
 |---|---|---|---|---|
 | B1 | Rückwand | 1.084 × 18 × (302 + 2t) | 1 | Zur Rücksitz-Seite hin, zwischen den Seitenwänden; Falz hinten in B4/A1 |
-| B2 | Seitenwand | 18 × 900 × (302 + 2t) | 2 | Links + rechts — erforderlich: trägt die äußeren Schienen, Korpus bleibt als Ganzes ausbaubar ([ADR 0014](docs/adrs/0014-self-contained-corpus-with-own-side-walls.md)) |
-| B3 | Trennwand | 18 × 882 × (302 + 2t) | 2 | Zwischen den 3 Sektionen, bis zur Rückwand; Nut in B4/A1 |
+| B2-F / B2-B | Seitenwand links / rechts | 18 × 900 × (302 + 2t) | 2 | Links + rechts — erforderlich: trägt die äußeren Schienen, Korpus bleibt als Ganzes ausbaubar ([ADR 0014](docs/adrs/0014-self-contained-corpus-with-own-side-walls.md)) |
+| B3-1 / B3-2 | Trennwand links / rechts | 18 × 882 × (302 + 2t) | 2 | Zwischen den 3 Sektionen, bis zur Rückwand; Nut in B4/A1 |
 | B4 | Bodenplatte | 1.120 × 900 × 18 | 1 | Durchgehend. Oberseite: Falz 18 × t links, rechts, hinten + 2 Nuten 18 × t für B3 |
 
 Deckel **A1** (§A) erhält dieselben Falze/Nuten auf der Unterseite. Ohne Nuten (Rückfallvariante „stumpf“) sind alle Wände 302 mm hoch; B4 und A1 bleiben gleich — **B4 und A1 können daher schon zugeschnitten werden. Die Wände erst nach dem Fräsen: Nuttiefe t messen, dann auf 302 + 2t ablängen.**
@@ -56,16 +81,16 @@ Deckel **A1** (§A) erhält dieselben Falze/Nuten auf der Unterseite. Ohne Nuten
 
 ---
 
-## C — Sitz- und Tisch-Bretter (auf Vollauszug-Schienen)
+## C — Sitz- und Tischbretter (auf Vollauszug-Schienen)
 
 Untere 10 % der Sektionshöhe (32 mm) bei L/R, obere 10 % bei Mitte.  
 Alle drei fahren 850 mm auf Vollauszug-Schienen aus — **kein Klappen**, reine Zugbewegung.
 
 | Pos | Bezeichnung | Maß (B × T × H) | Menge | Position im Korpus |
 |---|---|---|---|---|
-| C1 | Sitz-Brett Links | 272 × 850 × 32 | 1 | y 18–50 mm; 312 mm Innen − 38 mm Schienen − 2 mm Spalt |
-| C2 | Sitz-Brett Rechts | 272 × 850 × 32 | 1 | y 18–50 mm; 312 mm Innen − 38 mm Schienen − 2 mm Spalt |
-| C3 | Tisch-Brett Mitte | 384 × 850 × 32 | 1 | y 286–318 mm; 424 mm Innen − 38 mm Schienen − 2 mm Spalt |
+| C1 | Sitzbrett Links | 272 × 850 × 32 | 1 | y 18–50 mm; 312 mm Innen − 38 mm Schienen − 2 mm Spalt |
+| C2 | Sitzbrett Rechts | 272 × 850 × 32 | 1 | y 18–50 mm; 312 mm Innen − 38 mm Schienen − 2 mm Spalt |
+| C3 | Tischbrett Mitte | 384 × 850 × 32 | 1 | y 286–318 mm; 424 mm Innen − 38 mm Schienen − 2 mm Spalt |
 
 > **Hinweis:** 32 mm Brettstärke = 18 mm Multiplex + 14 mm Auflageleiste, oder direkt aus 32 mm Leimholz.
 
@@ -104,7 +129,7 @@ y = 18–286 mm = 268 mm hoch; 424 mm Innen − 2 × 19 mm Schiene − 2 mm Spal
 
 > Auswahlbegründung: [ADR 0008](docs/adrs/0008-heavy-duty-full-extension-runners.md) (Schwerlast + Arretierung) · [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md) (850 statt 900 mm: lichte Tiefe hinter B1 nur 882 mm)
 
-**6 Paare** insgesamt: 3× für Schubladen + 3× für Sitz-/Tisch-Bretter.  
+**6 Paare** insgesamt: 3× für Schubladen + 3× für Sitz-/Tischbretter.  
 Mindestanforderung: **850 mm Auszug**, **Schwerlast**, mit Arretierung (Lock). 900-mm-Schienen passen nicht: hinter der Rückwand bleiben nur 882 mm lichte Tiefe.
 
 | # | Element | Schiene | Paare |
@@ -112,9 +137,9 @@ Mindestanforderung: **850 mm Auszug**, **Schwerlast**, mit Arretierung (Lock). 9
 | 1 | Schublade Links (D1) | Option 2 · 80 kg · 53 mm | 1 |
 | 2 | Schublade Mitte (D3) | Option 2 · 80 kg · 53 mm | 1 |
 | 3 | Schublade Rechts (D2) | Option 2 · 80 kg · 53 mm | 1 |
-| 4 | Sitz-Brett Links (C1) | Option 1 · 170 kg · 76 mm | 1 |
-| 5 | Sitz-Brett Rechts (C2) | Option 1 · 170 kg · 76 mm | 1 |
-| 6 | Tisch-Brett Mitte (C3) | Option 2 · 80 kg · 53 mm | 1 |
+| 4 | Sitzbrett Links (C1) | Option 1 · 170 kg · 76 mm | 1 |
+| 5 | Sitzbrett Rechts (C2) | Option 1 · 170 kg · 76 mm | 1 |
+| 6 | Tischbrett Mitte (C3) | Option 2 · 80 kg · 53 mm | 1 |
 | | **Gesamt** | 2 × Option 1 + 4 × Option 2 | **6 Paare (12 Einzelschienen)** |
 
 Zuordnung und Maße stehen in [`modell/parameter.json`](modell/parameter.json) (`schienen.typen` / `schienen.zuordnung`).
@@ -125,7 +150,7 @@ Zuordnung und Maße stehen in [`modell/parameter.json`](modell/parameter.json) (
 
 ---
 
-#### Option 1 — AOLISHENG 850 mm · 170 kg ⭐ Gewählt für die Sitz-Bretter C1/C2 (2 Paare) — dort sitzt eine Person
+#### Option 1 — AOLISHENG 850 mm · 170 kg ⭐ Gewählt für die Sitzbretter C1/C2 (2 Paare) — dort sitzt eine Person
 **170 kg Traglast** · 76 mm Höhe · mit Arretierung · 104,99 €/Paar (gesehen 2026-10-17) · Link/ASIN noch nachtragen  
 ⚠ **Stärke je Seite vor Bestellung prüfen** — die Elementbreiten rechnen mit 19 mm (wie die 900-mm-Variante).
 
@@ -137,7 +162,7 @@ Hinter der Schiene: 882 mm lichte Tiefe − 850 mm = 32 mm Luft
 
 ---
 
-#### Option 2 — AOLISHENG 850 mm · 80 kg ⭐ Gewählt für Schubladen D1–D3 + Tisch-Brett C3 (4 Paare)
+#### Option 2 — AOLISHENG 850 mm · 80 kg ⭐ Gewählt für Schubladen D1–D3 + Tischbrett C3 (4 Paare)
 **80 kg Traglast** · 53 mm Höhe · mit Arretierung · 61,99 €/Paar (gesehen 2026-10-17) · Link/ASIN noch nachtragen  
 ⚠ **Stärke je Seite vor Bestellung prüfen** — geplant sind 19 mm; ist sie anders, ändern sich die Breiten von D1–D3 und C3.
 
@@ -152,12 +177,12 @@ Bisherige Wahl, **verworfen** (passt nicht in 882 mm lichte Tiefe): AOLISHENG 90
 ---
 
 #### Früher erwogen — Schwerlast 95 kg · 53 mm hoch ✗ Verworfen (nur als 900 mm gefunden)
-**95 kg Traglast** · 53 mm Höhe · mit Arretierung · war für die Sitz-/Tisch-Bretter vorgesehen  
+**95 kg Traglast** · 53 mm Höhe · mit Arretierung · war für die Sitz-/Tischbretter vorgesehen  
 → [Amazon.de — B09XXDHW1C](https://www.amazon.de/dp/B09XXDHW1C/ref=sspa_dk_hqp_detail_aax_0?aref=gn8XpWgrVu&sp_csd=d2lkZ2V0TmFtZT1zcF9ocXBfc2hhcmVk&th=1)
 
 ```
 Vollauszug 900 mm · Höhe 53 mm · Traglast 95 kg · Arretierung: Ja
-Geeignet für: leichtere Elemente (Sitz- und Tisch-Bretter)
+Geeignet für: leichtere Elemente (Sitz- und Tischbretter)
 ```
 
 ---
@@ -190,7 +215,7 @@ Vollauszug 550 mm · 3-teilig · SoftClose · Traglast 105 kg
 | F11 | Spanngurt (Ratsche) | ≥ 1,5 m, 2-teilig | 2 Stk. |
 | F12 | Eckleiste Weichholz (Schubladen-Innenecken, → §H2) | 20 × 20 mm, Länge ~3,0 m gesamt | 12 Stk. à 240 mm |
 | F13 | ~~Überlappungsleisten Liegefläche~~ — entfällt, ersetzt durch Scharniere F17 ([ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md)) | — | — |
-| F14 | Trägerwangen Sitz-/Tisch-Bretter (→ §H1 / ADR 0013) | 18 mm × Schienenhöhe × 850 mm | 6 Stk. ⚠ erst nach ADR 0013 |
+| F14 | Trägerwangen Sitz-/Tischbretter (→ §H1 / ADR 0013) | 18 mm × Schienenhöhe × 850 mm | 6 Stk. ⚠ erst nach ADR 0013 |
 | F15 | Gurtschlaufe A3 ↔ Kopfstütze, verstellbar (→ §H4) | Gurtband ~25 mm mit Klemmschnalle | 2 Stk. |
 | F17 | Klappscharnier, Standard, aufschraubbar, ~60 mm (→ §H4) — 3 × A1↔A2 oben, 3 × A2↔A3 unten | Schrauben max. 15 mm (Platte 18 mm) | 6 Stk. |
 | F16 | Ausgleich unter A2 (→ §H4) | Leiste 10 × 40 × 1.000 mm oder 10-mm-Gummistreifen | 2 Stk. |
@@ -246,11 +271,11 @@ Die Außenmember der Schienen werden auf die **Flächen** von Seitenwänden (B2)
 | Punkt | Vorgabe | Grund |
 |---|---|---|
 | Schraubenlänge in B3 | max. **3,5 × 16 mm** | Trennwände tragen Schienen auf **beiden** Seiten; längere Schrauben durchstoßen die 18 mm Platte |
-| Höhenversatz der Schienenbänder | aus `modell/modell.py`: Sektion L/R Sitz-Brett 18–94 (76 mm), Schublade ≈ 202–255 (53 mm); Mitte Schublade ≈ 78–131, Tisch 262–315 (je 53 mm) | Kein Überlapp → keine Schraubenkollision in der Trennwand |
+| Höhenversatz der Schienenbänder | aus `modell/modell.py`: Sektion L/R Sitzbrett 18–94 (76 mm), Schublade ≈ 202–255 (53 mm); Mitte Schublade ≈ 78–131, Tisch 262–315 (je 53 mm) | Kein Überlapp → keine Schraubenkollision in der Trennwand |
 | Vorderste 2 Bohrungen je Schiene | **M5 Durchsteckschraube** mit U-Scheibe + Stoppmutter statt Holzschraube | Am Korpusvorderkant ist das Kippmoment bei 850 mm Auszug maximal — hier reißen Holzschrauben zuerst aus |
 | Verschrauben | von innen nach außen anreißen, Schienen **paarweise** auf gleiche Höhe lehren (Reststück Multiplex als Abstandslehre) | 1 mm Höhenversatz im Paar blockiert den Vollauszug |
 
-⚠ Zuerst ADR 0013 entscheiden: die Sitz-/Tisch-Bretter (32 mm) sind niedriger als die Schienen-Innenmember (76 mm bei C1/C2, 53 mm bei C3) — siehe [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Empfehlung: **Trägerwangen** 18 mm × Schienenhöhe × 850 mm, verleimt + verschraubt an beiden Längskanten; die Schiene greift dann in Faserfläche, nicht in Stirnkante.
+⚠ Zuerst ADR 0013 entscheiden: die Sitz-/Tischbretter (32 mm) sind niedriger als die Schienen-Innenmember (76 mm bei C1/C2, 53 mm bei C3) — siehe [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Empfehlung: **Trägerwangen** 18 mm × Schienenhöhe × 850 mm, verleimt + verschraubt an beiden Längskanten; die Schiene greift dann in Faserfläche, nicht in Stirnkante.
 
 ### H2 — Schubladenkästen (D1–D3)
 
@@ -278,7 +303,7 @@ Von außen ist nie eine Schraube sichtbar. Griffe (F6) erst nach Fixierung der B
 
 ### H4 — Liegefläche: Stöße A1 / A2 / A3
 
-Die drei Liegebretter sind mit **Klappscharnieren** verbunden ([ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md)). Zum Fahren werden A2 und A3 auf die Box zurückgeklappt (Viewer: Fahrmodus 1/2), dann lassen sich die Rücksitze hochklappen:
+Deckplatte (A1), Klappbrett Rücksitz (A2) und Klappbrett Kopfende (A3) sind mit **Klappscharnieren** verbunden ([ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md)). Zum Fahren werden die beiden Klappbretter auf die Deckplatte zurückgeklappt (Viewer: Fahrmodus 1/2), dann lassen sich die Rücksitze hochklappen:
 
 | Stoß | Verbindung |
 |---|---|
@@ -316,7 +341,7 @@ Die Winkelpositionen lassen sich nicht aus der Zeichnung ableiten: sie werden im
 5. Schubladenkästen bauen (→ H2), einhängen, Lauf prüfen
 6. Frontblenden einstellen und von innen festschrauben (→ H3), danach Griffe bohren
 7. Korpus ins Fahrzeug, Positionen der Rücksitz-Ösen außen an B2 anreißen (ggf. Heckklappen-Ösen auf B4), Winkel setzen (→ H5)
-8. Liegebretter A2/A3 mit Überlappungsleisten anpassen (→ H4) — im Fahrzeug, bei umgeklappten Sitzen
+8. Klappbretter A2/A3 mit den Scharnieren F17 an der Deckplatte anschlagen, Ausgleich F16 und Kopfstützen-Schlaufen F15 anpassen (→ H4) — im Fahrzeug, bei umgeklappten Sitzen
 
 ### Was vermieden werden sollte
 

@@ -66,6 +66,12 @@ down.
   usually needs to be reflected in `List_of_Materials.md` and `README.md` (e.g.
   section widths, rail specs, board thicknesses), and a part or quantity change
   also affects `Einkaufsliste.md`.
+- **Part codes + long names.** Codes (`A1`, `B2-F`, `C3`, …) are stable
+  position numbers used by the model, drawings and ADRs — don't renumber them.
+  User-facing German text pairs them with the long name from the glossary in
+  `List_of_Materials.md` ("Bezeichnungen"), e.g. "Klappbrett Rücksitz (A2)";
+  the model's `name` field holds the same long name (`GRUPPEN`, `ELEMENTE` in
+  `modell/modell.py`). Keep the three in sync when adding a part.
 - **Left/right means as seen from the driver's seat** (facing forward, LHD):
   left = driver side = +x, right = passenger side = −x. Section `L` (`C1`, `D1`,
   `B2-F`) is on the driver side. The Vorderansicht looks forward through the

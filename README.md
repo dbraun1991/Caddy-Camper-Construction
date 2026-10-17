@@ -53,17 +53,17 @@ Einzige Voraussetzung: Internetverbindung beim ersten Öffnen (Three.js wird per
 
 ### Modi
 
-Alle 6 beweglichen Elemente (3 Schubladen + 2 Sitz-Bretter + 1 Tisch-Brett) sind in jedem Modus als vollständige 3D-Körper sichtbar. Der Modus bestimmt ihre Position — eingeklappt (im Korpus) oder ausgefahren (in −z-Richtung vor dem Fahrzeugheck).
+Alle 6 beweglichen Elemente (3 Schubladen + 2 Sitzbretter + 1 Tischbrett) sind in jedem Modus als vollständige 3D-Körper sichtbar. Der Modus bestimmt ihre Position — eingeklappt (im Korpus) oder ausgefahren (in −z-Richtung vor dem Fahrzeugheck).
 
-| Modus | Schubladen | Sitz-Bretter L/R + Tisch-Brett M |
+| Modus | Schubladen | Sitzbretter L/R + Tischbrett M |
 |---|---|---|
 | **Schlafmodus** | eingeklappt | eingeklappt |
 | **Bankmodus** | eingeklappt | 850 mm ausgefahren |
 | **Packmodus** | 850 mm ausgefahren | eingeklappt |
-| **Fahrmodus 1** | eingeklappt | eingeklappt — Liegebretter A2 + A3 auf die Box geklappt, Matratze verstaut |
+| **Fahrmodus 1** | eingeklappt | eingeklappt — Klappbretter (A2, A3) auf die Deckplatte geklappt, Matratze verstaut |
 | **Fahrmodus 2** | eingeklappt | wie Fahrmodus 1, Rücksitze hochgeklappt → 5 Sitzplätze |
 
-Die Liegebretter hängen an Klappscharnieren: A1↔A2 oben, A2↔A3 unten. So klappen beide als Stapel auf die Box (A2 umgedreht auf A1, A3 auf A2, Stapelhöhe 386 mm) — [ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md). Beim Fahren den Stapel mit einem Spanngurt sichern.
+Die Klappbretter hängen an Klappscharnieren: Deckplatte ↔ Klappbrett Rücksitz oben, Klappbrett Rücksitz ↔ Klappbrett Kopfende unten. So klappen beide als Stapel auf die Box (Klappbrett Rücksitz umgedreht auf der Deckplatte, Klappbrett Kopfende darauf, Stapelhöhe 386 mm) — [ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md). Beim Fahren den Stapel mit einem Spanngurt sichern.
 
 Die Führungsschienen-Innenmember (rot) sind immer Teil der 3D-Geometrie und fahren mit ihrem Element mit — im eingeklappten Zustand liegen sie verdeckt im Korpus, im ausgefahrenen Zustand werden sie sichtbar.
 
@@ -74,7 +74,7 @@ Die Führungsschienen-Innenmember (rot) sind immer Teil der 3D-Geometrie und fah
 | Schlafmodus | Bankmodus | Packmodus |
 |---|---|---|
 | [![Schlafmodus](docs/pics/schlafmodus.jpg)](docs/pics/schlafmodus.jpg) | [![Bankmodus](docs/pics/bankmodus.jpg)](docs/pics/bankmodus.jpg) | [![Packmodus](docs/pics/packmodus.jpg)](docs/pics/packmodus.jpg) |
-| alles eingeklappt | Sitz-/Tisch-Bretter ausgefahren (Screenshot noch mit 900 mm) | Schubladen ausgefahren (Screenshot noch mit 900 mm) |
+| alles eingeklappt | Sitz-/Tischbretter ausgefahren (Screenshot noch mit 900 mm) | Schubladen ausgefahren (Screenshot noch mit 900 mm) |
 
 ---
 
@@ -104,6 +104,8 @@ python3 -m venv .venv && .venv/bin/pip install -r modell/requirements.txt   # ei
 
 ## Aufbau / Maße
 
+> Bezeichnungen: A = Liegefläche, B = Korpus, C = Auszugbretter, D = Schubladen, E = Schienen, F = Befestigung, G = Ausstattung — vollständiges Glossar mit Langnamen in [List_of_Materials.md → Bezeichnungen](./List_of_Materials.md#bezeichnungen). Links/rechts immer aus Fahrersicht.
+
 Basis: VW Caddy Mk3 Kombi, Erstzulassung 05/2012, Laderaumbreite nutzbar **1.120 mm**.
 
 **Am Fahrzeug nachgemessen (2026-10-17):** Breite zwischen den Radkästen 1.130–1.140 mm (Korpus bleibt bewusst 1.120 mm, 10–20 mm Spiel) · Box 1.120 × 900 × 338 mm passt durch die Heckklappe, keine Ladekante · Ladetiefe bis zu den Rücksitzen 920–930 mm · Boden eben · umgeklappte Rücksitzlehnen 310 mm hoch · Heck → Kopfstützen 2.000 mm. Details: [List_of_Materials.md → Fahrzeugmaße](./List_of_Materials.md#fahrzeugmaße-am-eigenen-fahrzeug-nachgemessen-2026-10-17). Im Viewer prüft der Reiter „Statisch“ den Plan automatisch gegen diese Werte.
@@ -125,12 +127,12 @@ Sektionsbreiten nach Abzug B2-Seitenwände (18 mm innen): **312 mm** L/R · **42
 
 | Sektion | Innenbreite | Element oben | Element unten |
 |---|---|---|---|
-| Links | 312 mm | Schublade 268 mm hoch · 272 mm breit | Sitz-Brett 32 mm hoch · 272 mm breit |
-| Mitte | 424 mm | Tisch-Brett 32 mm hoch · 384 mm breit | Schublade 268 mm hoch · 384 mm breit |
-| Rechts | 312 mm | Schublade 268 mm hoch · 272 mm breit | Sitz-Brett 32 mm hoch · 272 mm breit |
+| Links | 312 mm | Schublade 268 mm hoch · 272 mm breit | Sitzbrett 32 mm hoch · 272 mm breit |
+| Mitte | 424 mm | Tischbrett 32 mm hoch · 384 mm breit | Schublade 268 mm hoch · 384 mm breit |
+| Rechts | 312 mm | Schublade 268 mm hoch · 272 mm breit | Sitzbrett 32 mm hoch · 272 mm breit |
 
 Breitenformel: Innenbreite − 2 × 19 mm Schiene − 2 mm Spalt = Elementbreite.  
-Schienen: AOLISHENG 850 mm — 170 kg / 76 mm für die Sitz-Bretter C1/C2, 80 kg / 53 mm für Schubladen und Tisch-Brett. Stärke je Seite: 19 mm angenommen, vor der Bestellung am Produkt prüfen. Im Render dunkelgrau dargestellt.
+Schienen: AOLISHENG 850 mm — 170 kg / 76 mm für die Sitzbretter C1/C2, 80 kg / 53 mm für Schubladen und Tischbrett. Stärke je Seite: 19 mm angenommen, vor der Bestellung am Produkt prüfen. Im Render dunkelgrau dargestellt.
 
 Alle Elemente fahren auf **Vollauszug-Schienen 850 mm Schwerlast** aus ([ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)): Korpus 900 mm − Rückwand 18 mm = 882 mm lichte Tiefe → 32 mm Luft hinter Schienen, Kästen (830 mm) und Brettern (850 mm).
 
@@ -138,9 +140,9 @@ Alle Elemente fahren auf **Vollauszug-Schienen 850 mm Schwerlast** aus ([ADR 001
 
 | Segment | Länge | Funktion |
 |---|---|---|
-| Unterbau-Deckel | 900 mm | Fest, über Kofferraum |
-| Brett 1 | 700 mm | Auf umgeklappten Rücksitzlehnen (310 mm hoch → 10 mm Ausgleich) |
-| Brett 2 | 400 mm | Kopfbereich, 2 Gurtschlaufen um die Vordersitz-Kopfstützen |
+| A1 Deckplatte | 900 mm | Fest, Deckel der Box |
+| A2 Klappbrett Rücksitz | 700 mm | Auf umgeklappten Rücksitzlehnen (310 mm hoch → 10 mm Ausgleich) |
+| A3 Klappbrett Kopfende | 400 mm | Kopfbereich, 2 Gurtschlaufen um die Vordersitz-Kopfstützen |
 
 Matratzenbreite: **1.100 mm** (passt in 1.120 mm Innenbreite).
 
@@ -151,8 +153,8 @@ Matratzenbreite: **1.100 mm** (passt in 1.120 mm Innenbreite).
 | Farbe | Bedeutung |
 |---|---|
 | Dunkelbraun (transparent) | Holz / Korpus + Liegefläche (B1, B2, B3, B4, A1–A3 · Birke-Multiplex) |
-| Türkis (transparent) | Sitz-Brett L/R (C1, C2) |
-| Orange (transparent) | Tisch-Brett Mitte (C3) |
+| Türkis (transparent) | Sitzbrett L/R (C1, C2) |
+| Orange (transparent) | Tischbrett Mitte (C3) |
 | Blau (transparent) | Schubladen × 3 |
 | Rot (transparent) | Führungsschienen-Innenmember — fahren mit Element aus |
 | Weiß (transparent) | Matratzenumriss |

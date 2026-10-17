@@ -180,7 +180,7 @@ window.MODELL = {
   },
   {
    "id": "B3-1",
-   "name": "Trennwand 1 (links)",
+   "name": "Trennwand links",
    "gruppe": "korpus",
    "material": "holz",
    "faehrt": null,
@@ -205,7 +205,7 @@ window.MODELL = {
   },
   {
    "id": "B3-2",
-   "name": "Trennwand 2 (rechts)",
+   "name": "Trennwand rechts",
    "gruppe": "korpus",
    "material": "holz",
    "faehrt": null,
@@ -230,7 +230,7 @@ window.MODELL = {
   },
   {
    "id": "A1",
-   "name": "Unterbau-Deckel",
+   "name": "Deckplatte",
    "gruppe": "liegeflaeche",
    "material": "holz",
    "faehrt": null,
@@ -251,7 +251,7 @@ window.MODELL = {
   },
   {
    "id": "C1",
-   "name": "Sitz-Brett L",
+   "name": "Sitzbrett links",
    "gruppe": "brett",
    "material": "sitz",
    "faehrt": "bretter",
@@ -272,7 +272,7 @@ window.MODELL = {
   },
   {
    "id": "D1",
-   "name": "Schublade L — Kasten",
+   "name": "Schubladenkasten links",
    "gruppe": "schublade",
    "material": "schublade",
    "faehrt": "schubladen",
@@ -293,7 +293,7 @@ window.MODELL = {
   },
   {
    "id": "D1-F",
-   "name": "Schublade L — Frontblende",
+   "name": "Schubladenfront links",
    "gruppe": "schublade",
    "material": "blende",
    "faehrt": "schubladen",
@@ -314,7 +314,7 @@ window.MODELL = {
   },
   {
    "id": "E-C1-a",
-   "name": "Schiene C1 (−x) · AOLISHENG 850 mm · 170 kg",
+   "name": "Schiene Sitzbrett links, an Trennwand links · AOLISHENG 850 mm · 170 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "bretter",
@@ -336,7 +336,7 @@ window.MODELL = {
   },
   {
    "id": "E-C1-b",
-   "name": "Schiene C1 (+x) · AOLISHENG 850 mm · 170 kg",
+   "name": "Schiene Sitzbrett links, an Seitenwand links · AOLISHENG 850 mm · 170 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "bretter",
@@ -358,7 +358,7 @@ window.MODELL = {
   },
   {
    "id": "E-D1-a",
-   "name": "Schiene D1 (−x) · AOLISHENG 850 mm · 80 kg",
+   "name": "Schiene Schublade links, an Trennwand links · AOLISHENG 850 mm · 80 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "schubladen",
@@ -380,7 +380,7 @@ window.MODELL = {
   },
   {
    "id": "E-D1-b",
-   "name": "Schiene D1 (+x) · AOLISHENG 850 mm · 80 kg",
+   "name": "Schiene Schublade links, an Seitenwand links · AOLISHENG 850 mm · 80 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "schubladen",
@@ -402,7 +402,7 @@ window.MODELL = {
   },
   {
    "id": "C2",
-   "name": "Sitz-Brett R",
+   "name": "Sitzbrett rechts",
    "gruppe": "brett",
    "material": "sitz",
    "faehrt": "bretter",
@@ -423,7 +423,7 @@ window.MODELL = {
   },
   {
    "id": "D2",
-   "name": "Schublade R — Kasten",
+   "name": "Schubladenkasten rechts",
    "gruppe": "schublade",
    "material": "schublade",
    "faehrt": "schubladen",
@@ -444,7 +444,7 @@ window.MODELL = {
   },
   {
    "id": "D2-F",
-   "name": "Schublade R — Frontblende",
+   "name": "Schubladenfront rechts",
    "gruppe": "schublade",
    "material": "blende",
    "faehrt": "schubladen",
@@ -465,7 +465,7 @@ window.MODELL = {
   },
   {
    "id": "E-C2-a",
-   "name": "Schiene C2 (−x) · AOLISHENG 850 mm · 170 kg",
+   "name": "Schiene Sitzbrett rechts, an Seitenwand rechts · AOLISHENG 850 mm · 170 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "bretter",
@@ -487,7 +487,7 @@ window.MODELL = {
   },
   {
    "id": "E-C2-b",
-   "name": "Schiene C2 (+x) · AOLISHENG 850 mm · 170 kg",
+   "name": "Schiene Sitzbrett rechts, an Trennwand rechts · AOLISHENG 850 mm · 170 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "bretter",
@@ -509,7 +509,7 @@ window.MODELL = {
   },
   {
    "id": "E-D2-a",
-   "name": "Schiene D2 (−x) · AOLISHENG 850 mm · 80 kg",
+   "name": "Schiene Schublade rechts, an Seitenwand rechts · AOLISHENG 850 mm · 80 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "schubladen",
@@ -531,7 +531,7 @@ window.MODELL = {
   },
   {
    "id": "E-D2-b",
-   "name": "Schiene D2 (+x) · AOLISHENG 850 mm · 80 kg",
+   "name": "Schiene Schublade rechts, an Trennwand rechts · AOLISHENG 850 mm · 80 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "schubladen",
@@ -553,7 +553,7 @@ window.MODELL = {
   },
   {
    "id": "D3",
-   "name": "Schublade M — Kasten",
+   "name": "Schubladenkasten Mitte",
    "gruppe": "schublade",
    "material": "schublade",
    "faehrt": "schubladen",
@@ -574,7 +574,7 @@ window.MODELL = {
   },
   {
    "id": "D3-F",
-   "name": "Schublade M — Frontblende",
+   "name": "Schubladenfront Mitte",
    "gruppe": "schublade",
    "material": "blende",
    "faehrt": "schubladen",
@@ -595,7 +595,7 @@ window.MODELL = {
   },
   {
    "id": "C3",
-   "name": "Tisch-Brett M",
+   "name": "Tischbrett Mitte",
    "gruppe": "brett",
    "material": "tisch",
    "faehrt": "bretter",
@@ -616,7 +616,7 @@ window.MODELL = {
   },
   {
    "id": "E-D3-a",
-   "name": "Schiene D3 (−x) · AOLISHENG 850 mm · 80 kg",
+   "name": "Schiene Schublade Mitte, an Trennwand rechts · AOLISHENG 850 mm · 80 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "schubladen",
@@ -638,7 +638,7 @@ window.MODELL = {
   },
   {
    "id": "E-D3-b",
-   "name": "Schiene D3 (+x) · AOLISHENG 850 mm · 80 kg",
+   "name": "Schiene Schublade Mitte, an Trennwand links · AOLISHENG 850 mm · 80 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "schubladen",
@@ -660,7 +660,7 @@ window.MODELL = {
   },
   {
    "id": "E-C3-a",
-   "name": "Schiene C3 (−x) · AOLISHENG 850 mm · 80 kg",
+   "name": "Schiene Tischbrett Mitte, an Trennwand rechts · AOLISHENG 850 mm · 80 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "bretter",
@@ -682,7 +682,7 @@ window.MODELL = {
   },
   {
    "id": "E-C3-b",
-   "name": "Schiene C3 (+x) · AOLISHENG 850 mm · 80 kg",
+   "name": "Schiene Tischbrett Mitte, an Trennwand links · AOLISHENG 850 mm · 80 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "bretter",
@@ -704,7 +704,7 @@ window.MODELL = {
   },
   {
    "id": "S1-1",
-   "name": "Scharnier A1↔A2 (oben)",
+   "name": "Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben)",
    "gruppe": "scharnier",
    "material": "scharnier",
    "faehrt": null,
@@ -725,7 +725,7 @@ window.MODELL = {
   },
   {
    "id": "S2-1",
-   "name": "Scharnier A2↔A3 (unten)",
+   "name": "Scharnier Klappbrett Rücksitz ↔ Kopfende (unten)",
    "gruppe": "scharnier",
    "material": "scharnier",
    "faehrt": null,
@@ -747,7 +747,7 @@ window.MODELL = {
   },
   {
    "id": "S1-2",
-   "name": "Scharnier A1↔A2 (oben)",
+   "name": "Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben)",
    "gruppe": "scharnier",
    "material": "scharnier",
    "faehrt": null,
@@ -768,7 +768,7 @@ window.MODELL = {
   },
   {
    "id": "S2-2",
-   "name": "Scharnier A2↔A3 (unten)",
+   "name": "Scharnier Klappbrett Rücksitz ↔ Kopfende (unten)",
    "gruppe": "scharnier",
    "material": "scharnier",
    "faehrt": null,
@@ -790,7 +790,7 @@ window.MODELL = {
   },
   {
    "id": "S1-3",
-   "name": "Scharnier A1↔A2 (oben)",
+   "name": "Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben)",
    "gruppe": "scharnier",
    "material": "scharnier",
    "faehrt": null,
@@ -811,7 +811,7 @@ window.MODELL = {
   },
   {
    "id": "S2-3",
-   "name": "Scharnier A2↔A3 (unten)",
+   "name": "Scharnier Klappbrett Rücksitz ↔ Kopfende (unten)",
    "gruppe": "scharnier",
    "material": "scharnier",
    "faehrt": null,
@@ -833,7 +833,7 @@ window.MODELL = {
   },
   {
    "id": "A2",
-   "name": "Brett Sitzrücken",
+   "name": "Klappbrett Rücksitz",
    "gruppe": "liegeflaeche",
    "material": "holz",
    "faehrt": null,
@@ -854,7 +854,7 @@ window.MODELL = {
   },
   {
    "id": "A3",
-   "name": "Brett Kopfbereich",
+   "name": "Klappbrett Kopfende",
    "gruppe": "liegeflaeche",
    "material": "holz",
    "faehrt": null,
@@ -896,12 +896,22 @@ window.MODELL = {
   }
  ],
  "kategorien": {
-  "nut": "Nut/Falz: Wand steckt in Boden B4 bzw. Deckel A1 (gewollt)",
+  "nut": "Nut/Falz: Wand steckt in Bodenplatte B4 bzw. Deckplatte A1 (gewollt)",
   "eckverbindung": "Eckausbildung Korpus — welche Platte läuft durch?",
   "rueckwand": "Rückwand B1 ragt in Schienen/Elemente (lichte Tiefe < Schienenlänge)",
-  "frontblende": "Frontblende überdeckt Schienen bzw. Nachbarelement",
+  "frontblende": "Schubladenfront überdeckt Schienen bzw. Nachbarelement",
   "auflage": "Matratze liegt auf den Scharnieren (weich, unkritisch)",
   "sonstige": "Sonstige Überschneidung"
+ },
+ "gruppen": {
+  "A": "Liegefläche",
+  "B": "Korpus",
+  "C": "Auszugbretter",
+  "D": "Schubladen",
+  "E": "Schienen",
+  "F": "Befestigung & Beschläge",
+  "G": "Ausstattung",
+  "S": "Scharniere"
  },
  "varianten": {
   "genutet": [
