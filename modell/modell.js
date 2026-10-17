@@ -21,6 +21,14 @@ window.MODELL = {
    "laenge": 1980,
    "hoehe": 80
   },
+  "scharniere": {
+   "_hinweis": "Standard-Klappscharniere (aufgeschraubt). A1↔A2 oben, A2↔A3 unten — so klappen A2 und A3 als Stapel auf die Box (ADR 0019)",
+   "je_fuge": 3,
+   "blatt_breite": 60,
+   "laenge_offen": 60,
+   "achse_ueber_flaeche": 3,
+   "abstand_rand": 150
+  },
   "schienen": {
    "laenge": 850,
    "typen": {
@@ -695,6 +703,135 @@ window.MODELL = {
    "richtung": -1
   },
   {
+   "id": "S1-1",
+   "name": "Scharnier A1↔A2 (oben)",
+   "gruppe": "scharnier",
+   "material": "scharnier",
+   "faehrt": null,
+   "box": [
+    [
+     -440.0,
+     -380.0
+    ],
+    [
+     338,
+     344
+    ],
+    [
+     870.0,
+     930.0
+    ]
+   ]
+  },
+  {
+   "id": "S2-1",
+   "name": "Scharnier A2↔A3 (unten)",
+   "gruppe": "scharnier",
+   "material": "scharnier",
+   "faehrt": null,
+   "box": [
+    [
+     -440.0,
+     -380.0
+    ],
+    [
+     314,
+     320
+    ],
+    [
+     1570.0,
+     1630.0
+    ]
+   ],
+   "klappt_mit": "A2"
+  },
+  {
+   "id": "S1-2",
+   "name": "Scharnier A1↔A2 (oben)",
+   "gruppe": "scharnier",
+   "material": "scharnier",
+   "faehrt": null,
+   "box": [
+    [
+     -30.0,
+     30.0
+    ],
+    [
+     338,
+     344
+    ],
+    [
+     870.0,
+     930.0
+    ]
+   ]
+  },
+  {
+   "id": "S2-2",
+   "name": "Scharnier A2↔A3 (unten)",
+   "gruppe": "scharnier",
+   "material": "scharnier",
+   "faehrt": null,
+   "box": [
+    [
+     -30.0,
+     30.0
+    ],
+    [
+     314,
+     320
+    ],
+    [
+     1570.0,
+     1630.0
+    ]
+   ],
+   "klappt_mit": "A2"
+  },
+  {
+   "id": "S1-3",
+   "name": "Scharnier A1↔A2 (oben)",
+   "gruppe": "scharnier",
+   "material": "scharnier",
+   "faehrt": null,
+   "box": [
+    [
+     380.0,
+     440.0
+    ],
+    [
+     338,
+     344
+    ],
+    [
+     870.0,
+     930.0
+    ]
+   ]
+  },
+  {
+   "id": "S2-3",
+   "name": "Scharnier A2↔A3 (unten)",
+   "gruppe": "scharnier",
+   "material": "scharnier",
+   "faehrt": null,
+   "box": [
+    [
+     380.0,
+     440.0
+    ],
+    [
+     314,
+     320
+    ],
+    [
+     1570.0,
+     1630.0
+    ]
+   ],
+   "klappt_mit": "A2"
+  },
+  {
    "id": "A2",
    "name": "Brett Sitzrücken",
    "gruppe": "liegeflaeche",
@@ -763,6 +900,7 @@ window.MODELL = {
   "eckverbindung": "Eckausbildung Korpus — welche Platte läuft durch?",
   "rueckwand": "Rückwand B1 ragt in Schienen/Elemente (lichte Tiefe < Schienenlänge)",
   "frontblende": "Frontblende überdeckt Schienen bzw. Nachbarelement",
+  "auflage": "Matratze liegt auf den Scharnieren (weich, unkritisch)",
   "sonstige": "Sonstige Überschneidung"
  },
  "varianten": {
@@ -1341,6 +1479,81 @@ window.MODELL = {
      24,
      16.5
     ]
+   },
+   {
+    "a": "S1-1",
+    "b": "G1",
+    "box": [
+     [
+      -440.0,
+      -380.0
+     ],
+     [
+      338,
+      344
+     ],
+     [
+      870.0,
+      930.0
+     ]
+    ],
+    "kategorie": "auflage",
+    "gewollt": true,
+    "mass": [
+     60.0,
+     6,
+     60.0
+    ]
+   },
+   {
+    "a": "S1-2",
+    "b": "G1",
+    "box": [
+     [
+      -30.0,
+      30.0
+     ],
+     [
+      338,
+      344
+     ],
+     [
+      870.0,
+      930.0
+     ]
+    ],
+    "kategorie": "auflage",
+    "gewollt": true,
+    "mass": [
+     60.0,
+     6,
+     60.0
+    ]
+   },
+   {
+    "a": "S1-3",
+    "b": "G1",
+    "box": [
+     [
+      380.0,
+      440.0
+     ],
+     [
+      338,
+      344
+     ],
+     [
+      870.0,
+      930.0
+     ]
+    ],
+    "kategorie": "auflage",
+    "gewollt": true,
+    "mass": [
+     60.0,
+     6,
+     60.0
+    ]
    }
   ],
   "stumpf": [
@@ -1667,6 +1880,81 @@ window.MODELL = {
      19.0,
      24,
      16.5
+    ]
+   },
+   {
+    "a": "S1-1",
+    "b": "G1",
+    "box": [
+     [
+      -440.0,
+      -380.0
+     ],
+     [
+      338,
+      344
+     ],
+     [
+      870.0,
+      930.0
+     ]
+    ],
+    "kategorie": "auflage",
+    "gewollt": true,
+    "mass": [
+     60.0,
+     6,
+     60.0
+    ]
+   },
+   {
+    "a": "S1-2",
+    "b": "G1",
+    "box": [
+     [
+      -30.0,
+      30.0
+     ],
+     [
+      338,
+      344
+     ],
+     [
+      870.0,
+      930.0
+     ]
+    ],
+    "kategorie": "auflage",
+    "gewollt": true,
+    "mass": [
+     60.0,
+     6,
+     60.0
+    ]
+   },
+   {
+    "a": "S1-3",
+    "b": "G1",
+    "box": [
+     [
+      380.0,
+      440.0
+     ],
+     [
+      338,
+      344
+     ],
+     [
+      870.0,
+      930.0
+     ]
+    ],
+    "kategorie": "auflage",
+    "gewollt": true,
+    "mass": [
+     60.0,
+     6,
+     60.0
     ]
    }
   ]
@@ -2246,6 +2534,81 @@ window.MODELL = {
     24,
     16.5
    ]
+  },
+  {
+   "a": "S1-1",
+   "b": "G1",
+   "box": [
+    [
+     -440.0,
+     -380.0
+    ],
+    [
+     338,
+     344
+    ],
+    [
+     870.0,
+     930.0
+    ]
+   ],
+   "kategorie": "auflage",
+   "gewollt": true,
+   "mass": [
+    60.0,
+    6,
+    60.0
+   ]
+  },
+  {
+   "a": "S1-2",
+   "b": "G1",
+   "box": [
+    [
+     -30.0,
+     30.0
+    ],
+    [
+     338,
+     344
+    ],
+    [
+     870.0,
+     930.0
+    ]
+   ],
+   "kategorie": "auflage",
+   "gewollt": true,
+   "mass": [
+    60.0,
+    6,
+    60.0
+   ]
+  },
+  {
+   "a": "S1-3",
+   "b": "G1",
+   "box": [
+    [
+     380.0,
+     440.0
+    ],
+    [
+     338,
+     344
+    ],
+    [
+     870.0,
+     930.0
+    ]
+   ],
+   "kategorie": "auflage",
+   "gewollt": true,
+   "mass": [
+    60.0,
+    6,
+    60.0
+   ]
   }
  ],
  "fahrzeug_pruefung": [
@@ -2277,5 +2640,18 @@ window.MODELL = {
    "ergebnis": "10 mm Spalt — unter A2 ausgleichen (§H4)",
    "status": "anpassen"
   }
- ]
+ ],
+ "klappachsen": {
+  "A2": {
+   "y": 341,
+   "z": 900,
+   "winkel": -180
+  },
+  "A3": {
+   "y": 317,
+   "z": 1600,
+   "winkel": 180,
+   "an": "A2"
+  }
+ }
 };

@@ -14,9 +14,8 @@ Teilenummern beziehen sich auf [List_of_Materials.md](./List_of_Materials.md).
 | — | Multiplex Birke 18 mm, 2.500 × 1.250 mm | 3 Platten | 105 – 147 € | **315 – 441 €** |
 | — | Multiplex Birke 12 mm, 2.500 × 1.250 mm | 1 Platte | 50 – 105 € | **50 – 105 €** |
 | F12 | Eckleiste Weichholz 20 × 20 mm | 3 m | ~2 €/m | **~6 €** |
-| F13 | Leisten 18 × 40 mm (Überlappung A1/A2/A3) | 2 m | ~4 €/m | **~8 €** |
 | F16 | Ausgleichsleisten 10 × 40 mm unter A2 | 2 m | ~2,5 €/m ¹ | **~5 €** |
-| | | | **Teilsumme** | **~384 – 565 €** |
+| | | | **Teilsumme** | **~376 – 557 €** |
 
 Spanne erklärt sich über die Qualitätsklasse (BB/BB vs. S/BB) und den Händler: Baumarkt (toom, Hornbach) am unteren Ende, Holzfachhandel (Holzland, Holzzentrum) am oberen.
 
@@ -55,9 +54,10 @@ Gut **ein Drittel des Gesamtbudgets**. Beide aus derselben 850-mm-Serie ([ADR 00
 | F10 | M8 × 30/40 + U-Scheibe + Stoppmutter | 4 Sätze | ~6 € |
 | F11 | Spanngurt mit Ratsche | 2 Stk. | ~20 € |
 | F15 | Gurtschlaufe verstellbar (Gurtband ~25 mm + Klemmschnalle), A3 ↔ Kopfstütze | 2 Stk. | ~10 € ¹ |
-| | | **Teilsumme** | **~153 – 183 €** |
+| F17 | Klappscharniere Standard ~60 mm (3 × A1↔A2 oben, 3 × A2↔A3 unten) | 6 Stk. | ~15 € ¹ |
+| | | **Teilsumme** | **~168 – 198 €** |
 
-¹ F15/F16 am 2026-10-17 nach dem Nachmessen ergänzt — grobe Schätzung, Quellen noch nicht geprüft.
+¹ F15/F16/F17 am 2026-10-17 ergänzt — grobe Schätzung, Quellen noch nicht geprüft.
 
 ---
 
@@ -86,13 +86,13 @@ Gut **ein Drittel des Gesamtbudgets**. Beide aus derselben 850-mm-Serie ([ADR 00
 
 | Block | Günstig | Mittel (realistisch) | Komfort |
 |---|---|---|---|
-| Holz + Zuschnitt | 404 € | 481 € | 585 € |
+| Holz + Zuschnitt | 396 € | 473 € | 577 € |
 | Schienen | 458 € | 458 € | 458 € |
-| Befestigungsmaterial | 153 € | 168 € | 183 € |
+| Befestigungsmaterial | 168 € | 183 € | 198 € |
 | Ausbau / Sonstiges | 135 € | 230 € | 680 € |
-| **Summe** | **~1.150 €** | **~1.335 €** | **~1.905 €** |
+| **Summe** | **~1.155 €** | **~1.345 €** | **~1.915 €** |
 | + Puffer 10 % (Verschnitt, Nachkauf, Versand) | ~115 € | ~135 € | ~190 € |
-| **Gesamt** | **~1.265 €** | **~1.470 €** | **~2.095 €** |
+| **Gesamt** | **~1.275 €** | **~1.480 €** | **~2.105 €** |
 
 ### Realistische Planungsgröße: **~1.500 €**
 
@@ -112,7 +112,7 @@ Die kommerzielle Alternative [Moonbox 111](https://www.moonbox.de/products/moonb
 
 Die Montagereihenfolge in [§H](./List_of_Materials.md#montagereihenfolge) gibt die Kaufreihenfolge vor — der fertige Korpus liefert das verbindliche Innenmaß, nicht die Zeichnung:
 
-1. **Jetzt:** Holz 18 mm + 12 mm mit Zuschnitt, Leim, Dübel, Schrauben F1/F2/F7/F8, Winkel F3, Leisten F12/F13, Spanngurte F11 → Korpus bauen
+1. **Jetzt:** Holz 18 mm + 12 mm mit Zuschnitt, Leim, Dübel, Schrauben F1/F2/F7/F8, Winkel F3, Eckleisten F12, Spanngurte F11 → Korpus bauen
 2. **Sobald die Schienenstärke geprüft ist:** Schienen E1 (2 Paare) + E2 (4 Paare), Durchsteckschrauben F9 → einmessen und montieren (Bretter C1–C3 erst nach ADR 0013 zuschneiden)
 3. **Nach Einbau im Fahrzeug:** M8-Sätze F10 (Gewinde der Zurrösen erst am Auto prüfen; Rücksitz-Ösen liegen neben dem Korpus → Winkel außen an B2, ADR 0016), Griffe F6
-4. **Zuletzt:** Matratze G1 + Bezug G2 — erst messen, wenn die Liegefläche real liegt; Gurtschlaufen F15 und Ausgleich F16 beim Anpassen von A2/A3 im Fahrzeug
+4. **Zuletzt:** Matratze G1 + Bezug G2 — erst messen, wenn die Liegefläche real liegt; Scharniere F17, Gurtschlaufen F15 und Ausgleich F16 beim Anpassen von A2/A3 im Fahrzeug

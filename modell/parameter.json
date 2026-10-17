@@ -19,6 +19,15 @@
 
   "matratze": { "breite": 1100, "laenge": 1980, "hoehe": 80 },
 
+  "scharniere": {
+    "_hinweis": "Standard-Klappscharniere (aufgeschraubt). A1↔A2 oben, A2↔A3 unten — so klappen A2 und A3 als Stapel auf die Box (ADR 0019)",
+    "je_fuge": 3,
+    "blatt_breite": 60,
+    "laenge_offen": 60,
+    "achse_ueber_flaeche": 3,
+    "abstand_rand": 150
+  },
+
   "schienen": {
     "laenge": 850,
     "typen": {

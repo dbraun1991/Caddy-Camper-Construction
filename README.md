@@ -46,7 +46,7 @@ Einzige Voraussetzung: Internetverbindung beim ersten Öffnen (Three.js wird per
 | Zoomen | Scrollrad · Touch: Pinch (zwei Finger) |
 | Drehen (Touch) | Ein Finger ziehen |
 | Caddy-Hülle ein-/ausblenden | Button „Caddy-Hülle“ (transparente Fahrzeugkarosserie, Heckklappe hochgeklappt) |
-| Rücksitze umgeklappt / ausgebaut | Button „Rücksitze“ |
+| Rücksitze umgeklappt / hochgeklappt / ausgebaut | Button „Rücksitze“ (Fahrmodus 2 klappt sie automatisch hoch) |
 | Ansicht zurücksetzen | Reset-Button (Standardansicht: von hinten rechts, Caddy-Hülle sichtbar) |
 | Überschneidungen anzeigen | Button „Überschneidungen“ — rot, bezogen auf den eingefahrenen Zustand |
 | Werkzeichnungen | Reiter „Statisch · Werkzeichnungen“ (oben rechts), direkt verlinkbar mit `index.html#statisch` |
@@ -60,6 +60,10 @@ Alle 6 beweglichen Elemente (3 Schubladen + 2 Sitz-Bretter + 1 Tisch-Brett) sind
 | **Schlafmodus** | eingeklappt | eingeklappt |
 | **Bankmodus** | eingeklappt | 850 mm ausgefahren |
 | **Packmodus** | 850 mm ausgefahren | eingeklappt |
+| **Fahrmodus 1** | eingeklappt | eingeklappt — Liegebretter A2 + A3 auf die Box geklappt, Matratze verstaut |
+| **Fahrmodus 2** | eingeklappt | wie Fahrmodus 1, Rücksitze hochgeklappt → 5 Sitzplätze |
+
+Die Liegebretter hängen an Klappscharnieren: A1↔A2 oben, A2↔A3 unten. So klappen beide als Stapel auf die Box (A2 umgedreht auf A1, A3 auf A2, Stapelhöhe 386 mm) — [ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md). Beim Fahren den Stapel mit einem Spanngurt sichern.
 
 Die Führungsschienen-Innenmember (rot) sind immer Teil der 3D-Geometrie und fahren mit ihrem Element mit — im eingeklappten Zustand liegen sie verdeckt im Korpus, im ausgefahrenen Zustand werden sie sichtbar.
 
@@ -191,6 +195,7 @@ Der Korpus besteht aus Einzelbrettern (keine Vollbox): B2 links/rechts, B1 Rück
 - [x] Schubladendetails (Kastenbau, Frontblende, Griffe) — [§H2/§H3](./List_of_Materials.md#h2--schubladenkästen-d1d3) · [ADR 0011](docs/adrs/0011-drawer-box-panel-shear-joinery.md)
 - [x] Schienenbefestigung an Wänden und Trennwänden — [§H1](./List_of_Materials.md#h1--schienenbefestigung-an-wänden-und-trennwänden)
 - [x] Befestigung Unterbau im Fahrzeug — Rücksitz-Ösen neben dem Korpus, Winkel außen an B2 — [§H5](./List_of_Materials.md#h5--befestigung-des-korpus-im-fahrzeug) · [ADR 0012](docs/adrs/0012-non-destructive-vehicle-tie-down.md) · [ADR 0016](docs/adrs/0016-rear-lashing-eyes-carry-the-hold-down.md)
+- [x] Klappbare Liegefläche: A2/A3 per Scharnier an der Box, zum Fahren zurückklappbar (Fahrmodus 1/2) — [ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md)
 - [x] Brett 3 (A3) an den Vordersitz-Kopfstützen: 2 verstellbare Gurtschlaufen — [§H4](./List_of_Materials.md#h4--liegefläche-stöße-a1--a2--a3)
 - [x] Fahrzeug nachgemessen (Breite, Heckklappe, Tiefe, Lehnenhöhe, Länge, Zurrösen) — [List_of_Materials.md](./List_of_Materials.md#fahrzeugmaße-am-eigenen-fahrzeug-nachgemessen-2026-10-17)
 - [x] Budget und Kaufreihenfolge — [Einkaufsliste.md](./Einkaufsliste.md)

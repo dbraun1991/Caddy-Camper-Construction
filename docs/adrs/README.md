@@ -13,7 +13,7 @@ Decision, Consequences.
 | [0001](0001-self-contained-single-file-viewer.md) | Self-contained single-file viewer, no build step | Accepted, amended by 0015 |
 | [0002](0002-pinned-threejs-r128-via-cdn.md) | Pinned Three.js r128 via CDN | Accepted |
 | [0003](0003-real-world-mm-scale-factor.md) | Model in real-world millimeters with a single scale constant | Accepted |
-| [0004](0004-static-scene-graph-with-z-position-toggle.md) | Static scene graph with Z-position toggling instead of per-mode subtrees | Accepted |
+| [0004](0004-static-scene-graph-with-z-position-toggle.md) | Static scene graph with Z-position toggling instead of per-mode subtrees | Accepted, amended by 0019 |
 | [0005](0005-simplified-rail-visualization.md) | Simplified rail visualization: inner member only | Accepted |
 | [0006](0006-three-section-corpus-layout.md) | Three-section corpus layout (312 / 424 / 312 mm) | Accepted |
 | [0007](0007-dowel-screw-bracket-joinery.md) | Dowel + screw + corner-bracket joinery over glue-only or biscuits | Accepted, amended by 0018 |
@@ -28,3 +28,4 @@ Decision, Consequences.
 | [0016](0016-rear-lashing-eyes-carry-the-hold-down.md) | Rear lashing eyes carry the hold-down, fastened to the side walls | Accepted |
 | [0017](0017-850-mm-runners-in-900-mm-corpus.md) | 850 mm runners in the 900 mm corpus | Accepted |
 | [0018](0018-continuous-bottom-and-lid-walls-in-grooves.md) | Continuous bottom and lid; walls housed in grooves between them | Accepted |
+| [0019](0019-hinged-sleeping-boards-fold-onto-the-corpus.md) | Hinged sleeping boards fold back onto the corpus for driving | Accepted |

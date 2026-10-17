@@ -170,7 +170,7 @@ class Blatt:
                   for k, n in zaehler.items()] or ["keine Überschneidungen"]
         for i, z in enumerate(zeilen):
             self.text(z, x + 15, y - 16 - i * 4.2, 2.4, papier=True, ausrichtung=links)
-        self.text("Schlafmodus (alles eingefahren) · Liegebretter A2/A3 und Matratze nicht dargestellt",
+        self.text("Schlafmodus (alles eingefahren) · Liegebretter A2/A3, Scharniere und Matratze nicht dargestellt",
                   x, 14, 2.2, papier=True, ausrichtung=links)
 
     def schreiben(self, pfad):
@@ -268,7 +268,7 @@ def zeichne(variante, name, png=False):
     p = modell.lade_parameter()
     alle = modell.teile(p, variante)
     a = ANSICHTEN[name]
-    teile = [t for t in alle if t["id"] not in a["ohne"]]
+    teile = [t for t in alle if t["id"] not in a["ohne"] and t["gruppe"] != "scharnier"]
     ids = {t["id"] for t in teile}
     koll = [k for k in modell.kollisionen(alle) if k["a"] in ids and k["b"] in ids]
 

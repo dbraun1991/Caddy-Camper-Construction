@@ -189,9 +189,10 @@ Vollauszug 550 mm · 3-teilig · SoftClose · Traglast 105 kg
 | F10 | Schrauben Zurrösen-Anbindung (→ §H5) | M8 × 30/40 mm + U-Scheibe + Stoppmutter | 4 Sätze |
 | F11 | Spanngurt (Ratsche) | ≥ 1,5 m, 2-teilig | 2 Stk. |
 | F12 | Eckleiste Weichholz (Schubladen-Innenecken, → §H2) | 20 × 20 mm, Länge ~3,0 m gesamt | 12 Stk. à 240 mm |
-| F13 | Überlappungsleisten Liegefläche (→ §H4) | 18 × 40 × 1.000 mm | 2 Stk. |
+| F13 | ~~Überlappungsleisten Liegefläche~~ — entfällt, ersetzt durch Scharniere F17 ([ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md)) | — | — |
 | F14 | Trägerwangen Sitz-/Tisch-Bretter (→ §H1 / ADR 0013) | 18 mm × Schienenhöhe × 850 mm | 6 Stk. ⚠ erst nach ADR 0013 |
 | F15 | Gurtschlaufe A3 ↔ Kopfstütze, verstellbar (→ §H4) | Gurtband ~25 mm mit Klemmschnalle | 2 Stk. |
+| F17 | Klappscharnier, Standard, aufschraubbar, ~60 mm (→ §H4) — 3 × A1↔A2 oben, 3 × A2↔A3 unten | Schrauben max. 15 mm (Platte 18 mm) | 6 Stk. |
 | F16 | Ausgleich unter A2 (→ §H4) | Leiste 10 × 40 × 1.000 mm oder 10-mm-Gummistreifen | 2 Stk. |
 
 ---
@@ -277,17 +278,19 @@ Von außen ist nie eine Schraube sichtbar. Griffe (F6) erst nach Fixierung der B
 
 ### H4 — Liegefläche: Stöße A1 / A2 / A3
 
-Die drei Liegebretter sind nicht verbunden (sie müssen zum Umklappen der Rücksitze trennbar bleiben), aber sie dürfen nicht gegeneinander wandern:
+Die drei Liegebretter sind mit **Klappscharnieren** verbunden ([ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md)). Zum Fahren werden A2 und A3 auf die Box zurückgeklappt (Viewer: Fahrmodus 1/2), dann lassen sich die Rücksitze hochklappen:
 
 | Stoß | Verbindung |
 |---|---|
-| A1 ↔ A2 | Leiste 18 × 40 × 1.000 mm unter die Vorderkante von A2 geschraubt, **40 mm Überlappung** auf A1 → formschlüssige Zunge, kein Beschlag |
-| A2 ↔ A3 | gleiche Leiste unter die Vorderkante von A3 |
+| A1 ↔ A2 | **3 Scharniere oben** (F17) — A2 kann nur nach oben über die Box klappen, nicht durchhängen. Geklappt liegt A2 umgedreht auf A1 (z 200–900, ~6 mm Abstand durch die Scharnierblätter) |
+| A2 ↔ A3 | **3 Scharniere unten** (F17) — flach klappt A3 nur nach unten; liegt A2 umgedreht auf der Box, zeigt „unten“ nach oben und A3 legt sich auf A2 (z 200–600). Stapelhöhe 386 mm |
 | A2 ↔ Rücksitzlehnen | Lehnen liegen bei **310 mm**, Unterkante A2 bei 320 mm (gemessen) → **10 mm Ausgleich** (F16): 2 Leisten 10 × 40 mm quer unter A2 auf Höhe der Lehnen, oder 10-mm-Gummistreifen; sonst federt A2 durch und die Überlappungsleisten tragen allein |
 | A3 ↔ Kopfstützen | **2 verstellbare Gurtschlaufen** (F15), je Seite eine: jede Schlaufe läuft durch **2 Bohrungen in A3** und um die Kopfstützenstangen; die Zuglast tragen die Kopfstützen. Bohrungen und Schlaufenlänge werden beim Einbau am Fahrzeug festgelegt |
 | alle Auflageflächen | Antirutschmatte / Gummistreifen (G3-Reststücke) | 
 
-A3 trägt wenig Last (Kopfbereich) — hier ist Sicherung gegen Verrutschen wichtiger als Tragfähigkeit. Kopfstützen dabei nicht verstellen oder blockieren (→ [Hinweise-Sommernutzung.md](./Hinweise-Sommernutzung.md)).
+A3 trägt wenig Last (Kopfbereich) — hier ist Sicherung gegen Verrutschen wichtiger als Tragfähigkeit. Vor dem Klappen die Kopfstützen-Schlaufen lösen.
+
+**Beim Fahren:** Der geklappte Stapel hängt nur an den Scharnieren bei z = 900 — mit einem Spanngurt (F11) am Korpus sichern, Matratze separat verstaut und gesichert. Kopfstützen dabei nicht verstellen oder blockieren (→ [Hinweise-Sommernutzung.md](./Hinweise-Sommernutzung.md)).
 
 ### H5 — Befestigung des Korpus im Fahrzeug
 
@@ -350,6 +353,6 @@ Sinnvoll als Referenz für Maße, Verarbeitung und Preiseinschätzung auch wenn 
 
 Standardformat Multiplex-Platte: 2.500 × 1.250 mm → **ca. 3 Platten à 18 mm** + **1 Platte à 12 mm**.
 
-Zusätzlich Leisten (Weichholz/Multiplex-Reste): ca. 3,0 m Eckleiste 20 × 20 mm (F12), 2,0 m Leiste 18 × 40 mm (F13). Die Trägerwangen (F14) lassen sich aus dem 18-mm-Verschnitt schneiden.
+Zusätzlich Leisten (Weichholz/Multiplex-Reste): ca. 3,0 m Eckleiste 20 × 20 mm (F12), Leisten F13 entfallen (Scharniere F17). Die Trägerwangen (F14) lassen sich aus dem 18-mm-Verschnitt schneiden.
 
 → Preise und Gesamtbudget: **[Einkaufsliste.md](./Einkaufsliste.md)**

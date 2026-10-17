@@ -189,7 +189,8 @@
     <span style="background:#E62929;"></span>Rechnerische Überschneidung (Button „Überschneidungen“)<br>
     <span style="background:#9DB4C8;"></span>Caddy-Hülle, Heckklappe offen (60 % · teils nachgemessen)<br>
     <span style="background:#B5E48C;"></span>Lade-Referenzebene Kofferraum (y = 0)<br>
-    <span style="background:#5F6B7A;"></span>Rücksitzbank (umgeklappt / ausgebaut)<br>
+    <span style="background:#5F6B7A;"></span>Rücksitzbank (umgeklappt / hochgeklappt / ausgebaut)<br>
+    <span style="background:#B8BEC6;"></span>Scharniere A1↔A2 (oben) · A2↔A3 (unten)<br>
     <span style="background:#FF1111;"></span>Schienen × 12 &nbsp;(AOLISHENG 850 mm · 76 mm Sitz / 53 mm Rest · fährt mit Element)
   </div>
 
@@ -199,6 +200,8 @@
     <button id="btnSchlafen" class="active" onclick="setMode('schlafen')">Schlafmodus</button>
     <button id="btnBank"                   onclick="setMode('bank')">Bankmodus</button>
     <button id="btnPack"                   onclick="setMode('pack')">Packmodus</button>
+    <button id="btnFahr1"                  onclick="setMode('fahren1')">Fahrmodus 1</button>
+    <button id="btnFahr2"                  onclick="setMode('fahren2')">Fahrmodus 2</button>
     <button id="btnCaddy" class="active"   onclick="toggleCaddy()">Caddy-Hülle</button>
     <button id="btnSeats"                  onclick="toggleRearSeats()">Rücksitze: umgeklappt</button>
     <button id="btnKoll"                   onclick="toggleKollisionen()">Überschneidungen</button>
@@ -343,9 +346,11 @@
   // Korpus (B1–B4), Liegefläche (A1–A3), Matratze, Elemente (C/D) und Schienen (E)
   // stehen alle in MODELL.teile, im eingefahrenen Zustand. setMode verschiebt die
   // Teile mit `faehrt` nur in z, siehe docs/adrs/0004-static-scene-graph-with-z-position-toggle.md
-  var MAT  = { holz: mWoodDk, sitz: mTeal, tisch: mAmber, schublade: mBlue, blende: mBlende, schiene: mRailRed, matratze: mMat };
-  var KANTE = { holz: 0x5A3A0A, sitz: 0x0F6E56, tisch: 0x854F0B, schublade: 0x185FA5, blende: 0x185FA5, matratze: 0xaaaaaa };
+  var mScharnier = new THREE.MeshLambertMaterial({ color: 0xB8BEC6 });
+  var MAT  = { holz: mWoodDk, sitz: mTeal, tisch: mAmber, schublade: mBlue, blende: mBlende, schiene: mRailRed, matratze: mMat, scharnier: mScharnier };
+  var KANTE = { holz: 0x5A3A0A, sitz: 0x0F6E56, tisch: 0x854F0B, schublade: 0x185FA5, blende: 0x185FA5, matratze: 0xaaaaaa, scharnier: 0x6A6F75 };
   var beweglich = [];   // { mesh, z: Mittelpunkt eingefahren (mm), faehrt }
+  var meshById = {};
 
   MODELL.teile.forEach(function (t) {
     var mesh;
@@ -358,13 +363,37 @@
       if (t.gruppe !== 'korpus') wireframe(mesh, KANTE[t.material]);
     }
     if (t.faehrt) beweglich.push({ mesh: mesh, z: (t.box[2][0] + t.box[2][1]) / 2, faehrt: t.faehrt });
+    meshById[t.id] = mesh;
   });
 
-  // Dünne dunkle Streifen auf den Liegebrettern (Optik)
+  // Dünne dunkle Streifen auf den Liegebrettern (Optik) — als Kind des Bretts, damit sie mitklappen
   MODELL.teile.filter(function (t) { return /^A\d$/.test(t.id); }).forEach(function (t) {
     var b = t.box;
-    box(b[0][1] - b[0][0] - 20, 2, b[2][1] - b[2][0] - 20, mWoodDk, 0, b[1][1] + 1, (b[2][0] + b[2][1]) / 2);
+    var streifen = box(b[0][1] - b[0][0] - 20, 2, b[2][1] - b[2][0] - 20, mWoodDk, 0, 0, 0, meshById[t.id]);
+    streifen.position.y = ((b[1][1] - b[1][0]) / 2 + 1) * S;
   });
+
+  // Klappbare Liegebretter (ADR 0019): A2 dreht um die Scharnierachse A1↔A2 (oben),
+  // A3 hängt an A2 und dreht um die Achse A2↔A3 (unten). Achsen kommen aus modell.py.
+  var KA = MODELL.klappachsen;
+  function drehpunkt(eltern, achse, bezug) {
+    var g = new THREE.Group();
+    g.position.set(0, (achse.y - bezug.y) * S, (achse.z - bezug.z) * S);
+    eltern.add(g);
+    return g;
+  }
+  function anhaengen(mesh, gruppe, achse) {      // Weltposition → lokal zur Achse
+    sg.remove(mesh);
+    mesh.position.y -= achse.y * S;
+    mesh.position.z -= achse.z * S;
+    gruppe.add(mesh);
+  }
+  var klappA2 = drehpunkt(sg, KA.A2, { y: 0, z: 0 });
+  var klappA3 = drehpunkt(klappA2, KA.A3, KA.A2);
+  anhaengen(meshById.A2, klappA2, KA.A2);
+  anhaengen(meshById.A3, klappA3, KA.A3);
+  MODELL.teile.filter(function (t) { return t.klappt_mit === 'A2'; })
+    .forEach(function (t) { anhaengen(meshById[t.id], klappA2, KA.A2); });
 
   // Rechnerische Überschneidungen (aus modell.py) — per Button einblendbar
   var kollG = new THREE.Group();
@@ -437,8 +466,19 @@
   var rearSeatsG = new THREE.Group();
   caddyG.add(rearSeatsG);
   var rsTop = FZ.ruecksitzlehne_hoehe, rsBackH = 80;   // 310 mm nachgemessen → 10 mm Spalt unter A2 (List_of_Materials.md §H4)
-  wireframe(box(CAW - 40, rsTop - rsBackH, LA2, mRearSeat, 0, (rsTop - rsBackH) / 2, UD + LA2 / 2, rearSeatsG), 0x2E3640); // Sitzfläche/Unterbau
-  wireframe(box(CAW - 40, rsBackH, LA2, mRearSeat, 0, rsTop - rsBackH / 2, UD + LA2 / 2, rearSeatsG), 0x2E3640);           // umgeklappte Lehne
+  var rsFlach = new THREE.Group(), rsHoch = new THREE.Group();
+  rearSeatsG.add(rsFlach, rsHoch);
+  wireframe(box(CAW - 40, rsTop - rsBackH, LA2, mRearSeat, 0, (rsTop - rsBackH) / 2, UD + LA2 / 2, rsFlach), 0x2E3640); // Sitzfläche/Unterbau
+  wireframe(box(CAW - 40, rsBackH, LA2, mRearSeat, 0, rsTop - rsBackH / 2, UD + LA2 / 2, rsFlach), 0x2E3640);           // umgeklappte Lehne
+  // Hochgeklappt (3 Sitzplätze): Lehne steht an der gemessenen Ladetiefe, Sitzfläche davor.
+  // Platzhaltermaße — nur die Lage der Lehnenrückseite (Ladetiefe 920 mm) ist nachgemessen.
+  var lzB = FZ.ladetiefe_min, lehneD = 90, lehneH = 950, sitzD = 500, sitzH = 430;
+  wireframe(box(CAW - 40, lehneH, lehneD, mRearSeat, 0, lehneH / 2, lzB + lehneD / 2, rsHoch), 0x2E3640);              // Lehne
+  wireframe(box(CAW - 40, sitzH, sitzD, mRearSeat, 0, sitzH / 2, lzB + lehneD + sitzD / 2, rsHoch), 0x2E3640);         // Sitzfläche
+  [-1, 0, 1].forEach(function (i) {                                                                                       // Kopfstützen
+    wireframe(box(220, 180, 70, mRearSeat, i * (CAW / 3), lehneH + 120, lzB + 35, rsHoch), 0x2E3640);
+  });
+  rsHoch.visible = false;
   // Heckklappe, immer geöffnet: Scharnier an der Dachhinterkante, ca. 15° über der Waagerechten
   // (Länge und Winkel Platzhalter; nachgemessen ist nur, dass die fertige Box durch die Öffnung passt)
   var tailG = new THREE.Group();
@@ -519,8 +559,20 @@
   var modeLabels = {
     schlafen: 'Schlafmodus — alles eingeklappt',
     bank:     'Bankmodus — Bretter ' + AUSZUG + ' mm ausgefahren',
-    pack:     'Packmodus — Schubladen ' + AUSZUG + ' mm ausgefahren'
+    pack:     'Packmodus — Schubladen ' + AUSZUG + ' mm ausgefahren',
+    fahren1:  'Fahrmodus 1 — Liegebretter A2 + A3 auf die Box geklappt, Matratze verstaut',
+    fahren2:  'Fahrmodus 2 — Bretter auf der Box, Rücksitze hochgeklappt: 5 Sitzplätze'
   };
+
+  // Rücksitze: umgeklappt (A2 liegt darauf) · hochgeklappt (Fahrmodus 2) · ausgebaut
+  var rsZustand = 'umgeklappt';
+  function setRuecksitze(z) {
+    rsZustand = z;
+    rearSeatsG.visible = z !== 'ausgebaut';
+    rsFlach.visible = z === 'umgeklappt';
+    rsHoch.visible = z === 'hochgeklappt';
+    document.getElementById('btnSeats').textContent = 'Rücksitze: ' + z;
+  }
 
   window.setMode = function (m) {
     bankG.visible = (m === 'bank');
@@ -529,11 +581,18 @@
     beweglich.forEach(function (b) {   // ausgefahren = um die volle Schienenlänge in −z
       b.mesh.position.z = (b.z - (aus[b.faehrt] ? AUSZUG : 0)) * S;
     });
+    // Fahrmodi: A2 über die obere Achse auf A1, A3 über die untere Achse auf A2 (je 180°)
+    var geklappt = m === 'fahren1' || m === 'fahren2';
+    klappA2.rotation.x = geklappt ? KA.A2.winkel * Math.PI / 180 : 0;
+    klappA3.rotation.x = geklappt ? KA.A3.winkel * Math.PI / 180 : 0;
+    meshById.G1.visible = !geklappt;
+    if (m === 'fahren2') setRuecksitze('hochgeklappt');
+    else if (rsZustand === 'hochgeklappt') setRuecksitze('umgeklappt');   // Liegefläche braucht die Lehnen
     infoEl.textContent = modeLabels[m] || '';
-    ['btnSchlafen','btnBank','btnPack'].forEach(function(id) {
+    ['btnSchlafen','btnBank','btnPack','btnFahr1','btnFahr2'].forEach(function(id) {
       document.getElementById(id).classList.remove('active');
     });
-    var map = { schlafen:'btnSchlafen', bank:'btnBank', pack:'btnPack' };
+    var map = { schlafen:'btnSchlafen', bank:'btnBank', pack:'btnPack', fahren1:'btnFahr1', fahren2:'btnFahr2' };
     if (map[m]) document.getElementById(map[m]).classList.add('active');
   };
 
@@ -544,8 +603,8 @@
   };
 
   window.toggleRearSeats = function () {
-    rearSeatsG.visible = !rearSeatsG.visible;
-    document.getElementById('btnSeats').textContent = rearSeatsG.visible ? 'Rücksitze: umgeklappt' : 'Rücksitze: ausgebaut';
+    var folge = ['umgeklappt', 'hochgeklappt', 'ausgebaut'];
+    setRuecksitze(folge[(folge.indexOf(rsZustand) + 1) % folge.length]);
   };
 
   window.toggleKollisionen = function () {

@@ -74,9 +74,11 @@ down.
   "Preisstand" line — when refreshing them, re-check the sources and move that
   date; don't edit individual numbers and leave a stale date behind.
 - **Scene graph**: all geometry lives permanently in the static group `sg`; mode
-  switching (`setMode`) only moves, along Z by the rail length, the parts whose
+  switching (`setMode`) moves, along Z by the rail length, the parts whose
   model entry has `faehrt` set (drawer boxes + fronts, seat/table boards, and
-  their rail inner-members).
+  their rail inner-members), and in the two driving modes rotates the pivot
+  groups of the hinged boards `A2`/`A3` by 180° around the axes in
+  `MODELL.klappachsen` ([ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md)).
   See [docs/adrs/0004-static-scene-graph-with-z-position-toggle.md](docs/adrs/0004-static-scene-graph-with-z-position-toggle.md)
   before changing how modes are represented.
 - When a change reflects a real architectural or build decision (not just a tweak),
@@ -88,7 +90,9 @@ down.
 ### Implemented
 
 - 3D viewer with orbit (drag), zoom (scroll), and camera reset, mouse + touch.
-- Three modes — Schlafmodus / Bankmodus / Packmodus — toggling the extension of
+- Five modes — Schlafmodus / Bankmodus / Packmodus, plus Fahrmodus 1/2 (hinged
+  boards `A2`/`A3` folded onto the box; in 2 also rear seats upright, 5 seats,
+  ADR 0019) — toggling the extension of
   3 drawers and 2 seat boards + 1 table board along the rails.
 - Full corpus geometry (side walls, back wall, floor, two dividers) at real
   dimensions, plus the three-piece sleeping platform and a mattress outline.

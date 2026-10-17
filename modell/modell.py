@@ -123,11 +123,36 @@ def _einbauten(p):
     return out
 
 
+def _scharniere(p):
+    """Klappscharniere an den Fugen A1↔A2 (oben) und A2↔A3 (unten), dazu die Klappachsen.
+
+    Ein aufgeschraubtes Scharnier lässt sich nur zur Seite seiner Achse öffnen: oben auf
+    A1↔A2 klappt A2 nur nach oben über die Box, unten an A2↔A3 klappt A3 nur nach unten —
+    nach dem Umklappen von A2 ist „unten“ oben, A3 legt sich auf A2.
+    """
+    k, l, s = p["korpus"], p["liegeflaeche"], p["scharniere"]
+    W, D, H, T = k["breite"], k["tiefe"], k["hoehe"], k["plattenstaerke"]
+    a, b, lo = s["achse_ueber_flaeche"], s["blatt_breite"], s["laenge_offen"]
+    z12, z23 = D, D + l["laenge_a2"]
+    xs = [0] + [v * (W / 2 - s["abstand_rand"]) for v in (-1, 1)] if s["je_fuge"] == 3 else \
+         [W * (i + 1) / (s["je_fuge"] + 1) - W / 2 for i in range(s["je_fuge"])]
+    out = []
+    for i, x in enumerate(sorted(xs), 1):
+        out.append(_teil(f"S1-{i}", "Scharnier A1↔A2 (oben)", "scharnier", "scharnier",
+                         (x - b / 2, x + b / 2), (H + T, H + T + 2 * a), (z12 - lo / 2, z12 + lo / 2)))
+        out.append(_teil(f"S2-{i}", "Scharnier A2↔A3 (unten)", "scharnier", "scharnier",
+                         (x - b / 2, x + b / 2), (H - 2 * a, H), (z23 - lo / 2, z23 + lo / 2), klappt_mit="A2"))
+    # Achsen (y, z) im flachen Zustand und Klappwinkel um x für die Fahrmodi
+    achsen = {"A2": {"y": H + T + a, "z": z12, "winkel": -180},
+              "A3": {"y": H - a, "z": z23, "winkel": 180, "an": "A2"}}
+    return out, achsen
+
+
 def _liegeflaeche(p):
     k, l, m = p["korpus"], p["liegeflaeche"], p["matratze"]
     W, D, H, T = k["breite"], k["tiefe"], k["hoehe"], k["plattenstaerke"]
     y = (H, H + T)
-    return [
+    return _scharniere(p)[0] + [
         _teil("A2", "Brett Sitzrücken", "liegeflaeche", "holz", (-W / 2, W / 2), y, (D, D + l["laenge_a2"])),
         _teil("A3", "Brett Kopfbereich", "liegeflaeche", "holz", (-W / 2, W / 2), y,
               (D + l["laenge_a2"], D + l["laenge_a2"] + l["laenge_a3"])),
@@ -147,14 +172,18 @@ KATEGORIEN = {
     "eckverbindung": "Eckausbildung Korpus — welche Platte läuft durch?",
     "rueckwand": "Rückwand B1 ragt in Schienen/Elemente (lichte Tiefe < Schienenlänge)",
     "frontblende": "Frontblende überdeckt Schienen bzw. Nachbarelement",
+    "auflage": "Matratze liegt auf den Scharnieren (weich, unkritisch)",
     "sonstige": "Sonstige Überschneidung",
 }
+GEWOLLT = {"nut", "auflage"}
 
 
 def _kategorie(a, b):
     ids = {a["id"], b["id"]}
     if b["id"] in a.get("steckt_in", []) or a["id"] in b.get("steckt_in", []):
         return "nut"
+    if {a["material"], b["material"]} == {"matratze", "scharnier"}:
+        return "auflage"
     if a["gruppe"] == b["gruppe"] == "korpus":
         return "eckverbindung"
     if "B1" in ids:
@@ -177,7 +206,7 @@ def kollisionen(liste, toleranz=0.01):
                 box.append([round(lo, 2), round(hi, 2)])
             else:
                 kat = _kategorie(a, b)
-                out.append({"a": a["id"], "b": b["id"], "box": box, "kategorie": kat, "gewollt": kat == "nut",
+                out.append({"a": a["id"], "b": b["id"], "box": box, "kategorie": kat, "gewollt": kat in GEWOLLT,
                             "mass": [round(hi - lo, 2) for lo, hi in box]})
     return out
 
@@ -222,6 +251,7 @@ def main():
              "varianten": {e: kollisionen(teile(p, e)) for e in ECKAUSBILDUNGEN}}
     daten["kollisionen"] = daten["varianten"][p["eckausbildung"]]
     daten["fahrzeug_pruefung"] = fahrzeug_pruefung(p)
+    daten["klappachsen"] = _scharniere(p)[1]
     ziel = ORDNER / "modell.js"
     ziel.write_text(
         "// GENERIERT von modell/modell.py aus modell/parameter.json — nicht von Hand bearbeiten.\n"
@@ -229,7 +259,7 @@ def main():
         encoding="utf-8")
     gewollt = sum(k["gewollt"] for k in daten["kollisionen"])
     print(f"{ziel.relative_to(ORDNER.parent)}: {len(daten['teile'])} Teile, "
-          f"{len(daten['kollisionen']) - gewollt} Überschneidungen (+ {gewollt} gewollte Nut/Falz)")
+          f"{len(daten['kollisionen']) - gewollt} Überschneidungen (+ {gewollt} gewollte: Nut/Falz, Matratze auf Scharnier)")
     for pr in daten["fahrzeug_pruefung"]:
         print(f"  [{pr['status']:8}] {pr['was']}: Plan {pr['plan']} / Fahrzeug {pr['fahrzeug']} → {pr['ergebnis']}")
 
