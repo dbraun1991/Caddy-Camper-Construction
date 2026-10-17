@@ -185,7 +185,7 @@ def teile(p=None, eckausbildung=None):
 
 
 KATEGORIEN = {
-    "nut": "Nut/Falz: Wand steckt in Bodenplatte F1 bzw. Deckplatte A1 (gewollt)",
+    "nut": "Nut/Falz: Wand in Bodenplatte F1 / Deckplatte A1 (gewollt)",
     "eckverbindung": "Eckausbildung Korpus — welche Platte läuft durch?",
     "rueckwand": "Rückwand B1 ragt in Schienen/Elemente (lichte Tiefe < Schienenlänge)",
     "frontblende": "Schubladenfront überdeckt Schienen bzw. Nachbarelement",
