@@ -22,7 +22,7 @@ Einkaufsliste.md           — shopping list, current prices, total budget estim
 Hinweise-Sommernutzung.md  — legal (rasten vs. campen), payload, ventilation, privacy/
                               insect protection for summer-only use — not build-specific,
                               but references the build where it's affected (Bankmodus,
-                              A3 headrest mounting, ADR 0010)
+                              A3 headrest mounting, ADR 0012)
 README.md                  — usage, controls, dimensions overview, render architecture notes
 docs/adrs/            — architecture decision records (see below)
 ```
@@ -82,8 +82,8 @@ Three.js CDN script).
 - Full bill of materials with cut list, hardware options and links, and a
   documented joinery method for every junction in the build
   ([List_of_Materials.md](List_of_Materials.md) §H): corpus shell (ADR 0007),
-  rail-to-wall attachment (§H1), drawer boxes and front panels (ADR 0009),
-  sleeping-platform board joints (§H4), and vehicle tie-down (ADR 0010).
+  rail-to-wall attachment (§H1), drawer boxes and front panels (ADR 0011),
+  sleeping-platform board joints (§H4), and vehicle tie-down (ADR 0012).
 - Shopping list with dated price estimates, a three-tier total budget, and a
   buy order derived from the assembly order ([Einkaufsliste.md](Einkaufsliste.md)).
 - Summer-use considerations beyond the physical build — legal distinction between
@@ -100,14 +100,14 @@ Three.js CDN script).
 
 ### Open / planned (tracked in README "Weiterführende Planung")
 
-- **[ADR 0011](docs/adrs/0011-rail-carrier-cheeks-for-seat-and-table-boards.md) is
+- **[ADR 0013](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md) is
   Proposed, not Accepted** — the seat/table boards are 32 mm thick but the runner
   inner members are 53/76 mm high, so there is no full-height face to screw them
   to. Deciding it changes `boardH` and the rail Y-bands in `index.html` plus the
   height tables in the other two files. Don't cut `C1`–`C3` or buy the board
   runners before it is resolved.
 - `index.html` computes `drawerH = 260` mm; `List_of_Materials.md` §D says 268 mm.
-  Same height chain as ADR 0011 — resolve both in one pass.
+  Same height chain as ADR 0013 — resolve both in one pass.
 - Mattress spec: 1,100 mm is not a stock width; options are in
   [Einkaufsliste.md](Einkaufsliste.md) §4.
 - Ventilation / moisture protection for the enclosed under-floor volume.

@@ -1,4 +1,4 @@
-# 0009: Drawer boxes braced by their bottom panel, not by corner joints
+# 0011: Drawer boxes braced by their bottom panel, not by corner joints
 
 Status: Accepted
 

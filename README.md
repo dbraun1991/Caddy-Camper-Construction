@@ -154,16 +154,16 @@ Der Korpus besteht aus Einzelbrettern (keine Vollbox): B2 links/rechts, B1 Rück
 ## Weiterführende Planung
 
 - [x] Verbindungstechnik Korpus — [List_of_Materials.md §H](./List_of_Materials.md#h--verbindungstechnik) · [ADR 0007](docs/adrs/0007-dowel-screw-bracket-joinery.md)
-- [x] Schubladendetails (Kastenbau, Frontblende, Griffe) — [§H2/§H3](./List_of_Materials.md#h2--schubladenkästen-d1d3) · [ADR 0009](docs/adrs/0009-drawer-box-panel-shear-joinery.md)
+- [x] Schubladendetails (Kastenbau, Frontblende, Griffe) — [§H2/§H3](./List_of_Materials.md#h2--schubladenkästen-d1d3) · [ADR 0011](docs/adrs/0011-drawer-box-panel-shear-joinery.md)
 - [x] Schienenbefestigung an Wänden und Trennwänden — [§H1](./List_of_Materials.md#h1--schienenbefestigung-an-wänden-und-trennwänden)
-- [x] Befestigung Unterbau im Fahrzeug (L-Winkel, Zurrösen) — [§H5](./List_of_Materials.md#h5--befestigung-des-korpus-im-fahrzeug) · [ADR 0010](docs/adrs/0010-non-destructive-vehicle-tie-down.md)
+- [x] Befestigung Unterbau im Fahrzeug (L-Winkel, Zurrösen) — [§H5](./List_of_Materials.md#h5--befestigung-des-korpus-im-fahrzeug) · [ADR 0012](docs/adrs/0012-non-destructive-vehicle-tie-down.md)
 - [x] Brett 2/3 Befestigung an Vordersitz-Kopfstützen — [§H4](./List_of_Materials.md#h4--liegefläche-stöße-a1--a2--a3)
 - [x] Budget und Kaufreihenfolge — [Einkaufsliste.md](./Einkaufsliste.md)
 - [x] Rechtliches (Rasten vs. Campen), Zuladung, Lüftung (CO₂ + Hitze), Sicht-/Insektenschutz für Sommerbetrieb — [Hinweise-Sommernutzung.md](./Hinweise-Sommernutzung.md)
 
 Offen:
 
-- [ ] **Entscheidung ADR 0011** — Schienenhöhe (53/76 mm) vs. Brettstärke (32 mm) bei C1–C3: [docs/adrs/0011-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0011-rail-carrier-cheeks-for-seat-and-table-boards.md). Blockiert den Kauf der Brett-Schienen.
+- [ ] **Entscheidung ADR 0013** — Schienenhöhe (53/76 mm) vs. Brettstärke (32 mm) bei C1–C3: [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Blockiert den Kauf der Brett-Schienen.
 - [ ] Abweichung Schubladenhöhe: `index.html` rechnet 260 mm, `List_of_Materials.md` §D nennt 268 mm
 - [ ] Matratze (1.100 mm ist kein Handelsmaß — Varianten in [Einkaufsliste.md §4](./Einkaufsliste.md#4--ausbau--sonstiges))
 - [ ] Zuladung im Zulassungsschein prüfen (Feld F.1 − Leergewicht) — siehe [Hinweise-Sommernutzung.md §2](./Hinweise-Sommernutzung.md#2--zulassung--stvzo-serienfahrzeug-bleibt-verkehrssicher)

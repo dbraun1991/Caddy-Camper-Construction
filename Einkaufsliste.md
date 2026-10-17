@@ -3,7 +3,7 @@
 Preisstand: **Oktober 2026**, Richtpreise aus deutschen Online-Shops (Brutto, inkl. 19 % MwSt., ohne Versand).
 Teilenummern beziehen sich auf [List_of_Materials.md](./List_of_Materials.md).
 
-> ⚠ **Vor dem Kauf der Brett-Schienen und der Sitz-/Tisch-Bretter:** [ADR 0011](docs/adrs/0011-rail-carrier-cheeks-for-seat-and-table-boards.md) ist noch offen (Schienenhöhe vs. 32 mm Brettstärke). Alles andere ist kaufbereit.
+> ⚠ **Vor dem Kauf der Brett-Schienen und der Sitz-/Tisch-Bretter:** [ADR 0013](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md) ist noch offen (Schienenhöhe vs. 32 mm Brettstärke). Alles andere ist kaufbereit.
 
 ---
 
@@ -110,6 +110,6 @@ Die kommerzielle Alternative [Moonbox 111](https://www.moonbox.de/products/moonb
 Die Montagereihenfolge in [§H](./List_of_Materials.md#montagereihenfolge) gibt die Kaufreihenfolge vor — der fertige Korpus liefert das verbindliche Innenmaß, nicht die Zeichnung:
 
 1. **Jetzt:** Holz 18 mm + 12 mm mit Zuschnitt, Leim, Dübel, Schrauben F1/F2/F7/F8, Winkel F3, Leisten F12/F13, Spanngurte F11 → Korpus bauen
-2. **Nach ADR-0011-Entscheidung:** Schienen E1 + E2, Durchsteckschrauben F9 → einmessen und montieren
+2. **Nach ADR-0013-Entscheidung:** Schienen E1 + E2, Durchsteckschrauben F9 → einmessen und montieren
 3. **Nach Einbau im Fahrzeug:** M8-Sätze F10 (Gewinde der Zurrösen erst am Auto prüfen), Griffe F6
 4. **Zuletzt:** Matratze G1 + Bezug G2 — erst messen, wenn die Liegefläche real liegt

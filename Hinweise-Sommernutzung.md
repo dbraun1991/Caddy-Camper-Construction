@@ -85,7 +85,7 @@ Punkte, die über die reine Konstruktion hinausgehen:
   Hebel, falls Gewicht gespart werden muss.
 
 - **Ladungssicherung während der Fahrt:** bereits entschieden, siehe
-  [ADR 0010](docs/adrs/0010-non-destructive-vehicle-tie-down.md).
+  [ADR 0012](docs/adrs/0012-non-destructive-vehicle-tie-down.md).
 
 ---
 

@@ -1,10 +1,10 @@
-# 0011: Carrier cheeks to give the seat/table boards a full-height rail face
+# 0013: Carrier cheeks to give the seat/table boards a full-height rail face
 
 Status: Proposed — needs a decision before cutting `C1`–`C3`
 
 ## Context
 
-Planning the junctions in detail (ADR 0009, `List_of_Materials.md` §H) surfaced a
+Planning the junctions in detail (ADR 0011, `List_of_Materials.md` §H) surfaced a
 conflict between two numbers that were each correct in isolation:
 
 - `C1`–`C3` (seat boards L/R, table board M) are **32 mm** thick
@@ -17,12 +17,12 @@ conflict between two numbers that were each correct in isolation:
 A rail's inner member transfers load through the screws along its height. Screwed
 to a 32 mm edge, only the lowest row of holes is in material: the upper two
 thirds of the member carry nothing, and the board's 32 mm edge is end grain — the
-orientation ADR 0007 and ADR 0009 both rejected for load paths. These are the
+orientation ADR 0007 and ADR 0011 both rejected for load paths. These are the
 boards a person sits on at 900 mm extension, where the cantilever moment is
 highest, so this is the worst joint in the build to leave underspecified.
 
 The drawer boxes have no such problem: their 248 mm sides give the member a full
-face to sit on (ADR 0009).
+face to sit on (ADR 0011).
 
 Options:
 

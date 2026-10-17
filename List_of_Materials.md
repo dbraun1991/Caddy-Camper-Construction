@@ -149,7 +149,7 @@ Vollauszug 550 mm · 3-teilig · SoftClose · Traglast 105 kg
 | F11 | Spanngurt (Ratsche) | ≥ 1,5 m, 2-teilig | 2 Stk. |
 | F12 | Eckleiste Weichholz (Schubladen-Innenecken, → §H2) | 20 × 20 mm, Länge ~3,0 m gesamt | 12 Stk. à 240 mm |
 | F13 | Überlappungs-/Querleisten Liegefläche (→ §H4) | 18 × 40 mm (2 ×) + 18 × 60 mm (1 ×), je 1.000 mm | 3 Stk. |
-| F14 | Trägerwangen Sitz-/Tisch-Bretter (→ §H1 / ADR 0011) | 18 mm × Schienenhöhe × 900 mm | 6 Stk. ⚠ erst nach ADR 0011 |
+| F14 | Trägerwangen Sitz-/Tisch-Bretter (→ §H1 / ADR 0013) | 18 mm × Schienenhöhe × 900 mm | 6 Stk. ⚠ erst nach ADR 0013 |
 
 ---
 
@@ -167,7 +167,7 @@ Vollauszug 550 mm · 3-teilig · SoftClose · Traglast 105 kg
 
 ## H — Verbindungstechnik
 
-> Entscheidungsprotokolle: [ADR 0007 Korpus](docs/adrs/0007-dowel-screw-bracket-joinery.md) · [ADR 0009 Schubladen](docs/adrs/0009-drawer-box-panel-shear-joinery.md) · [ADR 0010 Fahrzeugbefestigung](docs/adrs/0010-non-destructive-vehicle-tie-down.md) · [ADR 0011 Trägerwangen (offen)](docs/adrs/0011-rail-carrier-cheeks-for-seat-and-table-boards.md)
+> Entscheidungsprotokolle: [ADR 0007 Korpus](docs/adrs/0007-dowel-screw-bracket-joinery.md) · [ADR 0011 Schubladen](docs/adrs/0011-drawer-box-panel-shear-joinery.md) · [ADR 0012 Fahrzeugbefestigung](docs/adrs/0012-non-destructive-vehicle-tie-down.md) · [ADR 0013 Trägerwangen (offen)](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md)
 
 Abschnitte: Korpus (unten) · [H1 Schienen](#h1--schienenbefestigung-an-wänden-und-trennwänden) · [H2 Schubladenkästen](#h2--schubladenkästen-d1d3) · [H3 Frontblenden](#h3--frontblenden) · [H4 Liegefläche](#h4--liegefläche-stöße-a1--a2--a3) · [H5 Fahrzeug](#h5--befestigung-des-korpus-im-fahrzeug)
 
@@ -191,7 +191,7 @@ Die Trennwände (B3) werden von außen durch die Seitenwände (B2) verschraubt u
 
 ### H1 — Schienenbefestigung an Wänden und Trennwänden
 
-> Entscheidungsprotokoll: [docs/adrs/0009-drawer-box-panel-shear-joinery.md](docs/adrs/0009-drawer-box-panel-shear-joinery.md)
+> Entscheidungsprotokoll: [docs/adrs/0011-drawer-box-panel-shear-joinery.md](docs/adrs/0011-drawer-box-panel-shear-joinery.md)
 
 Die Außenmember der Schienen werden auf die **Flächen** von Seitenwänden (B2) und Trennwänden (B3) geschraubt — nie auf Kanten. 18 mm Multiplex hält Schrauben in der Fläche sehr gut.
 
@@ -202,11 +202,11 @@ Die Außenmember der Schienen werden auf die **Flächen** von Seitenwänden (B2)
 | Vorderste 2 Bohrungen je Schiene | **M5 Durchsteckschraube** mit U-Scheibe + Stoppmutter statt Holzschraube | Am Korpusvorderkant ist das Kippmoment bei 900 mm Auszug maximal — hier reißen Holzschrauben zuerst aus |
 | Verschrauben | von innen nach außen anreißen, Schienen **paarweise** auf gleiche Höhe lehren (Reststück Multiplex als Abstandslehre) | 1 mm Höhenversatz im Paar blockiert den Vollauszug |
 
-⚠ Zuerst ADR 0011 entscheiden: die Sitz-/Tisch-Bretter (32 mm) sind niedriger als die Schienen-Innenmember (53 bzw. 76 mm) — siehe [docs/adrs/0011-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0011-rail-carrier-cheeks-for-seat-and-table-boards.md). Empfehlung: **Trägerwangen** 18 mm × Schienenhöhe × 900 mm, verleimt + verschraubt an beiden Längskanten; die Schiene greift dann in Faserfläche, nicht in Stirnkante.
+⚠ Zuerst ADR 0013 entscheiden: die Sitz-/Tisch-Bretter (32 mm) sind niedriger als die Schienen-Innenmember (53 bzw. 76 mm) — siehe [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Empfehlung: **Trägerwangen** 18 mm × Schienenhöhe × 900 mm, verleimt + verschraubt an beiden Längskanten; die Schiene greift dann in Faserfläche, nicht in Stirnkante.
 
 ### H2 — Schubladenkästen (D1–D3)
 
-> Entscheidungsprotokoll: [docs/adrs/0009-drawer-box-panel-shear-joinery.md](docs/adrs/0009-drawer-box-panel-shear-joinery.md)
+> Entscheidungsprotokoll: [docs/adrs/0011-drawer-box-panel-shear-joinery.md](docs/adrs/0011-drawer-box-panel-shear-joinery.md)
 
 Tragendes Element ist **nicht** die Eckverbindung, sondern der **12 mm Boden** — analog zur Rückwand B1 beim Korpus.
 
@@ -243,7 +243,7 @@ A3 trägt wenig Last (Kopfbereich) — hier ist Formschluss gegen Verrutschen wi
 
 ### H5 — Befestigung des Korpus im Fahrzeug
 
-> Entscheidungsprotokoll: [docs/adrs/0010-non-destructive-vehicle-tie-down.md](docs/adrs/0010-non-destructive-vehicle-tie-down.md)
+> Entscheidungsprotokoll: [docs/adrs/0012-non-destructive-vehicle-tie-down.md](docs/adrs/0012-non-destructive-vehicle-tie-down.md)
 
 **Keine neue Bohrung in Karosserie, Ladeboden oder Verkleidung.** Befestigung ausschließlich über die 4 werkseitigen Zurrösen:
 
@@ -272,9 +272,9 @@ Die Winkelpositionen auf B4 lassen sich nicht aus der Zeichnung ableiten: sie we
 | Nur Schrauben in Stirnkante | Hält mittelfristig nicht unter Dauervibrationen |
 | Nur Leim | Korpus nicht mehr lösbar; Multiplex arbeitet bei Temperaturwechseln im Auto |
 | Lamellos / Domino | Aufwand unverhältnismäßig für ein Fahrzeugmodul |
-| Schienen-Innenmember auf die 32 mm Brettkante schrauben | Nur die unterste Lochreihe greift, und das in Stirnkante — genau dort, wo eine Person sitzt (→ ADR 0011) |
+| Schienen-Innenmember auf die 32 mm Brettkante schrauben | Nur die unterste Lochreihe greift, und das in Stirnkante — genau dort, wo eine Person sitzt (→ ADR 0013) |
 | Schrauben > 16 mm in die Trennwände B3 | Schienen auf beiden Seiten → Durchstoß / Schraubenkollision |
-| Durch den Ladeboden in die Karosserie bohren | Zerstört Korrosionsschutz und Unterbodendichtung; Leitungen nicht einsehbar (→ ADR 0010) |
+| Durch den Ladeboden in die Karosserie bohren | Zerstört Korrosionsschutz und Unterbodendichtung; Leitungen nicht einsehbar (→ ADR 0012) |
 | Frontblende von außen verschrauben | Sichtbare Schraubenköpfe, und das Spaltmaß ist danach nicht mehr korrigierbar |
 
 ---

@@ -1,4 +1,4 @@
-# 0010: Non-destructive tie-down via factory lashing eyes, no holes in the body
+# 0012: Non-destructive tie-down via factory lashing eyes, no holes in the body
 
 Status: Accepted
 
