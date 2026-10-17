@@ -10,13 +10,17 @@ Gebaut mit [Three.js r128](https://threejs.org) — keine Installation, kein Bui
 ## Dateien
 
 ```
-index.html                  — vollständiger 3D-Viewer (self-contained)
+index.html                  — Viewer: Reiter „Dynamisch · 3D“ und „Statisch · Werkzeichnungen“
+modell/parameter.json       — gemeinsame Datenbasis: alle Hauptmaße (mm)
+modell/modell.py            — leitet daraus alle Bauteile + Überschneidungen ab → modell/modell.js
+modell/zeichnungen.py       — Werkzeichnungen mit build123d → docs/zeichnungen/
 List_of_Materials.md        — Holzteile, Schienen, Befestigungsmaterial, Verbindungstechnik
 Einkaufsliste.md            — Einkaufsliste, Preise und Gesamtbudget
 Hinweise-Sommernutzung.md   — Rechtliches, Zuladung, Lüftung, Sicht-/Insektenschutz (Sommerbetrieb)
 README.md
 docs/adrs/                   — Architecture Decision Records
 docs/pics/                   — Screenshots des Viewers
+docs/zeichnungen/            — Draufsicht, Vorderansicht, Seitenansicht (SVG, A3, 1:5) je Eckausbildung
 ```
 
 → Vollständige Stückliste, Maßtabellen, Schienen-Optionen und **Verbindungstechnik**: **[List_of_Materials.md](./List_of_Materials.md)**
@@ -44,6 +48,8 @@ Einzige Voraussetzung: Internetverbindung beim ersten Öffnen (Three.js wird per
 | Caddy-Hülle ein-/ausblenden | Button „Caddy-Hülle“ (transparente Fahrzeugkarosserie, Heck offen) |
 | Rücksitze umgeklappt / ausgebaut | Button „Rücksitze“ |
 | Ansicht zurücksetzen | Reset-Button (Standardansicht: von hinten rechts, Caddy-Hülle sichtbar) |
+| Überschneidungen anzeigen | Button „Überschneidungen“ — rot, bezogen auf den eingefahrenen Zustand |
+| Werkzeichnungen | Reiter „Statisch · Werkzeichnungen“ (oben rechts), direkt verlinkbar mit `index.html#statisch` |
 
 ### Modi
 
@@ -65,6 +71,30 @@ Die Führungsschienen-Innenmember (rot) sind immer Teil der 3D-Geometrie und fah
 |---|---|---|
 | [![Schlafmodus](docs/pics/schlafmodus.jpg)](docs/pics/schlafmodus.jpg) | [![Bankmodus](docs/pics/bankmodus.jpg)](docs/pics/bankmodus.jpg) | [![Packmodus](docs/pics/packmodus.jpg)](docs/pics/packmodus.jpg) |
 | alles eingeklappt | Sitz-/Tisch-Bretter 900 mm ausgefahren | Schubladen 900 mm ausgefahren |
+
+---
+
+## Werkzeichnungen
+
+Drei Ansichten nach Dreitafelprojektion, DIN A3 quer, Maßstab 1:5, erzeugt mit [build123d](https://github.com/gumyr/build123d) aus derselben Datenbasis wie der 3D-Viewer:
+
+| Ansicht | Blickrichtung | Ist-Stand Stückliste |
+|---|---|---|
+| **Vorderansicht** (Aufriss) | von der Heckklappe auf die offene Korpusfront | [SVG](docs/zeichnungen/stueckliste/vorderansicht.svg) |
+| **Draufsicht** (Grundriss) | von oben, Deckel A1 abgenommen | [SVG](docs/zeichnungen/stueckliste/draufsicht.svg) |
+| **Seitenansicht** (Seitenriss) | von der Fahrerseite | [SVG](docs/zeichnungen/stueckliste/seitenansicht.svg) |
+
+Sichtbare Kanten durchgezogen, verdeckte Kanten gestrichelt. **Rot hinterlegt** sind rechnerische Überschneidungen zweier Bauteile — Stellen, an denen der Plan so nicht baubar ist. Dieselben Blätter gibt es für die Eckausbildungs-Varianten `boden_durchlaufend` und `seiten_durchlaufend` (Ordner nebenan, im Viewer per Auswahlfeld).
+
+Neu erzeugen nach einer Maßänderung in `modell/parameter.json`:
+
+```bash
+python3 modell/modell.py                                   # Viewer-Daten, ohne Zusatzpakete
+python3 -m venv .venv && .venv/bin/pip install -r modell/requirements.txt   # einmalig
+.venv/bin/python modell/zeichnungen.py                     # Zeichnungen (--png für zusätzliche PNGs)
+```
+
+> Entscheidungsprotokoll: [ADR 0015](docs/adrs/0015-shared-model-data-for-viewer-and-drawings.md)
 
 ---
 
@@ -135,7 +165,9 @@ Matratzenbreite: **1.100 mm** (passt in 1.120 mm Innenbreite).
 
 ### Render-Architektur
 
-> Entscheidungsprotokolle: [ADR 0004](docs/adrs/0004-static-scene-graph-with-z-position-toggle.md) (Szenengraph), [ADR 0009](docs/adrs/0009-translucent-caddy-shell-overlay.md) (Caddy-Hülle)
+> Entscheidungsprotokolle: [ADR 0004](docs/adrs/0004-static-scene-graph-with-z-position-toggle.md) (Szenengraph), [ADR 0009](docs/adrs/0009-translucent-caddy-shell-overlay.md) (Caddy-Hülle), [ADR 0015](docs/adrs/0015-shared-model-data-for-viewer-and-drawings.md) (gemeinsame Datenbasis)
+
+Alle Bauteile kommen aus `MODELL.teile` (`modell/modell.js`) — jeweils ein Quader in mm, im eingefahrenen Zustand. Der Viewer enthält keine eigenen Bauteilmaße mehr; nur die Caddy-Hülle ist weiterhin direkt in `index.html` definiert.
 
 Alle Elemente — Korpusbretter, Liegefläche, Schubladen, Sitz-/Tischbretter und Führungsschienen — leben permanent in der statischen Szenengruppe `sg`. Beim Moduswechsel wird nur die Z-Position der 6 Elemente plus ihrer jeweils zugehörigen Schienen-Innenmember verschoben.
 
@@ -164,7 +196,11 @@ Der Korpus besteht aus Einzelbrettern (keine Vollbox): B2 links/rechts, B1 Rück
 Offen:
 
 - [ ] **Entscheidung ADR 0013** — Schienenhöhe (53/76 mm) vs. Brettstärke (32 mm) bei C1–C3: [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Blockiert den Kauf der Brett-Schienen.
-- [ ] Abweichung Schubladenhöhe: `index.html` rechnet 260 mm, `List_of_Materials.md` §D nennt 268 mm
+- [ ] **Eckausbildung Korpus** — Stückliste nennt B2/B3 320 mm hoch *und* B4/B1 1.120 mm breit; das überschneidet sich an allen Ecken. Varianten im Reiter „Statisch“ vergleichen, dann Stückliste anpassen. **Vor dem Zuschnitt von B1–B4 klären.**
+- [ ] **Lichte Tiefe 882 mm < Schienenlänge 900 mm** — die Rückwand B1 nimmt 18 mm der 900 mm Korpustiefe; Schienen, Kästen und Bretter ragen hinein (Seitenansicht/Draufsicht, rot)
+- [ ] **Frontblenden vs. Schienen** — Blenden sind so breit wie die Sektion (312/424 mm) und sitzen als einliegende Front vor den Schienen; einliegend mit Luft oder aufliegend klären
+- [ ] Schubladenhöhe: Kasten 260 mm (248 + 12 Boden) und Blende 268 mm passen zueinander; offen bleibt D3-Blende (bis y 286) vs. Tisch-Brett C3 (ab y 283, Viewer) bzw. 286 (Stückliste) — 3 mm Überschneidung
+- [ ] Bezeichnung „links/rechts“: Sektion L liegt bei −x = **Beifahrerseite**. Ggf. in der Stückliste umbenennen, damit L beim Blick durch die Heckklappe links liegt
 - [ ] Matratze (1.100 mm ist kein Handelsmaß — Varianten in [Einkaufsliste.md §4](./Einkaufsliste.md#4--ausbau--sonstiges))
 - [ ] Zuladung im Zulassungsschein prüfen (Feld F.1 − Leergewicht) — siehe [Hinweise-Sommernutzung.md §2](./Hinweise-Sommernutzung.md#2--zulassung--stvzo-serienfahrzeug-bleibt-verkehrssicher)
 - [ ] Belüftung / Feuchteschutz Unterbau — **nur für Nutzung außerhalb des Sommers relevant**, siehe [Hinweise-Sommernutzung.md](./Hinweise-Sommernutzung.md) (dort bewusst ausgeklammert)

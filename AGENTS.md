@@ -10,13 +10,21 @@ into a camper: a fixed under-floor storage unit with three pull-out sections
 both the physical build plan (materials, dimensions, joinery) and a browser-based
 3D viewer used to check that plan visually before cutting any wood.
 
-There is no application server, no package.json, and no build pipeline. Everything
-needed to view the model ships in one HTML file.
+There is no application server, no package.json, and no build pipeline. Viewing
+needs only static files (`index.html`, `modell/modell.js`, `docs/zeichnungen/`);
+regenerating them after a dimension change runs two Python scripts (ADR 0015).
 
 ## Repo structure
 
 ```
-index.html                 — self-contained 3D viewer (Three.js r128 via CDN, inline CSS/JS)
+index.html                 — viewer: tab "Dynamisch" (Three.js r128 via CDN) + tab "Statisch"
+                              (workshop drawings); builds all parts from modell/modell.js
+modell/parameter.json      — single source of all build dimensions (mm)
+modell/modell.py           — derives every part as a box + overlap check → modell/modell.js
+                              (stdlib only; generated file is committed)
+modell/zeichnungen.py      — build123d: Draufsicht/Vorderansicht/Seitenansicht as A3 SVGs
+                              per corner variant → docs/zeichnungen/ (committed)
+modell/requirements.txt    — build123d for the drawings; install into .venv/ (gitignored)
 List_of_Materials.md       — bill of materials, dimensions, hardware options, joinery (§H)
 Einkaufsliste.md           — shopping list, current prices, total budget estimate
 Hinweise-Sommernutzung.md  — legal (rasten vs. campen), payload, ventilation, privacy/
@@ -24,12 +32,17 @@ Hinweise-Sommernutzung.md  — legal (rasten vs. campen), payload, ventilation, 
                               but references the build where it's affected (Bankmodus,
                               A3 headrest mounting, ADR 0012)
 README.md                  — usage, controls, dimensions overview, render architecture notes
-docs/adrs/            — architecture decision records (see below)
+docs/adrs/                 — architecture decision records (see below)
+docs/zeichnungen/          — generated drawings, one folder per `eckausbildung` variant
 ```
 
-There are no tests, linter, or build step. "Running" the project means opening
-`index.html` in a browser (internet connection required on first load for the
-Three.js CDN script).
+There are no tests or linter. "Running" the project means opening `index.html` in
+a browser (internet connection required on first load for the Three.js CDN
+script). After editing `modell/parameter.json` or `modell/modell.py`, regenerate:
+`python3 modell/modell.py` and `.venv/bin/python modell/zeichnungen.py` (add
+`--png` to also render PNGs for a visual check; PNGs are gitignored). The overlap
+count printed by both scripts is the closest thing to a test — it should only go
+down.
 
 ## Conventions to preserve
 
@@ -40,21 +53,26 @@ Three.js CDN script).
   Three.js scene units via a single scale constant `S = 0.01` (1 mm = 0.01 units).
   Don't introduce a second unit system or hardcode pre-scaled numbers — add new
   geometry in mm and let `box()` apply `S`.
-- **Single file, no dependencies beyond the Three.js CDN script**. Don't split
-  `index.html` into modules or add a bundler/framework unless explicitly asked —
-  that would break the "just open it in a browser" workflow that's the whole point
-  of this viewer.
-- **Keep the files in sync.** A dimension, part, or hardware change made in one of
-  `index.html`, `List_of_Materials.md`, or `README.md` usually needs to be
-  reflected in the others (e.g. section widths, rail specs, board thicknesses
-  appear in all three), and a part or quantity change also affects
-  `Einkaufsliste.md`.
+- **One source for build dimensions** ([ADR 0015](docs/adrs/0015-shared-model-data-for-viewer-and-drawings.md)).
+  Build parts (corpus, platform, drawers, boards, rails, mattress) are defined
+  only in `modell/parameter.json` + `modell/modell.py`. Never add a build part or
+  a dimension directly in `index.html` or `zeichnungen.py` — add it to the model
+  and regenerate. Only the Caddy shell (vehicle context, not built) lives in
+  `index.html`.
+- **No bundler, no framework, opens without a build step.** The viewer loads
+  `modell/modell.js` via `<script src>` (not `fetch`, which fails on `file://`).
+  Python is for generating, never needed to view.
+- **Keep the files in sync.** A dimension, part, or hardware change in the model
+  usually needs to be reflected in `List_of_Materials.md` and `README.md` (e.g.
+  section widths, rail specs, board thicknesses), and a part or quantity change
+  also affects `Einkaufsliste.md`.
 - **Prices in `Einkaufsliste.md` are dated estimates**, not quotes. They carry a
   "Preisstand" line — when refreshing them, re-check the sources and move that
   date; don't edit individual numbers and leave a stale date behind.
 - **Scene graph**: all geometry lives permanently in the static group `sg`; mode
-  switching (`setMode`) only moves the Z position of the 6 movable elements (3
-  drawers + 2 seat boards + 1 table board) and their paired rail inner-members.
+  switching (`setMode`) only moves, along Z by the rail length, the parts whose
+  model entry has `faehrt` set (drawer boxes + fronts, seat/table boards, and
+  their rail inner-members).
   See [docs/adrs/0004-static-scene-graph-with-z-position-toggle.md](docs/adrs/0004-static-scene-graph-with-z-position-toggle.md)
   before changing how modes are represented.
 - When a change reflects a real architectural or build decision (not just a tweak),
@@ -79,6 +97,11 @@ Three.js CDN script).
   [ADR 0010](docs/adrs/0010-detailed-caddy-shell.md): door openings, front seats,
   rear bench (flipped flat / removed toggle), load-floor reference plane.
   Its dimensions are unverified placeholders.
+- Shared part model (`modell/`) driving both the 3D tab and build123d workshop
+  drawings (Draufsicht / Vorderansicht / Seitenansicht, A3 1:5, hidden edges
+  dashed, overlaps red) for three corner-construction variants, plus an overlap
+  report in the "Statisch" tab and a collision toggle in the 3D tab
+  ([ADR 0015](docs/adrs/0015-shared-model-data-for-viewer-and-drawings.md)).
 - Full bill of materials with cut list, hardware options and links, and a
   documented joinery method for every junction in the build
   ([List_of_Materials.md](List_of_Materials.md) §H): corpus shell (ADR 0007),
@@ -103,11 +126,22 @@ Three.js CDN script).
 - **[ADR 0013](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md) is
   Proposed, not Accepted** — the seat/table boards are 32 mm thick but the runner
   inner members are 53/76 mm high, so there is no full-height face to screw them
-  to. Deciding it changes `boardH` and the rail Y-bands in `index.html` plus the
-  height tables in the other two files. Don't cut `C1`–`C3` or buy the board
-  runners before it is resolved.
-- `index.html` computes `drawerH = 260` mm; `List_of_Materials.md` §D says 268 mm.
-  Same height chain as ADR 0013 — resolve both in one pass.
+  to. Deciding it changes `elemente.brett_hoehe` / the rail bands in `modell/`
+  plus the height tables in `List_of_Materials.md` and `README.md`. Don't cut
+  `C1`–`C3` or buy the board runners before it is resolved.
+- **Open findings from the overlap check** (red in the drawings; details in the
+  "Statisch" tab report). None is decided yet — don't silently "fix" them in the
+  model; each is a build decision for the user:
+  - Corner construction of the corpus is unspecified (`eckausbildung` parameter;
+    `stueckliste` reproduces the current, overlapping cut list). Blocks cutting
+    `B1`–`B4`.
+  - Clear depth 882 mm behind `B1` < 900 mm rail length.
+  - Full-section-width inset drawer fronts sit in front of the runners.
+  - Drawer heights: box 260 (= 248 sides + 12 bottom) and front 268 in
+    `List_of_Materials.md` §D are consistent with each other; the remaining
+    conflict is `D3-F` vs `C3` (3 mm). Same height chain as ADR 0013.
+  - Section "L" is at −x, which is the **passenger** side (+x = driver side,
+    LHD); seen through the tailgate it appears on the right.
 - Mattress spec: 1,100 mm is not a stock width; options are in
   [Einkaufsliste.md](Einkaufsliste.md) §4.
 - Ventilation / moisture protection for the enclosed under-floor volume.
@@ -124,10 +158,12 @@ Three.js CDN script).
 - Remove or actually use the empty `bankG` / `packG` groups in `index.html`
   (currently declared, toggled visible, but hold no geometry — see
   [ADR 0004](docs/adrs/0004-static-scene-graph-with-z-position-toggle.md)).
-- Dimension/measurement overlay in the viewer (currently dimensions only live in
-  code comments and `List_of_Materials.md`).
-- Exportable cut list generated from the same geometry constants used to render
-  the model, so `List_of_Materials.md` can't drift from `index.html`.
+- Dimension/measurement overlay in the 3D tab (dimensions are now in the
+  "Statisch" drawings, not in the 3D view).
+- Exportable cut list generated from `modell.teile()`, so `List_of_Materials.md`
+  can't drift from the model (the shared model makes this a small step now).
+- Drawings for the sleeping boards `A2`/`A3` and exploded/part drawings of the
+  drawer boxes once ADR 0013 and the open findings are decided.
 
 ## Architecture decisions
 

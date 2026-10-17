@@ -116,13 +116,64 @@
       color: #888;
       pointer-events: none;
     }
+
+    /* Reiter: dynamisch (Three.js) / statisch (Werkzeichnungen aus build123d) */
+    #tabs { display: flex; gap: 6px; }
+    #tabs button { padding: 5px 14px; font-size: 12px; }
+
+    #statisch {
+      flex: 1;
+      overflow: auto;
+      display: none;
+      padding: 14px 16px calc(16px + env(safe-area-inset-bottom, 0px));
+      background: #1a1a1a;
+    }
+    body.statisch #viewport { display: none; }
+    body.statisch #statisch { display: block; }
+
+    #statisch .leiste {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 12px;
+      font-size: 12px;
+      color: #aaa;
+    }
+    #statisch select {
+      background: #222;
+      color: #ddd;
+      border: 1px solid #444;
+      border-radius: 6px;
+      padding: 7px 10px;
+      font-size: 13px;
+      max-width: 100%;
+    }
+    #blatt {
+      display: block;
+      width: 100%;
+      max-width: 1400px;
+      background: #fff;
+      border-radius: 4px;
+    }
+    #blattLink { color: #8ab4f8; font-size: 12px; }
+    #pruefung { max-width: 1400px; margin-top: 16px; font-size: 13px; line-height: 1.5; }
+    #pruefung h2 { font-size: 14px; font-weight: 500; margin: 14px 0 6px; color: #e0e0e0; }
+    #pruefung details { margin: 4px 0; }
+    #pruefung summary { cursor: pointer; color: #ddd; }
+    #pruefung .ok { color: #7fd28f; }
+    #pruefung .fehler { color: #ff8a80; }
+    #pruefung td { padding: 1px 10px 1px 0; color: #bbb; font-variant-numeric: tabular-nums; }
   </style>
 </head>
 <body>
 
 <header>
   <h1>VW Caddy Mk3 — Camper Aufbau</h1>
-  <span>Three.js r128 · Maße in mm · Maßstab 1:1</span>
+  <div id="tabs">
+    <button id="tabDyn" class="active" onclick="zeigeReiter('dynamisch')">Dynamisch · 3D</button>
+    <button id="tabStat"               onclick="zeigeReiter('statisch')">Statisch · Werkzeichnungen</button>
+  </div>
 </header>
 
 <div id="viewport">
@@ -134,7 +185,8 @@
     <span style="background:#8B6520;"></span>Holz / Korpus + Liegefläche (Birke-Multiplex)<br>
     <span style="background:#5DCAA5;"></span>Sitz-Brett L/R &nbsp;(32 mm hoch · 900 mm Auszug)<br>
     <span style="background:#EF9F27;"></span>Tisch-Brett Mitte (32 mm hoch · 900 mm Auszug)<br>
-    <span style="background:#378ADD;"></span>Schubladen × 3 &nbsp;(260 mm hoch · 900 mm Auszug)<br>
+    <span style="background:#378ADD;"></span>Schubladen × 3 &nbsp;(Kasten 260 · Blende 268 mm hoch · 900 mm Auszug)<br>
+    <span style="background:#E62929;"></span>Rechnerische Überschneidung (Button „Überschneidungen“)<br>
     <span style="background:#9DB4C8;"></span>Caddy-Hülle (Platzhaltermaße, 60 % deckend)<br>
     <span style="background:#B5E48C;"></span>Lade-Referenzebene Kofferraum (y = 0)<br>
     <span style="background:#5F6B7A;"></span>Rücksitzbank (umgeklappt / ausgebaut)<br>
@@ -149,13 +201,34 @@
     <button id="btnPack"                   onclick="setMode('pack')">Packmodus</button>
     <button id="btnCaddy" class="active"   onclick="toggleCaddy()">Caddy-Hülle</button>
     <button id="btnSeats"                  onclick="toggleRearSeats()">Rücksitze: umgeklappt</button>
+    <button id="btnKoll"                   onclick="toggleKollisionen()">Überschneidungen</button>
     <button                                onclick="resetCam()">↺ Reset</button>
   </div>
 </div>
 
-<!-- Self-contained, kein Build-Schritt: docs/adrs/0001-self-contained-single-file-viewer.md -->
+<div id="statisch">
+  <div class="leiste">
+    <select id="selAnsicht" onchange="zeigeBlatt()">
+      <option value="vorderansicht">Vorderansicht</option>
+      <option value="draufsicht">Draufsicht</option>
+      <option value="seitenansicht">Seitenansicht</option>
+    </select>
+    <select id="selVariante" onchange="zeigeBlatt()">
+      <option value="stueckliste">Eckausbildung: Ist-Stand Stückliste</option>
+      <option value="boden_durchlaufend">Variante: Boden B4 durchlaufend</option>
+      <option value="seiten_durchlaufend">Variante: Seitenwände B2 durchlaufend</option>
+    </select>
+    <a id="blattLink" target="_blank" rel="noopener">SVG in voller Größe öffnen</a>
+  </div>
+  <img id="blatt" alt="Werkzeichnung">
+  <div id="pruefung"></div>
+</div>
+
+<!-- Ohne Build-Schritt im Browser zu öffnen: docs/adrs/0001-self-contained-single-file-viewer.md -->
 <!-- Version bewusst gepinnt, nicht "latest": docs/adrs/0002-pinned-threejs-r128-via-cdn.md -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- Gemeinsame Datenbasis mit den Werkzeichnungen, generiert aus modell/parameter.json: docs/adrs/0015-shared-model-data-for-viewer-and-drawings.md -->
+<script src="modell/modell.js"></script>
 <script>
 (function () {
 
@@ -191,30 +264,17 @@
   // ── Scale & Dimensions (mm) ───────────────────────────────────────────────
   var S = 0.01; // 1 mm = 0.01 scene units — alle Maße unten in echten mm, siehe docs/adrs/0003-real-world-mm-scale-factor.md
 
-  var UW = 1120;  // unit width
-  var UD = 900;   // unit depth (front–back in car)
-  var UH = 320;   // unit height (= load floor to sleeping platform)
-  var TH = 18;    // board thickness
-  var B1 = 700;   // extension board 1 (over rear seat backs)
-  var B2 = 400;   // extension board 2 (headrest area)
-  var DW = 18;    // divider wall thickness
-
-  var runnerT = 19;                    // drawer-runner thickness per side (B086JQLXRJ) — Auswahl: docs/adrs/0008-heavy-duty-full-extension-runners.md
-  var boardH  = 32;                    // seat/table board height
-  var drawerH = UH - TH - boardH - 10; // 320-18-32-10 = 260mm (5mm gap board↔drawer + 5mm drawer↔top)
-  var yBase   = TH;                   // interior y-start: above bottom plate
-
-  // 3-Sektionen-Layout (312/424/312 mm), Begründung: docs/adrs/0006-three-section-corpus-layout.md
-  // Section X centres — B2 side walls (18 mm) are inside the 1120 mm unit
-  // Interior per side: (1120 - 2×18 walls - 2×18 dividers - 424 middle) / 2 = 312 mm
-  var x1  = -386;  // left section centre  (between B2 inner face and divider 1)
-  var xM  =    0;  // middle section centre
-  var x3  =  386;  // right section centre
-  var sw1 =  312;  // left section interior width
-  var swM =  424;  // middle section interior width
-  var sw3 =  312;  // right section interior width
-  var d1x = -221;  // divider 1 centre x
-  var d2x =  221;  // divider 2 centre x
+  // Alle Bauteilmaße kommen aus modell/modell.js (generiert aus modell/parameter.json) —
+  // dieselben Quader, aus denen modell/zeichnungen.py die Werkzeichnungen projiziert.
+  // Die Ableitung (Sektionen 312/424/312, Elementbreiten, Schienenbänder) steht in modell/modell.py.
+  var P  = MODELL.parameter;
+  var UW = P.korpus.breite;                 // 1120
+  var UD = P.korpus.tiefe;                  // 900
+  var UH = P.korpus.hoehe;                  // 320 (Ladeboden → Oberkante Wände)
+  var TH = P.korpus.plattenstaerke;         // 18
+  var LA2 = P.liegeflaeche.laenge_a2;       // 700, Brett über den Rücksitzlehnen
+  var LA3 = P.liegeflaeche.laenge_a3;       // 400, Brett Kopfbereich
+  var AUSZUG = P.schienen.laenge;           // 900 — Auswahl: docs/adrs/0008-heavy-duty-full-extension-runners.md
 
   // ── Materials ─────────────────────────────────────────────────────────────
   var mWoodDk  = new THREE.MeshLambertMaterial({ color: 0x8B6520, transparent: true, opacity: 0.90 });
@@ -225,6 +285,9 @@
   // Caddy-Hülle: 60 % deckend, kein Tiefenschreiben, damit der Aufbau dahinter sichtbar bleibt
   var mCaddy   = new THREE.MeshLambertMaterial({ color: 0x9DB4C8, transparent: true, opacity: 0.60, depthWrite: false, side: THREE.DoubleSide });
   var mRailRed = new THREE.MeshLambertMaterial({ color: 0xFF1111, transparent: true, opacity: 0.90 });
+  var mBlende  = new THREE.MeshLambertMaterial({ color: 0x2A6DB5, transparent: true, opacity: 0.92 });
+  // Überschneidungen: kräftig, ohne Tiefentest, damit sie auch innerhalb von Platten sichtbar sind
+  var mKoll    = new THREE.MeshBasicMaterial({ color: 0xE62929, transparent: true, opacity: 0.75, depthTest: false });
 
   // ── Groups ────────────────────────────────────────────────────────────────
   // Statischer Szenengraph + Z-Verschiebung statt Subtree-Wechsel je Modus: docs/adrs/0004-static-scene-graph-with-z-position-toggle.md
@@ -247,10 +310,11 @@
     return m;
   }
 
-  // railDuo: Innenmember (rot, fährt mit Element). dir: +1 = Element rechts, -1 = Element links.
-  // Außenmember weggelassen — kein visueller Overlap mit Spaltmaßen. Begründung: docs/adrs/0005-simplified-rail-visualization.md
-  function railDuo(x, y, dir) {
-    return box(runnerT - 1, railH - 2, UD, mRailRed, x + dir * 0.5, y, zIn);
+  // Quader aus dem Teilemodell: box = [[x0,x1],[y0,y1],[z0,z1]] in mm. schrumpf = [dx, dy] je Seite.
+  function teilBox(t, mat, g, schrumpf, dx) {
+    var b = t.box, s = schrumpf || [0, 0];
+    return box(b[0][1] - b[0][0] - 2 * s[0], b[1][1] - b[1][0] - 2 * s[1], b[2][1] - b[2][0], mat,
+               (b[0][0] + b[0][1]) / 2 + (dx || 0), (b[1][0] + b[1][1]) / 2, (b[2][0] + b[2][1]) / 2, g);
   }
 
   function wireframe(mesh, col) {
@@ -276,93 +340,41 @@
   grid.position.set(0, -0.01, 8);
   sg.add(grid);
 
-  // ── Strukturbretter ────────────────────────────────────────────────────────
-  // B2 Seitenwände (links + rechts)
-  box(TH, UH, UD, mWoodDk, -(UW / 2 - TH / 2), UH / 2, UD / 2);
-  box(TH, UH, UD, mWoodDk,  (UW / 2 - TH / 2), UH / 2, UD / 2);
-  // B1 Rückwand
-  box(UW, UH, TH, mWoodDk, 0, UH / 2, UD - TH / 2);
-  // B4 Bodenplatte
-  box(UW, TH, UD, mWoodDk, 0, TH / 2, UD / 2);
-  // B3 Trennwände
-  box(DW, UH, UD, mWoodDk, d1x, UH / 2, UD / 2);
-  box(DW, UH, UD, mWoodDk, d2x, UH / 2, UD / 2);
+  // ── Bauteile aus dem gemeinsamen Teilemodell ──────────────────────────────
+  // Korpus (B1–B4), Liegefläche (A1–A3), Matratze, Elemente (C/D) und Schienen (E)
+  // stehen alle in MODELL.teile, im eingefahrenen Zustand. setMode verschiebt die
+  // Teile mit `faehrt` nur in z, siehe docs/adrs/0004-static-scene-graph-with-z-position-toggle.md
+  var MAT  = { holz: mWoodDk, sitz: mTeal, tisch: mAmber, schublade: mBlue, blende: mBlende, schiene: mRailRed, matratze: mMat };
+  var KANTE = { holz: 0x5A3A0A, sitz: 0x0F6E56, tisch: 0x854F0B, schublade: 0x185FA5, blende: 0x185FA5, matratze: 0xaaaaaa };
+  var beweglich = [];   // { mesh, z: Mittelpunkt eingefahren (mm), faehrt }
 
-  // ── Moveable elements — all in sg, repositioned by setMode ──────────────
-  var zIn  = UD / 2 - 1.5;  // collapsed: front face 1.5 mm proud of unit body
-  var zOut = -UD / 2;       // extended: element fully pulled out in −z
+  MODELL.teile.forEach(function (t) {
+    var mesh;
+    if (t.material === 'schiene') {
+      // Nur Innenmember darstellen, 0,5 mm zum Element hin versetzt, 1 mm niedriger:
+      // kein visueller Overlap mit den Spaltmaßen — docs/adrs/0005-simplified-rail-visualization.md
+      mesh = teilBox(t, mRailRed, sg, [0.5, 1], t.richtung * 0.5);
+    } else {
+      mesh = teilBox(t, MAT[t.material]);
+      if (t.gruppe !== 'korpus') wireframe(mesh, KANTE[t.material]);
+    }
+    if (t.faehrt) beweglich.push({ mesh: mesh, z: (t.box[2][0] + t.box[2][1]) / 2, faehrt: t.faehrt });
+  });
 
-  // Element widths: section interior − 2 × runner (19 mm) − 2 mm gap (1 mm each side)
-  // Drawers (3)
-  var drL = box(sw1 - 2*runnerT - 2, drawerH, UD, mBlue, x1, yBase + boardH + 5 + drawerH / 2, zIn);
-  wireframe(drL, 0x185FA5);
-  var drM = box(swM - 2*runnerT - 2, drawerH, UD, mBlue, xM, yBase + drawerH / 2,             zIn);
-  wireframe(drM, 0x185FA5);
-  var drR = box(sw3 - 2*runnerT - 2, drawerH, UD, mBlue, x3, yBase + boardH + 5 + drawerH / 2, zIn);
-  wireframe(drR, 0x185FA5);
+  // Dünne dunkle Streifen auf den Liegebrettern (Optik)
+  MODELL.teile.filter(function (t) { return /^A\d$/.test(t.id); }).forEach(function (t) {
+    var b = t.box;
+    box(b[0][1] - b[0][0] - 20, 2, b[2][1] - b[2][0] - 20, mWoodDk, 0, b[1][1] + 1, (b[2][0] + b[2][1]) / 2);
+  });
 
-  // Seat boards L/R + Table board M (same clearance formula)
-  var bsL = box(sw1 - 2*runnerT - 2, boardH, UD, mTeal,  x1, yBase + boardH / 2,               zIn);
-  wireframe(bsL, 0x0F6E56);
-  var bsR = box(sw3 - 2*runnerT - 2, boardH, UD, mTeal,  x3, yBase + boardH / 2,               zIn);
-  wireframe(bsR, 0x0F6E56);
-  var btM = box(swM - 2*runnerT - 2, boardH, UD, mAmber, xM, yBase + drawerH + 5 + boardH / 2, zIn);
-  wireframe(btM, 0x854F0B);
-
-  // ── Schienen — AOLISHENG B086JQLXRJ: 19 mm breit x 76 mm hoch x 900 mm lang ──
-  // Wandstreifen-Belegung (kein Overlap):
-  //   Sitz-Bretter L/R : y 18-94 mm  (Brett y 18-50, 44 mm Schiene ueberragt Brett nach oben)
-  //   Schubladen L/R   : y 190-266 mm (96 mm Abstand zur Brett-Schiene)
-  //   Schublade M      : y 67-143 mm  (96 mm Abstand zur Tisch-Schiene)
-  //   Tisch-Brett M    : y 239-315 mm (Brett y 283-315, 44 mm Schiene ueberragt Brett nach unten)
-  var railH = 76;
-  var bL  = -(UW / 2 - DW);   // B2 Innenflaeche links  x = -542
-  var bR  =  (UW / 2 - DW);   // B2 Innenflaeche rechts x = +542
-  var d1L = d1x - DW / 2;     // Trennwand 1 links      x = -230
-  var d1R = d1x + DW / 2;     // Trennwand 1 rechts     x = -212
-  var d2L = d2x - DW / 2;     // Trennwand 2 links      x = +212
-  var d2R = d2x + DW / 2;     // Trennwand 2 rechts     x = +230
-
-  // Schienen: Außenmember statisch (UD/2), Innenmember fährt mit Element (zIn→zOut)
-  // dir: linke Wandschiene = +1 (Element rechts), rechte Wandschiene = -1 (Element links)
-  var bsRailY  = yBase + railH / 2;                        // 56 mm  — Sitz-Bretter
-  var drLRailY = yBase + boardH + 5 + drawerH * 2 / 3;    // 228 mm — Schubladen L/R
-  var drMRailY = yBase + drawerH / 3;                      // 105 mm — Schublade M
-  var btRailY  = yBase + drawerH + 5 + boardH - railH / 2; // 277 mm — Tisch-Brett M
-
-  // Sitz-Brett L — Innenmember fährt mit bsL
-  var ribsL_l = railDuo(bL  + runnerT / 2, bsRailY,  +1);
-  var ribsL_r = railDuo(d1L - runnerT / 2, bsRailY,  -1);
-  // Sitz-Brett R — Innenmember fährt mit bsR
-  var ribsR_l = railDuo(d2R + runnerT / 2, bsRailY,  +1);
-  var ribsR_r = railDuo(bR  - runnerT / 2, bsRailY,  -1);
-  // Schublade L — Innenmember fährt mit drL
-  var ridrL_l = railDuo(bL  + runnerT / 2, drLRailY, +1);
-  var ridrL_r = railDuo(d1L - runnerT / 2, drLRailY, -1);
-  // Schublade R — Innenmember fährt mit drR
-  var ridrR_l = railDuo(d2R + runnerT / 2, drLRailY, +1);
-  var ridrR_r = railDuo(bR  - runnerT / 2, drLRailY, -1);
-  // Schublade M — Innenmember fährt mit drM
-  var ridrM_l = railDuo(d1R + runnerT / 2, drMRailY, +1);
-  var ridrM_r = railDuo(d2L - runnerT / 2, drMRailY, -1);
-  // Tisch-Brett M — Innenmember fährt mit btM
-  var ribtM_l = railDuo(d1R + runnerT / 2, btRailY,  +1);
-  var ribtM_r = railDuo(d2L - runnerT / 2, btRailY,  -1);
-
-  // ── Sleeping boards ───────────────────────────────────────────────────────
-  var lid = box(UW, TH, UD, mWoodDk, 0, UH + TH / 2, UD / 2);
-  var b1  = box(UW, TH, B1, mWoodDk, 0, UH + TH / 2, UD + B1 / 2);
-  var b2  = box(UW, TH, B2, mWoodDk, 0, UH + TH / 2, UD + B1 + B2 / 2);
-  wireframe(lid); wireframe(b1); wireframe(b2);
-
-  // Labels on sleeping boards (thin dark stripe)
-  box(UW - 20, 2, UD - 20, mWoodDk, 0, UH + TH + 1, UD / 2);
-  box(UW - 20, 2, B1 - 20, mWoodDk, 0, UH + TH + 1, UD + B1 / 2);
-  box(UW - 20, 2, B2 - 20, mWoodDk, 0, UH + TH + 1, UD + B1 + B2 / 2);
-
-  // Mattress outline
-  var mattress = box(1100, 80, 1980, mMat, 0, UH + TH + 40, 990);
-  wireframe(mattress, 0xaaaaaa);
+  // Rechnerische Überschneidungen (aus modell.py) — per Button einblendbar
+  var kollG = new THREE.Group();
+  scene.add(kollG);
+  kollG.visible = false;
+  MODELL.kollisionen.forEach(function (k) {
+    var m = teilBox({ box: k.box }, mKoll, kollG);
+    m.renderOrder = 20;
+  });
 
   // ── Caddy-Hülle (VW Caddy Mk3 Kombi) ──────────────────────────────────────
   // ACHTUNG: Platzhalterwerte aus öffentlichen Datenblättern, NICHT nachgemessen — bei Bedarf hier korrigieren.
@@ -375,7 +387,7 @@
   var carLen = 400, carH = 350, carZ = 300; // Radkasten: Länge, Höhe, Start-z
   var seatW = 450, seatD = 120, seatH = 700, seatY = 350; // Vordersitz-Rückenlehne inkl. Kopfstütze
   var cushD = 440, cushH = 100;                            // Vordersitz-Sitzfläche (nach vorn)
-  var zFront = UD + B1 + B2;                               // Vordersitz-Lehne (Kopfstützenbereich, Brett 2)
+  var zFront = UD + LA2 + LA3;                               // Vordersitz-Lehne (Kopfstützenbereich, Brett 2)
 
   // Türöffnungen (Löcher in den Seitenwänden), je Seite gleich: z-Bereich, Unterkante y, Oberkante y
   var doorOpenings = [
@@ -422,8 +434,8 @@
   var rearSeatsG = new THREE.Group();
   caddyG.add(rearSeatsG);
   var rsTop = UH - 4, rsBackH = 80;
-  wireframe(box(CAW - 40, rsTop - rsBackH, B1, mRearSeat, 0, (rsTop - rsBackH) / 2, UD + B1 / 2, rearSeatsG), 0x2E3640); // Sitzfläche/Unterbau
-  wireframe(box(CAW - 40, rsBackH, B1, mRearSeat, 0, rsTop - rsBackH / 2, UD + B1 / 2, rearSeatsG), 0x2E3640);           // umgeklappte Lehne
+  wireframe(box(CAW - 40, rsTop - rsBackH, LA2, mRearSeat, 0, (rsTop - rsBackH) / 2, UD + LA2 / 2, rearSeatsG), 0x2E3640); // Sitzfläche/Unterbau
+  wireframe(box(CAW - 40, rsBackH, LA2, mRearSeat, 0, rsTop - rsBackH / 2, UD + LA2 / 2, rearSeatsG), 0x2E3640);           // umgeklappte Lehne
   caddyG.traverse(function (m) { if (m.isMesh) m.renderOrder = 10; });
 
   // ── Camera orbit ──────────────────────────────────────────────────────────
@@ -503,12 +515,10 @@
   window.setMode = function (m) {
     bankG.visible = (m === 'bank');
     packG.visible = (m === 'pack');
-    var zDrawers = (m === 'pack') ? zOut : zIn;
-    var zBoards  = (m === 'bank') ? zOut : zIn;
-    [drL, drM, drR, ridrL_l, ridrL_r, ridrR_l, ridrR_r, ridrM_l, ridrM_r]
-      .forEach(function (d) { d.position.z = zDrawers * S; });
-    [bsL, bsR, btM, ribsL_l, ribsL_r, ribsR_l, ribsR_r, ribtM_l, ribtM_r]
-      .forEach(function (b) { b.position.z = zBoards  * S; });
+    var aus = { schubladen: m === 'pack', bretter: m === 'bank' };
+    beweglich.forEach(function (b) {   // ausgefahren = um die volle Schienenlänge in −z
+      b.mesh.position.z = (b.z - (aus[b.faehrt] ? AUSZUG : 0)) * S;
+    });
     infoEl.textContent = modeLabels[m] || '';
     ['btnSchlafen','btnBank','btnPack'].forEach(function(id) {
       document.getElementById(id).classList.remove('active');
@@ -527,6 +537,12 @@
     rearSeatsG.visible = !rearSeatsG.visible;
     document.getElementById('btnSeats').textContent = rearSeatsG.visible ? 'Rücksitze: umgeklappt' : 'Rücksitze: ausgebaut';
   };
+
+  window.toggleKollisionen = function () {
+    kollG.visible = !kollG.visible;
+    document.getElementById('btnKoll').classList.toggle('active', kollG.visible);
+  };
+  document.getElementById('btnKoll').textContent = 'Überschneidungen (' + MODELL.kollisionen.length + ')';
 
   window.resetCam = function () {
     theta = DEF_THETA; phi = DEF_PHI; radius = DEF_RADIUS; updCam();
@@ -547,6 +563,55 @@
     camera.updateProjectionMatrix();
   }).observe(viewport);
 
+})();
+
+// ── Reiter „Statisch“: Werkzeichnungen aus modell/zeichnungen.py (build123d) ──
+(function () {
+  var VARIANTEN = {
+    stueckliste: 'Ist-Stand Stückliste',
+    boden_durchlaufend: 'Boden B4 durchlaufend',
+    seiten_durchlaufend: 'Seitenwände B2 durchlaufend'
+  };
+
+  window.zeigeReiter = function (r) {
+    document.body.classList.toggle('statisch', r === 'statisch');
+    document.getElementById('tabDyn').classList.toggle('active', r !== 'statisch');
+    document.getElementById('tabStat').classList.toggle('active', r === 'statisch');
+    if (r === 'statisch') zeigeBlatt();
+    history.replaceState(null, '', r === 'statisch' ? '#statisch' : location.pathname + location.search);
+  };
+
+  function mm(v) { return String(v).replace('.', ','); }
+
+  window.zeigeBlatt = function () {
+    var ansicht  = document.getElementById('selAnsicht').value;
+    var variante = document.getElementById('selVariante').value;
+    var pfad = 'docs/zeichnungen/' + variante + '/' + ansicht + '.svg';
+    document.getElementById('blatt').src = pfad;
+    document.getElementById('blattLink').href = pfad;
+
+    // Prüfbericht: dieselben Überschneidungen, die in der Zeichnung rot hinterlegt sind
+    var koll = MODELL.varianten[variante] || [];
+    var nachKat = {};
+    koll.forEach(function (k) { (nachKat[k.kategorie] = nachKat[k.kategorie] || []).push(k); });
+    var html = '<h2>Prüfbericht · ' + VARIANTEN[variante] + '</h2>';
+    html += koll.length
+      ? '<div class="fehler">' + koll.length + ' rechnerische Überschneidungen zwischen Bauteilen</div>'
+      : '<div class="ok">Keine Überschneidungen</div>';
+    Object.keys(nachKat).forEach(function (kat) {
+      var zeilen = nachKat[kat].map(function (k) {
+        return '<tr><td>' + k.a + ' × ' + k.b + '</td><td>' + k.mass.map(mm).join(' × ') + ' mm</td></tr>';
+      }).join('');
+      html += '<details><summary>' + nachKat[kat].length + ' × ' + MODELL.kategorien[kat] +
+              '</summary><table>' + zeilen + '</table></details>';
+    });
+    html += '<p style="color:#777;margin-top:10px">Maße der Überschneidung als Breite × Höhe × Tiefe (x × y × z). ' +
+            'Zeichnungen neu erzeugen: <code>.venv/bin/python modell/zeichnungen.py</code></p>';
+    document.getElementById('pruefung').innerHTML = html;
+  };
+
+  document.getElementById('selVariante').value = MODELL.eckausbildung;
+  if (location.hash === '#statisch') zeigeReiter('statisch');
 })();
 </script>
 </body>

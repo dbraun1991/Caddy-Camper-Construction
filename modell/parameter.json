@@ -1,0 +1,38 @@
+{
+  "_hinweis": "Gemeinsame Datenbasis für 3D-Viewer und Werkzeichnungen. Alle Maße in mm. Nach jeder Änderung: python modell/modell.py (Viewer) und python modell/zeichnungen.py (Zeichnungen). Siehe docs/adrs/0015-shared-model-data-for-viewer-and-drawings.md",
+
+  "korpus": {
+    "breite": 1120,
+    "tiefe": 900,
+    "hoehe": 320,
+    "plattenstaerke": 18,
+    "trennwandstaerke": 18,
+    "sektion_mitte_innen": 424
+  },
+
+  "liegeflaeche": {
+    "laenge_a2": 700,
+    "laenge_a3": 400
+  },
+
+  "matratze": { "breite": 1100, "laenge": 1980, "hoehe": 80 },
+
+  "schienen": {
+    "staerke": 19,
+    "hoehe": 76,
+    "laenge": 900
+  },
+
+  "elemente": {
+    "brett_hoehe": 32,
+    "spalt_hoehe": 5,
+    "spiel_seitlich": 1,
+    "vorstand_front": 1.5,
+    "kasten_tiefe": 880,
+    "blende_staerke": 18,
+    "blende_hoehe": 268
+  },
+
+  "eckausbildung": "stueckliste",
+  "_eckausbildung_werte": "stueckliste = Maße wie in List_of_Materials.md (B2/B3 320 hoch, B1/B4 1.120 breit, ungeklärte Überschneidung) · boden_durchlaufend = B4 durchgehend, Wände stehen darauf · seiten_durchlaufend = B2 bis zum Ladeboden, B4 und B1 dazwischen"
+}

@@ -10,7 +10,7 @@ Decision, Consequences.
 
 | # | Title | Status |
 |---|---|---|
-| [0001](0001-self-contained-single-file-viewer.md) | Self-contained single-file viewer, no build step | Accepted |
+| [0001](0001-self-contained-single-file-viewer.md) | Self-contained single-file viewer, no build step | Accepted, amended by 0015 |
 | [0002](0002-pinned-threejs-r128-via-cdn.md) | Pinned Three.js r128 via CDN | Accepted |
 | [0003](0003-real-world-mm-scale-factor.md) | Model in real-world millimeters with a single scale constant | Accepted |
 | [0004](0004-static-scene-graph-with-z-position-toggle.md) | Static scene graph with Z-position toggling instead of per-mode subtrees | Accepted |
@@ -24,3 +24,4 @@ Decision, Consequences.
 | [0012](0012-non-destructive-vehicle-tie-down.md) | Non-destructive tie-down via factory lashing eyes, no holes in the body | Accepted |
 | [0013](0013-rail-carrier-cheeks-for-seat-and-table-boards.md) | Carrier cheeks to give the seat/table boards a full-height rail face | **Proposed** |
 | [0014](0014-self-contained-corpus-with-own-side-walls.md) | Self-contained corpus with its own side walls, removable as one unit | Accepted |
+| [0015](0015-shared-model-data-for-viewer-and-drawings.md) | Shared part model for the 3D viewer and build123d workshop drawings | Accepted |
