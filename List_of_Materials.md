@@ -9,7 +9,7 @@ Maße der Bauteile: gemeinsame Datenbasis [`modell/parameter.json`](modell/param
 
 | Maß | Gemessen | Plan | Ergebnis |
 |---|---|---|---|
-| Breite zwischen den Radkästen | 1.120 mm | Korpus, A1–A3: 1.120 mm | passt, **kein seitliches Spiel** |
+| Breite zwischen den Radkästen | 1.130–1.140 mm | Korpus, A1–A3: 1.120 mm | passt, 10–20 mm Spiel — **bewusst nicht genutzt**, Korpus bleibt 1.120 mm |
 | Heckklappenöffnung | fertige Box 1.120 × 900 × 338 mm passt durch | — | passt; Klappe öffnet nach oben |
 | Ladekante / Stufe | keine, Ladeboden eben | — | passt |
 | Ladetiefe Heckklappe (geschlossen, innen) → Rücksitze | 920–930 mm | Korpus 900 mm | 20–30 mm Luft |

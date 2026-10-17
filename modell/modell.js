@@ -35,7 +35,9 @@ window.MODELL = {
   },
   "fahrzeug": {
    "_stand": "Am eigenen Fahrzeug nachgemessen am 2026-10-17. Alles andere an der Caddy-Hülle in index.html bleibt Platzhalter.",
-   "ladebreite_radkaesten": 1120,
+   "ladebreite_radkaesten_min": 1130,
+   "ladebreite_radkaesten_max": 1140,
+   "_ladebreite": "10–20 mm seitliches Spiel zum Korpus (1.120) — bewusst nicht genutzt, der Korpus bleibt 1.120 breit",
    "ladetiefe_min": 920,
    "ladetiefe_max": 930,
    "ruecksitzlehne_hoehe": 310,
@@ -4140,9 +4142,9 @@ window.MODELL = {
   {
    "was": "Korpusbreite zwischen den Radkästen",
    "plan": 1120,
-   "fahrzeug": 1120,
-   "ergebnis": "0 mm Spiel",
-   "status": "knapp"
+   "fahrzeug": "1130–1140",
+   "ergebnis": "10–20 mm Spiel (bewusst nicht genutzt)",
+   "status": "ok"
   },
   {
    "was": "Korpustiefe Heckklappe → Rücksitze",

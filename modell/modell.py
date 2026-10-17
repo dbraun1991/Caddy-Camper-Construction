@@ -185,9 +185,11 @@ def fahrzeug_pruefung(p=None):
         return {"was": was, "plan": soll, "fahrzeug": ist, "ergebnis": luft_text, "status": status}
 
     out = []
-    luft = f["ladebreite_radkaesten"] - k["breite"]
-    out.append(pruefung("Korpusbreite zwischen den Radkästen", k["breite"], f["ladebreite_radkaesten"],
-                        f"{luft} mm Spiel", "ok" if luft > 0 else ("knapp" if luft == 0 else "anpassen")))
+    lo, hi = f["ladebreite_radkaesten_min"] - k["breite"], f["ladebreite_radkaesten_max"] - k["breite"]
+    out.append(pruefung("Korpusbreite zwischen den Radkästen", k["breite"],
+                        f"{f['ladebreite_radkaesten_min']}–{f['ladebreite_radkaesten_max']}",
+                        f"{lo}–{hi} mm Spiel (bewusst nicht genutzt)",
+                        "ok" if lo > 0 else ("knapp" if lo == 0 else "anpassen")))
     lo, hi = f["ladetiefe_min"] - k["tiefe"], f["ladetiefe_max"] - k["tiefe"]
     lo2, hi2 = lo - T, hi - T
     out.append(pruefung("Korpustiefe Heckklappe → Rücksitze", k["tiefe"],

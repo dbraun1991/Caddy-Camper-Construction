@@ -51,10 +51,11 @@ den Rücksitzen wichtiger").
 
 - The four steel brackets and four M8 sets already on the shopping list stay;
   two of them move from `B4` (inside) to the outside of `B2` (rear end).
-- The rear of each `B2` needs a clear outer face where the bracket sits. The
-  corpus is exactly as wide as the space between the wheel arches (1,120 mm,
-  measured, no play) — the brackets only work where the floor widens beyond the
-  arches, i.e. behind them at the rear seats, which is where the eyes are.
+- The rear of each `B2` needs a clear outer face where the bracket sits. Between
+  the wheel arches there are only 5–10 mm per side (1,130–1,140 mm measured vs.
+  1,120 mm corpus) — too little for a bracket, so the brackets only work where
+  the floor widens beyond the arches, i.e. behind them at the rear seats, which
+  is where the eyes are.
 - The corpus remains removable as one unit (ADR 0014): two nuts at the rear
   eyes, optionally two at the tailgate, plus the straps.
 - The 700 N estimate is for sitting, not for a crash. As in ADR 0012, this is
