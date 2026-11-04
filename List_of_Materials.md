@@ -110,6 +110,8 @@ Alle drei fahren 850 mm auf Vollauszug-Schienen aus — **kein Klappen**, reine 
 
 > **Hinweis:** 32 mm Brettstärke = 18 mm Multiplex + 14 mm Auflageleiste, oder direkt aus 32 mm Leimholz.
 
+> **Spalt zwischen Tischbrett C3 und Deckplatte A1:** laut Modell 5 mm (C3 oben bei y = 315, A1 unten bei y = 320). Steht jemand auf A1, biegt sich die Platte über der Mittelsektion grob 3 mm durch, an der freien Vorderkante grob 6,5 mm (Überschlag: 150 kg auf einer Stelle, geschätzte Materialwerte). A1 kann dann auf C3 aufliegen — **Auszüge nur ohne Last auf A1 bewegen.** Das Maß am fertigen Korpus prüfen.
+
 ---
 
 ## D — Schubladen (3 Stück)
