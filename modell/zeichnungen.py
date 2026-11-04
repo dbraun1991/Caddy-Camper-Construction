@@ -4,7 +4,7 @@ Baut jedes Teil aus modell.teile() als Volumenkörper in build123d auf, projizie
 orthogonal mit getrennten sichtbaren und verdeckten Kanten und schreibt je
 Eckausbildung drei DIN-A3-Blätter im Maßstab 1:5 nach docs/zeichnungen/<variante>/.
 Rechnerische Überschneidungen (modell.kollisionen) werden rot hinterlegt, gewollte
-Überdeckungen (Wand steckt in Nut/Falz von Boden und Deckel) grün.
+Überdeckungen (Zapfen steckt in Schlitz/Aussparung) grün.
 
 Benötigt build123d (siehe modell/requirements.txt):
   python3 -m venv .venv && .venv/bin/pip install -r modell/requirements.txt
@@ -26,7 +26,7 @@ BLATT_B, BLATT_H = 420, 297              # DIN A3 quer
 SCHRIFT = "DejaVu Sans"
 
 VARIANTEN = {   # Boden F1 und Deckel A1 laufen immer durch (ADR 0018)
-    "genutet": "Boden- + Deckplatte durchlaufend, Wände in Nut/Falz",
+    "gezapft": "Boden- + Deckplatte durchlaufend, Wände gezapft",
     "stumpf": "Boden- + Deckplatte durchlaufend, Wände stumpf",
 }
 
@@ -40,9 +40,8 @@ ANSICHTEN = {
         kamera=(0, 0, -20000), oben=(0, 1, 0), uv=lambda x, y, z: (-x, y),
         ohne={"A2", "A3", "G1"},
         # Rückwand-Kollisionen liegen 882–900 mm tief — frontal projiziert würden sie ganze Schubladen rot färben
-        zeige={"nut", "eckverbindung", "frontblende", "sonstige"},
-        # die Rückwand liegt ganz hinten über die volle Breite — ihre Nut/Falz würde frontal
-        # wie eine durchgehende Nut in Boden und Deckel aussehen
+        zeige={"zapfen", "eckverbindung", "frontblende", "sonstige"},
+        # der hintere B3-Zapfen in der Rückwand läge frontal mitten auf der Trennwand
         ohne_koll_mit={"B1"}),
     "draufsicht": dict(
         titel="Draufsicht", nr=2,
@@ -81,7 +80,7 @@ class Blatt:
     def __init__(self, mitte, massstab=M):
         self.mitte = mitte                     # Papierposition des Modell-Ursprungs (u=0, v=0)
         self.m = massstab                      # mm Modell → mm Papier
-        self.ebenen = {n: [] for n in ("rahmen", "verdeckt", "sichtbar", "nut", "kollision", "mass", "text")}
+        self.ebenen = {n: [] for n in ("rahmen", "verdeckt", "sichtbar", "zapfen", "kollision", "mass", "text")}
         self.draft = bd.Draft(font_size=3.0, font=SCHRIFT, decimal_precision=0, display_units=False,
                               arrow_length=2.2, line_width=0.18, pad_around_text=1.0, extension_gap=1.0)
 
@@ -165,8 +164,8 @@ class Blatt:
         self.text("verdeckte Kante", x + 15, y - 5, 2.6, papier=True, ausrichtung=links)
         self.ebenen["kollision"].append(bd.Pos(x + 6, y - 10) * bd.Rectangle(12, 3))
         self.text("rechnerische Überschneidung zweier Teile (Fehler)", x + 15, y - 10, 2.6, papier=True, ausrichtung=links)
-        self.ebenen["nut"].append(bd.Pos(x + 6, y - 15) * bd.Rectangle(12, 3))
-        self.text("gewollte Überdeckung: Wand steckt in Nut/Falz", x + 15, y - 15, 2.6, papier=True, ausrichtung=links)
+        self.ebenen["zapfen"].append(bd.Pos(x + 6, y - 15) * bd.Rectangle(12, 3))
+        self.text("gewollte Überdeckung: Zapfen in Schlitz/Aussparung", x + 15, y - 15, 2.6, papier=True, ausrichtung=links)
         y -= 5
         zaehler = {}
         for k in kollisionen:
@@ -192,7 +191,7 @@ class Blatt:
     def schreiben(self, pfad):
         svg = bd.ExportSVG(unit=bd.Unit.MM, margin=0, fit_to_stroke=False)
         svg.add_layer("rahmen", line_weight=0.5, fill_color=None, line_color=(0.0, 0.0, 0.0))
-        svg.add_layer("nut", line_weight=0.1, fill_color=(0.2, 0.65, 0.3, 0.55), line_color=(0.1, 0.45, 0.2))
+        svg.add_layer("zapfen", line_weight=0.1, fill_color=(0.2, 0.65, 0.3, 0.55), line_color=(0.1, 0.45, 0.2))
         svg.add_layer("kollision", line_weight=0.1, fill_color=(0.9, 0.16, 0.16, 0.45), line_color=(0.78, 0.0, 0.0))
         svg.add_layer("verdeckt", line_weight=0.18, fill_color=None, line_color=(0.43, 0.43, 0.43),
                       line_type=bd.LineType.ISO_DASH)
@@ -223,16 +222,15 @@ def bemassen(name, blatt, teile, p):
     wand_x = sorted({v for id in ("B2-F", "B2-B", "B3-1", "B3-2") for v in teil(teile, id)["box"][0]})
     hoehen = sorted({0, b4[1][1], a1[1][0], oben})
     r_ende = teil(teile, "E-C1-a")["box"][2][1]          # hinteres Schienenende
-    wand = teil(teile, "B2-F")["box"][1]                  # Wandhöhe inkl. Nut/Falz in F1 und A1
-    genutet = wand[0] < b4[1][1]
+    zuschnitt = teil(teile, "B2-F").get("zuschnitt")      # nur bei Zapfen: [Länge, Höhe] des Rohzuschnitts
 
     if name == "vorderansicht":
         blatt.mass((-W / 2, 0), (W / 2, 0), 14, fmt(W))                  # unten, Gesamtbreite
         blatt.kette([(-x, oben) for x in wand_x], 8)                      # oben, Sektionen + Wände
         blatt.kette([(W / 2, v) for v in hoehen], 10)                    # rechts im Bild = Beifahrerseite (R)
         blatt.mass((W / 2, 0), (W / 2, oben), 22, fmt(oben))
-        if genutet:
-            blatt.mass((W / 2, wand[0]), (W / 2, wand[1]), 32, f"Wand 302+2t = {fmt(wand[1] - wand[0])}")
+        if zuschnitt:
+            blatt.mass((W / 2, 0), (W / 2, oben), 32, f"Wand mit Zapfen, Zuschnitt {fmt(zuschnitt[1])}")
         # Höhenkette in der Sektion (Fahrerseite = links im Bild): Sitz-Brett, Spalt, Kasten, Spalt
         c2, d2 = teil(teile, "C1")["box"], teil(teile, "D1")["box"]   # Sektion L = links im Bild
         uL = -W / 2
@@ -265,8 +263,8 @@ def bemassen(name, blatt, teile, p):
         blatt.kette([(-z, oben) for z in tiefen], 8)                      # oben: Schiene, Spiel, Rückwand
         blatt.kette([(0, v) for v in hoehen], 10)                         # rechts = Korpusfront
         blatt.mass((0, 0), (0, oben), 22, fmt(oben))
-        if genutet:                                                    # links = Rückseite
-            blatt.mass((-D, wand[1]), (-D, wand[0]), 10, f"Wand {fmt(wand[1] - wand[0])}, Nut t = {fmt(b4[1][1] - wand[0])} (6–9)")
+        if zuschnitt:                                                  # links = Rückseite
+            blatt.mass((-D, oben), (-D, 0), 10, f"Wand mit Zapfen, Zuschnitt {fmt(zuschnitt[1])}")
         r = teil(teile, "E-C1-b")["box"]
         v = (r[1][0] + r[1][1]) / 2
         blatt.masslinie((-r[2][0], v), (-r[2][1], v), f"Schiene {fmt(r[2][1] - r[2][0])}")
@@ -301,7 +299,7 @@ def zeichne(variante, name, png=False):
     blatt.kanten(sichtbar, "sichtbar")
     for k in koll:
         if k["kategorie"] in a["zeige"] and not {k["a"], k["b"]} & a.get("ohne_koll_mit", set()):
-            blatt.flaeche(*rechteck_uv(k["box"], a["uv"]), ebene="nut" if k["gewollt"] else "kollision")
+            blatt.flaeche(*rechteck_uv(k["box"], a["uv"]), ebene="zapfen" if k["gewollt"] else "kollision")
     bemassen(name, blatt, alle, p)
     for id in BESCHRIFTUNG[name]:
         if id in ids:
@@ -350,6 +348,8 @@ def zeichne_bretter(variante, png=False):
         breite, hoehe, staerke = {"oben": (x1 - x0, z1 - z0, y1 - y0),
                                   "x": (x1 - x0, y1 - y0, z1 - z0),
                                   "z": (z1 - z0, y1 - y0, x1 - x0)}[ansicht]
+        if "zuschnitt" in t:                    # Wand mit Zapfen: Rohmaß statt Wandkörper
+            breite, hoehe = t["zuschnitt"]
         stk = 1 + len(gleiche)
         blatt.mitte = (x, y)
         blatt.rechteck(0, 0, breite, hoehe)
@@ -366,17 +366,36 @@ def zeichne_bretter(variante, png=False):
         blatt.text(name, breite / 2, mitte_v, 2.4)
         blatt.text(f"{stk} Stk. · {fmt(staerke)} mm", breite / 2, mitte_v - 0.45 / M_BRETTER * 10, 2.2)
 
-        # Falze/Nuten auf Boden- und Deckplatte: Fußabdruck jeder Wand, die darin steckt
+        # Schlitze/Aussparungen in Boden- und Deckplatte: Fußabdruck jedes Zapfens, der darin steckt
         if ansicht == "oben" and id in ("F1", "A1"):
-            nuten = [w for w in alle if id in w.get("steckt_in", [])]
-            for w in nuten:
+            zapfen = [w for w in alle if id in w.get("steckt_in", [])]
+            for w in zapfen:
                 (wx0, wx1), _, (wz0, wz1) = w["box"]
-                blatt.rechteck(xa - wx1 - (xa - x1), wz0 - z0, xa - wx0 - (xa - x1), wz1 - z0, "verdeckt")
-            if nuten:
-                tiefe = p["korpus"]["nut_tiefe"]
-                seite = "Oberseite" if id == "F1" else "Unterseite"
-                blatt.text(f"Falz/Nut 18 × t auf der {seite} (t = 6–9, gez. {fmt(tiefe)})",
-                           breite / 2, hoehe * 0.2, 2.2)
+                blatt.rechteck(x1 - wx1, wz0 - z0, x1 - wx0, wz1 - z0, "verdeckt")
+            if zapfen:
+                blatt.text("Schlitze + Aussparungen 18 × 50, ganz durch", breite / 2, hoehe * 0.2, 2.2)
+
+        # Wände: fertige Kontur gestrichelt im Rohzuschnitt. Rand = Schleifzugabe an Ober-/Unterkante
+        if "zuschnitt" in t:
+            zug = p["zapfen"]["schleifzugabe"]
+            lage = (lambda b: (b[2][0], b[1][0] + zug, b[2][1], b[1][1] + zug)) if ansicht == "z" else \
+                   (lambda b: (b[0][0] - x0, b[1][0] + zug, b[0][1] - x0, b[1][1] + zug))
+            blatt.rechteck(*lage(t["box"]), "verdeckt")
+            eigene = [w for w in alle if w.get("zapfen_von") == id]
+            for w in eigene:
+                blatt.rechteck(*lage(w["box"]), "verdeckt")
+            if ansicht == "z":
+                starts = sorted({w["box"][2][0] for w in eigene if w["id"].endswith("u")})
+                wort = f"Zapfen je 50, ab Vorderkante {' · '.join(fmt(s) for s in starts)}"
+                if id.startswith("B3"):
+                    wort += " + hinten mittig"
+            else:
+                starts = sorted({w["box"][0][0] - x0 for w in eigene if w["id"].endswith("u")})
+                wort = f"Zapfen je 50, ab linker Kante {' · '.join(fmt(s) for s in starts)}"
+                for w in (w for w in alle if id in w.get("steckt_in", [])):   # Schlitze für die B3-Zapfen
+                    blatt.rechteck(*lage(w["box"]), "verdeckt")
+                wort += " + 2 Schlitze für B3"
+            blatt.text(wort, breite / 2, hoehe + 30, 2.0)
         zeilen.append((kuerzel, name, f"{fmt(breite)} × {fmt(hoehe)}", fmt(staerke), stk))
 
     blatt.rahmen("Box-Bretter", "Zuschnitt aller Platten der Box und der Liegefläche — Birke-Multiplex, "
@@ -387,11 +406,11 @@ def zeichne_bretter(variante, png=False):
     links = (bd.TextAlign.LEFT, bd.TextAlign.CENTER)
     blatt.linie((25, 46), (37, 46), ebene="sichtbar")
     blatt.text("Plattenkante (Zuschnitt)", 40, 46, 2.6, papier=True, ausrichtung=links)
-    if variante == "genutet":
+    if variante == "gezapft":
         blatt.linie((25, 41), (37, 41), ebene="verdeckt")
-        blatt.text("Falz/Nut — wird gefräst, Wände stecken darin", 40, 41, 2.6, papier=True, ausrichtung=links)
-        blatt.text("Wandhöhe = 302 + 2 × t (gezeichnet t = 6 mm).", 25, 34, 2.2, papier=True, ausrichtung=links)
-        blatt.text("Wände erst nach dem Fräsen ablängen.", 25, 30, 2.2, papier=True, ausrichtung=links)
+        blatt.text("Zapfen, Schlitze, Aussparungen — selbst sägen", 40, 41, 2.6, papier=True, ausrichtung=links)
+        blatt.text("Wandhöhe 340 = 302 + 2 × 19 mm Zapfen (1 mm Schleifzugabe je Kante).", 25, 34, 2.2, papier=True, ausrichtung=links)
+        blatt.text("Absatz an B3 hinten genau 882 ab Vorderkante.", 25, 30, 2.2, papier=True, ausrichtung=links)
     blatt.text("Ohne Schubladen und Sitz-/Tischbretter — deren Maße werden am fertigen Korpus festgelegt.",
                25, 14, 2.2, papier=True, ausrichtung=links)
     x0, y0 = 120, 46
@@ -418,7 +437,7 @@ def main():
     for variante in VARIANTEN:
         for name in ANSICHTEN:
             pfad, n = zeichne(variante, name, png)
-            print(f"{pfad.relative_to(ZIEL.parent.parent)}  ({n} Überschneidungen inkl. gewollter Nut/Falz)")
+            print(f"{pfad.relative_to(ZIEL.parent.parent)}  ({n} Überschneidungen inkl. gewollter Zapfen)")
         print(zeichne_bretter(variante, png).relative_to(ZIEL.parent.parent))
 
 

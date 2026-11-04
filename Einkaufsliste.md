@@ -19,7 +19,7 @@ Teilenummern beziehen sich auf [List_of_Materials.md](./List_of_Materials.md).
 
 Spanne erklärt sich über die Qualitätsklasse (BB/BB vs. S/BB) und den Händler: Baumarkt (toom, Hornbach) am unteren Ende, Holzfachhandel (Holzland, Holzzentrum) am oberen.
 
-**Zuschnitt:** 8 – 25 € je nach Händler. Lohnt sich hier klar — die großen Teile (A1, A2, A3, F1 je 1.120 mm breit) sind ohne Formatkreissäge kaum exakt zu schneiden, und ADR 0007 setzt maßhaltige Stirnkanten voraus. **Budget: ~20 €.**
+**Zuschnitt:** 8 – 25 € je nach Händler. Lohnt sich hier klar — die großen Teile (A1, A2, A3, F1 je 1.120 mm breit) sind ohne Formatkreissäge kaum exakt zu schneiden, und ADR 0007 setzt maßhaltige Stirnkanten voraus. **Budget: ~20 €.** Erste Bestellung: 9 Teile in 18 mm, Maße in [List_of_Materials.md §B](./List_of_Materials.md#b--unterbau-korpus-900-mm-tief-320-mm-hoch-1120-mm-breit) (Wände 340 mm hoch, [ADR 0020](docs/adrs/0020-through-tenons-instead-of-routed-grooves.md)). Passt rechnerisch auf 2 Platten; die 3. Platte und die 12-mm-Platte erst für Schubladen und Sitzbretter.
 
 ---
 
@@ -98,7 +98,7 @@ Gut **ein Drittel des Gesamtbudgets**. Beide aus derselben 850-mm-Serie ([ADR 00
 
 Das setzt voraus: Multiplex aus dem Baumarkt mit Zuschnitt, die empfohlenen Schienen, Matratze als zugeschnittene Schaumplatte, Werkzeug schon vorhanden.
 
-**Nicht enthalten:** Werkzeug (Akkuschrauber, Oberfräse mit 18-mm-Nutfräser für die Falze/Nuten in F1/A1 — oder Dübelhilfe bei stumpfer Variante, Stichsäge/Kreissäge, Forstnerbohrer für die Griffe, Senker), Versandkosten, sowie die noch offenen Punkte Belüftung und 12-V-Installation aus der [README](./README.md#weiterführende-planung).
+**Nicht enthalten:** Werkzeug (Akkuschrauber, Handkreissäge mit Führungsschiene und Stichsäge für die Zapfen, Feilen — oder Dübelhilfe bei stumpfer Variante, Forstnerbohrer für die Griffe, Senker), Versandkosten, sowie die noch offenen Punkte Belüftung und 12-V-Installation aus der [README](./README.md#weiterführende-planung).
 
 ---
 

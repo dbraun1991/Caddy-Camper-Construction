@@ -1,6 +1,6 @@
 # 0018: Continuous bottom and lid; walls housed in grooves between them
 
-Status: Accepted. Amends [ADR 0007](0007-dowel-screw-bracket-joinery.md).
+Status: Accepted, grooves replaced by through tenons in [ADR 0020](0020-through-tenons-instead-of-routed-grooves.md); continuous `F1`/`A1` still applies. Amends [ADR 0007](0007-dowel-screw-bracket-joinery.md).
 
 ## Context
 

@@ -17,7 +17,7 @@ import json
 from pathlib import Path
 
 ORDNER = Path(__file__).resolve().parent
-ECKAUSBILDUNGEN = ("genutet", "stumpf")   # Boden + Deckel immer durchlaufend, ADR 0018
+ECKAUSBILDUNGEN = ("gezapft", "stumpf")   # Boden + Deckel immer durchlaufend (ADR 0018), Zapfen ADR 0020
 
 # Kürzel bleiben feste Positionsnummern; der Buchstabe nennt die Gruppe, `name` den Langnamen
 # (Funktion + Lage, links/rechts aus Fahrersicht). Glossar: List_of_Materials.md „Bezeichnungen“.
@@ -55,22 +55,64 @@ def _korpus(p, eck):
     d = swM / 2                        # Innenfläche der Trennwände zur Mitte
 
     # Boden F1 und Deckel A1 laufen voll durch (1.120 × 900); alle Wände stehen dazwischen.
-    # Genutet: jede Wand steckt nt tief in F1 und A1 — an den Außenkanten als Falz, innen als Nut.
     if eck not in ECKAUSBILDUNGEN:
         raise ValueError(f"unbekannte eckausbildung: {eck}")
-    nt = k["nut_tiefe"] if eck == "genutet" else 0
-    wand_y = (T - nt, H + nt)
-    nut = {"steckt_in": ["F1", "A1"]} if nt else {}
+    wand_y = (T, H)
 
-    return [
-        _teil("B2-F", "Seitenwand links (Fahrerseite)", "korpus", "holz", (xi, xa), wand_y, (0, D), **nut),
-        _teil("B2-B", "Seitenwand rechts (Beifahrerseite)", "korpus", "holz", (-xa, -xi), wand_y, (0, D), **nut),
-        _teil("B1", "Rückwand", "korpus", "holz", (-xi, xi), wand_y, (D - T, D), **nut),
+    wandhoehe = H - T
+    if eck == "gezapft":
+        roh = wandhoehe + 2 * (T + p["zapfen"]["schleifzugabe"])
+        roh_b1 = {"zuschnitt": [W - 2 * T, roh]}
+        roh_b2 = roh_b3 = {"zuschnitt": [D, roh]}     # B3: 882 + hinterer Zapfen = so lang wie B2
+    else:
+        roh_b1 = roh_b2 = roh_b3 = {}
+
+    waende = [
+        _teil("B2-F", "Seitenwand links (Fahrerseite)", "korpus", "holz", (xi, xa), wand_y, (0, D), **roh_b2),
+        _teil("B2-B", "Seitenwand rechts (Beifahrerseite)", "korpus", "holz", (-xa, -xi), wand_y, (0, D), **roh_b2),
+        _teil("B1", "Rückwand", "korpus", "holz", (-xi, xi), wand_y, (D - T, D), **roh_b1),
         _teil("F1", "Bodenplatte", "korpus", "holz", (-xa, xa), (0, T), (0, D)),
-        _teil("B3-1", "Trennwand links", "korpus", "holz", (d, d + DW), wand_y, (0, D - T), **nut),
-        _teil("B3-2", "Trennwand rechts", "korpus", "holz", (-d - DW, -d), wand_y, (0, D - T), **nut),
+        _teil("B3-1", "Trennwand links", "korpus", "holz", (d, d + DW), wand_y, (0, D - T), **roh_b3),
+        _teil("B3-2", "Trennwand rechts", "korpus", "holz", (-d - DW, -d), wand_y, (0, D - T), **roh_b3),
         _teil("A1", "Deckplatte", "liegeflaeche", "holz", (-xa, xa), (H, H + T), (0, D)),
     ]
+    return waende + (_zapfen(p, waende) if eck == "gezapft" else [])
+
+
+def _zapfen(p, waende):
+    """Zapfen als eigene Quader: je Wandkante oben in A1 und unten in F1, an B3 zusätzlich hinten in B1.
+
+    Sie stecken an B3 in geschlossenen Schlitzen, an B1/B2 in zum Plattenrand offenen
+    Aussparungen — der Quader ist derselbe, nur das Gegenstück unterscheidet sich (ADR 0020).
+    """
+    k, z = p["korpus"], p["zapfen"]
+    D, H, T = k["tiefe"], k["hoehe"], k["plattenstaerke"]
+    L, R, n = z["laenge"], z["abstand_rand"], z["anzahl_je_kante"]
+    out = []
+
+    def setze(wand, x, zz, nr):
+        name = wand["name"].split(" (")[0]
+        for lage, y, platte in (("u", (0, T), "F1"), ("o", (H, H + T), "A1")):
+            out.append(_teil(f"{wand['id']}-Z{nr}{lage}", f"Zapfen {name} in {platte}", "korpus", "holz",
+                             x, y, zz, steckt_in=[platte], zapfen_von=wand["id"]))
+
+    for wand in waende:
+        if wand["id"] in ("F1", "A1"):
+            continue
+        (x0, x1), _, (z0, z1) = wand["box"]
+        if wand["id"] == "B1":
+            for nr, m in enumerate(z["b1_mitten"], 1):
+                setze(wand, (m - L / 2, m + L / 2), (z0, z1), nr)
+            continue
+        for i in range(n):
+            start = z0 + R + (z1 - z0 - 2 * R - L) * i / (n - 1)
+            setze(wand, (x0, x1), (start, start + L), i + 1)
+        if wand["id"].startswith("B3"):         # hinterer Zapfen, mittig in der Wandhöhe, durch die Rückwand
+            mitte = (T + H) / 2
+            out.append(_teil(f"{wand['id']}-Zh", f"Zapfen {wand['name']} in B1", "korpus", "holz",
+                             (x0, x1), (mitte - L / 2, mitte + L / 2), (D - T, D),
+                             steckt_in=["B1"], zapfen_von=wand["id"]))
+    return out
 
 
 def _sektionen(p):
@@ -185,20 +227,20 @@ def teile(p=None, eckausbildung=None):
 
 
 KATEGORIEN = {
-    "nut": "Nut/Falz: Wand in Bodenplatte F1 / Deckplatte A1 (gewollt)",
+    "zapfen": "Zapfen steckt in Schlitz/Aussparung (gewollt)",
     "eckverbindung": "Eckausbildung Korpus — welche Platte läuft durch?",
     "rueckwand": "Rückwand B1 ragt in Schienen/Elemente (lichte Tiefe < Schienenlänge)",
     "frontblende": "Schubladenfront überdeckt Schienen bzw. Nachbarelement",
     "auflage": "Matratze liegt auf den Scharnieren (weich, unkritisch)",
     "sonstige": "Sonstige Überschneidung",
 }
-GEWOLLT = {"nut", "auflage"}
+GEWOLLT = {"zapfen", "auflage"}
 
 
 def _kategorie(a, b):
     ids = {a["id"], b["id"]}
     if b["id"] in a.get("steckt_in", []) or a["id"] in b.get("steckt_in", []):
-        return "nut"
+        return "zapfen"
     if {a["material"], b["material"]} == {"matratze", "scharnier"}:
         return "auflage"
     if a["gruppe"] == b["gruppe"] == "korpus":
@@ -276,7 +318,7 @@ def main():
         encoding="utf-8")
     gewollt = sum(k["gewollt"] for k in daten["kollisionen"])
     print(f"{ziel.relative_to(ORDNER.parent)}: {len(daten['teile'])} Teile, "
-          f"{len(daten['kollisionen']) - gewollt} Überschneidungen (+ {gewollt} gewollte: Nut/Falz, Matratze auf Scharnier)")
+          f"{len(daten['kollisionen']) - gewollt} Überschneidungen (+ {gewollt} gewollte: Zapfen, Matratze auf Scharnier)")
     for pr in daten["fahrzeug_pruefung"]:
         print(f"  [{pr['status']:8}] {pr['was']}: Plan {pr['plan']} / Fahrzeug {pr['fahrzeug']} → {pr['ergebnis']}")
 

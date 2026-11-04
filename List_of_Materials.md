@@ -20,6 +20,7 @@ Die Gruppen der Holzplatten folgen der Raumlage: **A** und **F** liegen waagerec
 | **B — Wände (senkrecht)** | B1 | Rückwand (zu den Rücksitzen) |
 | | B2-F / B2-B | Seitenwand links (Fahrerseite) / Seitenwand rechts (Beifahrerseite) |
 | | B3-1 / B3-2 | Trennwand links / Trennwand rechts |
+| | B3-1-Z1u, B1-Z2o … | im Modell je Zapfen einer Wand: Nummer + u (in F1) / o (in A1), `Zh` = hinterer Zapfen von B3 in B1 |
 | **F — Fußboden (waagerecht unten)** | F1 | Bodenplatte |
 | **C — Auszugbretter** | C1 / C2 | Sitzbrett links / Sitzbrett rechts |
 | | C3 | Tischbrett Mitte |
@@ -57,7 +58,7 @@ Alle drei Bretter gleich stark (18 mm), bündig auf Plattformhöhe 320 mm.
 
 | Pos | Bezeichnung | Maß (B × T × H) | Menge | Hinweis |
 |---|---|---|---|---|
-| A1 | Deckplatte | 1.120 × 900 × 18 | 1 | Fest, über Kofferraum-Korpus; durchgehend, Unterseite mit Falz/Nut für die Wände (§B) |
+| A1 | Deckplatte | 1.120 × 900 × 18 | 1 | Fest, über Kofferraum-Korpus; durchgehend, Schlitze und Aussparungen für die Wandzapfen (§B) |
 | A2 | Klappbrett Rücksitz | 1.120 × 700 × 18 | 1 | Liegt auf umgeklappten Rücksitzlehnen auf (Lehnen bei 310 mm → 10 mm Ausgleich, §H4) |
 | A3 | Klappbrett Kopfende | 1.120 × 400 × 18 | 1 | Wenig Last, mit 2 Gurtschlaufen an den Vordersitz-Kopfstützen (§H4) |
 
@@ -65,21 +66,34 @@ Alle drei Bretter gleich stark (18 mm), bündig auf Plattformhöhe 320 mm.
 
 ## B — Unterbau-Korpus (900 mm tief, 320 mm hoch, 1.120 mm breit)
 
-Eckausbildung ([ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md)): **Bodenplatte F1 und Deckel A1 laufen durch** (1.120 × 900 mm), alle Wände stehen dazwischen und stecken in Falz (Außenkanten) bzw. Nut (Trennwände) von F1 und A1 — **Nuttiefe t = 6–9 mm**, je nach Werkzeug (Zeichnungen mit 6 mm).
+Eckausbildung ([ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md), [ADR 0020](docs/adrs/0020-through-tenons-instead-of-routed-grooves.md)): **Bodenplatte F1 und Deckel A1 laufen durch** (1.120 × 900 mm), alle Wände stehen dazwischen und greifen mit **Zapfen 18 × 50 mm** durch F1 und A1. Werkzeug: Handkreissäge und Stichsäge, keine Oberfräse nötig.
 
-Nutzbare Innenhöhe: 320 mm − 18 mm (Bodenplatte) = **302 mm** (davon 32 mm Sitz/Tischbrett + 268 mm Schublade + 2 mm Spaltmaß oben); **Wandhöhe = 302 + 2 × t** (bei t = 6: 314 mm, bei t = 9: 320 mm).  
+Nutzbare Innenhöhe: 320 mm − 18 mm (Bodenplatte) = **302 mm** (davon 32 mm Sitz/Tischbrett + 268 mm Schublade + 2 mm Spaltmaß oben); **Wandhöhe im Zuschnitt = 340 mm** (302 + 2 × 19 mm Zapfen, je Kante 1 mm zum Bündigschleifen).  
 Nutzbare Innenbreite L/R: 1.120 mm − 2 × 18 mm (B2 Seitenwand) − 2 × 18 mm (B3 Trennwand) = 1.048 mm → **312 mm** je Sektion L/R + **424 mm** Mitte.
 
-| Pos | Bezeichnung | Maß (B × T × H) | Menge | Hinweis |
+| Pos | Bezeichnung | Zuschnitt (Länge × Höhe × Stärke) | Menge | Hinweis |
 |---|---|---|---|---|
-| B1 | Rückwand | 1.084 × 18 × (302 + 2t) | 1 | Zur Rücksitz-Seite hin, zwischen den Seitenwänden; Falz hinten in F1/A1 |
-| B2-F / B2-B | Seitenwand links / rechts | 18 × 900 × (302 + 2t) | 2 | Links + rechts — erforderlich: trägt die äußeren Schienen, Korpus bleibt als Ganzes ausbaubar ([ADR 0014](docs/adrs/0014-self-contained-corpus-with-own-side-walls.md)) |
-| B3-1 / B3-2 | Trennwand links / rechts | 18 × 882 × (302 + 2t) | 2 | Zwischen den 3 Sektionen, bis zur Rückwand; Nut in F1/A1 |
-| F1 | Bodenplatte | 1.120 × 900 × 18 | 1 | Durchgehend. Oberseite: Falz 18 × t links, rechts, hinten + 2 Nuten 18 × t für B3 |
+| B1 | Rückwand | 1.084 × 340 × 18 | 1 | Zur Rücksitz-Seite hin, zwischen den Seitenwänden; 4 Zapfen je Kante, 2 Schlitze für B3 |
+| B2-F / B2-B | Seitenwand links / rechts | 900 × 340 × 18 | 2 | Links + rechts — erforderlich: trägt die äußeren Schienen, Korpus bleibt als Ganzes ausbaubar ([ADR 0014](docs/adrs/0014-self-contained-corpus-with-own-side-walls.md)); 3 Zapfen je Kante |
+| B3-1 / B3-2 | Trennwand links / rechts | 900 × 340 × 18 | 2 | Zwischen den 3 Sektionen; 3 Zapfen je Kante + 1 Zapfen hinten in B1. Wandkörper bleibt 882 lang, die übrigen 18 sind der hintere Zapfen |
+| F1 | Bodenplatte | 1.120 × 900 × 18 | 1 | Durchgehend, Schlitze und Aussparungen wie A1 |
 
-Deckel **A1** (§A) erhält dieselben Falze/Nuten auf der Unterseite. Ohne Nuten (Rückfallvariante „stumpf“) sind alle Wände 302 mm hoch; F1 und A1 bleiben gleich — **F1 und A1 können daher schon zugeschnitten werden. Die Wände erst nach dem Fräsen: Nuttiefe t messen, dann auf 302 + 2t ablängen.**
+**Bestellung beim Zuschnitt:** A1, F1, A2, A3 und die Wände oben, alle in 18 mm. Das sind 9 Teile und passt rechnerisch auf 2 Platten 2.500 × 1.250 mm.
 
-**Nicht tiefer als ~9 mm (halbe Plattenstärke) und nie durchsägen:** Die Nuten laufen über die volle Tiefe — ein durchgesägter Falz nimmt F1/A1 den Rand (Platte faktisch nur noch 1.084 breit), eine durchgesägte Nut zerteilt die Platte.
+### Zapfen, Schlitze und Aussparungen
+
+**Zapfen** stehen an der Wand über. Ein **Schlitz** ist ein geschlossenes Loch, eine **Aussparung** ist zum Plattenrand offen. Alle sind 18 × 50 mm und gehen ganz durch die Platte. 18 mm ist der Nennwert: echte Plattenstärke messen und Schlitze und Aussparungen daran anpassen.
+
+| Wand | Zapfen beginnen bei (Länge je 50 mm) | Gegenstück |
+|---|---|---|
+| B2 | 50 · 425 · 800 ab Vorderkante | Aussparungen am Seitenrand von F1 und A1 |
+| B3 | 50 · 416 · 782 ab Vorderkante | Schlitze in F1 und A1, von der Fahrerseite gemessen 330–348 (B3-1) und 772–790 (B3-2) |
+| B3, hinten | 126–176 über dem unteren Absatz (mittig), 18 mm lang | Schlitze in B1, ab der Fahrerseiten-Kante von B1 312–330 (B3-1) und 754–772 (B3-2) |
+| B1 | 42 · 362 · 672 · 992 ab Wandkante | Aussparungen am Hinterrand von F1 und A1, ab Fahrerseite 60 · 380 · 690 · 1.010 |
+
+Die Lage von B1 ist so gewählt, dass die Scharniere V17 auf A1 keinen Zapfen treffen. Beim Anreißen die Lage direkt vom fertigen Zapfen übertragen. Das Muster ist links/rechts symmetrisch, aber nicht vorne/hinten: Vorderkante auf F1 und A1 markieren. Blatt „Box-Bretter“ zeigt die Lage auch zeichnerisch.
+
+Rückfallvariante „stumpf“, falls das Sägen am Probestück nicht gelingt: Die 340 mm hohen Wände auf 302 mm kürzen, B3 zusätzlich auf 882 mm (→ §H).
 
 ---
 
@@ -207,7 +221,7 @@ Vollauszug 550 mm · 3-teilig · SoftClose · Traglast 105 kg
 | V1 | Spanplattenschrauben (Korpus, Stirnkante) | Torx Senkkopf 4 × 45 mm | ~80 Stk. |
 | V2 | Spanplattenschrauben (Schienen) | Torx Senkkopf 3,5 × 16 mm | ~120 Stk. |
 | V3 | Stahlwinkel (Korpus 8× innen + Fahrzeug 4×: 2 außen an B2 hinten, 2 optional auf F1 vorne, → §H5) | 40 × 40 × 2 mm | 12 Stk. |
-| V4 | Holzdübel (nur ohne Nut nötig, ADR 0018) | Ø 8 × 40 mm | ~30 Stk. |
+| V4 | Holzdübel (nur für die Rückfallvariante „stumpf“ nötig) | Ø 8 × 40 mm | ~30 Stk. |
 | V5 | Holzleim D3 (wasserfest) | 750 ml | 1 Flasche |
 | V6 | Schubladengriff | nach Wahl, mind. 64 mm Bohrung | 3 Stk. |
 | V7 | Spanplattenschrauben (Schubladen-Ecken, Blenden, Winkel) | Torx Senkkopf 4 × 30/40 mm | je ~100 Stk. |
@@ -248,21 +262,30 @@ Birke-Multiplex hält Schrauben in der Fläche sehr gut, aber schlecht in der St
 
 ### Empfohlene Verbindung: Boden/Deckel → Wände
 
-> Entscheidungsprotokolle: [ADR 0007](docs/adrs/0007-dowel-screw-bracket-joinery.md) · [ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md) (Nut/Falz)
+> Entscheidungsprotokolle: [ADR 0007](docs/adrs/0007-dowel-screw-bracket-joinery.md) · [ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md) · [ADR 0020](docs/adrs/0020-through-tenons-instead-of-routed-grooves.md) (Zapfen)
 
 | Reihenfolge | Mittel | Zweck |
 |---|---|---|
-| 1 | **Falz/Nut 18 × t (6–9 mm)** in F1 (oben) und A1 (unten), Wände stecken darin | Exakte Ausrichtung, Scherkräfte — ersetzt die Dübel |
-| 2 | Schrauben 4 × 45 mm Senkkopf durch A1 von oben und durch F1 von unten in die Wandkanten, alle 120–150 mm | Zugfestigkeit senkrecht zur Fuge |
+| 1 | **Zapfen 18 × 50 mm** der Wände durch F1 und A1 (§B), verleimt, danach bündig schleifen | Exakte Ausrichtung, Scherkräfte — ersetzt die Dübel |
+| 2 | Schrauben 4 × 45 mm Senkkopf durch A1 von oben und durch F1 von unten in die Wandkanten, alle 120–150 mm, nahe an den Zapfen | Zugfestigkeit senkrecht zur Fuge |
 | 3 | Innenwinkel 40 × 40 mm an den 4 Ecken Deckel ↔ Seitenwand | Vibrationsreserve, optional |
 
-Ohne Nut (Rückfallvariante „stumpf“): statt Schritt 1 Holzdübel Ø 8 × 40 mm alle ~200 mm (V4), Winkel dann nicht optional.
+Ohne Zapfen (Rückfallvariante „stumpf“): statt Schritt 1 Holzdübel Ø 8 × 40 mm alle ~200 mm (V4), Winkel dann nicht optional.
 
-Nutbreite an der **tatsächlichen** Plattenstärke einstellen (Multiplex ist oft etwas dicker als 18 mm): erst eine Probenut im Reststück fräsen. Werkzeug: Oberfräse mit 18-mm-Nutfräser oder Kreissäge in mehreren Durchgängen — die meisten Zuschnittservices fräsen keine Nuten.
+Schlitze und Aussparungen an der **tatsächlichen** Plattenstärke ausrichten (Multiplex ist oft etwas dicker als 18 mm): erst einen Zapfen und einen Schlitz im Reststück probieren.
+
+| Arbeit | Werkzeug |
+|---|---|
+| Wandkante von außen bis kurz vor den ersten Zapfen | Handkreissäge an Führungsschiene oder angezwungener Latte; das runde Blatt schneidet nicht bis in die Ecke, daher ~40 mm vorher stoppen |
+| Wandkante zwischen zwei Zapfen | Stichsäge, ~1 mm neben der Linie, dann zur Linie feilen. **Handkreissäge nicht mitten in der Platte eintauchen** (Rückschlag) |
+| Schlitze | In den Ecken bohren, Stichsäge, Ecken rechtwinklig feilen |
+| Aussparungen | Stichsäge, feilen |
+
+Die 302 mm zwischen den Absätzen müssen **direkt neben den Zapfen** an allen Wänden gleich sein, dort liegt die Wand auf. Dazwischen darf die Kante bis ~0,5 mm zurückstehen, aber nicht überstehen.
 
 ### Trennwände und Rückwand
 
-Die Trennwände (B3) stecken in den Nuten von F1 und A1 und werden durch F1 (von unten), A1 (von oben) und die Rückwand B1 (von hinten) in ihre Stirnkanten verschraubt, Leim D3 in der Nut. *(Früher stand hier „von außen durch die Seitenwände“ — das geht nicht: B3 steht parallel zu B2 und berührt sie nicht.)* Die **Rückwand (B1) ist die Aussteifungsscheibe** gegen Verwindung: sie sitzt zwischen den Seitenwänden im hinteren Falz, vollflächig verleimen und mit mindestens 6 Schrauben durch die Seitenwände sichern.
+Die Trennwände (B3) stecken mit ihren Zapfen in den Schlitzen von F1 und A1 und mit dem hinteren Zapfen in B1. Sie werden durch F1 (von unten), A1 (von oben) und die Rückwand B1 (von hinten, je eine Schraube ober- und unterhalb des Zapfens) in ihre Stirnkanten verschraubt, Leim D3 an allen Zapfen. *(Früher stand hier „von außen durch die Seitenwände“ — das geht nicht: B3 steht parallel zu B2 und berührt sie nicht.)* Die **Rückwand (B1) ist die Aussteifungsscheibe** gegen Verwindung: sie sitzt zwischen den Seitenwänden in den hinteren Aussparungen, vollflächig verleimen und mit mindestens 6 Schrauben durch die Seitenwände sichern.
 
 ### H1 — Schienenbefestigung an Wänden und Trennwänden
 
@@ -336,9 +359,9 @@ Die Winkelpositionen lassen sich nicht aus der Zeichnung ableiten: sie werden im
 
 ### Montagereihenfolge
 
-1. Falze und Nuten in F1 und A1 fräsen (Probenut zuerst), tatsächliche Nuttiefe t messen, Wände auf 302 + 2t ablängen
-2. Seitenwände, Rückwand und Trennwände in F1 stecken, verleimen, von unten verschrauben
-3. A1 aufsetzen (Wände greifen in Falz/Nut), von oben einschrauben; Innenwinkel optional
+1. Zapfen an den Wänden sägen, Schlitze und Aussparungen in F1, A1 und B1 anreißen und sägen (Probestück zuerst)
+2. **Einmal ganz ohne Leim zusammenstecken.** Die Reihenfolge ist zwingend: B3 von oben in F1 → B1 von hinten aufschieben (der hintere B3-Zapfen geht durch B1, die unteren B1-Zapfen gleiten in die offenen Aussparungen) → B2 links und rechts → A1 von oben
+3. In derselben Reihenfolge verleimen und von unten und oben verschrauben, Zapfen bündig schleifen; Innenwinkel optional
 4. Schienen erst danach einmessen und montieren — der fertige Korpus gibt das verbindliche Innenmaß (→ H1)
 5. Schubladenkästen bauen (→ H2), einhängen, Lauf prüfen
 6. Frontblenden einstellen und von innen festschrauben (→ H3), danach Griffe bohren

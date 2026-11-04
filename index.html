@@ -218,7 +218,7 @@
       <option value="box-bretter">Box-Bretter (Zuschnitt)</option>
     </select>
     <select id="selVariante" onchange="zeigeBlatt()">
-      <option value="genutet">Wände in Nut/Falz von Boden- + Deckplatte</option>
+      <option value="gezapft">Wände gezapft in Boden- + Deckplatte</option>
       <option value="stumpf">Wände stumpf zwischen Boden- + Deckplatte</option>
     </select>
     <a id="blattLink" target="_blank" rel="noopener">SVG in voller Größe öffnen</a>
@@ -400,7 +400,7 @@
   var kollG = new THREE.Group();
   scene.add(kollG);
   kollG.visible = false;
-  var fehler = MODELL.kollisionen.filter(function (k) { return !k.gewollt; });   // Nut/Falz ist gewollt
+  var fehler = MODELL.kollisionen.filter(function (k) { return !k.gewollt; });   // Zapfen sind gewollt
   fehler.forEach(function (k) {
     var m = teilBox({ box: k.box }, mKoll, kollG);
     m.renderOrder = 20;
@@ -638,7 +638,7 @@
 // ── Reiter „Statisch“: Werkzeichnungen aus modell/zeichnungen.py (build123d) ──
 (function () {
   var VARIANTEN = {
-    genutet: 'Wände in Nut/Falz',
+    gezapft: 'Wände gezapft',
     stumpf: 'Wände stumpf'
   };
 

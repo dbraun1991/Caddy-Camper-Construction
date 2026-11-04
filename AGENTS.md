@@ -118,9 +118,9 @@ down.
   `fahrzeug` block in `modell/parameter.json`; everything else is a placeholder.
 - Shared part model (`modell/`) driving both the 3D tab and build123d workshop
   drawings (Draufsicht / Vorderansicht / Seitenansicht, A3 1:5, hidden edges
-  dashed, overlaps red, intended groove overlaps green) for the two
-  corner-construction variants (`genutet`, `stumpf`), a fourth sheet
-  "Box-Bretter" (every corpus/platform board flat at 1:10 with grooves and a
+  dashed, overlaps red, intended tenon overlaps green) for the two
+  corner-construction variants (`gezapft`, `stumpf`), a fourth sheet
+  "Box-Bretter" (every corpus/platform board flat at 1:10 with tenons, slots and a
   cut list, `zeichne_bretter()`), plus an overlap
   report in the "Statisch" tab and a collision toggle in the 3D tab
   ([ADR 0015](docs/adrs/0015-shared-model-data-for-viewer-and-drawings.md)).
@@ -156,13 +156,14 @@ down.
   "Statisch" tab report). Don't silently "fix" open ones in the model; each is
   a build decision for the user:
   - ~~Corner construction~~ — decided in
-    [ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md):
-    `F1` and `A1` continuous, walls housed 6–9 mm deep depending on the tool
-    (model/drawings use the nominal 6 mm; `eckausbildung: genutet`,
-    fallback `stumpf`). Wall-in-recess overlaps are flagged `gewollt` (green)
-    and excluded from the problem count. Walls are cut *after* routing, to
-    302 + 2 × measured depth. Never deeper than ~9 mm or through: the grooves
-    run the full depth, so a through-cut would split `F1`/`A1`.
+    [ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md) and
+    [ADR 0020](docs/adrs/0020-through-tenons-instead-of-routed-grooves.md):
+    `F1` and `A1` continuous, walls join them with 18 × 50 mm through tenons
+    (`eckausbildung: gezapft`, fallback `stumpf`; the routed grooves are gone,
+    the builder has no router bit). Tenons are separate model boxes, flagged
+    `gewollt` (green) and excluded from the problem count. Wall cut height is
+    340 mm; `B3` is cut to 900 mm including its rear tenon into `B1`. Assembly
+    order is forced: `B3`, then `B1` from behind, then `B2`, then `A1`.
   - ~~Clear depth 882 mm < 900 mm rail length~~ — resolved by
     [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md): 850 mm
     runners, corpus stays 900 mm. Open: verify the 850 mm runner's thickness

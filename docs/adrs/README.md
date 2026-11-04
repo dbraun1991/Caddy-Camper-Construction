@@ -32,5 +32,6 @@ Decision, Consequences.
 | [0015](0015-shared-model-data-for-viewer-and-drawings.md) | Shared part model for the 3D viewer and build123d workshop drawings | Accepted |
 | [0016](0016-rear-lashing-eyes-carry-the-hold-down.md) | Rear lashing eyes carry the hold-down, fastened to the side walls | Accepted |
 | [0017](0017-850-mm-runners-in-900-mm-corpus.md) | 850 mm runners in the 900 mm corpus | Accepted |
-| [0018](0018-continuous-bottom-and-lid-walls-in-grooves.md) | Continuous bottom and lid; walls housed in grooves between them | Accepted |
+| [0018](0018-continuous-bottom-and-lid-walls-in-grooves.md) | Continuous bottom and lid; walls housed in grooves between them | Accepted, grooves replaced by 0020 |
 | [0019](0019-hinged-sleeping-boards-fold-onto-the-corpus.md) | Hinged sleeping boards fold back onto the corpus for driving | Accepted |
+| [0020](0020-through-tenons-instead-of-routed-grooves.md) | Through tenons instead of routed grooves | Accepted |

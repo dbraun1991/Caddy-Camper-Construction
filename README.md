@@ -82,14 +82,14 @@ Die Führungsschienen-Innenmember (rot) sind immer Teil der 3D-Geometrie und fah
 
 Drei Ansichten nach Dreitafelprojektion (DIN A3 quer, Maßstab 1:5) und ein Zuschnittblatt „Box-Bretter“ (1:10), erzeugt mit [build123d](https://github.com/gumyr/build123d) aus derselben Datenbasis wie der 3D-Viewer:
 
-| Ansicht | Blickrichtung | Wände in Nut/Falz |
+| Ansicht | Blickrichtung | Wände gezapft |
 |---|---|---|
-| **Vorderansicht** (Aufriss) | von der Heckklappe auf die offene Korpusfront | [SVG](docs/zeichnungen/genutet/vorderansicht.svg) |
-| **Draufsicht** (Grundriss) | von oben, Deckel A1 abgenommen | [SVG](docs/zeichnungen/genutet/draufsicht.svg) |
-| **Seitenansicht** (Seitenriss) | von der Fahrerseite | [SVG](docs/zeichnungen/genutet/seitenansicht.svg) |
-| **Box-Bretter** (Zuschnitt, 1:10) | jede Platte der Box und der Liegefläche einzeln, mit Maß, Stückzahl, Falz/Nut und Zuschnittliste | [SVG](docs/zeichnungen/genutet/box-bretter.svg) |
+| **Vorderansicht** (Aufriss) | von der Heckklappe auf die offene Korpusfront | [SVG](docs/zeichnungen/gezapft/vorderansicht.svg) |
+| **Draufsicht** (Grundriss) | von oben, Deckel A1 abgenommen | [SVG](docs/zeichnungen/gezapft/draufsicht.svg) |
+| **Seitenansicht** (Seitenriss) | von der Fahrerseite | [SVG](docs/zeichnungen/gezapft/seitenansicht.svg) |
+| **Box-Bretter** (Zuschnitt, 1:10) | jede Platte der Box und der Liegefläche einzeln, mit Maß, Stückzahl, Zapfen, Schlitzen und Zuschnittliste | [SVG](docs/zeichnungen/gezapft/box-bretter.svg) |
 
-Sichtbare Kanten durchgezogen, verdeckte Kanten gestrichelt. **Rot hinterlegt** sind rechnerische Überschneidungen zweier Bauteile — Stellen, an denen der Plan so nicht baubar ist. **Grün** hinterlegt sind gewollte Überdeckungen: Die Wände stecken in Falz/Nut von Boden und Deckel. Dieselben Blätter gibt es für die Rückfallvariante ohne Nut (`stumpf`, Ordner nebenan, im Viewer per Auswahlfeld).
+Sichtbare Kanten durchgezogen, verdeckte Kanten gestrichelt. **Rot hinterlegt** sind rechnerische Überschneidungen zweier Bauteile — Stellen, an denen der Plan so nicht baubar ist. **Grün** hinterlegt sind gewollte Überdeckungen: Die Zapfen der Wände stecken in Schlitzen und Aussparungen. Dieselben Blätter gibt es für die Rückfallvariante ohne Zapfen (`stumpf`, Ordner nebenan, im Viewer per Auswahlfeld).
 
 Neu erzeugen nach einer Maßänderung in `modell/parameter.json`:
 
@@ -207,7 +207,7 @@ Der Korpus besteht aus Einzelbrettern (keine Vollbox): B2 links/rechts, B1 Rück
 Offen:
 
 - [ ] **Entscheidung ADR 0013** — Schienenhöhe (76 mm bei C1/C2, 53 mm bei C3) vs. Brettstärke (32 mm) bei C1–C3: [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Blockiert den Zuschnitt von C1–C3, nicht mehr den Schienenkauf.
-- [x] Eckausbildung Korpus — Boden F1 und Deckel A1 durchgehend, Wände in Falz/Nut t = 6–9 mm je nach Werkzeug; Wände nach dem Fräsen auf 302 + 2t ablängen — [ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md)
+- [x] Eckausbildung Korpus — Boden F1 und Deckel A1 durchgehend, Wände mit Zapfen 18 × 50 mm durch F1 und A1, Wandzuschnitt 340 mm hoch — [ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md), [ADR 0020](docs/adrs/0020-through-tenons-instead-of-routed-grooves.md)
 - [x] Lichte Tiefe 882 mm vs. Schienenlänge — gelöst mit 850-mm-Schienen, Korpus bleibt 900 mm (20–30 mm Luft zu den Rücksitzen, 32 mm hinter den Schienen) — [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)
 - [ ] Schienenstärke der 850-mm-Schiene prüfen (geplant 19 mm je Seite) — vor der Bestellung
 - [ ] **Frontblenden** (einliegend mit Luft oder aufliegend, Höhen mit ~2 mm Spalt, Lage der Schienen) — **wird nach dem Korpusbau entschieden:** Schienen am fertigen Korpus anhalten, messen, dann festlegen. Bis dahin bleiben die roten Stellen an den Blenden in den Zeichnungen bewusst stehen.

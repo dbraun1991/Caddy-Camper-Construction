@@ -8,9 +8,21 @@ window.MODELL = {
    "hoehe": 320,
    "plattenstaerke": 18,
    "trennwandstaerke": 18,
-   "sektion_mitte_innen": 424,
-   "nut_tiefe": 6,
-   "_nut_tiefe": "Nennwert für Modell und Zeichnungen. Real 6–9 mm je nach Werkzeug (max. halbe Plattenstärke, nie durch); Wände nach dem Fräsen auf 302 + 2 × gemessene Nuttiefe ablängen"
+   "sektion_mitte_innen": 424
+  },
+  "zapfen": {
+   "_hinweis": "Wände greifen mit Zapfen durch F1/A1 (ADR 0020). Querschnitt = laenge × Plattenstärke. An B2/B3 gleichmäßig verteilt; an B1 feste Mitten (x), damit die Scharniere V17 auf A1 keinen Zapfen treffen",
+   "laenge": 50,
+   "anzahl_je_kante": 3,
+   "abstand_rand": 50,
+   "b1_mitten": [
+    -475,
+    -155,
+    155,
+    475
+   ],
+   "schleifzugabe": 1,
+   "_schleifzugabe": "Zuschnitt je Wandkante länger als die Plattenstärke, Zapfen werden nach dem Verleimen bündig geschliffen (Wandhöhe 302 + 2 × 19 = 340). Der hintere B3-Zapfen in B1 hat keine Zugabe."
   },
   "liegeflaeche": {
    "laenge_a2": 700,
@@ -77,10 +89,10 @@ window.MODELL = {
    "heckklappe_passt": true,
    "ladekante": 0
   },
-  "eckausbildung": "genutet",
-  "_eckausbildung_werte": "Boden F1 und Deckel A1 laufen immer durch (ADR 0018). genutet = Wände stecken nut_tiefe in Falz/Nut von F1 und A1 · stumpf = Wände 302 mm, stumpf zwischen F1 und A1"
+  "eckausbildung": "gezapft",
+  "_eckausbildung_werte": "Boden F1 und Deckel A1 laufen immer durch (ADR 0018). gezapft = Wände greifen mit Zapfen in Schlitze/Aussparungen von F1, A1 und B1 (ADR 0020) · stumpf = Wände 302 mm, stumpf zwischen F1 und A1"
  },
- "eckausbildung": "genutet",
+ "eckausbildung": "gezapft",
  "teile": [
   {
    "id": "B2-F",
@@ -94,17 +106,17 @@ window.MODELL = {
      560.0
     ],
     [
-     12,
-     326
+     18,
+     320
     ],
     [
      0,
      900
     ]
    ],
-   "steckt_in": [
-    "F1",
-    "A1"
+   "zuschnitt": [
+    900,
+    340
    ]
   },
   {
@@ -119,17 +131,17 @@ window.MODELL = {
      -542.0
     ],
     [
-     12,
-     326
+     18,
+     320
     ],
     [
      0,
      900
     ]
    ],
-   "steckt_in": [
-    "F1",
-    "A1"
+   "zuschnitt": [
+    900,
+    340
    ]
   },
   {
@@ -144,17 +156,17 @@ window.MODELL = {
      542.0
     ],
     [
-     12,
-     326
+     18,
+     320
     ],
     [
      882,
      900
     ]
    ],
-   "steckt_in": [
-    "F1",
-    "A1"
+   "zuschnitt": [
+    1084,
+    340
    ]
   },
   {
@@ -190,17 +202,17 @@ window.MODELL = {
      230.0
     ],
     [
-     12,
-     326
+     18,
+     320
     ],
     [
      0,
      882
     ]
    ],
-   "steckt_in": [
-    "F1",
-    "A1"
+   "zuschnitt": [
+    900,
+    340
    ]
   },
   {
@@ -215,17 +227,17 @@ window.MODELL = {
      -212.0
     ],
     [
-     12,
-     326
+     18,
+     320
     ],
     [
      0,
      882
     ]
    ],
-   "steckt_in": [
-    "F1",
-    "A1"
+   "zuschnitt": [
+    900,
+    340
    ]
   },
   {
@@ -248,6 +260,856 @@ window.MODELL = {
      900
     ]
    ]
+  },
+  {
+   "id": "B2-F-Z1u",
+   "name": "Zapfen Seitenwand links in F1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     542.0,
+     560.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     50.0,
+     100.0
+    ]
+   ],
+   "steckt_in": [
+    "F1"
+   ],
+   "zapfen_von": "B2-F"
+  },
+  {
+   "id": "B2-F-Z1o",
+   "name": "Zapfen Seitenwand links in A1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     542.0,
+     560.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     50.0,
+     100.0
+    ]
+   ],
+   "steckt_in": [
+    "A1"
+   ],
+   "zapfen_von": "B2-F"
+  },
+  {
+   "id": "B2-F-Z2u",
+   "name": "Zapfen Seitenwand links in F1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     542.0,
+     560.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     425.0,
+     475.0
+    ]
+   ],
+   "steckt_in": [
+    "F1"
+   ],
+   "zapfen_von": "B2-F"
+  },
+  {
+   "id": "B2-F-Z2o",
+   "name": "Zapfen Seitenwand links in A1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     542.0,
+     560.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     425.0,
+     475.0
+    ]
+   ],
+   "steckt_in": [
+    "A1"
+   ],
+   "zapfen_von": "B2-F"
+  },
+  {
+   "id": "B2-F-Z3u",
+   "name": "Zapfen Seitenwand links in F1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     542.0,
+     560.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     800.0,
+     850.0
+    ]
+   ],
+   "steckt_in": [
+    "F1"
+   ],
+   "zapfen_von": "B2-F"
+  },
+  {
+   "id": "B2-F-Z3o",
+   "name": "Zapfen Seitenwand links in A1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     542.0,
+     560.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     800.0,
+     850.0
+    ]
+   ],
+   "steckt_in": [
+    "A1"
+   ],
+   "zapfen_von": "B2-F"
+  },
+  {
+   "id": "B2-B-Z1u",
+   "name": "Zapfen Seitenwand rechts in F1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     -560.0,
+     -542.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     50.0,
+     100.0
+    ]
+   ],
+   "steckt_in": [
+    "F1"
+   ],
+   "zapfen_von": "B2-B"
+  },
+  {
+   "id": "B2-B-Z1o",
+   "name": "Zapfen Seitenwand rechts in A1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     -560.0,
+     -542.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     50.0,
+     100.0
+    ]
+   ],
+   "steckt_in": [
+    "A1"
+   ],
+   "zapfen_von": "B2-B"
+  },
+  {
+   "id": "B2-B-Z2u",
+   "name": "Zapfen Seitenwand rechts in F1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     -560.0,
+     -542.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     425.0,
+     475.0
+    ]
+   ],
+   "steckt_in": [
+    "F1"
+   ],
+   "zapfen_von": "B2-B"
+  },
+  {
+   "id": "B2-B-Z2o",
+   "name": "Zapfen Seitenwand rechts in A1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     -560.0,
+     -542.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     425.0,
+     475.0
+    ]
+   ],
+   "steckt_in": [
+    "A1"
+   ],
+   "zapfen_von": "B2-B"
+  },
+  {
+   "id": "B2-B-Z3u",
+   "name": "Zapfen Seitenwand rechts in F1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     -560.0,
+     -542.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     800.0,
+     850.0
+    ]
+   ],
+   "steckt_in": [
+    "F1"
+   ],
+   "zapfen_von": "B2-B"
+  },
+  {
+   "id": "B2-B-Z3o",
+   "name": "Zapfen Seitenwand rechts in A1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     -560.0,
+     -542.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     800.0,
+     850.0
+    ]
+   ],
+   "steckt_in": [
+    "A1"
+   ],
+   "zapfen_von": "B2-B"
+  },
+  {
+   "id": "B1-Z1u",
+   "name": "Zapfen Rückwand in F1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     -500.0,
+     -450.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     882,
+     900
+    ]
+   ],
+   "steckt_in": [
+    "F1"
+   ],
+   "zapfen_von": "B1"
+  },
+  {
+   "id": "B1-Z1o",
+   "name": "Zapfen Rückwand in A1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     -500.0,
+     -450.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     882,
+     900
+    ]
+   ],
+   "steckt_in": [
+    "A1"
+   ],
+   "zapfen_von": "B1"
+  },
+  {
+   "id": "B1-Z2u",
+   "name": "Zapfen Rückwand in F1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     -180.0,
+     -130.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     882,
+     900
+    ]
+   ],
+   "steckt_in": [
+    "F1"
+   ],
+   "zapfen_von": "B1"
+  },
+  {
+   "id": "B1-Z2o",
+   "name": "Zapfen Rückwand in A1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     -180.0,
+     -130.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     882,
+     900
+    ]
+   ],
+   "steckt_in": [
+    "A1"
+   ],
+   "zapfen_von": "B1"
+  },
+  {
+   "id": "B1-Z3u",
+   "name": "Zapfen Rückwand in F1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     130.0,
+     180.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     882,
+     900
+    ]
+   ],
+   "steckt_in": [
+    "F1"
+   ],
+   "zapfen_von": "B1"
+  },
+  {
+   "id": "B1-Z3o",
+   "name": "Zapfen Rückwand in A1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     130.0,
+     180.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     882,
+     900
+    ]
+   ],
+   "steckt_in": [
+    "A1"
+   ],
+   "zapfen_von": "B1"
+  },
+  {
+   "id": "B1-Z4u",
+   "name": "Zapfen Rückwand in F1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     450.0,
+     500.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     882,
+     900
+    ]
+   ],
+   "steckt_in": [
+    "F1"
+   ],
+   "zapfen_von": "B1"
+  },
+  {
+   "id": "B1-Z4o",
+   "name": "Zapfen Rückwand in A1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     450.0,
+     500.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     882,
+     900
+    ]
+   ],
+   "steckt_in": [
+    "A1"
+   ],
+   "zapfen_von": "B1"
+  },
+  {
+   "id": "B3-1-Z1u",
+   "name": "Zapfen Trennwand links in F1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     212.0,
+     230.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     50.0,
+     100.0
+    ]
+   ],
+   "steckt_in": [
+    "F1"
+   ],
+   "zapfen_von": "B3-1"
+  },
+  {
+   "id": "B3-1-Z1o",
+   "name": "Zapfen Trennwand links in A1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     212.0,
+     230.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     50.0,
+     100.0
+    ]
+   ],
+   "steckt_in": [
+    "A1"
+   ],
+   "zapfen_von": "B3-1"
+  },
+  {
+   "id": "B3-1-Z2u",
+   "name": "Zapfen Trennwand links in F1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     212.0,
+     230.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     416.0,
+     466.0
+    ]
+   ],
+   "steckt_in": [
+    "F1"
+   ],
+   "zapfen_von": "B3-1"
+  },
+  {
+   "id": "B3-1-Z2o",
+   "name": "Zapfen Trennwand links in A1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     212.0,
+     230.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     416.0,
+     466.0
+    ]
+   ],
+   "steckt_in": [
+    "A1"
+   ],
+   "zapfen_von": "B3-1"
+  },
+  {
+   "id": "B3-1-Z3u",
+   "name": "Zapfen Trennwand links in F1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     212.0,
+     230.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     782.0,
+     832.0
+    ]
+   ],
+   "steckt_in": [
+    "F1"
+   ],
+   "zapfen_von": "B3-1"
+  },
+  {
+   "id": "B3-1-Z3o",
+   "name": "Zapfen Trennwand links in A1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     212.0,
+     230.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     782.0,
+     832.0
+    ]
+   ],
+   "steckt_in": [
+    "A1"
+   ],
+   "zapfen_von": "B3-1"
+  },
+  {
+   "id": "B3-1-Zh",
+   "name": "Zapfen Trennwand links in B1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     212.0,
+     230.0
+    ],
+    [
+     144.0,
+     194.0
+    ],
+    [
+     882,
+     900
+    ]
+   ],
+   "steckt_in": [
+    "B1"
+   ],
+   "zapfen_von": "B3-1"
+  },
+  {
+   "id": "B3-2-Z1u",
+   "name": "Zapfen Trennwand rechts in F1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     -230.0,
+     -212.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     50.0,
+     100.0
+    ]
+   ],
+   "steckt_in": [
+    "F1"
+   ],
+   "zapfen_von": "B3-2"
+  },
+  {
+   "id": "B3-2-Z1o",
+   "name": "Zapfen Trennwand rechts in A1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     -230.0,
+     -212.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     50.0,
+     100.0
+    ]
+   ],
+   "steckt_in": [
+    "A1"
+   ],
+   "zapfen_von": "B3-2"
+  },
+  {
+   "id": "B3-2-Z2u",
+   "name": "Zapfen Trennwand rechts in F1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     -230.0,
+     -212.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     416.0,
+     466.0
+    ]
+   ],
+   "steckt_in": [
+    "F1"
+   ],
+   "zapfen_von": "B3-2"
+  },
+  {
+   "id": "B3-2-Z2o",
+   "name": "Zapfen Trennwand rechts in A1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     -230.0,
+     -212.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     416.0,
+     466.0
+    ]
+   ],
+   "steckt_in": [
+    "A1"
+   ],
+   "zapfen_von": "B3-2"
+  },
+  {
+   "id": "B3-2-Z3u",
+   "name": "Zapfen Trennwand rechts in F1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     -230.0,
+     -212.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     782.0,
+     832.0
+    ]
+   ],
+   "steckt_in": [
+    "F1"
+   ],
+   "zapfen_von": "B3-2"
+  },
+  {
+   "id": "B3-2-Z3o",
+   "name": "Zapfen Trennwand rechts in A1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     -230.0,
+     -212.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     782.0,
+     832.0
+    ]
+   ],
+   "steckt_in": [
+    "A1"
+   ],
+   "zapfen_von": "B3-2"
+  },
+  {
+   "id": "B3-2-Zh",
+   "name": "Zapfen Trennwand rechts in B1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     -230.0,
+     -212.0
+    ],
+    [
+     144.0,
+     194.0
+    ],
+    [
+     882,
+     900
+    ]
+   ],
+   "steckt_in": [
+    "B1"
+   ],
+   "zapfen_von": "B3-2"
   },
   {
    "id": "C1",
@@ -896,7 +1758,7 @@ window.MODELL = {
   }
  ],
  "kategorien": {
-  "nut": "Nut/Falz: Wand in Bodenplatte F1 / Deckplatte A1 (gewollt)",
+  "zapfen": "Zapfen steckt in Schlitz/Aussparung (gewollt)",
   "eckverbindung": "Eckausbildung Korpus — welche Platte läuft durch?",
   "rueckwand": "Rückwand B1 ragt in Schienen/Elemente (lichte Tiefe < Schienenlänge)",
   "frontblende": "Schubladenfront überdeckt Schienen bzw. Nachbarelement",
@@ -915,117 +1777,217 @@ window.MODELL = {
   "S": "Scharniere"
  },
  "varianten": {
-  "genutet": [
+  "gezapft": [
    {
-    "a": "B2-F",
-    "b": "F1",
+    "a": "B1",
+    "b": "B3-1-Zh",
     "box": [
      [
-      542.0,
-      560.0
+      212.0,
+      230.0
      ],
      [
-      12,
-      18
+      144.0,
+      194.0
      ],
      [
-      0,
+      882,
       900
      ]
     ],
-    "kategorie": "nut",
+    "kategorie": "zapfen",
     "gewollt": true,
     "mass": [
      18.0,
-     6,
-     900
-    ]
-   },
-   {
-    "a": "B2-F",
-    "b": "A1",
-    "box": [
-     [
-      542.0,
-      560.0
-     ],
-     [
-      320,
-      326
-     ],
-     [
-      0,
-      900
-     ]
-    ],
-    "kategorie": "nut",
-    "gewollt": true,
-    "mass": [
-     18.0,
-     6,
-     900
-    ]
-   },
-   {
-    "a": "B2-B",
-    "b": "F1",
-    "box": [
-     [
-      -560.0,
-      -542.0
-     ],
-     [
-      12,
-      18
-     ],
-     [
-      0,
-      900
-     ]
-    ],
-    "kategorie": "nut",
-    "gewollt": true,
-    "mass": [
-     18.0,
-     6,
-     900
-    ]
-   },
-   {
-    "a": "B2-B",
-    "b": "A1",
-    "box": [
-     [
-      -560.0,
-      -542.0
-     ],
-     [
-      320,
-      326
-     ],
-     [
-      0,
-      900
-     ]
-    ],
-    "kategorie": "nut",
-    "gewollt": true,
-    "mass": [
-     18.0,
-     6,
-     900
+     50.0,
+     18
     ]
    },
    {
     "a": "B1",
-    "b": "F1",
+    "b": "B3-2-Zh",
     "box": [
      [
-      -542.0,
-      542.0
+      -230.0,
+      -212.0
      ],
      [
-      12,
+      144.0,
+      194.0
+     ],
+     [
+      882,
+      900
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     50.0,
+     18
+    ]
+   },
+   {
+    "a": "F1",
+    "b": "B2-F-Z1u",
+    "box": [
+     [
+      542.0,
+      560.0
+     ],
+     [
+      0,
+      18
+     ],
+     [
+      50.0,
+      100.0
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18,
+     50.0
+    ]
+   },
+   {
+    "a": "F1",
+    "b": "B2-F-Z2u",
+    "box": [
+     [
+      542.0,
+      560.0
+     ],
+     [
+      0,
+      18
+     ],
+     [
+      425.0,
+      475.0
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18,
+     50.0
+    ]
+   },
+   {
+    "a": "F1",
+    "b": "B2-F-Z3u",
+    "box": [
+     [
+      542.0,
+      560.0
+     ],
+     [
+      0,
+      18
+     ],
+     [
+      800.0,
+      850.0
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18,
+     50.0
+    ]
+   },
+   {
+    "a": "F1",
+    "b": "B2-B-Z1u",
+    "box": [
+     [
+      -560.0,
+      -542.0
+     ],
+     [
+      0,
+      18
+     ],
+     [
+      50.0,
+      100.0
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18,
+     50.0
+    ]
+   },
+   {
+    "a": "F1",
+    "b": "B2-B-Z2u",
+    "box": [
+     [
+      -560.0,
+      -542.0
+     ],
+     [
+      0,
+      18
+     ],
+     [
+      425.0,
+      475.0
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18,
+     50.0
+    ]
+   },
+   {
+    "a": "F1",
+    "b": "B2-B-Z3u",
+    "box": [
+     [
+      -560.0,
+      -542.0
+     ],
+     [
+      0,
+      18
+     ],
+     [
+      800.0,
+      850.0
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18,
+     50.0
+    ]
+   },
+   {
+    "a": "F1",
+    "b": "B1-Z1u",
+    "box": [
+     [
+      -500.0,
+      -450.0
+     ],
+     [
+      0,
       18
      ],
      [
@@ -1033,92 +1995,492 @@ window.MODELL = {
       900
      ]
     ],
-    "kategorie": "nut",
+    "kategorie": "zapfen",
     "gewollt": true,
     "mass": [
-     1084.0,
-     6,
+     50.0,
+     18,
      18
     ]
    },
    {
-    "a": "B1",
-    "b": "A1",
+    "a": "F1",
+    "b": "B1-Z2u",
     "box": [
      [
-      -542.0,
-      542.0
+      -180.0,
+      -130.0
      ],
      [
-      320,
-      326
+      0,
+      18
      ],
      [
       882,
       900
      ]
     ],
-    "kategorie": "nut",
+    "kategorie": "zapfen",
     "gewollt": true,
     "mass": [
-     1084.0,
-     6,
+     50.0,
+     18,
      18
     ]
    },
    {
     "a": "F1",
-    "b": "B3-1",
+    "b": "B1-Z3u",
     "box": [
      [
-      212.0,
-      230.0
-     ],
-     [
-      12,
-      18
+      130.0,
+      180.0
      ],
      [
       0,
-      882
+      18
+     ],
+     [
+      882,
+      900
      ]
     ],
-    "kategorie": "nut",
+    "kategorie": "zapfen",
     "gewollt": true,
     "mass": [
-     18.0,
-     6,
-     882
+     50.0,
+     18,
+     18
     ]
    },
    {
     "a": "F1",
-    "b": "B3-2",
+    "b": "B1-Z4u",
+    "box": [
+     [
+      450.0,
+      500.0
+     ],
+     [
+      0,
+      18
+     ],
+     [
+      882,
+      900
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     50.0,
+     18,
+     18
+    ]
+   },
+   {
+    "a": "F1",
+    "b": "B3-1-Z1u",
+    "box": [
+     [
+      212.0,
+      230.0
+     ],
+     [
+      0,
+      18
+     ],
+     [
+      50.0,
+      100.0
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18,
+     50.0
+    ]
+   },
+   {
+    "a": "F1",
+    "b": "B3-1-Z2u",
+    "box": [
+     [
+      212.0,
+      230.0
+     ],
+     [
+      0,
+      18
+     ],
+     [
+      416.0,
+      466.0
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18,
+     50.0
+    ]
+   },
+   {
+    "a": "F1",
+    "b": "B3-1-Z3u",
+    "box": [
+     [
+      212.0,
+      230.0
+     ],
+     [
+      0,
+      18
+     ],
+     [
+      782.0,
+      832.0
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18,
+     50.0
+    ]
+   },
+   {
+    "a": "F1",
+    "b": "B3-2-Z1u",
     "box": [
      [
       -230.0,
       -212.0
      ],
      [
-      12,
+      0,
       18
      ],
      [
-      0,
-      882
+      50.0,
+      100.0
      ]
     ],
-    "kategorie": "nut",
+    "kategorie": "zapfen",
     "gewollt": true,
     "mass": [
      18.0,
-     6,
-     882
+     18,
+     50.0
     ]
    },
    {
-    "a": "B3-1",
-    "b": "A1",
+    "a": "F1",
+    "b": "B3-2-Z2u",
+    "box": [
+     [
+      -230.0,
+      -212.0
+     ],
+     [
+      0,
+      18
+     ],
+     [
+      416.0,
+      466.0
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18,
+     50.0
+    ]
+   },
+   {
+    "a": "F1",
+    "b": "B3-2-Z3u",
+    "box": [
+     [
+      -230.0,
+      -212.0
+     ],
+     [
+      0,
+      18
+     ],
+     [
+      782.0,
+      832.0
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18,
+     50.0
+    ]
+   },
+   {
+    "a": "A1",
+    "b": "B2-F-Z1o",
+    "box": [
+     [
+      542.0,
+      560.0
+     ],
+     [
+      320,
+      338
+     ],
+     [
+      50.0,
+      100.0
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18,
+     50.0
+    ]
+   },
+   {
+    "a": "A1",
+    "b": "B2-F-Z2o",
+    "box": [
+     [
+      542.0,
+      560.0
+     ],
+     [
+      320,
+      338
+     ],
+     [
+      425.0,
+      475.0
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18,
+     50.0
+    ]
+   },
+   {
+    "a": "A1",
+    "b": "B2-F-Z3o",
+    "box": [
+     [
+      542.0,
+      560.0
+     ],
+     [
+      320,
+      338
+     ],
+     [
+      800.0,
+      850.0
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18,
+     50.0
+    ]
+   },
+   {
+    "a": "A1",
+    "b": "B2-B-Z1o",
+    "box": [
+     [
+      -560.0,
+      -542.0
+     ],
+     [
+      320,
+      338
+     ],
+     [
+      50.0,
+      100.0
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18,
+     50.0
+    ]
+   },
+   {
+    "a": "A1",
+    "b": "B2-B-Z2o",
+    "box": [
+     [
+      -560.0,
+      -542.0
+     ],
+     [
+      320,
+      338
+     ],
+     [
+      425.0,
+      475.0
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18,
+     50.0
+    ]
+   },
+   {
+    "a": "A1",
+    "b": "B2-B-Z3o",
+    "box": [
+     [
+      -560.0,
+      -542.0
+     ],
+     [
+      320,
+      338
+     ],
+     [
+      800.0,
+      850.0
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18,
+     50.0
+    ]
+   },
+   {
+    "a": "A1",
+    "b": "B1-Z1o",
+    "box": [
+     [
+      -500.0,
+      -450.0
+     ],
+     [
+      320,
+      338
+     ],
+     [
+      882,
+      900
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     50.0,
+     18,
+     18
+    ]
+   },
+   {
+    "a": "A1",
+    "b": "B1-Z2o",
+    "box": [
+     [
+      -180.0,
+      -130.0
+     ],
+     [
+      320,
+      338
+     ],
+     [
+      882,
+      900
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     50.0,
+     18,
+     18
+    ]
+   },
+   {
+    "a": "A1",
+    "b": "B1-Z3o",
+    "box": [
+     [
+      130.0,
+      180.0
+     ],
+     [
+      320,
+      338
+     ],
+     [
+      882,
+      900
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     50.0,
+     18,
+     18
+    ]
+   },
+   {
+    "a": "A1",
+    "b": "B1-Z4o",
+    "box": [
+     [
+      450.0,
+      500.0
+     ],
+     [
+      320,
+      338
+     ],
+     [
+      882,
+      900
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     50.0,
+     18,
+     18
+    ]
+   },
+   {
+    "a": "A1",
+    "b": "B3-1-Z1o",
     "box": [
      [
       212.0,
@@ -1126,24 +2488,74 @@ window.MODELL = {
      ],
      [
       320,
-      326
+      338
      ],
      [
-      0,
-      882
+      50.0,
+      100.0
      ]
     ],
-    "kategorie": "nut",
+    "kategorie": "zapfen",
     "gewollt": true,
     "mass": [
      18.0,
-     6,
-     882
+     18,
+     50.0
     ]
    },
    {
-    "a": "B3-2",
-    "b": "A1",
+    "a": "A1",
+    "b": "B3-1-Z2o",
+    "box": [
+     [
+      212.0,
+      230.0
+     ],
+     [
+      320,
+      338
+     ],
+     [
+      416.0,
+      466.0
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18,
+     50.0
+    ]
+   },
+   {
+    "a": "A1",
+    "b": "B3-1-Z3o",
+    "box": [
+     [
+      212.0,
+      230.0
+     ],
+     [
+      320,
+      338
+     ],
+     [
+      782.0,
+      832.0
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18,
+     50.0
+    ]
+   },
+   {
+    "a": "A1",
+    "b": "B3-2-Z1o",
     "box": [
      [
       -230.0,
@@ -1151,19 +2563,69 @@ window.MODELL = {
      ],
      [
       320,
-      326
+      338
      ],
      [
-      0,
-      882
+      50.0,
+      100.0
      ]
     ],
-    "kategorie": "nut",
+    "kategorie": "zapfen",
     "gewollt": true,
     "mass": [
      18.0,
-     6,
-     882
+     18,
+     50.0
+    ]
+   },
+   {
+    "a": "A1",
+    "b": "B3-2-Z2o",
+    "box": [
+     [
+      -230.0,
+      -212.0
+     ],
+     [
+      320,
+      338
+     ],
+     [
+      416.0,
+      466.0
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18,
+     50.0
+    ]
+   },
+   {
+    "a": "A1",
+    "b": "B3-2-Z3o",
+    "box": [
+     [
+      -230.0,
+      -212.0
+     ],
+     [
+      320,
+      338
+     ],
+     [
+      782.0,
+      832.0
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18,
+     50.0
     ]
    },
    {
@@ -1972,115 +3434,215 @@ window.MODELL = {
  },
  "kollisionen": [
   {
-   "a": "B2-F",
-   "b": "F1",
+   "a": "B1",
+   "b": "B3-1-Zh",
    "box": [
     [
-     542.0,
-     560.0
+     212.0,
+     230.0
     ],
     [
-     12,
-     18
+     144.0,
+     194.0
     ],
     [
-     0,
+     882,
      900
     ]
    ],
-   "kategorie": "nut",
+   "kategorie": "zapfen",
    "gewollt": true,
    "mass": [
     18.0,
-    6,
-    900
-   ]
-  },
-  {
-   "a": "B2-F",
-   "b": "A1",
-   "box": [
-    [
-     542.0,
-     560.0
-    ],
-    [
-     320,
-     326
-    ],
-    [
-     0,
-     900
-    ]
-   ],
-   "kategorie": "nut",
-   "gewollt": true,
-   "mass": [
-    18.0,
-    6,
-    900
-   ]
-  },
-  {
-   "a": "B2-B",
-   "b": "F1",
-   "box": [
-    [
-     -560.0,
-     -542.0
-    ],
-    [
-     12,
-     18
-    ],
-    [
-     0,
-     900
-    ]
-   ],
-   "kategorie": "nut",
-   "gewollt": true,
-   "mass": [
-    18.0,
-    6,
-    900
-   ]
-  },
-  {
-   "a": "B2-B",
-   "b": "A1",
-   "box": [
-    [
-     -560.0,
-     -542.0
-    ],
-    [
-     320,
-     326
-    ],
-    [
-     0,
-     900
-    ]
-   ],
-   "kategorie": "nut",
-   "gewollt": true,
-   "mass": [
-    18.0,
-    6,
-    900
+    50.0,
+    18
    ]
   },
   {
    "a": "B1",
-   "b": "F1",
+   "b": "B3-2-Zh",
    "box": [
     [
-     -542.0,
-     542.0
+     -230.0,
+     -212.0
     ],
     [
-     12,
+     144.0,
+     194.0
+    ],
+    [
+     882,
+     900
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    50.0,
+    18
+   ]
+  },
+  {
+   "a": "F1",
+   "b": "B2-F-Z1u",
+   "box": [
+    [
+     542.0,
+     560.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     50.0,
+     100.0
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18,
+    50.0
+   ]
+  },
+  {
+   "a": "F1",
+   "b": "B2-F-Z2u",
+   "box": [
+    [
+     542.0,
+     560.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     425.0,
+     475.0
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18,
+    50.0
+   ]
+  },
+  {
+   "a": "F1",
+   "b": "B2-F-Z3u",
+   "box": [
+    [
+     542.0,
+     560.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     800.0,
+     850.0
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18,
+    50.0
+   ]
+  },
+  {
+   "a": "F1",
+   "b": "B2-B-Z1u",
+   "box": [
+    [
+     -560.0,
+     -542.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     50.0,
+     100.0
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18,
+    50.0
+   ]
+  },
+  {
+   "a": "F1",
+   "b": "B2-B-Z2u",
+   "box": [
+    [
+     -560.0,
+     -542.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     425.0,
+     475.0
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18,
+    50.0
+   ]
+  },
+  {
+   "a": "F1",
+   "b": "B2-B-Z3u",
+   "box": [
+    [
+     -560.0,
+     -542.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     800.0,
+     850.0
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18,
+    50.0
+   ]
+  },
+  {
+   "a": "F1",
+   "b": "B1-Z1u",
+   "box": [
+    [
+     -500.0,
+     -450.0
+    ],
+    [
+     0,
      18
     ],
     [
@@ -2088,92 +3650,492 @@ window.MODELL = {
      900
     ]
    ],
-   "kategorie": "nut",
+   "kategorie": "zapfen",
    "gewollt": true,
    "mass": [
-    1084.0,
-    6,
+    50.0,
+    18,
     18
    ]
   },
   {
-   "a": "B1",
-   "b": "A1",
+   "a": "F1",
+   "b": "B1-Z2u",
    "box": [
     [
-     -542.0,
-     542.0
+     -180.0,
+     -130.0
     ],
     [
-     320,
-     326
+     0,
+     18
     ],
     [
      882,
      900
     ]
    ],
-   "kategorie": "nut",
+   "kategorie": "zapfen",
    "gewollt": true,
    "mass": [
-    1084.0,
-    6,
+    50.0,
+    18,
     18
    ]
   },
   {
    "a": "F1",
-   "b": "B3-1",
+   "b": "B1-Z3u",
    "box": [
     [
-     212.0,
-     230.0
-    ],
-    [
-     12,
-     18
+     130.0,
+     180.0
     ],
     [
      0,
-     882
+     18
+    ],
+    [
+     882,
+     900
     ]
    ],
-   "kategorie": "nut",
+   "kategorie": "zapfen",
    "gewollt": true,
    "mass": [
-    18.0,
-    6,
-    882
+    50.0,
+    18,
+    18
    ]
   },
   {
    "a": "F1",
-   "b": "B3-2",
+   "b": "B1-Z4u",
+   "box": [
+    [
+     450.0,
+     500.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     882,
+     900
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    50.0,
+    18,
+    18
+   ]
+  },
+  {
+   "a": "F1",
+   "b": "B3-1-Z1u",
+   "box": [
+    [
+     212.0,
+     230.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     50.0,
+     100.0
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18,
+    50.0
+   ]
+  },
+  {
+   "a": "F1",
+   "b": "B3-1-Z2u",
+   "box": [
+    [
+     212.0,
+     230.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     416.0,
+     466.0
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18,
+    50.0
+   ]
+  },
+  {
+   "a": "F1",
+   "b": "B3-1-Z3u",
+   "box": [
+    [
+     212.0,
+     230.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     782.0,
+     832.0
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18,
+    50.0
+   ]
+  },
+  {
+   "a": "F1",
+   "b": "B3-2-Z1u",
    "box": [
     [
      -230.0,
      -212.0
     ],
     [
-     12,
+     0,
      18
     ],
     [
-     0,
-     882
+     50.0,
+     100.0
     ]
    ],
-   "kategorie": "nut",
+   "kategorie": "zapfen",
    "gewollt": true,
    "mass": [
     18.0,
-    6,
-    882
+    18,
+    50.0
    ]
   },
   {
-   "a": "B3-1",
-   "b": "A1",
+   "a": "F1",
+   "b": "B3-2-Z2u",
+   "box": [
+    [
+     -230.0,
+     -212.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     416.0,
+     466.0
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18,
+    50.0
+   ]
+  },
+  {
+   "a": "F1",
+   "b": "B3-2-Z3u",
+   "box": [
+    [
+     -230.0,
+     -212.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     782.0,
+     832.0
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18,
+    50.0
+   ]
+  },
+  {
+   "a": "A1",
+   "b": "B2-F-Z1o",
+   "box": [
+    [
+     542.0,
+     560.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     50.0,
+     100.0
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18,
+    50.0
+   ]
+  },
+  {
+   "a": "A1",
+   "b": "B2-F-Z2o",
+   "box": [
+    [
+     542.0,
+     560.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     425.0,
+     475.0
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18,
+    50.0
+   ]
+  },
+  {
+   "a": "A1",
+   "b": "B2-F-Z3o",
+   "box": [
+    [
+     542.0,
+     560.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     800.0,
+     850.0
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18,
+    50.0
+   ]
+  },
+  {
+   "a": "A1",
+   "b": "B2-B-Z1o",
+   "box": [
+    [
+     -560.0,
+     -542.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     50.0,
+     100.0
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18,
+    50.0
+   ]
+  },
+  {
+   "a": "A1",
+   "b": "B2-B-Z2o",
+   "box": [
+    [
+     -560.0,
+     -542.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     425.0,
+     475.0
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18,
+    50.0
+   ]
+  },
+  {
+   "a": "A1",
+   "b": "B2-B-Z3o",
+   "box": [
+    [
+     -560.0,
+     -542.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     800.0,
+     850.0
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18,
+    50.0
+   ]
+  },
+  {
+   "a": "A1",
+   "b": "B1-Z1o",
+   "box": [
+    [
+     -500.0,
+     -450.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     882,
+     900
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    50.0,
+    18,
+    18
+   ]
+  },
+  {
+   "a": "A1",
+   "b": "B1-Z2o",
+   "box": [
+    [
+     -180.0,
+     -130.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     882,
+     900
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    50.0,
+    18,
+    18
+   ]
+  },
+  {
+   "a": "A1",
+   "b": "B1-Z3o",
+   "box": [
+    [
+     130.0,
+     180.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     882,
+     900
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    50.0,
+    18,
+    18
+   ]
+  },
+  {
+   "a": "A1",
+   "b": "B1-Z4o",
+   "box": [
+    [
+     450.0,
+     500.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     882,
+     900
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    50.0,
+    18,
+    18
+   ]
+  },
+  {
+   "a": "A1",
+   "b": "B3-1-Z1o",
    "box": [
     [
      212.0,
@@ -2181,24 +4143,74 @@ window.MODELL = {
     ],
     [
      320,
-     326
+     338
     ],
     [
-     0,
-     882
+     50.0,
+     100.0
     ]
    ],
-   "kategorie": "nut",
+   "kategorie": "zapfen",
    "gewollt": true,
    "mass": [
     18.0,
-    6,
-    882
+    18,
+    50.0
    ]
   },
   {
-   "a": "B3-2",
-   "b": "A1",
+   "a": "A1",
+   "b": "B3-1-Z2o",
+   "box": [
+    [
+     212.0,
+     230.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     416.0,
+     466.0
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18,
+    50.0
+   ]
+  },
+  {
+   "a": "A1",
+   "b": "B3-1-Z3o",
+   "box": [
+    [
+     212.0,
+     230.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     782.0,
+     832.0
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18,
+    50.0
+   ]
+  },
+  {
+   "a": "A1",
+   "b": "B3-2-Z1o",
    "box": [
     [
      -230.0,
@@ -2206,19 +4218,69 @@ window.MODELL = {
     ],
     [
      320,
-     326
+     338
     ],
     [
-     0,
-     882
+     50.0,
+     100.0
     ]
    ],
-   "kategorie": "nut",
+   "kategorie": "zapfen",
    "gewollt": true,
    "mass": [
     18.0,
-    6,
-    882
+    18,
+    50.0
+   ]
+  },
+  {
+   "a": "A1",
+   "b": "B3-2-Z2o",
+   "box": [
+    [
+     -230.0,
+     -212.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     416.0,
+     466.0
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18,
+    50.0
+   ]
+  },
+  {
+   "a": "A1",
+   "b": "B3-2-Z3o",
+   "box": [
+    [
+     -230.0,
+     -212.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     782.0,
+     832.0
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18,
+    50.0
    ]
   },
   {

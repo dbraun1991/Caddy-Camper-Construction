@@ -7,9 +7,17 @@
     "hoehe": 320,
     "plattenstaerke": 18,
     "trennwandstaerke": 18,
-    "sektion_mitte_innen": 424,
-    "nut_tiefe": 6,
-    "_nut_tiefe": "Nennwert für Modell und Zeichnungen. Real 6–9 mm je nach Werkzeug (max. halbe Plattenstärke, nie durch); Wände nach dem Fräsen auf 302 + 2 × gemessene Nuttiefe ablängen"
+    "sektion_mitte_innen": 424
+  },
+
+  "zapfen": {
+    "_hinweis": "Wände greifen mit Zapfen durch F1/A1 (ADR 0020). Querschnitt = laenge × Plattenstärke. An B2/B3 gleichmäßig verteilt; an B1 feste Mitten (x), damit die Scharniere V17 auf A1 keinen Zapfen treffen",
+    "laenge": 50,
+    "anzahl_je_kante": 3,
+    "abstand_rand": 50,
+    "b1_mitten": [-475, -155, 155, 475],
+    "schleifzugabe": 1,
+    "_schleifzugabe": "Zuschnitt je Wandkante länger als die Plattenstärke, Zapfen werden nach dem Verleimen bündig geschliffen (Wandhöhe 302 + 2 × 19 = 340). Der hintere B3-Zapfen in B1 hat keine Zugabe."
   },
 
   "liegeflaeche": {
@@ -62,6 +70,6 @@
     "ladekante": 0
   },
 
-  "eckausbildung": "genutet",
-  "_eckausbildung_werte": "Boden F1 und Deckel A1 laufen immer durch (ADR 0018). genutet = Wände stecken nut_tiefe in Falz/Nut von F1 und A1 · stumpf = Wände 302 mm, stumpf zwischen F1 und A1"
+  "eckausbildung": "gezapft",
+  "_eckausbildung_werte": "Boden F1 und Deckel A1 laufen immer durch (ADR 0018). gezapft = Wände greifen mit Zapfen in Schlitze/Aussparungen von F1, A1 und B1 (ADR 0020) · stumpf = Wände 302 mm, stumpf zwischen F1 und A1"
 }
