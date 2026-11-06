@@ -167,7 +167,7 @@
       background: #fff;
       border-radius: 4px;
     }
-    #blattLink { color: #8ab4f8; font-size: 12px; }
+    #blattLink, #pdfLink { color: #8ab4f8; font-size: 12px; }
     #pruefung { max-width: 1400px; margin-top: 16px; font-size: 13px; line-height: 1.5; }
     #pruefung h2 { font-size: 14px; font-weight: 500; margin: 14px 0 6px; color: #e0e0e0; }
     #pruefung details { margin: 4px 0; }
@@ -224,6 +224,7 @@
 <div id="statisch">
   <div class="leiste">
     <select id="selAnsicht" onchange="zeigeBlatt()">
+      <option value="bezeichnungen">Bezeichnungen (Übersicht aller Kürzel)</option>
       <option value="vorderansicht">Vorderansicht</option>
       <option value="draufsicht">Draufsicht</option>
       <option value="seitenansicht">Seitenansicht</option>
@@ -237,6 +238,7 @@
       <option value="stumpf">Wände stumpf zwischen Boden- + Deckplatte</option>
     </select>
     <a id="blattLink" target="_blank" rel="noopener">SVG in voller Größe öffnen</a>
+    <a id="pdfLink" target="_blank" rel="noopener">Alle Blätter als PDF (A3)</a>
   </div>
   <img id="blatt" alt="Werkzeichnung">
   <div id="pruefung"></div>
@@ -684,6 +686,7 @@
     var pfad = 'docs/zeichnungen/' + variante + '/' + ansicht + '.svg';
     document.getElementById('blatt').src = pfad;
     document.getElementById('blattLink').href = pfad;
+    document.getElementById('pdfLink').href = 'docs/zeichnungen/' + variante + '/werkzeichnungen.pdf';
 
     // Prüfbericht: dieselben Überschneidungen, die in der Zeichnung rot hinterlegt sind
     var alle = MODELL.varianten[variante] || [];

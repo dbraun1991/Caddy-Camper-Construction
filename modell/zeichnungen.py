@@ -2,9 +2,11 @@
 
 Baut jedes Teil aus modell.teile() als Volumenkörper in build123d auf, projiziert
 orthogonal mit getrennten sichtbaren und verdeckten Kanten und schreibt je
-Eckausbildung drei DIN-A3-Blätter im Maßstab 1:5 nach docs/zeichnungen/<variante>/,
-dazu das Zuschnittblatt „Box-Bretter“ (1:10) und drei Einzelbrett-Blätter (1:5), auf
-denen jeder Zapfen, Schlitz und jede Aussparung zum Sägen bemaßt ist.
+Eckausbildung nach docs/zeichnungen/<variante>/: ein Übersichtsblatt „Bezeichnungen“
+(alle Kürzel mit Langnamen und Isometrie), drei DIN-A3-Blätter im Maßstab 1:5, das
+Zuschnittblatt „Box-Bretter“ (1:10) und drei Einzelbrett-Blätter (1:5), auf denen jeder
+Zapfen, Schlitz und jede Aussparung zum Sägen bemaßt ist. Alle Blätter zusammen als
+werkzeichnungen.pdf zum Drucken auf A3 (braucht cairosvg + pypdf).
 Rechnerische Überschneidungen (modell.kollisionen) werden rot hinterlegt, gewollte
 Überdeckungen (Zapfen steckt in Schlitz/Aussparung) grün.
 
@@ -37,7 +39,7 @@ VARIANTEN = {   # Boden B1 und Deckel T1 laufen immer durch (ADR 0018)
 # auf den projizierten Kanten liegen.
 ANSICHTEN = {
     "vorderansicht": dict(
-        titel="Vorderansicht", nr=1,
+        titel="Vorderansicht", nr=2,
         blick="Blick von der Heckklappe auf die offene Korpusfront (Fahrerseite links im Bild)",
         kamera=(0, 0, -20000), oben=(0, 1, 0), uv=lambda x, y, z: (-x, y),
         ohne={"F1", "F2", "G1"},
@@ -46,12 +48,12 @@ ANSICHTEN = {
         # der hintere M1/M2-Zapfen in der Rückwand läge frontal mitten auf der Trennwand
         ohne_koll_mit={"R1"}),
     "draufsicht": dict(
-        titel="Draufsicht", nr=2,
+        titel="Draufsicht", nr=3,
         blick="Blick von oben, Deckplatte (T1) abgenommen — Korpusfront (Heckklappe) unten im Bild",
         kamera=(0, 20000, 0), oben=(0, 0, 1), uv=lambda x, y, z: (-x, z),
         ohne={"T1", "F1", "F2", "G1"}, zeige=set(modell.KATEGORIEN)),
     "seitenansicht": dict(
-        titel="Seitenansicht", nr=3,
+        titel="Seitenansicht", nr=4,
         blick="Blick von der Fahrerseite (+x) — Korpusfront (Heckklappe) rechts im Bild",
         kamera=(20000, 0, 0), oben=(0, 1, 0), uv=lambda x, y, z: (-z, y),
         ohne={"F1", "F2", "G1"}, zeige=set(modell.KATEGORIEN)),
@@ -419,7 +421,7 @@ def zeichne_bretter(variante, png=False):
         zeilen.append((kuerzel, name, f"{fmt(breite)} × {fmt(hoehe)}", fmt(staerke), stk))
 
     blatt.rahmen("Box-Bretter", "Zuschnitt aller Platten der Box und der Liegefläche — Birke-Multiplex, "
-                 "jede Platte einzeln, Fahrerseite links", len(ANSICHTEN) + 1, VARIANTEN[variante],
+                 "jede Platte einzeln, Fahrerseite links", len(ANSICHTEN) + 2, VARIANTEN[variante],
                  massstab="1:10 (DIN A3)")
 
     # Legende + Zuschnittliste unten
@@ -431,7 +433,7 @@ def zeichne_bretter(variante, png=False):
         blatt.text("Zapfen, Schlitze, Aussparungen — selbst sägen", 40, 41, 2.6, papier=True, ausrichtung=links)
         blatt.text("Wandhöhe 340 = 302 + 2 × 19 mm Zapfen (1 mm Schleifzugabe je Kante).", 25, 34, 2.2, papier=True, ausrichtung=links)
         blatt.text("Absatz an Trennwand (M1/M2) hinten genau 882 ab Vorderkante.", 25, 30, 2.2, papier=True, ausrichtung=links)
-        blatt.text(f"Alle Zapfen, Schlitze und Aussparungen bemaßt: Blätter {len(ANSICHTEN) + 2}–{BLATT_GESAMT} (1:5).",
+        blatt.text(f"Alle Zapfen, Schlitze und Aussparungen bemaßt: Blätter {len(ANSICHTEN) + 3}–{BLATT_GESAMT} (1:5).",
                    25, 26, 2.2, papier=True, ausrichtung=links)
     blatt.text("Ohne Schubladen und Sitz-/Tischbretter — deren Maße werden am fertigen Korpus festgelegt.",
                25, 14, 2.2, papier=True, ausrichtung=links)
@@ -461,7 +463,7 @@ DETAILBLAETTER = [  # (Dateiname, Titel, [(Kürzel, gleiche Kürzel, Ansicht, Pa
     ("brett-s-m", "Seitenwände S1/S2 + Trennwände M1/M2", [("S1", ["S2"], "z", 50, 178), ("M1", ["M2"], "z", 50, 70)]),
     ("brett-r1", "Rückwand R1", [("R1", [], "x", 50, 150)]),
 ]
-BLATT_GESAMT = len(ANSICHTEN) + 1 + len(DETAILBLAETTER)
+BLATT_GESAMT = 1 + len(ANSICHTEN) + 1 + len(DETAILBLAETTER)   # Blatt 1 = Übersicht „Bezeichnungen“
 
 
 def brett_geometrie(alle, p, id, ansicht):
@@ -666,15 +668,165 @@ def zeichne_detail(variante, datei, titel, bretter, nr, png=False):
     return pfad
 
 
+# ── Blatt 1: Übersicht „Bezeichnungen“ ──────────────────────────────────────
+# Isometrie der Box mit Liegefläche (Schlafmodus, ohne Einbauten) und Tabelle aller Kürzel.
+ISO_KAMERA, ISO_ZIEL = (10000, 9000, -13000), (0, 160, 1000)   # von vorn-oben, Fahrerseite (+x)
+ISO_TEILE = ("B1", "R1", "S1", "S2", "M1", "M2", "T1", "F1", "F2")
+# Beschriftung: Ankerpunkt (Bruchteile der Teil-Box je Achse 0…1) und Textversatz in Papier-mm
+ISO_BESCHRIFTUNG = {
+    "F2": ((0.5, 1, 0.5), (-14, 16)), "F1": ((0.5, 1, 0.5), (-14, 18)), "T1": ((0.5, 1, 0.5), (40, 20)),
+    "S1": ((1, 0.5, 0.3), (-24, -22)), "S2": ((0.5, 1, 0), (6, 26)),
+    "M1": ((0.5, 0.3, 0), (-30, -38)), "B1": ((0.5, 0.5, 0), (-4, -40)),
+    "R1": ((0.5, 0.5, 0.5), (25, 50)), "M2": ((0.5, 0.3, 0), (28, -28)),
+}
+# Tabelle: einzelne Teile, Gruppen aus vielen Modellteilen zusammengefasst (Kürzel, Langname)
+UEBERSICHT_SAMMEL = {
+    "E": ("E-C1-a … E-D3-b", "Schienen: je Element ein Paar a/b, z. B. „Schiene Sitzbrett links, an Seitenwand links“"),
+    "H": ("H1-1…3 / H2-1…3", "Scharniere Deckplatte ↔ Klappbrett Rücksitz (oben) / Klappbrett Rücksitz ↔ Kopfende (unten), Kaufposition V17"),
+}
+
+
+def zeichne_uebersicht(variante, png=False):
+    p = modell.lade_parameter()
+    alle = modell.teile(p, variante)
+    blatt = Blatt((0, 0), 1 / 11)
+    links = (bd.TextAlign.LEFT, bd.TextAlign.CENTER)
+
+    # Isometrie: Kanten projizieren, Abbildung Modell → Bild aus vier projizierten Punkten bestimmen
+    teile = [t for t in alle if t["id"] in ISO_TEILE or t.get("zapfen_von")]
+    sichtbar, verdeckt = bd.Compound([solid(t) for t in teile]).project_to_viewport(
+        ISO_KAMERA, viewport_up=(0, 1, 0), look_at=ISO_ZIEL)
+
+    def bildpunkt(pt):
+        b = bd.Solid.make_box(2, 2, 2, bd.Plane((pt[0] - 1, pt[1] - 1, pt[2] - 1)))
+        kanten = bd.Compound([b]).project_to_viewport(ISO_KAMERA, viewport_up=(0, 1, 0), look_at=ISO_ZIEL)[0]
+        punkte = [v for e in kanten for v in (e.start_point(), e.end_point())]
+        return sum(v.X for v in punkte) / len(punkte), sum(v.Y for v in punkte) / len(punkte)
+    o, ex, ey, ez = (bildpunkt(q) for q in ((0, 0, 0), (1000, 0, 0), (0, 1000, 0), (0, 0, 1000)))
+
+    def abbild(x, y, z):
+        return tuple(o[i] + (ex[i] - o[i]) * x / 1000 + (ey[i] - o[i]) * y / 1000 + (ez[i] - o[i]) * z / 1000
+                     for i in (0, 1))
+
+    ecken = [abbild(*e) for t in teile for e in
+             ((x, y, z) for x in t["box"][0] for y in t["box"][1] for z in t["box"][2])]
+    u0, u1 = min(e[0] for e in ecken), max(e[0] for e in ecken)
+    v0, v1 = min(e[1] for e in ecken), max(e[1] for e in ecken)
+    blatt.mitte = (25 + 105 - (u0 + u1) / 2 * blatt.m, 60 + 105 - (v0 + v1) / 2 * blatt.m)
+    blatt.kanten(sichtbar, "sichtbar")
+    # Die Rückwand R1 ist unter dem Deckel ganz verdeckt: allein projiziert, gestrichelt
+    blatt.kanten([e for kanten in bd.Compound([solid(teil(alle, "R1"))]).project_to_viewport(
+        ISO_KAMERA, viewport_up=(0, 1, 0), look_at=ISO_ZIEL) for e in kanten], "verdeckt")
+    for id, (anteil, (dx, dy)) in ISO_BESCHRIFTUNG.items():
+        box = teil(alle, id)["box"]
+        anker = blatt.p(*abbild(*(box[i][0] + (box[i][1] - box[i][0]) * anteil[i] for i in range(3))))[:2]
+        text = (anker[0] + dx, anker[1] + dy)
+        blatt.linie(anker, text, ebene="mass")
+        blatt.ebenen["mass"].append(bd.Pos(*anker) * bd.Circle(0.6))
+        ausrichtung = (bd.TextAlign.RIGHT if dx < 0 else bd.TextAlign.LEFT, bd.TextAlign.CENTER)
+        x = text[0] + (-1.5 if dx < 0 else 1.5)
+        blatt.text(id, x, text[1] + 2.2, 3.2, papier=True, ausrichtung=ausrichtung)
+        blatt.text(langname(alle, id) + (" (verdeckt)" if id == "R1" else ""), x, text[1] - 2.2, 2.4, papier=True, ausrichtung=ausrichtung)
+    blatt.text("Isometrie ohne Maßstab · Schlafmodus, ohne Schubladen, Sitz-/Tischbretter und Schienen",
+               25, 60, 2.2, papier=True, ausrichtung=links)
+    blatt.text("Korpusfront (Heckklappe) rechts vorn im Bild, Fahrerseite (S1) links vorn · gestrichelt: Rückwand R1, unter T1 verdeckt", 25, 55.5, 2.2, papier=True,
+               ausrichtung=links)
+
+    # Tabelle aller Kürzel, nach Gruppen
+    zeilen, gesehen = [], set()
+    for t in alle:
+        if t.get("zapfen_von"):
+            continue
+        g = t["id"][0]
+        if g in UEBERSICHT_SAMMEL:
+            if g not in gesehen:
+                zeilen.append((g, *UEBERSICHT_SAMMEL[g]))
+            gesehen.add(g)
+            continue
+        zeilen.append((g, t["id"], langname(alle, t["id"])))
+    reihenfolge = list(modell.GRUPPEN)
+    zeilen.sort(key=lambda z: reihenfolge.index(z[0]) if z[0] in reihenfolge else 99)
+    x0, y0 = 258, 262
+    for x, kopf in ((x0, "Gruppe"), (x0 + 38, "Kürzel"), (x0 + 64, "Langname")):
+        blatt.text(kopf, x, y0, 2.8, papier=True, ausrichtung=links)
+    blatt.linie((x0, y0 - 3), (BLATT_B - 15, y0 - 3), ebene="sichtbar")
+    y, vorher = y0 - 8, None
+    for g, kuerzel, name in zeilen:
+        if g != vorher and vorher is not None:
+            blatt.linie((x0, y + 3), (BLATT_B - 15, y + 3), ebene="verdeckt")
+            y -= 1.2
+        if g != vorher:
+            blatt.text(f"{g} — {modell.GRUPPEN.get(g, '')}", x0, y, 2.3, papier=True, ausrichtung=links)
+        blatt.text(kuerzel, x0 + 38, y, 2.5, papier=True, ausrichtung=links)
+        for i, teilzeile in enumerate(_umbrechen(name, 48)):
+            if i:
+                y -= 4
+            blatt.text(teilzeile, x0 + 64, y, 2.5, papier=True, ausrichtung=links)
+        vorher = g
+        y -= 5.2
+    blatt.text("V1 … V17 Verbindungsmittel & Beschläge, G2 … G5 Ausstattung: List_of_Materials.md",
+               x0, y - 1, 2.2, papier=True, ausrichtung=links)
+    blatt.text("Links/rechts immer aus Fahrersicht (Blick nach vorn): links = Fahrerseite.",
+               x0, y - 6, 2.2, papier=True, ausrichtung=links)
+
+    blatt.rahmen("Bezeichnungen", "Übersicht aller Kürzel und Langnamen — die Buchstaben sind Eselsbrücken "
+                 "(Bottom, Rear, Side, Mid, Top, Fold, Hinge)", 1, VARIANTEN[variante], massstab="ohne (Übersicht)")
+    blatt.text("Blätter: 1 Bezeichnungen · 2–4 Ansichten (1:5) · 5 Box-Bretter (1:10) · "
+               f"6–{BLATT_GESAMT} Einzelbretter zum Sägen (1:5)", 25, 14, 2.2, papier=True, ausrichtung=links)
+
+    ordner = ZIEL / variante
+    ordner.mkdir(parents=True, exist_ok=True)
+    pfad = ordner / "bezeichnungen.svg"
+    blatt.schreiben(pfad)
+    if png:
+        import cairosvg
+        cairosvg.svg2png(url=str(pfad), write_to=str(pfad.with_suffix(".png")),
+                         output_width=2400, background_color="white")
+    return pfad
+
+
+def _umbrechen(text, breite):
+    zeilen, zeile = [], ""
+    for wort in text.split():
+        if zeile and len(zeile) + 1 + len(wort) > breite:
+            zeilen.append(zeile)
+            zeile = wort
+        else:
+            zeile = f"{zeile} {wort}".strip()
+    return zeilen + [zeile]
+
+
+def sammel_pdf(variante, blaetter):
+    """Alle Blätter einer Eckausbildung in Blattreihenfolge als ein PDF (A3 quer, Vektor)."""
+    import io
+    import cairosvg
+    from pypdf import PdfWriter
+    pdf = PdfWriter()
+    for pfad in blaetter:
+        pdf.append(io.BytesIO(cairosvg.svg2pdf(url=str(pfad))))
+    ziel = ZIEL / variante / "werkzeichnungen.pdf"
+    with open(ziel, "wb") as f:
+        pdf.write(f)
+    return ziel
+
+
 def main():
     png = "--png" in sys.argv
     for variante in VARIANTEN:
+        blaetter = [zeichne_uebersicht(variante, png)]
         for name in ANSICHTEN:
             pfad, n = zeichne(variante, name, png)
+            blaetter.append(pfad)
             print(f"{pfad.relative_to(ZIEL.parent.parent)}  ({n} Überschneidungen inkl. gewollter Zapfen)")
-        print(zeichne_bretter(variante, png).relative_to(ZIEL.parent.parent))
-        for nr, (datei, titel, bretter) in enumerate(DETAILBLAETTER, len(ANSICHTEN) + 2):
-            print(zeichne_detail(variante, datei, titel, bretter, nr, png).relative_to(ZIEL.parent.parent))
+        blaetter.append(zeichne_bretter(variante, png))
+        for nr, (datei, titel, bretter) in enumerate(DETAILBLAETTER, len(ANSICHTEN) + 3):
+            blaetter.append(zeichne_detail(variante, datei, titel, bretter, nr, png))
+        print("\n".join(str(b.relative_to(ZIEL.parent.parent)) for b in blaetter if b.parent.name == variante
+                        and b.stem not in ANSICHTEN))
+        try:
+            print(sammel_pdf(variante, blaetter).relative_to(ZIEL.parent.parent))
+        except ImportError:
+            print("werkzeichnungen.pdf übersprungen — cairosvg und pypdf installieren (modell/requirements.txt)")
 
 
 if __name__ == "__main__":

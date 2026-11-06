@@ -22,8 +22,9 @@ index.html                 — viewer: tab "Dynamisch" (Three.js r128 via CDN) +
 modell/parameter.json      — single source of all build dimensions (mm)
 modell/modell.py           — derives every part as a box + overlap check → modell/modell.js
                               (stdlib only; generated file is committed)
-modell/zeichnungen.py      — build123d: Draufsicht/Vorderansicht/Seitenansicht as A3 SVGs
-                              per corner variant → docs/zeichnungen/ (committed)
+modell/zeichnungen.py      — build123d: 8 A3 sheets as SVG per corner variant plus
+                              werkzeichnungen.pdf (all sheets, for printing)
+                              → docs/zeichnungen/ (committed)
 modell/requirements.txt    — build123d for the drawings; install into .venv/ (gitignored)
 List_of_Materials.md       — bill of materials, dimensions, hardware options, joinery (§H)
 Einkaufsliste.md           — shopping list, current prices, total budget estimate
@@ -128,7 +129,10 @@ down.
   "Box-Bretter" (every corpus/platform board flat at 1:10 with tenons, slots and a
   cut list, `zeichne_bretter()`), three single-board sheets at 1:5 (`brett-b1-t1`,
   `brett-s-m`, `brett-r1`, `zeichne_detail()`) with every tenon, slot and
-  notch dimensioned from the board edge and the waste shaded, plus an overlap
+  notch dimensioned from the board edge and the waste shaded, an overview sheet
+  "Bezeichnungen" (sheet 1: isometric view with board codes + table of every
+  code and long name, `zeichne_uebersicht()`), all sheets merged into
+  `werkzeichnungen.pdf` per variant for printing on A3, plus an overlap
   report in the "Statisch" tab and a collision toggle in the 3D tab
   ([ADR 0015](docs/adrs/0015-shared-model-data-for-viewer-and-drawings.md)).
 - Full bill of materials with cut list, hardware options and links, and a

@@ -1,3 +1,4 @@
 # Nur für modell/zeichnungen.py — modell/modell.py und der Viewer brauchen nichts davon.
 build123d==0.13.0
-cairosvg  # optional, nur für --png
+cairosvg  # für --png und werkzeichnungen.pdf
+pypdf     # fügt die Blätter zu werkzeichnungen.pdf zusammen

@@ -81,10 +81,11 @@ Die Führungsschienen-Innenmember (rot) sind immer Teil der 3D-Geometrie und fah
 
 ## Werkzeichnungen
 
-Drei Ansichten nach Dreitafelprojektion (DIN A3 quer, Maßstab 1:5) ein Zuschnittblatt „Box-Bretter“ (1:10) und drei Einzelbrett-Blätter (1:5) zum Sägen, erzeugt mit [build123d](https://github.com/gumyr/build123d) aus derselben Datenbasis wie der 3D-Viewer:
+Ein Übersichtsblatt „Bezeichnungen“, drei Ansichten nach Dreitafelprojektion (DIN A3 quer, Maßstab 1:5), ein Zuschnittblatt „Box-Bretter“ (1:10) und drei Einzelbrett-Blätter (1:5) zum Sägen, erzeugt mit [build123d](https://github.com/gumyr/build123d) aus derselben Datenbasis wie der 3D-Viewer:
 
 | Ansicht | Blickrichtung | Wände gezapft |
 |---|---|---|
+| **Bezeichnungen** (Blatt 1, Übersicht) | Isometrie der Box mit allen Brett-Kürzeln, Tabelle aller Kürzel mit Langnamen | [SVG](docs/zeichnungen/gezapft/bezeichnungen.svg) |
 | **Vorderansicht** (Aufriss) | von der Heckklappe auf die offene Korpusfront | [SVG](docs/zeichnungen/gezapft/vorderansicht.svg) |
 | **Draufsicht** (Grundriss) | von oben, Deckplatte T1 abgenommen | [SVG](docs/zeichnungen/gezapft/draufsicht.svg) |
 | **Seitenansicht** (Seitenriss) | von der Fahrerseite | [SVG](docs/zeichnungen/gezapft/seitenansicht.svg) |
@@ -95,12 +96,14 @@ Drei Ansichten nach Dreitafelprojektion (DIN A3 quer, Maßstab 1:5) ein Zuschnit
 
 Sichtbare Kanten durchgezogen, verdeckte Kanten gestrichelt. **Rot hinterlegt** sind rechnerische Überschneidungen zweier Bauteile — Stellen, an denen der Plan so nicht baubar ist. **Grün** hinterlegt sind gewollte Überdeckungen: Die Zapfen der Wände stecken in Schlitzen und Aussparungen. Dieselben Blätter gibt es für die Rückfallvariante ohne Zapfen (`stumpf`, Ordner nebenan, im Viewer per Auswahlfeld).
 
+**Zum Drucken:** alle 8 Blätter einer Variante in Blattreihenfolge als ein PDF, DIN A3 quer — [gezapft](docs/zeichnungen/gezapft/werkzeichnungen.pdf) · [stumpf](docs/zeichnungen/stumpf/werkzeichnungen.pdf). Beim Drucken „Tatsächliche Größe“ (100 %) wählen, sonst stimmen die Maßstäbe nicht.
+
 Neu erzeugen nach einer Maßänderung in `modell/parameter.json`:
 
 ```bash
 python3 modell/modell.py                                   # Viewer-Daten, ohne Zusatzpakete
 python3 -m venv .venv && .venv/bin/pip install -r modell/requirements.txt   # einmalig
-.venv/bin/python modell/zeichnungen.py                     # Zeichnungen (--png für zusätzliche PNGs)
+.venv/bin/python modell/zeichnungen.py                     # Zeichnungen + werkzeichnungen.pdf (--png für zusätzliche PNGs)
 ```
 
 > Entscheidungsprotokoll: [ADR 0015](docs/adrs/0015-shared-model-data-for-viewer-and-drawings.md)
