@@ -28,7 +28,7 @@ Options considered:
 ## Decision
 
 Treat the 12 mm bottom panel as the drawer box's bracing element, exactly as
-ADR 0007 treats the back wall (`B1`) as the corpus's anti-racking panel:
+ADR 0007 treats the back wall (`R1`) as the corpus's anti-racking panel:
 
 1. Corner joints are glue (D3) + 2× 4 × 40 mm countersunk screws through the
    front/back panel into the side's end grain — alignment and assembly only,

@@ -41,7 +41,7 @@ Options considered:
   it is context, not something to be built.
 - `modell/zeichnungen.py` imports the same `teile()` function, builds each part
   as a build123d solid, projects it orthographically (visible and hidden edges)
-  and writes A3 sheets at 1:5 to `docs/zeichnungen/<corner variant>/`. Overlaps
+  and writes F2 sheets at 1:5 to `docs/zeichnungen/<corner variant>/`. Overlaps
   are shaded red. The viewer has a second tab ("Statisch") showing those SVGs and
   a check report from the same overlap list.
 - The corner construction (`eckausbildung`) is a parameter, so all variants can be

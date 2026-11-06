@@ -14,12 +14,12 @@ Teilenummern beziehen sich auf [List_of_Materials.md](./List_of_Materials.md).
 | — | Multiplex Birke 18 mm, 2.500 × 1.250 mm | 3 Platten | 105 – 147 € | **315 – 441 €** |
 | — | Multiplex Birke 12 mm, 2.500 × 1.250 mm | 1 Platte | 50 – 105 € | **50 – 105 €** |
 | V12 | Eckleiste Weichholz 20 × 20 mm | 3 m | ~2 €/m | **~6 €** |
-| V16 | Ausgleichsleisten 10 × 40 mm unter dem Klappbrett Rücksitz (A2) | 2 m | ~2,5 €/m ¹ | **~5 €** |
+| V16 | Ausgleichsleisten 10 × 40 mm unter dem Klappbrett Rücksitz (F1) | 2 m | ~2,5 €/m ¹ | **~5 €** |
 | | | | **Teilsumme** | **~376 – 557 €** |
 
 Spanne erklärt sich über die Qualitätsklasse (BB/BB vs. S/BB) und den Händler: Baumarkt (toom, Hornbach) am unteren Ende, Holzfachhandel (Holzland, Holzzentrum) am oberen.
 
-**Zuschnitt:** 8 – 25 € je nach Händler. Lohnt sich hier klar — die großen Teile (A1, A2, A3, F1 je 1.120 mm breit) sind ohne Formatkreissäge kaum exakt zu schneiden, und ADR 0007 setzt maßhaltige Stirnkanten voraus. **Budget: ~20 €.** Erste Bestellung: 9 Teile in 18 mm, Maße in [List_of_Materials.md §B](./List_of_Materials.md#b--unterbau-korpus-900-mm-tief-320-mm-hoch-1120-mm-breit) (Wände 340 mm hoch, [ADR 0020](docs/adrs/0020-through-tenons-instead-of-routed-grooves.md)). Passt rechnerisch auf 2 Platten; die 3. Platte und die 12-mm-Platte erst für Schubladen und Sitzbretter.
+**Zuschnitt:** 8 – 25 € je nach Händler. Lohnt sich hier klar — die großen Teile (T1, F1, F2, B1 je 1.120 mm breit) sind ohne Formatkreissäge kaum exakt zu schneiden, und ADR 0007 setzt maßhaltige Stirnkanten voraus. **Budget: ~20 €.** Erste Bestellung: 9 Teile in 18 mm, Maße in [List_of_Materials.md §Korpus](./List_of_Materials.md#korpus--unterbau-900-mm-tief-320-mm-hoch-1120-mm-breit) (Wände 340 mm hoch, [ADR 0020](docs/adrs/0020-through-tenons-instead-of-routed-grooves.md)). Passt rechnerisch auf 2 Platten; die 3. Platte und die 12-mm-Platte erst für Schubladen und Sitzbretter.
 
 ---
 
@@ -53,7 +53,7 @@ Gut **ein Drittel des Gesamtbudgets**. Beide aus derselben 850-mm-Serie ([ADR 00
 | V9 | M5 × 40 Durchsteckschrauben + U-Scheibe + Stoppmutter | 24 Sätze | ~14 € |
 | V10 | M8 × 30/40 + U-Scheibe + Stoppmutter | 4 Sätze | ~6 € |
 | V11 | Spanngurt mit Ratsche | 2 Stk. | ~20 € |
-| V15 | Gurtschlaufe verstellbar (Gurtband ~25 mm + Klemmschnalle), Klappbrett Kopfende (A3) ↔ Kopfstütze | 2 Stk. | ~10 € ¹ |
+| V15 | Gurtschlaufe verstellbar (Gurtband ~25 mm + Klemmschnalle), Klappbrett Kopfende (F2) ↔ Kopfstütze | 2 Stk. | ~10 € ¹ |
 | V17 | Klappscharniere Standard ~60 mm (3 × Deckplatte ↔ Klappbrett Rücksitz oben, 3 × zwischen den Klappbrettern unten) | 6 Stk. | ~15 € ¹ |
 | | | **Teilsumme** | **~168 – 198 €** |
 
@@ -114,5 +114,5 @@ Die Montagereihenfolge in [§H](./List_of_Materials.md#montagereihenfolge) gibt 
 
 1. **Jetzt:** Holz 18 mm + 12 mm mit Zuschnitt, Leim, Dübel, Schrauben V1/V2/V7/V8, Winkel V3, Eckleisten V12, Spanngurte V11 → Korpus bauen
 2. **Schienen** E1 (3 Paare) + E2 (3 Paare), Durchsteckschrauben V9 → Arretierung und Stärke prüfen, einmessen und montieren (Bretter C1–C3 erst nach ADR 0013 zuschneiden)
-3. **Nach Einbau im Fahrzeug:** M8-Sätze V10 (Gewinde der Zurrösen erst am Auto prüfen; Rücksitz-Ösen liegen neben dem Korpus → Winkel außen an B2, ADR 0016), Griffe V6
-4. **Zuletzt:** Matratze G1 + Bezug G2 — erst messen, wenn die Liegefläche real liegt; Scharniere V17, Gurtschlaufen V15 und Ausgleich V16 beim Anpassen von A2/A3 im Fahrzeug
+3. **Nach Einbau im Fahrzeug:** M8-Sätze V10 (Gewinde der Zurrösen erst am Auto prüfen; Rücksitz-Ösen liegen neben dem Korpus → Winkel außen an S1/S2, ADR 0016), Griffe V6
+4. **Zuletzt:** Matratze G1 + Bezug G2 — erst messen, wenn die Liegefläche real liegt; Scharniere V17, Gurtschlaufen V15 und Ausgleich V16 beim Anpassen von F1/F2 im Fahrzeug

@@ -228,9 +228,9 @@
       <option value="draufsicht">Draufsicht</option>
       <option value="seitenansicht">Seitenansicht</option>
       <option value="box-bretter">Box-Bretter (Zuschnitt)</option>
-      <option value="brett-f1-a1">Bodenplatte (F1) / Deckplatte (A1) — Schlitze + Aussparungen bemaßt</option>
-      <option value="brett-b2-b3">Seitenwände (B2) + Trennwände (B3) — Zapfen bemaßt</option>
-      <option value="brett-b1">Rückwand (B1) — Zapfen + Schlitze bemaßt</option>
+      <option value="brett-b1-t1">Bodenplatte (B1) / Deckplatte (T1) — Schlitze + Aussparungen bemaßt</option>
+      <option value="brett-s-m">Seitenwände (S1/S2) + Trennwände (M1/M2) — Zapfen bemaßt</option>
+      <option value="brett-r1">Rückwand (R1) — Zapfen + Schlitze bemaßt</option>
     </select>
     <select id="selVariante" onchange="zeigeBlatt()">
       <option value="gezapft">Wände gezapft in Boden- + Deckplatte</option>
@@ -290,8 +290,8 @@
   var UD = P.korpus.tiefe;                  // 900
   var UH = P.korpus.hoehe;                  // 320 (Ladeboden → Oberkante Wände)
   var TH = P.korpus.plattenstaerke;         // 18
-  var LA2 = P.liegeflaeche.laenge_a2;       // 700, A2 Klappbrett Rücksitz
-  var LA3 = P.liegeflaeche.laenge_a3;       // 400, A3 Klappbrett Kopfende
+  var LF1 = P.liegeflaeche.laenge_f1;       // 700, F1 Klappbrett Rücksitz
+  var LF2 = P.liegeflaeche.laenge_f2;       // 400, F2 Klappbrett Kopfende
   var AUSZUG = P.schienen.laenge;           // 850 — docs/adrs/0008-heavy-duty-full-extension-runners.md, Länge: docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md
 
   // ── Materials ─────────────────────────────────────────────────────────────
@@ -359,7 +359,7 @@
   sg.add(grid);
 
   // ── Bauteile aus dem gemeinsamen Teilemodell ──────────────────────────────
-  // Korpus (B1–B3, V1), Liegefläche (A1–A3), Matratze, Elemente (C/D) und Schienen (E)
+  // Korpus (B1, R1, S1/S2, M1/M2, V1), Liegefläche (T1, F1, F2), Matratze, Elemente (C/D) und Schienen (E)
   // stehen alle in MODELL.teile, im eingefahrenen Zustand. setMode verschiebt die
   // Teile mit `faehrt` nur in z, siehe docs/adrs/0004-static-scene-graph-with-z-position-toggle.md
   var mScharnier = new THREE.MeshLambertMaterial({ color: 0xB8BEC6 });
@@ -389,8 +389,8 @@
     streifen.position.y = ((b[1][1] - b[1][0]) / 2 + 1) * S;
   });
 
-  // Klappbare Liegebretter (ADR 0019): A2 dreht um die Scharnierachse A1↔A2 (oben),
-  // A3 hängt an A2 und dreht um die Achse A2↔A3 (unten). Achsen kommen aus modell.py.
+  // Klappbare Liegebretter (ADR 0019): F1 dreht um die Scharnierachse T1↔F1 (oben),
+  // F2 hängt an F1 und dreht um die Achse F1↔F2 (unten). Achsen kommen aus modell.py.
   var KA = MODELL.klappachsen;
   function drehpunkt(eltern, achse, bezug) {
     var g = new THREE.Group();
@@ -404,12 +404,12 @@
     mesh.position.z -= achse.z * S;
     gruppe.add(mesh);
   }
-  var klappA2 = drehpunkt(sg, KA.A2, { y: 0, z: 0 });
-  var klappA3 = drehpunkt(klappA2, KA.A3, KA.A2);
-  anhaengen(meshById.A2, klappA2, KA.A2);
-  anhaengen(meshById.A3, klappA3, KA.A3);
-  MODELL.teile.filter(function (t) { return t.klappt_mit === 'A2'; })
-    .forEach(function (t) { anhaengen(meshById[t.id], klappA2, KA.A2); });
+  var klappF1 = drehpunkt(sg, KA.F1, { y: 0, z: 0 });
+  var klappF2 = drehpunkt(klappF1, KA.F2, KA.F1);
+  anhaengen(meshById.F1, klappF1, KA.F1);
+  anhaengen(meshById.F2, klappF2, KA.F2);
+  MODELL.teile.filter(function (t) { return t.klappt_mit === 'F1'; })
+    .forEach(function (t) { anhaengen(meshById[t.id], klappF1, KA.F1); });
 
   // Rechnerische Überschneidungen (aus modell.py) — per Button einblendbar
   var kollG = new THREE.Group();
@@ -435,7 +435,7 @@
   var carLen = 400, carH = 350, carZ = 300; // Radkasten: Länge, Höhe, Start-z
   var seatW = 450, seatD = 120, seatH = 700, seatY = 350; // Vordersitz-Rückenlehne inkl. Kopfstütze
   var cushD = 440, cushH = 100;                            // Vordersitz-Sitzfläche (nach vorn)
-  var zFront = UD + LA2 + LA3;                               // Vordersitz-Lehne (Kopfstützen, Ende von A3 Klappbrett Kopfende)
+  var zFront = UD + LF1 + LF2;                               // Vordersitz-Lehne (Kopfstützen, Ende von F2 Klappbrett Kopfende)
 
   // Türöffnungen (Löcher in den Seitenwänden), je Seite gleich: z-Bereich, Unterkante y, Oberkante y
   var doorOpenings = [
@@ -477,15 +477,15 @@
   wireframe(floorPlane, 0x6B8F3A);
 
   // Rücksitzbank (2. Reihe): umgeklappt (Standard) oder ausgebaut — per Button
-  // Umgeklappt: Sitzfläche/Unterbau + flach liegende Lehne; Brett A2 liegt darauf (mit Ausgleich)
+  // Umgeklappt: Sitzfläche/Unterbau + flach liegende Lehne; Brett F1 liegt darauf (mit Ausgleich)
   var mRearSeat = new THREE.MeshLambertMaterial({ color: 0x5F6B7A, transparent: true, opacity: 0.75, depthWrite: false });
   var rearSeatsG = new THREE.Group();
   caddyG.add(rearSeatsG);
-  var rsTop = FZ.ruecksitzlehne_hoehe, rsBackH = 80;   // 310 mm nachgemessen → 10 mm Spalt unter A2 (List_of_Materials.md §H4)
+  var rsTop = FZ.ruecksitzlehne_hoehe, rsBackH = 80;   // 310 mm nachgemessen → 10 mm Spalt unter F1 (List_of_Materials.md §H4)
   var rsFlach = new THREE.Group(), rsHoch = new THREE.Group();
   rearSeatsG.add(rsFlach, rsHoch);
-  wireframe(box(CAW - 40, rsTop - rsBackH, LA2, mRearSeat, 0, (rsTop - rsBackH) / 2, UD + LA2 / 2, rsFlach), 0x2E3640); // Sitzfläche/Unterbau
-  wireframe(box(CAW - 40, rsBackH, LA2, mRearSeat, 0, rsTop - rsBackH / 2, UD + LA2 / 2, rsFlach), 0x2E3640);           // umgeklappte Lehne
+  wireframe(box(CAW - 40, rsTop - rsBackH, LF1, mRearSeat, 0, (rsTop - rsBackH) / 2, UD + LF1 / 2, rsFlach), 0x2E3640); // Sitzfläche/Unterbau
+  wireframe(box(CAW - 40, rsBackH, LF1, mRearSeat, 0, rsTop - rsBackH / 2, UD + LF1 / 2, rsFlach), 0x2E3640);           // umgeklappte Lehne
   // Hochgeklappt (3 Sitzplätze): Lehne steht an der gemessenen Ladetiefe, Sitzfläche davor.
   // Platzhaltermaße — nur die Lage der Lehnenrückseite (Ladetiefe 920 mm) ist nachgemessen.
   var lzB = FZ.ladetiefe_min, lehneD = 90, lehneH = 950, sitzD = 500, sitzH = 430;
@@ -576,11 +576,11 @@
     schlafen: 'Schlafmodus — alles eingeklappt',
     bank:     'Bankmodus — Bretter ' + AUSZUG + ' mm ausgefahren',
     pack:     'Packmodus — Schubladen ' + AUSZUG + ' mm ausgefahren',
-    fahren1:  'Fahrmodus 1 — Klappbretter (A2 Rücksitz, A3 Kopfende) auf die Deckplatte geklappt, Matratze verstaut',
+    fahren1:  'Fahrmodus 1 — Klappbretter (F1 Rücksitz, F2 Kopfende) auf die Deckplatte geklappt, Matratze verstaut',
     fahren2:  'Fahrmodus 2 — Bretter auf der Box, Rücksitze hochgeklappt: 5 Sitzplätze'
   };
 
-  // Rücksitze: umgeklappt (A2 liegt darauf) · hochgeklappt (Fahrmodus 2) · ausgebaut
+  // Rücksitze: umgeklappt (F1 liegt darauf) · hochgeklappt (Fahrmodus 2) · ausgebaut
   var rsZustand = 'umgeklappt';
   function setRuecksitze(z) {
     rsZustand = z;
@@ -597,10 +597,10 @@
     beweglich.forEach(function (b) {   // ausgefahren = um die volle Schienenlänge in −z
       b.mesh.position.z = (b.z - (aus[b.faehrt] ? AUSZUG : 0)) * S;
     });
-    // Fahrmodi: A2 über die obere Achse auf A1, A3 über die untere Achse auf A2 (je 180°)
+    // Fahrmodi: F1 über die obere Achse auf T1, F2 über die untere Achse auf F1 (je 180°)
     var geklappt = m === 'fahren1' || m === 'fahren2';
-    klappA2.rotation.x = geklappt ? KA.A2.winkel * Math.PI / 180 : 0;
-    klappA3.rotation.x = geklappt ? KA.A3.winkel * Math.PI / 180 : 0;
+    klappF1.rotation.x = geklappt ? KA.F1.winkel * Math.PI / 180 : 0;
+    klappF2.rotation.x = geklappt ? KA.F2.winkel * Math.PI / 180 : 0;
     meshById.G1.visible = !geklappt;
     if (m === 'fahren2') setRuecksitze('hochgeklappt');
     else if (rsZustand === 'hochgeklappt') setRuecksitze('umgeklappt');   // Liegefläche braucht die Lehnen

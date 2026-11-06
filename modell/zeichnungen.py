@@ -27,7 +27,7 @@ M = 1 / 5                                # Maßstab 1:5 — mm Modell → mm Pap
 BLATT_B, BLATT_H = 420, 297              # DIN A3 quer
 SCHRIFT = "DejaVu Sans"
 
-VARIANTEN = {   # Boden F1 und Deckel A1 laufen immer durch (ADR 0018)
+VARIANTEN = {   # Boden B1 und Deckel T1 laufen immer durch (ADR 0018)
     "gezapft": "Boden- + Deckplatte durchlaufend, Wände gezapft",
     "stumpf": "Boden- + Deckplatte durchlaufend, Wände stumpf",
 }
@@ -40,21 +40,21 @@ ANSICHTEN = {
         titel="Vorderansicht", nr=1,
         blick="Blick von der Heckklappe auf die offene Korpusfront (Fahrerseite links im Bild)",
         kamera=(0, 0, -20000), oben=(0, 1, 0), uv=lambda x, y, z: (-x, y),
-        ohne={"A2", "A3", "G1"},
+        ohne={"F1", "F2", "G1"},
         # Rückwand-Kollisionen liegen 882–900 mm tief — frontal projiziert würden sie ganze Schubladen rot färben
         zeige={"zapfen", "eckverbindung", "frontblende", "sonstige"},
-        # der hintere B3-Zapfen in der Rückwand läge frontal mitten auf der Trennwand
-        ohne_koll_mit={"B1"}),
+        # der hintere M1/M2-Zapfen in der Rückwand läge frontal mitten auf der Trennwand
+        ohne_koll_mit={"R1"}),
     "draufsicht": dict(
         titel="Draufsicht", nr=2,
-        blick="Blick von oben, Deckplatte (A1) abgenommen — Korpusfront (Heckklappe) unten im Bild",
+        blick="Blick von oben, Deckplatte (T1) abgenommen — Korpusfront (Heckklappe) unten im Bild",
         kamera=(0, 20000, 0), oben=(0, 0, 1), uv=lambda x, y, z: (-x, z),
-        ohne={"A1", "A2", "A3", "G1"}, zeige=set(modell.KATEGORIEN)),
+        ohne={"T1", "F1", "F2", "G1"}, zeige=set(modell.KATEGORIEN)),
     "seitenansicht": dict(
         titel="Seitenansicht", nr=3,
         blick="Blick von der Fahrerseite (+x) — Korpusfront (Heckklappe) rechts im Bild",
         kamera=(20000, 0, 0), oben=(0, 1, 0), uv=lambda x, y, z: (-z, y),
-        ohne={"A2", "A3", "G1"}, zeige=set(modell.KATEGORIEN)),
+        ohne={"F1", "F2", "G1"}, zeige=set(modell.KATEGORIEN)),
 }
 
 
@@ -179,7 +179,7 @@ class Blatt:
                   for k, n in zaehler.items()] or ["keine Überschneidungen"]
         for i, z in enumerate(zeilen):
             self.text(z, x + 15, y - 16 - i * 4.2, 2.4, papier=True, ausrichtung=links)
-        self.text("Schlafmodus (alles eingefahren) · Klappbrett Rücksitz (A2) / Kopfende (A3), Scharniere und Matratze nicht dargestellt",
+        self.text("Schlafmodus (alles eingefahren) · Klappbrett Rücksitz (F1) / Kopfende (F2), Scharniere und Matratze nicht dargestellt",
                   x, 14, 2.2, papier=True, ausrichtung=links)
 
     def positionsliste(self, eintraege):
@@ -220,21 +220,21 @@ def teil(teile, id):
 
 
 def langname(teile, id):
-    """Langname ohne Klammerzusatz, z. B. „Seitenwand links“ für B2-F."""
+    """Langname ohne Klammerzusatz, z. B. „Seitenwand links“ für S1."""
     return teil(teile, id)["name"].split(" (")[0]
 
 
 def bemassen(name, blatt, teile, p):
     k = p["korpus"]
     W, D = k["breite"], k["tiefe"]
-    a1 = teil(teile, "A1")["box"]
-    oben = a1[1][1]                                       # Oberkante Deckel
-    b4 = teil(teile, "F1")["box"]
+    t1 = teil(teile, "T1")["box"]
+    oben = t1[1][1]                                       # Oberkante Deckel
     b1 = teil(teile, "B1")["box"]
-    wand_x = sorted({v for id in ("B2-F", "B2-B", "B3-1", "B3-2") for v in teil(teile, id)["box"][0]})
-    hoehen = sorted({0, b4[1][1], a1[1][0], oben})
+    r1 = teil(teile, "R1")["box"]
+    wand_x = sorted({v for id in ("S1", "S2", "M1", "M2") for v in teil(teile, id)["box"][0]})
+    hoehen = sorted({0, b1[1][1], t1[1][0], oben})
     r_ende = teil(teile, "E-C1-a")["box"][2][1]          # hinteres Schienenende
-    zuschnitt = teil(teile, "B2-F").get("zuschnitt")      # nur bei Zapfen: [Länge, Höhe] des Rohzuschnitts
+    zuschnitt = teil(teile, "S1").get("zuschnitt")      # nur bei Zapfen: [Länge, Höhe] des Rohzuschnitts
 
     if name == "vorderansicht":
         blatt.mass((-W / 2, 0), (W / 2, 0), 14, fmt(W))                  # unten, Gesamtbreite
@@ -262,7 +262,7 @@ def bemassen(name, blatt, teile, p):
     elif name == "draufsicht":
         blatt.mass((-W / 2, 0), (W / 2, 0), 16, fmt(W))
         blatt.kette([(-x, D) for x in wand_x], 8)
-        tiefen = sorted({0, r_ende, b1[2][0], D})
+        tiefen = sorted({0, r_ende, r1[2][0], D})
         blatt.kette([(-W / 2, z) for z in reversed(tiefen)], 10)         # links im Bild = Fahrerseite
         blatt.mass((-W / 2, D), (-W / 2, 0), 20, fmt(D))
         r = teil(teile, "E-D1-b")["box"]
@@ -271,7 +271,7 @@ def bemassen(name, blatt, teile, p):
 
     elif name == "seitenansicht":
         blatt.mass((-D, 0), (0, 0), 14, fmt(D))                          # unten, Korpustiefe
-        tiefen = sorted({0, r_ende, b1[2][0], D})
+        tiefen = sorted({0, r_ende, r1[2][0], D})
         blatt.kette([(-z, oben) for z in tiefen], 8)                      # oben: Schiene, Spiel, Rückwand
         blatt.kette([(0, v) for v in hoehen], 10)                         # rechts = Korpusfront
         blatt.mass((0, 0), (0, oben), 22, fmt(oben))
@@ -284,12 +284,12 @@ def bemassen(name, blatt, teile, p):
 
 # ── Teile-Beschriftung ───────────────────────────────────────────────────────
 BESCHRIFTUNG = {
-    "vorderansicht": ["B2-F", "B2-B", "B3-1", "B3-2", "F1", "A1", "C1", "C2", "C3", "D1-F", "D2-F", "D3-F"],
-    "draufsicht": ["B1", "B2-F", "B2-B", "B3-1", "B3-2", "D1", "D2", "C3"],
-    "seitenansicht": ["B2-F", "A1"],
+    "vorderansicht": ["S1", "S2", "M1", "M2", "B1", "T1", "C1", "C2", "C3", "D1-F", "D2-F", "D3-F"],
+    "draufsicht": ["R1", "S1", "S2", "M1", "M2", "D1", "D2", "C3"],
+    "seitenansicht": ["S1", "T1"],
 }
 # Beschriftung seitlich verschieben (Modell-mm in u), wo sie sonst auf einem Zapfen läge
-BESCHRIFTUNG_VERSATZ = {("seitenansicht", "A1"): -180}
+BESCHRIFTUNG_VERSATZ = {("seitenansicht", "T1"): -180}
 
 
 def zeichne(variante, name, png=False):
@@ -345,12 +345,12 @@ def zeichne(variante, name, png=False):
 
 
 # ── Blatt 4: Box-Bretter (Zuschnitt) ────────────────────────────────────────
-# Jede Platte flach, einzeln, im Maßstab 1:10; gleiche Teile (B2-F/B2-B, B3-1/B3-2)
+# Jede Platte flach, einzeln, im Maßstab 1:10; gleiche Teile (S1/S2, M1/M2)
 # einmal mit Stückzahl. Lage auf dem Blatt in Papier-mm (linke untere Ecke).
 BRETTER = [  # (Kürzel, weitere gleiche Kürzel, Ansicht, x, y) — Ansicht: "oben" = Fläche x×z, "x" = x×y, "z" = z×y
-    ("F1", [], "oben", 34, 162), ("A1", [], "oben", 164, 162),
-    ("B2-F", ["B2-B"], "z", 294, 214), ("B1", [], "x", 294, 162),
-    ("A2", [], "oben", 34, 66), ("A3", [], "oben", 164, 66), ("B3-1", ["B3-2"], "z", 294, 66),
+    ("B1", [], "oben", 34, 162), ("T1", [], "oben", 164, 162),
+    ("S1", ["S2"], "z", 294, 214), ("R1", [], "x", 294, 162),
+    ("F1", [], "oben", 34, 66), ("F2", [], "oben", 164, 66), ("M1", ["M2"], "z", 294, 66),
 ]
 M_BRETTER = 1 / 10
 
@@ -387,7 +387,7 @@ def zeichne_bretter(variante, png=False):
         blatt.text(f"{stk} Stk. · {fmt(staerke)} mm", breite / 2, mitte_v - 0.45 / M_BRETTER * 10, 2.2)
 
         # Schlitze/Aussparungen in Boden- und Deckplatte: Fußabdruck jedes Zapfens, der darin steckt
-        if ansicht == "oben" and id in ("F1", "A1"):
+        if ansicht == "oben" and id in ("B1", "T1"):
             zapfen = [w for w in alle if id in w.get("steckt_in", [])]
             for w in zapfen:
                 (wx0, wx1), _, (wz0, wz1) = w["box"]
@@ -407,14 +407,14 @@ def zeichne_bretter(variante, png=False):
             if ansicht == "z":
                 starts = sorted({w["box"][2][0] for w in eigene if w["id"].endswith("u")})
                 wort = f"Zapfen je 50, ab Vorderkante {' · '.join(fmt(s) for s in starts)}"
-                if id.startswith("B3"):
+                if id.startswith("M"):
                     wort += " + hinten mittig"
             else:
                 starts = sorted({w["box"][0][0] - x0 for w in eigene if w["id"].endswith("u")})
                 wort = f"Zapfen je 50, ab linker Kante {' · '.join(fmt(s) for s in starts)}"
-                for w in (w for w in alle if id in w.get("steckt_in", [])):   # Schlitze für die B3-Zapfen
+                for w in (w for w in alle if id in w.get("steckt_in", [])):   # Schlitze für die M1/M2-Zapfen
                     blatt.rechteck(*lage(w["box"]), "verdeckt")
-                wort += " + 2 Schlitze für Trennwände (B3)"
+                wort += " + 2 Schlitze für Trennwände (M1/M2)"
             blatt.text(wort, breite / 2, hoehe + 30, 2.0)
         zeilen.append((kuerzel, name, f"{fmt(breite)} × {fmt(hoehe)}", fmt(staerke), stk))
 
@@ -430,7 +430,7 @@ def zeichne_bretter(variante, png=False):
         blatt.linie((25, 41), (37, 41), ebene="verdeckt")
         blatt.text("Zapfen, Schlitze, Aussparungen — selbst sägen", 40, 41, 2.6, papier=True, ausrichtung=links)
         blatt.text("Wandhöhe 340 = 302 + 2 × 19 mm Zapfen (1 mm Schleifzugabe je Kante).", 25, 34, 2.2, papier=True, ausrichtung=links)
-        blatt.text("Absatz an Trennwand (B3) hinten genau 882 ab Vorderkante.", 25, 30, 2.2, papier=True, ausrichtung=links)
+        blatt.text("Absatz an Trennwand (M1/M2) hinten genau 882 ab Vorderkante.", 25, 30, 2.2, papier=True, ausrichtung=links)
         blatt.text(f"Alle Zapfen, Schlitze und Aussparungen bemaßt: Blätter {len(ANSICHTEN) + 2}–{BLATT_GESAMT} (1:5).",
                    25, 26, 2.2, papier=True, ausrichtung=links)
     blatt.text("Ohne Schubladen und Sitz-/Tischbretter — deren Maße werden am fertigen Korpus festgelegt.",
@@ -457,9 +457,9 @@ def zeichne_bretter(variante, png=False):
 # ── Blätter 5–7: Einzelbretter mit Bemaßung aller Zapfen, Schlitze, Aussparungen ──
 # Jede Platte in ihrer eigenen Ebene (u, v) in mm, Ursprung links unten an der gelieferten Plattenkante.
 DETAILBLAETTER = [  # (Dateiname, Titel, [(Kürzel, gleiche Kürzel, Ansicht, Papier-x, Papier-y)])
-    ("brett-f1-a1", "Bodenplatte F1 / Deckplatte A1", [("F1", ["A1"], "oben", 55, 58)]),
-    ("brett-b2-b3", "Seitenwände B2 + Trennwände B3", [("B2-F", ["B2-B"], "z", 50, 178), ("B3-1", ["B3-2"], "z", 50, 70)]),
-    ("brett-b1", "Rückwand B1", [("B1", [], "x", 50, 150)]),
+    ("brett-b1-t1", "Bodenplatte B1 / Deckplatte T1", [("B1", ["T1"], "oben", 55, 58)]),
+    ("brett-s-m", "Seitenwände S1/S2 + Trennwände M1/M2", [("S1", ["S2"], "z", 50, 178), ("M1", ["M2"], "z", 50, 70)]),
+    ("brett-r1", "Rückwand R1", [("R1", [], "x", 50, 150)]),
 ]
 BLATT_GESAMT = len(ANSICHTEN) + 1 + len(DETAILBLAETTER)
 
@@ -536,7 +536,7 @@ def zeichne_brett(blatt, alle, p, id, gleiche, ansicht):
     if ansicht == "oben":                                          # über dem Brett ist kein Platz (Maßketten)
         blatt.text(beschriftung.replace("  ·  Rohmaß", "\nRohmaß"), 312, 264, 3.0, papier=True, ausrichtung=links)
     else:
-        oben_kette = loecher or behalten[0][2] < breite             # B1 Schlitze, B3 Absatz: Kette über dem Brett
+        oben_kette = loecher or behalten[0][2] < breite             # R1 Schlitze, M1/M2 Absatz: Kette über dem Brett
         blatt.text(beschriftung, x, y + hoehe * blatt.m + (22 if oben_kette else 6), 3.0, papier=True,
                    ausrichtung=links)
 
@@ -546,30 +546,30 @@ def zeichne_brett(blatt, alle, p, id, gleiche, ansicht):
         blatt.mass((0, hoehe), (0, 0), 10, fmt(hoehe))
         return
     if ansicht == "oben":
-        # oben (Hinterkante): Aussparungen für B1 · zweite Kette: Schlitze für B3
+        # oben (Hinterkante): Aussparungen für R1 · zweite Kette: Schlitze für M1/M2
         hinten = sorted({u for r in loecher if r[3] == hoehe for u in (r[0], r[2])})
         mitte = sorted({u for r in loecher if 0 < r[0] and r[2] < breite and r[3] < hoehe for u in (r[0], r[2])})
         blatt.kette([(u, hoehe) for u in reversed([0] + hinten + [breite])], 8)
         blatt.kette([(u, hoehe) for u in reversed([0] + mitte + [breite])], 21)
-        # links (Fahrerseite): Aussparungen für B2 · rechts: Schlitze für B3 + Aussparungstiefe für B1
+        # links (Fahrerseite): Aussparungen für S1/S2 · rechts: Schlitze für M1/M2 + Aussparungstiefe für R1
         seite = sorted({v for r in loecher if r[0] == 0 for v in (r[1], r[3])})
         schlitz = sorted({v for r in loecher if 0 < r[0] and r[2] < breite for v in (r[1], r[3])} |
                          {r[1] for r in loecher if r[3] == hoehe})
         blatt.kette([(0, v) for v in reversed([0] + seite + [hoehe])], 10)
         blatt.kette([(breite, v) for v in [0] + schlitz + [hoehe]], 10)
         tiefe = min(r[2] - r[0] for r in loecher if r[0] == 0)
-        lage_b2 = next(r for r in loecher if r[0] == 0)
-        blatt.text(f"Aussparungen {fmt(tiefe)} tief", lage_b2[2] + 10, (lage_b2[1] + lage_b2[3]) / 2, 2.4,
+        lage_s = next(r for r in loecher if r[0] == 0)
+        blatt.text(f"Aussparungen {fmt(tiefe)} tief", lage_s[2] + 10, (lage_s[1] + lage_s[3]) / 2, 2.4,
                    ausrichtung=(bd.TextAlign.LEFT, bd.TextAlign.CENTER))
         return
     # Wände: unten Zapfenkette (oben gleich), rechts Höhen
     blatt.kette([(u, 0) for u in [0] + unten + [breite]], 8)
     hoehen = {0, hoehe} | {v for r in behalten[:1] for v in (r[1], r[3])}
-    hoehen |= {v for r in zapfen if r[2] == breite and 0 < r[1] for v in (r[1], r[3])}   # hinterer B3-Zapfen
+    hoehen |= {v for r in zapfen if r[2] == breite and 0 < r[1] for v in (r[1], r[3])}   # hinterer M1/M2-Zapfen
     blatt.kette([(breite, v) for v in sorted(hoehen)], 10)
-    if behalten[0][2] < breite:                                    # B3: Absatz vor dem hinteren Zapfen
+    if behalten[0][2] < breite:                                    # M1/M2: Absatz vor dem hinteren Zapfen
         blatt.kette([(u, hoehe) for u in (breite, behalten[0][2], 0)], 8)
-    if loecher:                                                    # B1: Schlitze für die B3-Zapfen
+    if loecher:                                                    # R1: Schlitze für die M1/M2-Zapfen
         quer = sorted({u for r in loecher for u in (r[0], r[2])})
         blatt.kette([(u, hoehe) for u in reversed([0] + quer + [breite])], 8)
         hoch = sorted({v for r in loecher for v in (r[1], r[3])})
@@ -599,15 +599,15 @@ def zeichne_detail(variante, datei, titel, bretter, nr, png=False):
 
     z = p["zapfen"]
     hinweise = {
-        "brett-f1-a1": [
-            "Bodenplatte (F1) und Deckplatte (A1) sind gleich:",
+        "brett-b1-t1": [
+            "Bodenplatte (B1) und Deckplatte (T1) sind gleich:",
             "dieselbe Zeichnung gilt für beide. Blick von oben,",
             "Fahrerseite links, Heckklappe (Vorderkante) unten.",
             "",
-            f"Seitlich: Aussparungen {fmt(z['laenge'])} × 18 für Seitenwände (B2),",
+            f"Seitlich: Aussparungen {fmt(z['laenge'])} × 18 für Seitenwände (S1/S2),",
             "offen zum Rand.",
-            f"Hinten: Aussparungen {fmt(z['laenge'])} × 18 für Rückwand (B1), offen.",
-            f"Innen: Schlitze 18 × {fmt(z['laenge'])} für Trennwände (B3),",
+            f"Hinten: Aussparungen {fmt(z['laenge'])} × 18 für Rückwand (R1), offen.",
+            f"Innen: Schlitze 18 × {fmt(z['laenge'])} für Trennwände (M1/M2),",
             "geschlossen.",
             "Alles ganz durch die 18-mm-Platte.",
             "",
@@ -615,11 +615,11 @@ def zeichne_detail(variante, datei, titel, bretter, nr, png=False):
             "mit der Stichsäge aussägen, auf Linie feilen.",
             "Lieber knapp sägen und nachpassen.",
             "",
-            "Deckplatte (A1): Klappscharniere (V17) bei",
+            "Deckplatte (T1): Klappscharniere (V17) bei",
             "x = 0 und ± 410 liegen zwischen den",
-            "Aussparungen für die Rückwand (B1).",
+            "Aussparungen für die Rückwand (R1).",
         ],
-        "brett-b2-b3": [
+        "brett-s-m": [
             "Zapfen oben und unten an denselben Stellen",
             "(Maßkette unten gilt für beide Kanten).",
             f"Zapfenlänge 19 = 18 Plattenstärke + {fmt(z['schleifzugabe'])} mm",
@@ -628,30 +628,30 @@ def zeichne_detail(variante, datei, titel, bretter, nr, png=False):
             "",
             "Maße ab Vorderkante (Heckklappe, links).",
             "",
-            "Trennwand (B3) hinten: Absatz genau bei 882,",
+            "Trennwand (M1/M2) hinten: Absatz genau bei 882,",
             "dahinter nur der mittige Zapfen in die",
-            "Rückwand (B1), ohne Schleifzugabe.",
+            "Rückwand (R1), ohne Schleifzugabe.",
             "",
             "Schnitte zwischen den Zapfen mit der",
             "Stichsäge, an Zapfen auf Linie feilen.",
         ],
-        "brett-b1": [
+        "brett-r1": [
             "Zapfen oben und unten an denselben Stellen",
             "(Maßkette unten gilt für beide Kanten).",
             f"Zapfenlänge 19 = 18 + {fmt(z['schleifzugabe'])} mm Schleifzugabe.",
             "",
             "Zwei Schlitze 18 × 50 für die hinteren Zapfen",
-            "der Trennwände (B3), ganz durch",
+            "der Trennwände (M1/M2), ganz durch",
             "(Kette oben + links).",
             "",
             "Symmetrisch — von welcher Seite gemessen",
             "wird, ist egal.",
             "",
             "Zapfenlage weicht den Klappscharnieren (V17)",
-            "auf der Deckplatte (A1) aus (ADR 0020).",
+            "auf der Deckplatte (T1) aus (ADR 0020).",
         ],
     }[datei] if gezapft else ["Ohne Zapfen: Platte nur auf Rohmaß zuschneiden."]
-    hx = 312 if datei == "brett-f1-a1" else 300
+    hx = 312 if datei == "brett-b1-t1" else 300
     for i, zeile in enumerate(hinweise):
         blatt.text(zeile, hx, 255 - i * 5, 2.6, papier=True, ausrichtung=links)
 

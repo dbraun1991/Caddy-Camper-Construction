@@ -7,8 +7,11 @@ information — write a new ADR that supersedes it and link back.
 
 Part codes in all ADRs follow the current scheme in `List_of_Materials.md`
 ("Bezeichnungen"); on 2026-10-17 the floor plate `B4` became `F1` and the
-fastener positions `F1`–`F17` became `V1`–`V17`, and the ADRs were updated
-accordingly.
+fastener positions `F1`–`F17` became `V1`–`V17`; on 2026-11-07 the boards got
+mnemonic codes ([ADR 0022](0022-mnemonic-board-codes.md): `F1`→`B1`, `B1`→`R1`,
+`A1`→`T1`, `A2`/`A3`→`F1`/`F2`, `B2-F`/`B2-B`→`S1`/`S2`, `B3-1`/`B3-2`→`M1`/`M2`,
+hinges `S1-*`/`S2-*`→`H1-*`/`H2-*`). Both times the ADRs were updated
+accordingly, so a code in an older ADR always means the current part.
 
 Format: lightweight [MADR](https://adr.github.io/madr/)-style — Status, Context,
 Decision, Consequences.
@@ -36,3 +39,4 @@ Decision, Consequences.
 | [0019](0019-hinged-sleeping-boards-fold-onto-the-corpus.md) | Hinged sleeping boards fold back onto the corpus for driving | Accepted |
 | [0020](0020-through-tenons-instead-of-routed-grooves.md) | Through tenons instead of routed grooves | Accepted |
 | [0021](0021-table-board-on-170-kg-runners.md) | Table board C3 on the 170 kg runners (it must take a person sitting on it) | Accepted |
+| [0022](0022-mnemonic-board-codes.md) | Mnemonic part codes for the boards (Bottom, Rear, Side, Mid, Top, Fold) | Accepted |

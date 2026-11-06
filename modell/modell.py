@@ -19,12 +19,13 @@ from pathlib import Path
 ORDNER = Path(__file__).resolve().parent
 ECKAUSBILDUNGEN = ("gezapft", "stumpf")   # Boden + Deckel immer durchlaufend (ADR 0018), Zapfen ADR 0020
 
-# Kürzel bleiben feste Positionsnummern; der Buchstabe nennt die Gruppe, `name` den Langnamen
-# (Funktion + Lage, links/rechts aus Fahrersicht). Glossar: List_of_Materials.md „Bezeichnungen“.
+# Kürzel bleiben feste Positionsnummern; der Buchstabe ist eine Eselsbrücke (ADR 0022), `name` der
+# Langname (Funktion + Lage, links/rechts aus Fahrersicht). Glossar: List_of_Materials.md „Bezeichnungen“.
 GRUPPEN = {
-    "A": "Liegefläche (waagerecht oben)", "B": "Wände (senkrecht)", "F": "Fußboden (waagerecht unten)",
+    "B": "Bodenplatte (Bottom)", "R": "Rückwand (Rear)", "S": "Seitenwände (Side)", "M": "Trennwände (Mid)",
+    "T": "Deckplatte (Top)", "F": "Klappbretter (Fold)",
     "C": "Auszugbretter", "D": "Schubladen", "E": "Schienen",
-    "V": "Verbindungsmittel & Beschläge", "G": "Ausstattung", "S": "Scharniere",
+    "V": "Verbindungsmittel & Beschläge", "G": "Ausstattung", "H": "Scharniere (Hinge)",
 }
 ELEMENTE = {
     "C1": "Sitzbrett links", "C2": "Sitzbrett rechts", "C3": "Tischbrett Mitte",
@@ -54,7 +55,7 @@ def _korpus(p, eck):
     xa, xi = W / 2, W / 2 - T          # Außen- / Innenfläche der Seitenwände
     d = swM / 2                        # Innenfläche der Trennwände zur Mitte
 
-    # Boden F1 und Deckel A1 laufen voll durch (1.120 × 900); alle Wände stehen dazwischen.
+    # Boden B1 und Deckel T1 laufen voll durch (1.120 × 900); alle Wände stehen dazwischen.
     if eck not in ECKAUSBILDUNGEN:
         raise ValueError(f"unbekannte eckausbildung: {eck}")
     wand_y = (T, H)
@@ -62,27 +63,27 @@ def _korpus(p, eck):
     wandhoehe = H - T
     if eck == "gezapft":
         roh = wandhoehe + 2 * (T + p["zapfen"]["schleifzugabe"])
-        roh_b1 = {"zuschnitt": [W - 2 * T, roh]}
-        roh_b2 = roh_b3 = {"zuschnitt": [D, roh]}     # B3: 882 + hinterer Zapfen = so lang wie B2
+        roh_r = {"zuschnitt": [W - 2 * T, roh]}
+        roh_s = roh_m = {"zuschnitt": [D, roh]}     # M1/M2: 882 + hinterer Zapfen = so lang wie S1/S2
     else:
-        roh_b1 = roh_b2 = roh_b3 = {}
+        roh_r = roh_s = roh_m = {}
 
     waende = [
-        _teil("B2-F", "Seitenwand links (Fahrerseite)", "korpus", "holz", (xi, xa), wand_y, (0, D), **roh_b2),
-        _teil("B2-B", "Seitenwand rechts (Beifahrerseite)", "korpus", "holz", (-xa, -xi), wand_y, (0, D), **roh_b2),
-        _teil("B1", "Rückwand", "korpus", "holz", (-xi, xi), wand_y, (D - T, D), **roh_b1),
-        _teil("F1", "Bodenplatte", "korpus", "holz", (-xa, xa), (0, T), (0, D)),
-        _teil("B3-1", "Trennwand links", "korpus", "holz", (d, d + DW), wand_y, (0, D - T), **roh_b3),
-        _teil("B3-2", "Trennwand rechts", "korpus", "holz", (-d - DW, -d), wand_y, (0, D - T), **roh_b3),
-        _teil("A1", "Deckplatte", "liegeflaeche", "holz", (-xa, xa), (H, H + T), (0, D)),
+        _teil("S1", "Seitenwand links (Fahrerseite)", "korpus", "holz", (xi, xa), wand_y, (0, D), **roh_s),
+        _teil("S2", "Seitenwand rechts (Beifahrerseite)", "korpus", "holz", (-xa, -xi), wand_y, (0, D), **roh_s),
+        _teil("R1", "Rückwand", "korpus", "holz", (-xi, xi), wand_y, (D - T, D), **roh_r),
+        _teil("B1", "Bodenplatte", "korpus", "holz", (-xa, xa), (0, T), (0, D)),
+        _teil("M1", "Trennwand links", "korpus", "holz", (d, d + DW), wand_y, (0, D - T), **roh_m),
+        _teil("M2", "Trennwand rechts", "korpus", "holz", (-d - DW, -d), wand_y, (0, D - T), **roh_m),
+        _teil("T1", "Deckplatte", "liegeflaeche", "holz", (-xa, xa), (H, H + T), (0, D)),
     ]
     return waende + (_zapfen(p, waende) if eck == "gezapft" else [])
 
 
 def _zapfen(p, waende):
-    """Zapfen als eigene Quader: je Wandkante oben in A1 und unten in F1, an B3 zusätzlich hinten in B1.
+    """Zapfen als eigene Quader: je Wandkante oben in T1 und unten in B1, an M1/M2 zusätzlich hinten in R1.
 
-    Sie stecken an B3 in geschlossenen Schlitzen, an B1/B2 in zum Plattenrand offenen
+    Sie stecken an M1/M2 in geschlossenen Schlitzen, an R1/S1/S2 in zum Plattenrand offenen
     Aussparungen — der Quader ist derselbe, nur das Gegenstück unterscheidet sich (ADR 0020).
     """
     k, z = p["korpus"], p["zapfen"]
@@ -92,26 +93,26 @@ def _zapfen(p, waende):
 
     def setze(wand, x, zz, nr):
         name = wand["name"].split(" (")[0]
-        for lage, y, platte in (("u", (0, T), "F1"), ("o", (H, H + T), "A1")):
+        for lage, y, platte in (("u", (0, T), "B1"), ("o", (H, H + T), "T1")):
             out.append(_teil(f"{wand['id']}-Z{nr}{lage}", f"Zapfen {name} in {platte}", "korpus", "holz",
                              x, y, zz, steckt_in=[platte], zapfen_von=wand["id"]))
 
     for wand in waende:
-        if wand["id"] in ("F1", "A1"):
+        if wand["id"] in ("B1", "T1"):
             continue
         (x0, x1), _, (z0, z1) = wand["box"]
-        if wand["id"] == "B1":
-            for nr, m in enumerate(z["b1_mitten"], 1):
+        if wand["id"] == "R1":
+            for nr, m in enumerate(z["r1_mitten"], 1):
                 setze(wand, (m - L / 2, m + L / 2), (z0, z1), nr)
             continue
         for i in range(n):
             start = z0 + R + (z1 - z0 - 2 * R - L) * i / (n - 1)
             setze(wand, (x0, x1), (start, start + L), i + 1)
-        if wand["id"].startswith("B3"):         # hinterer Zapfen, mittig in der Wandhöhe, durch die Rückwand
+        if wand["id"].startswith("M"):         # hinterer Zapfen, mittig in der Wandhöhe, durch die Rückwand
             mitte = (T + H) / 2
-            out.append(_teil(f"{wand['id']}-Zh", f"Zapfen {wand['name']} in B1", "korpus", "holz",
+            out.append(_teil(f"{wand['id']}-Zh", f"Zapfen {wand['name']} in R1", "korpus", "holz",
                              (x0, x1), (mitte - L / 2, mitte + L / 2), (D - T, D),
-                             steckt_in=["B1"], zapfen_von=wand["id"]))
+                             steckt_in=["R1"], zapfen_von=wand["id"]))
     return out
 
 
@@ -167,7 +168,7 @@ def _einbauten(p):
         out.append(_teil(f"D{nr}-F", f"Schubladenfront {ELEMENTE[f'D{nr}'].split()[-1]}", "schublade", "blende",
                          sek[sid], (yB + bh, yB + bh + e["blende_hoehe"]), zF, "schubladen"))
         schienenpaar(sid, yB, "bretter", f"C{nr}")
-        # Schubladenschiene mittig auf 2/3 Kastenhöhe — Bänder dürfen sich an B3 nicht überlappen (§H1)
+        # Schubladenschiene mittig auf 2/3 Kastenhöhe — Bänder dürfen sich an M1/M2 nicht überlappen (§H1)
         schienenpaar(sid, yB + bh + sp + hK * 2 / 3 - typ(f"D{nr}")["hoehe"] / 2, "schubladen", f"D{nr}")
 
     # Mitte: unten Schublade, oben Tisch-Brett
@@ -183,27 +184,27 @@ def _einbauten(p):
 
 
 def _scharniere(p):
-    """Klappscharniere an den Fugen A1↔A2 (oben) und A2↔A3 (unten), dazu die Klappachsen.
+    """Klappscharniere an den Fugen T1↔F1 (oben) und F1↔F2 (unten), dazu die Klappachsen.
 
     Ein aufgeschraubtes Scharnier lässt sich nur zur Seite seiner Achse öffnen: oben auf
-    A1↔A2 klappt A2 nur nach oben über die Box, unten an A2↔A3 klappt A3 nur nach unten —
-    nach dem Umklappen von A2 ist „unten“ oben, A3 legt sich auf A2.
+    T1↔F1 klappt F1 nur nach oben über die Box, unten an F1↔F2 klappt F2 nur nach unten —
+    nach dem Umklappen von F1 ist „unten“ oben, F2 legt sich auf F1.
     """
     k, l, s = p["korpus"], p["liegeflaeche"], p["scharniere"]
     W, D, H, T = k["breite"], k["tiefe"], k["hoehe"], k["plattenstaerke"]
     a, b, lo = s["achse_ueber_flaeche"], s["blatt_breite"], s["laenge_offen"]
-    z12, z23 = D, D + l["laenge_a2"]
+    z12, z23 = D, D + l["laenge_f1"]
     xs = [0] + [v * (W / 2 - s["abstand_rand"]) for v in (-1, 1)] if s["je_fuge"] == 3 else \
          [W * (i + 1) / (s["je_fuge"] + 1) - W / 2 for i in range(s["je_fuge"])]
     out = []
     for i, x in enumerate(sorted(xs), 1):
-        out.append(_teil(f"S1-{i}", "Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben)", "scharnier", "scharnier",
+        out.append(_teil(f"H1-{i}", "Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben)", "scharnier", "scharnier",
                          (x - b / 2, x + b / 2), (H + T, H + T + 2 * a), (z12 - lo / 2, z12 + lo / 2)))
-        out.append(_teil(f"S2-{i}", "Scharnier Klappbrett Rücksitz ↔ Kopfende (unten)", "scharnier", "scharnier",
-                         (x - b / 2, x + b / 2), (H - 2 * a, H), (z23 - lo / 2, z23 + lo / 2), klappt_mit="A2"))
+        out.append(_teil(f"H2-{i}", "Scharnier Klappbrett Rücksitz ↔ Kopfende (unten)", "scharnier", "scharnier",
+                         (x - b / 2, x + b / 2), (H - 2 * a, H), (z23 - lo / 2, z23 + lo / 2), klappt_mit="F1"))
     # Achsen (y, z) im flachen Zustand und Klappwinkel um x für die Fahrmodi
-    achsen = {"A2": {"y": H + T + a, "z": z12, "winkel": -180},
-              "A3": {"y": H - a, "z": z23, "winkel": 180, "an": "A2"}}
+    achsen = {"F1": {"y": H + T + a, "z": z12, "winkel": -180},
+              "F2": {"y": H - a, "z": z23, "winkel": 180, "an": "F1"}}
     return out, achsen
 
 
@@ -212,9 +213,9 @@ def _liegeflaeche(p):
     W, D, H, T = k["breite"], k["tiefe"], k["hoehe"], k["plattenstaerke"]
     y = (H, H + T)
     return _scharniere(p)[0] + [
-        _teil("A2", "Klappbrett Rücksitz", "liegeflaeche", "holz", (-W / 2, W / 2), y, (D, D + l["laenge_a2"])),
-        _teil("A3", "Klappbrett Kopfende", "liegeflaeche", "holz", (-W / 2, W / 2), y,
-              (D + l["laenge_a2"], D + l["laenge_a2"] + l["laenge_a3"])),
+        _teil("F1", "Klappbrett Rücksitz", "liegeflaeche", "holz", (-W / 2, W / 2), y, (D, D + l["laenge_f1"])),
+        _teil("F2", "Klappbrett Kopfende", "liegeflaeche", "holz", (-W / 2, W / 2), y,
+              (D + l["laenge_f1"], D + l["laenge_f1"] + l["laenge_f2"])),
         _teil("G1", "Matratze", "matratze", "matratze", (-m["breite"] / 2, m["breite"] / 2),
               (H + T, H + T + m["hoehe"]), (0, m["laenge"])),
     ]
@@ -229,7 +230,7 @@ def teile(p=None, eckausbildung=None):
 KATEGORIEN = {
     "zapfen": "Zapfen steckt in Schlitz/Aussparung (gewollt)",
     "eckverbindung": "Eckausbildung Korpus — welche Platte läuft durch?",
-    "rueckwand": "Rückwand B1 ragt in Schienen/Elemente (lichte Tiefe < Schienenlänge)",
+    "rueckwand": "Rückwand R1 ragt in Schienen/Elemente (lichte Tiefe < Schienenlänge)",
     "frontblende": "Schubladenfront überdeckt Schienen bzw. Nachbarelement",
     "auflage": "Matratze liegt auf den Scharnieren (weich, unkritisch)",
     "sonstige": "Sonstige Überschneidung",
@@ -245,7 +246,7 @@ def _kategorie(a, b):
         return "auflage"
     if a["gruppe"] == b["gruppe"] == "korpus":
         return "eckverbindung"
-    if "B1" in ids:
+    if "R1" in ids:
         return "rueckwand"
     if "blende" in (a["material"], b["material"]):
         return "frontblende"
@@ -290,14 +291,14 @@ def fahrzeug_pruefung(p=None):
                         f"{f['ladetiefe_min']}–{f['ladetiefe_max']}",
                         f"{lo}–{hi} mm Luft zu den Rücksitzen",
                         "ok" if lo > 0 else "anpassen"))
-    lang = k["tiefe"] + l["laenge_a2"] + l["laenge_a3"]
+    lang = k["tiefe"] + l["laenge_f1"] + l["laenge_f2"]
     luft = f["laenge_heck_bis_kopfstuetzen"] - lang
-    out.append(pruefung("Liegefläche A1 + A2 + A3 bis zu den Kopfstützen", lang,
+    out.append(pruefung("Liegefläche T1 + F1 + F2 bis zu den Kopfstützen", lang,
                         f["laenge_heck_bis_kopfstuetzen"], f"{luft} mm Luft",
                         "ok" if luft > 0 else ("knapp" if luft == 0 else "anpassen")))
     spalt = k["hoehe"] - f["ruecksitzlehne_hoehe"]
-    out.append(pruefung("Unterkante A2 über umgeklappten Rücksitzlehnen", k["hoehe"], f["ruecksitzlehne_hoehe"],
-                        f"{spalt} mm Spalt — unter A2 ausgleichen (§H4)" if spalt else "liegt bündig auf",
+    out.append(pruefung("Unterkante F1 über umgeklappten Rücksitzlehnen", k["hoehe"], f["ruecksitzlehne_hoehe"],
+                        f"{spalt} mm Spalt — unter F1 ausgleichen (§H4)" if spalt else "liegt bündig auf",
                         "anpassen" if spalt else "ok"))
     return out
 

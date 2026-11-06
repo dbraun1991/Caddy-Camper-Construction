@@ -4,7 +4,7 @@ Status: Accepted — amends [ADR 0004](0004-static-scene-graph-with-z-position-t
 
 ## Context
 
-The sleeping boards `A2` (700 mm, on the folded rear seat backs) and `A3`
+The sleeping boards `F1` (700 mm, on the folded rear seat backs) and `F2`
 (400 mm, towards the front headrests) were loose and joined to their
 neighbours only by overlap battens (§H4). To drive with the rear seats in use,
 both boards have to go somewhere. The builder wants them hinged to the corpus so
@@ -12,24 +12,24 @@ they fold back onto the box, using standard surface-mounted hinges.
 
 ## Decision
 
-- **`A1`↔`A2`: hinges on top**, **`A2`↔`A3`: hinges underneath** — 3 standard
+- **`T1`↔`F1`: hinges on top**, **`F1`↔`F2`: hinges underneath** — 3 standard
   folding hinges per joint (`modell/parameter.json` → `scharniere`).
 - A surface-mounted hinge only opens towards the side its knuckle is on. On top
-  of `A1`↔`A2`, `A2` can only swing up and over onto the box, never sag below
-  the platform. Underneath `A2`↔`A3`, `A3` can only fold down while flat; once
-  `A2` lies upside down on the box, "down" faces up and `A3` folds onto `A2`.
-  Result: a stack `A1` / `A2` / `A3` on the box.
+  of `T1`↔`F1`, `F1` can only swing up and over onto the box, never sag below
+  the platform. Underneath `F1`↔`F2`, `F2` can only fold down while flat; once
+  `F1` lies upside down on the box, "down" faces up and `F2` folds onto `F1`.
+  Result: a stack `T1` / `F1` / `F2` on the box.
 - The pivot axis sits ~3 mm above/below the board face, so the folded boards lie
   ~6 mm apart (the hinge leaves sit in between). Folded positions, computed and
-  checked in the viewer: `A2` y 344–362, z 200–900; `A3` y 368–386, z 200–600
+  checked in the viewer: `F1` y 344–362, z 200–900; `F2` y 368–386, z 200–600
   — fully on the corpus; stack height 386 mm.
-- The overlap battens `V13` between `A1`/`A2`/`A3` are dropped: the hinges
-  locate the joints, and a batten under `A2`'s edge resting on `A1` would also
+- The overlap battens `V13` between `T1`/`F1`/`F2` are dropped: the hinges
+  locate the joints, and a batten under `F1`'s edge resting on `T1` would also
   block the fold.
 - Viewer: two new modes. **Fahrmodus 1** folds both boards onto the box and
   hides the mattress (stowed). **Fahrmodus 2** additionally shows the rear seats
   upright (5 seats). The fold axes come from `modell.py` (`klappachsen`);
-  `A2`/`A3` sit in pivot groups that are rotated by 180°.
+  `F1`/`F2` sit in pivot groups that are rotated by 180°.
 
 ## Consequences
 
@@ -42,4 +42,4 @@ they fold back onto the box, using standard surface-mounted hinges.
   projectiles under hard braking.
 - The upright rear seat geometry in the viewer is a placeholder; only the
   position of the seat back (at the measured 920 mm load depth) is grounded.
-- The headrest loops of `A3` (§H4) are released before folding.
+- The headrest loops of `F2` (§H4) are released before folding.

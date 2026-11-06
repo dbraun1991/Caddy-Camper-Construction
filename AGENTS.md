@@ -30,7 +30,7 @@ Einkaufsliste.md           — shopping list, current prices, total budget estim
 Hinweise-Sommernutzung.md  — legal (rasten vs. campen), payload, ventilation, privacy/
                               insect protection for summer-only use — not build-specific,
                               but references the build where it's affected (Bankmodus,
-                              A3 headrest mounting, ADR 0012)
+                              F2 headrest mounting, ADR 0012)
 README.md                  — usage, controls, dimensions overview, render architecture notes
 docs/adrs/                 — architecture decision records (see below)
 docs/zeichnungen/          — generated drawings, one folder per `eckausbildung` variant
@@ -66,18 +66,22 @@ down.
   usually needs to be reflected in `List_of_Materials.md` and `README.md` (e.g.
   section widths, rail specs, board thicknesses), and a part or quantity change
   also affects `Einkaufsliste.md`.
-- **Part codes + long names.** Codes (`A1`, `B2-F`, `C3`, …) are stable
+- **Part codes + long names.** Codes (`T1`, `S1`, `C3`, …) are stable
   position numbers used by the model, drawings and ADRs — don't renumber them.
   User-facing German text pairs them with the long name from the glossary in
-  `List_of_Materials.md` ("Bezeichnungen"), e.g. "Klappbrett Rücksitz (A2)";
+  `List_of_Materials.md` ("Bezeichnungen"), e.g. "Klappbrett Rücksitz (F1)";
   the model's `name` field holds the same long name (`GRUPPEN`, `ELEMENTE` in
-  `modell/modell.py`). Keep the three in sync when adding a part. Board groups
-  follow orientation: `A` horizontal top, `B` vertical walls, `F` floor
-  (`F1` Bodenplatte); fasteners/fittings are `V1`–`V17` (renamed from `F1`–`F17`
-  on 2026-10-17, when the floor took `F`).
+  `modell/modell.py`). Keep the three in sync when adding a part. Board letters
+  are English mnemonics ([ADR 0022](docs/adrs/0022-mnemonic-board-codes.md),
+  2026-11-07): `B1` Bottom (Bodenplatte), `R1` Rear (Rückwand), `S1`/`S2` Side,
+  `M1`/`M2` Mid (dividers), `T1` Top (Deckplatte), `F1`/`F2` Fold (hinged
+  sleeping boards), hinges `H1-*`/`H2-*`. Before that the boards were
+  `F1`, `B1`, `B2-F`/`B2-B`, `B3-1`/`B3-2`, `A1`–`A3` — the same codes now mean
+  different parts, so read dated notes and old printouts with care.
+  Fasteners/fittings are `V1`–`V17` (renamed from `F1`–`F17` on 2026-10-17).
 - **Left/right means as seen from the driver's seat** (facing forward, LHD):
   left = driver side = +x, right = passenger side = −x. Section `L` (`C1`, `D1`,
-  `B2-F`) is on the driver side. The Vorderansicht looks forward through the
+  `S1`) is on the driver side. The Vorderansicht looks forward through the
   tailgate, so left in the drawing is left for the driver too.
 - **Prices in `Einkaufsliste.md` are dated estimates**, not quotes. They carry a
   "Preisstand" line — when refreshing them, re-check the sources and move that
@@ -86,7 +90,7 @@ down.
   switching (`setMode`) moves, along Z by the rail length, the parts whose
   model entry has `faehrt` set (drawer boxes + fronts, seat/table boards, and
   their rail inner-members), and in the two driving modes rotates the pivot
-  groups of the hinged boards `A2`/`A3` by 180° around the axes in
+  groups of the hinged boards `F1`/`F2` by 180° around the axes in
   `MODELL.klappachsen` ([ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md)).
   See [docs/adrs/0004-static-scene-graph-with-z-position-toggle.md](docs/adrs/0004-static-scene-graph-with-z-position-toggle.md)
   before changing how modes are represented.
@@ -100,7 +104,7 @@ down.
 
 - 3D viewer with orbit (drag), zoom (scroll), and camera reset, mouse + touch.
 - Five modes — Schlafmodus / Bankmodus / Packmodus, plus Fahrmodus 1/2 (hinged
-  boards `A2`/`A3` folded onto the box; in 2 also rear seats upright, 5 seats,
+  boards `F1`/`F2` folded onto the box; in 2 also rear seats upright, 5 seats,
   ADR 0019) — toggling the extension of
   3 drawers and 2 seat boards + 1 table board along the rails.
 - Full corpus geometry (side walls, back wall, floor, two dividers) at real
@@ -122,8 +126,8 @@ down.
   dashed, overlaps red, intended tenon overlaps green) for the two
   corner-construction variants (`gezapft`, `stumpf`), a fourth sheet
   "Box-Bretter" (every corpus/platform board flat at 1:10 with tenons, slots and a
-  cut list, `zeichne_bretter()`), three single-board sheets at 1:5 (`brett-f1-a1`,
-  `brett-b2-b3`, `brett-b1`, `zeichne_detail()`) with every tenon, slot and
+  cut list, `zeichne_bretter()`), three single-board sheets at 1:5 (`brett-b1-t1`,
+  `brett-s-m`, `brett-r1`, `zeichne_detail()`) with every tenon, slot and
   notch dimensioned from the board edge and the waste shaded, plus an overlap
   report in the "Statisch" tab and a collision toggle in the 3D tab
   ([ADR 0015](docs/adrs/0015-shared-model-data-for-viewer-and-drawings.md)).
@@ -132,7 +136,7 @@ down.
   ([List_of_Materials.md](List_of_Materials.md) §H): corpus shell (ADR 0007),
   rail-to-wall attachment (§H1), drawer boxes and front panels (ADR 0011),
   sleeping-platform board joints (§H4), and vehicle tie-down (ADR 0012, amended by ADR 0016:
-  rear lashing eyes beside the corpus, brackets on the outside of `B2`).
+  rear lashing eyes beside the corpus, brackets on the outside of `S1/S2`).
 - Shopping list with dated price estimates, a three-tier total budget, and a
   buy order derived from the assembly order ([Einkaufsliste.md](Einkaufsliste.md)).
 - Summer-use considerations beyond the physical build — legal distinction between
@@ -161,12 +165,12 @@ down.
   - ~~Corner construction~~ — decided in
     [ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md) and
     [ADR 0020](docs/adrs/0020-through-tenons-instead-of-routed-grooves.md):
-    `F1` and `A1` continuous, walls join them with 18 × 50 mm through tenons
+    `B1` and `T1` continuous, walls join them with 18 × 50 mm through tenons
     (`eckausbildung: gezapft`, fallback `stumpf`; the routed grooves are gone,
     the builder has no router bit). Tenons are separate model boxes, flagged
     `gewollt` (green) and excluded from the problem count. Wall cut height is
-    340 mm; `B3` is cut to 900 mm including its rear tenon into `B1`. Assembly
-    order is forced: `B3`, then `B1` from behind, then `B2`, then `A1`.
+    340 mm; `M1/M2` is cut to 900 mm including its rear tenon into `R1`. Assembly
+    order is forced: `M1/M2`, then `R1` from behind, then `S1/S2`, then `T1`.
   - ~~Clear depth 882 mm < 900 mm rail length~~ — resolved by
     [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md): 850 mm
     runners, corpus stays 900 mm. Runners ordered 2026-11-04 (2 × 170 kg + 4 × 80 kg; since ADR 0021 `C3` needs the 170 kg type → 3 + 3, one 170 kg pair still to order). The 170 kg type is
@@ -193,8 +197,8 @@ down.
   `doorOpenings`, tailgate length/angle) were explicitly **not** measured — the
   user chose to ignore them for now. Don't ask for them again unless a decision
   depends on one.
-- A2 sits 10 mm above the folded seat backs (310 vs 320 mm); the shim is
-  documented in §H4 (V16). A3 hangs from the headrests on two adjustable loops
+- F1 sits 10 mm above the folded seat backs (310 vs 320 mm); the shim is
+  documented in §H4 (V16). F2 hangs from the headrests on two adjustable loops
   (V15); the user sets holes and loop length on the car — documented, otherwise
   out of scope.
 
@@ -207,7 +211,7 @@ down.
   "Statisch" drawings, not in the 3D view).
 - Exportable cut list generated from `modell.teile()`, so `List_of_Materials.md`
   can't drift from the model (the shared model makes this a small step now).
-- Drawings for the sleeping boards `A2`/`A3` and exploded/part drawings of the
+- Drawings for the sleeping boards `F1`/`F2` and exploded/part drawings of the
   drawer boxes once ADR 0013 and the open findings are decided.
 
 ## Architecture decisions

@@ -6,8 +6,8 @@ Status: Accepted
 
 The corpus is built from birch multiplex (Birke-Multiplex). This material holds
 screws well face-on but poorly in end grain (Hirnholz) — and the sleeping
-platform lid (`A1`) rests directly on the end grain of all four verticals
-(`B2` × 2 side walls, `B3` × 2 dividers), which is exactly the weak orientation.
+platform lid (`T1`) rests directly on the end grain of all four verticals
+(side walls `S1`/`S2`, dividers `M1`/`M2`), which is exactly the weak orientation.
 The unit lives in a vehicle and is subject to continuous driving vibration, so
 the joint must survive cyclic loading, not just a static load test. Full
 documented reasoning lives in `List_of_Materials.md` §H.
@@ -28,7 +28,7 @@ order: (1) 8×40 mm dowels every ~200 mm for alignment and shear strength, (2)
 4×45 mm countersunk screws from above every 120–150 mm, offset from the dowels,
 for tension across the joint, (3) 40×40×2 mm steel corner brackets at all 4
 top corners for dynamic/vibration reserve. Dividers are glued and screwed from
-outside through the side walls; the back wall (`B1`) is fully glued as the
+outside through the side walls; the back wall (`R1`) is fully glued as the
 main anti-racking (Verwindung) element, secured with ≥6 screws.
 
 ## Consequences

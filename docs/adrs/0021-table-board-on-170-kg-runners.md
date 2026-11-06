@@ -27,7 +27,7 @@ The runners were ordered on 2026-11-04 as 2 pairs of 170 kg and 4 pairs of
 ## Consequences
 
 - The `C3` rail band, flush with the top of `C3`, grows from 262–315 to
-  **239–315 mm**. On the dividers `B3` it now overlaps the L/R drawer band
+  **239–315 mm**. On the dividers `M1/M2` it now overlaps the L/R drawer band
   (202–255) by 16 mm in height on the opposite face. (The seat band L/R 18–94
   already overlapped the middle drawer band 78–131 by 16 mm.) With 16 mm screws
   in an 18 mm divider, screws in these bands must not sit opposite each other:

@@ -11,24 +11,24 @@
   },
 
   "zapfen": {
-    "_hinweis": "Wände greifen mit Zapfen durch F1/A1 (ADR 0020). Querschnitt = laenge × Plattenstärke. An B2/B3 gleichmäßig verteilt; an B1 feste Mitten (x), damit die Scharniere V17 auf A1 keinen Zapfen treffen",
+    "_hinweis": "Wände greifen mit Zapfen durch B1/T1 (ADR 0020). Querschnitt = laenge × Plattenstärke. An S1/S2/M1/M2 gleichmäßig verteilt; an R1 feste Mitten (x), damit die Scharniere V17 auf T1 keinen Zapfen treffen",
     "laenge": 50,
     "anzahl_je_kante": 3,
     "abstand_rand": 50,
-    "b1_mitten": [-475, -155, 155, 475],
+    "r1_mitten": [-475, -155, 155, 475],
     "schleifzugabe": 1,
-    "_schleifzugabe": "Zuschnitt je Wandkante länger als die Plattenstärke, Zapfen werden nach dem Verleimen bündig geschliffen (Wandhöhe 302 + 2 × 19 = 340). Der hintere B3-Zapfen in B1 hat keine Zugabe."
+    "_schleifzugabe": "Zuschnitt je Wandkante länger als die Plattenstärke, Zapfen werden nach dem Verleimen bündig geschliffen (Wandhöhe 302 + 2 × 19 = 340). Der hintere M1/M2-Zapfen in R1 hat keine Zugabe."
   },
 
   "liegeflaeche": {
-    "laenge_a2": 700,
-    "laenge_a3": 400
+    "laenge_f1": 700,
+    "laenge_f2": 400
   },
 
   "matratze": { "breite": 1100, "laenge": 1980, "hoehe": 80 },
 
   "scharniere": {
-    "_hinweis": "Standard-Klappscharniere (aufgeschraubt). A1↔A2 oben, A2↔A3 unten — so klappen A2 und A3 als Stapel auf die Box (ADR 0019)",
+    "_hinweis": "Standard-Klappscharniere (aufgeschraubt). T1↔F1 oben, F1↔F2 unten — so klappen F1 und F2 als Stapel auf die Box (ADR 0019)",
     "je_fuge": 3,
     "blatt_breite": 60,
     "laenge_offen": 60,
@@ -71,5 +71,5 @@
   },
 
   "eckausbildung": "gezapft",
-  "_eckausbildung_werte": "Boden F1 und Deckel A1 laufen immer durch (ADR 0018). gezapft = Wände greifen mit Zapfen in Schlitze/Aussparungen von F1, A1 und B1 (ADR 0020) · stumpf = Wände 302 mm, stumpf zwischen F1 und A1"
+  "_eckausbildung_werte": "Boden B1 und Deckel T1 laufen immer durch (ADR 0018). gezapft = Wände greifen mit Zapfen in Schlitze/Aussparungen von B1, T1 und R1 (ADR 0020) · stumpf = Wände 302 mm, stumpf zwischen B1 und T1"
 }

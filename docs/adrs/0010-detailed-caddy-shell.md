@@ -7,7 +7,7 @@ Status: Accepted (extends [ADR 0009](0009-translucent-caddy-shell-overlay.md))
 The first shell (ADR 0009) was a closed box with wheel arches and two seat
 backs. That made it hard to see how the unit and sleeping platform relate to the
 real openings (where you can reach the drawers from the side, where the boards
-sit relative to the seats), and it ignored the rear seats that board B1 rests on.
+sit relative to the seats), and it ignored the rear seats that board R1 rests on.
 
 ## Decision
 
@@ -19,7 +19,7 @@ Keep everything inside the toggled group `caddyG` and add:
 - **Front seats** with backrest and seat cushion, and the shell lengthened to
   3,000 mm so the cabin is included.
 - **Rear bench** in its own subgroup `rearSeatsG`, shown flipped flat by default
-  (base + folded backrest, top just below platform height 320 mm, where board B1
+  (base + folded backrest, top just below platform height 320 mm, where board R1
   rests) and hideable via a "Rücksitze" button to show the seats removed.
 - **Load-floor reference plane** at y = 0 (light-green, 2 mm thick) from the
   tailgate to the front-seat backrest line, marking where the build starts.

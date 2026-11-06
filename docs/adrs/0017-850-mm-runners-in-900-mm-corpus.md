@@ -5,13 +5,13 @@ Status: Accepted — amends [ADR 0008](0008-heavy-duty-full-extension-runners.md
 ## Context
 
 ADR 0008 chose 900 mm runners because the corpus is 900 mm deep. The overlap
-check from ADR 0015 showed that this never fitted: the back wall `B1` (18 mm)
+check from ADR 0015 showed that this never fitted: the back wall `R1` (18 mm)
 leaves **882 mm** of clear depth, so 900 mm runners, the 880 mm drawer boxes
 behind their 18 mm fronts, and the 900 mm seat/table boards all ran 14–18 mm
 into the back wall (18 overlaps).
 
-The 900 mm corpus depth itself has a real reason: the lid `A1` is part of the
-sleeping platform and must reach the folded rear seats where `A2` starts. The
+The 900 mm corpus depth itself has a real reason: the lid `T1` is part of the
+sleeping platform and must reach the folded rear seats where `F1` starts. The
 measured load depth is 920–930 mm (2026-10-17). The builder wants to keep the
 corpus at 900 mm and keep ~2 cm of air at the rear-seat end, not use the space
 for a deeper corpus.
@@ -41,7 +41,7 @@ Options:
   the dividers).
 - Derived in `modell/parameter.json`: drawer box depth **830 mm** (runner − 20,
   as before), seat/table board depth **850 mm** (= runner length).
-- Behind the runners and elements: **32 mm** clear space before `B1`.
+- Behind the runners and elements: **32 mm** clear space before `R1`.
 
 ## Consequences
 

@@ -13,7 +13,7 @@ surface on top. A single full-width unit would make each pull-out 1,048 mm wide
 
 ## Decision
 
-Split the corpus into three sections with two internal dividers (`B3`, 18 mm
+Split the corpus into three sections with two internal dividers (`M1/M2`, 18 mm
 each): left and right sections at 312 mm clear interior width, a middle section
 at 424 mm. Each section gets one drawer and one board (seat board L/R, table
 board M), each independently mounted on its own rail pair. Section width is
@@ -38,7 +38,7 @@ widths fall out of it (see `index.html` comments around `x1`/`xM`/`x3`/`sw1`/
   must flow through the width formula above in both `index.html` and
   `List_of_Materials.md` §B — the three section widths are derived values, not
   independently editable numbers.
-- Two full-height dividers (`B3` × 2) are structural, not cosmetic: they carry
+- Two full-height dividers (`M1`, `M2`) are structural, not cosmetic: they carry
   rail mounting loads on both faces (see
   [ADR 0007](0007-dowel-screw-bracket-joinery.md) for how they're joined to the
   rest of the corpus).

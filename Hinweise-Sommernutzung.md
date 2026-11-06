@@ -59,15 +59,15 @@ Punkte, die über die reine Konstruktion hinausgehen:
   sein, nie während der Fahrt — auch nicht an Seiten- oder Heckscheiben, falls diese für
   Schulterblick/Rückspiegel relevant sind.
 - **Fahren mit geklappter Liegefläche (Fahrmodus 1/2):** Die auf die Box geklappten
-  Klappbretter (A2, A3) hängen nur an den Scharnieren — vor der Fahrt mit einem Spanngurt am Korpus sichern,
+  Klappbretter (F1, F2) hängen nur an den Scharnieren — vor der Fahrt mit einem Spanngurt am Korpus sichern,
   Matratze gesichert verstauen. Lose Platten dieser Größe werden bei einer Vollbremsung zu
   Geschossen.
-- **Kopfstützenfunktion beim Klappbrett Kopfende (A3):** Das Klappbrett Kopfende wird laut `List_of_Materials.md` §H4 mit
+- **Kopfstützenfunktion beim Klappbrett Kopfende (F2):** Das Klappbrett Kopfende wird laut `List_of_Materials.md` §H4 mit
   zwei verstellbaren Gurtschlaufen an den Vordersitz-Kopfstützen fixiert; die Zuglast tragen
   die Kopfstützen. Die Kopfstützen müssen dafür in Normalposition
   bleiben und ihre HWS-Schutzfunktion (Kopfstütze fängt den Kopf bei Auffahrunfall) behalten
   — die Befestigung darf sie nicht nach vorne ziehen, blockieren oder in der Höhe
-  verstellen. Vor der ersten Fahrt mit montiertem A3 die Kopfstützen auf normale Beweglichkeit
+  verstellen. Vor der ersten Fahrt mit montiertem F2 die Kopfstützen auf normale Beweglichkeit
   prüfen.
 - **Zuladung (Zuladung/Nutzlast) — noch nicht geprüft:** Der gesamte Ausbau wiegt grob
   geschätzt:
@@ -206,7 +206,7 @@ als Warnhinweis hier, falls ein Gas- oder Benzinkocher angeschafft wird:
 | # | Punkt | Typ |
 |---|---|---|
 | 1 | Zuladung im Zulassungsschein prüfen (Feld F.1 − Leergewicht) | Prüfung, keine Anschaffung |
-| 2 | Kopfstützenfunktion mit montiertem A3 testen | Prüfung |
+| 2 | Kopfstützenfunktion mit montiertem F2 testen | Prüfung |
 | 3 | Thermo-/Verdunkelungsmatten für Front-, Seiten-, Heckscheiben | Anschaffung |
 | 4 | Mückennetze für vordere Fenster + Heckklappe | Anschaffung |
 | 5 | Fenstersicherung für den gekippten Lüftungsspalt | Anschaffung |

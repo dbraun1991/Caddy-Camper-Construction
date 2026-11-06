@@ -11,22 +11,22 @@ window.MODELL = {
    "sektion_mitte_innen": 424
   },
   "zapfen": {
-   "_hinweis": "Wände greifen mit Zapfen durch F1/A1 (ADR 0020). Querschnitt = laenge × Plattenstärke. An B2/B3 gleichmäßig verteilt; an B1 feste Mitten (x), damit die Scharniere V17 auf A1 keinen Zapfen treffen",
+   "_hinweis": "Wände greifen mit Zapfen durch B1/T1 (ADR 0020). Querschnitt = laenge × Plattenstärke. An S1/S2/M1/M2 gleichmäßig verteilt; an R1 feste Mitten (x), damit die Scharniere V17 auf T1 keinen Zapfen treffen",
    "laenge": 50,
    "anzahl_je_kante": 3,
    "abstand_rand": 50,
-   "b1_mitten": [
+   "r1_mitten": [
     -475,
     -155,
     155,
     475
    ],
    "schleifzugabe": 1,
-   "_schleifzugabe": "Zuschnitt je Wandkante länger als die Plattenstärke, Zapfen werden nach dem Verleimen bündig geschliffen (Wandhöhe 302 + 2 × 19 = 340). Der hintere B3-Zapfen in B1 hat keine Zugabe."
+   "_schleifzugabe": "Zuschnitt je Wandkante länger als die Plattenstärke, Zapfen werden nach dem Verleimen bündig geschliffen (Wandhöhe 302 + 2 × 19 = 340). Der hintere M1/M2-Zapfen in R1 hat keine Zugabe."
   },
   "liegeflaeche": {
-   "laenge_a2": 700,
-   "laenge_a3": 400
+   "laenge_f1": 700,
+   "laenge_f2": 400
   },
   "matratze": {
    "breite": 1100,
@@ -34,7 +34,7 @@ window.MODELL = {
    "hoehe": 80
   },
   "scharniere": {
-   "_hinweis": "Standard-Klappscharniere (aufgeschraubt). A1↔A2 oben, A2↔A3 unten — so klappen A2 und A3 als Stapel auf die Box (ADR 0019)",
+   "_hinweis": "Standard-Klappscharniere (aufgeschraubt). T1↔F1 oben, F1↔F2 unten — so klappen F1 und F2 als Stapel auf die Box (ADR 0019)",
    "je_fuge": 3,
    "blatt_breite": 60,
    "laenge_offen": 60,
@@ -90,12 +90,12 @@ window.MODELL = {
    "ladekante": 0
   },
   "eckausbildung": "gezapft",
-  "_eckausbildung_werte": "Boden F1 und Deckel A1 laufen immer durch (ADR 0018). gezapft = Wände greifen mit Zapfen in Schlitze/Aussparungen von F1, A1 und B1 (ADR 0020) · stumpf = Wände 302 mm, stumpf zwischen F1 und A1"
+  "_eckausbildung_werte": "Boden B1 und Deckel T1 laufen immer durch (ADR 0018). gezapft = Wände greifen mit Zapfen in Schlitze/Aussparungen von B1, T1 und R1 (ADR 0020) · stumpf = Wände 302 mm, stumpf zwischen B1 und T1"
  },
  "eckausbildung": "gezapft",
  "teile": [
   {
-   "id": "B2-F",
+   "id": "S1",
    "name": "Seitenwand links (Fahrerseite)",
    "gruppe": "korpus",
    "material": "holz",
@@ -120,7 +120,7 @@ window.MODELL = {
    ]
   },
   {
-   "id": "B2-B",
+   "id": "S2",
    "name": "Seitenwand rechts (Beifahrerseite)",
    "gruppe": "korpus",
    "material": "holz",
@@ -145,7 +145,7 @@ window.MODELL = {
    ]
   },
   {
-   "id": "B1",
+   "id": "R1",
    "name": "Rückwand",
    "gruppe": "korpus",
    "material": "holz",
@@ -170,7 +170,7 @@ window.MODELL = {
    ]
   },
   {
-   "id": "F1",
+   "id": "B1",
    "name": "Bodenplatte",
    "gruppe": "korpus",
    "material": "holz",
@@ -191,7 +191,7 @@ window.MODELL = {
    ]
   },
   {
-   "id": "B3-1",
+   "id": "M1",
    "name": "Trennwand links",
    "gruppe": "korpus",
    "material": "holz",
@@ -216,7 +216,7 @@ window.MODELL = {
    ]
   },
   {
-   "id": "B3-2",
+   "id": "M2",
    "name": "Trennwand rechts",
    "gruppe": "korpus",
    "material": "holz",
@@ -241,7 +241,7 @@ window.MODELL = {
    ]
   },
   {
-   "id": "A1",
+   "id": "T1",
    "name": "Deckplatte",
    "gruppe": "liegeflaeche",
    "material": "holz",
@@ -262,8 +262,8 @@ window.MODELL = {
    ]
   },
   {
-   "id": "B2-F-Z1u",
-   "name": "Zapfen Seitenwand links in F1",
+   "id": "S1-Z1u",
+   "name": "Zapfen Seitenwand links in B1",
    "gruppe": "korpus",
    "material": "holz",
    "faehrt": null,
@@ -282,13 +282,13 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "F1"
+    "B1"
    ],
-   "zapfen_von": "B2-F"
+   "zapfen_von": "S1"
   },
   {
-   "id": "B2-F-Z1o",
-   "name": "Zapfen Seitenwand links in A1",
+   "id": "S1-Z1o",
+   "name": "Zapfen Seitenwand links in T1",
    "gruppe": "korpus",
    "material": "holz",
    "faehrt": null,
@@ -307,13 +307,13 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "A1"
+    "T1"
    ],
-   "zapfen_von": "B2-F"
+   "zapfen_von": "S1"
   },
   {
-   "id": "B2-F-Z2u",
-   "name": "Zapfen Seitenwand links in F1",
+   "id": "S1-Z2u",
+   "name": "Zapfen Seitenwand links in B1",
    "gruppe": "korpus",
    "material": "holz",
    "faehrt": null,
@@ -332,13 +332,13 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "F1"
+    "B1"
    ],
-   "zapfen_von": "B2-F"
+   "zapfen_von": "S1"
   },
   {
-   "id": "B2-F-Z2o",
-   "name": "Zapfen Seitenwand links in A1",
+   "id": "S1-Z2o",
+   "name": "Zapfen Seitenwand links in T1",
    "gruppe": "korpus",
    "material": "holz",
    "faehrt": null,
@@ -357,13 +357,13 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "A1"
+    "T1"
    ],
-   "zapfen_von": "B2-F"
+   "zapfen_von": "S1"
   },
   {
-   "id": "B2-F-Z3u",
-   "name": "Zapfen Seitenwand links in F1",
+   "id": "S1-Z3u",
+   "name": "Zapfen Seitenwand links in B1",
    "gruppe": "korpus",
    "material": "holz",
    "faehrt": null,
@@ -382,13 +382,13 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "F1"
+    "B1"
    ],
-   "zapfen_von": "B2-F"
+   "zapfen_von": "S1"
   },
   {
-   "id": "B2-F-Z3o",
-   "name": "Zapfen Seitenwand links in A1",
+   "id": "S1-Z3o",
+   "name": "Zapfen Seitenwand links in T1",
    "gruppe": "korpus",
    "material": "holz",
    "faehrt": null,
@@ -407,13 +407,13 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "A1"
+    "T1"
    ],
-   "zapfen_von": "B2-F"
+   "zapfen_von": "S1"
   },
   {
-   "id": "B2-B-Z1u",
-   "name": "Zapfen Seitenwand rechts in F1",
+   "id": "S2-Z1u",
+   "name": "Zapfen Seitenwand rechts in B1",
    "gruppe": "korpus",
    "material": "holz",
    "faehrt": null,
@@ -432,13 +432,13 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "F1"
+    "B1"
    ],
-   "zapfen_von": "B2-B"
+   "zapfen_von": "S2"
   },
   {
-   "id": "B2-B-Z1o",
-   "name": "Zapfen Seitenwand rechts in A1",
+   "id": "S2-Z1o",
+   "name": "Zapfen Seitenwand rechts in T1",
    "gruppe": "korpus",
    "material": "holz",
    "faehrt": null,
@@ -457,13 +457,13 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "A1"
+    "T1"
    ],
-   "zapfen_von": "B2-B"
+   "zapfen_von": "S2"
   },
   {
-   "id": "B2-B-Z2u",
-   "name": "Zapfen Seitenwand rechts in F1",
+   "id": "S2-Z2u",
+   "name": "Zapfen Seitenwand rechts in B1",
    "gruppe": "korpus",
    "material": "holz",
    "faehrt": null,
@@ -482,13 +482,13 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "F1"
+    "B1"
    ],
-   "zapfen_von": "B2-B"
+   "zapfen_von": "S2"
   },
   {
-   "id": "B2-B-Z2o",
-   "name": "Zapfen Seitenwand rechts in A1",
+   "id": "S2-Z2o",
+   "name": "Zapfen Seitenwand rechts in T1",
    "gruppe": "korpus",
    "material": "holz",
    "faehrt": null,
@@ -507,13 +507,13 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "A1"
+    "T1"
    ],
-   "zapfen_von": "B2-B"
+   "zapfen_von": "S2"
   },
   {
-   "id": "B2-B-Z3u",
-   "name": "Zapfen Seitenwand rechts in F1",
+   "id": "S2-Z3u",
+   "name": "Zapfen Seitenwand rechts in B1",
    "gruppe": "korpus",
    "material": "holz",
    "faehrt": null,
@@ -532,13 +532,13 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "F1"
+    "B1"
    ],
-   "zapfen_von": "B2-B"
+   "zapfen_von": "S2"
   },
   {
-   "id": "B2-B-Z3o",
-   "name": "Zapfen Seitenwand rechts in A1",
+   "id": "S2-Z3o",
+   "name": "Zapfen Seitenwand rechts in T1",
    "gruppe": "korpus",
    "material": "holz",
    "faehrt": null,
@@ -557,13 +557,13 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "A1"
+    "T1"
    ],
-   "zapfen_von": "B2-B"
+   "zapfen_von": "S2"
   },
   {
-   "id": "B1-Z1u",
-   "name": "Zapfen Rückwand in F1",
+   "id": "R1-Z1u",
+   "name": "Zapfen Rückwand in B1",
    "gruppe": "korpus",
    "material": "holz",
    "faehrt": null,
@@ -582,13 +582,13 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "F1"
+    "B1"
    ],
-   "zapfen_von": "B1"
+   "zapfen_von": "R1"
   },
   {
-   "id": "B1-Z1o",
-   "name": "Zapfen Rückwand in A1",
+   "id": "R1-Z1o",
+   "name": "Zapfen Rückwand in T1",
    "gruppe": "korpus",
    "material": "holz",
    "faehrt": null,
@@ -607,13 +607,13 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "A1"
+    "T1"
    ],
-   "zapfen_von": "B1"
+   "zapfen_von": "R1"
   },
   {
-   "id": "B1-Z2u",
-   "name": "Zapfen Rückwand in F1",
+   "id": "R1-Z2u",
+   "name": "Zapfen Rückwand in B1",
    "gruppe": "korpus",
    "material": "holz",
    "faehrt": null,
@@ -632,13 +632,13 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "F1"
+    "B1"
    ],
-   "zapfen_von": "B1"
+   "zapfen_von": "R1"
   },
   {
-   "id": "B1-Z2o",
-   "name": "Zapfen Rückwand in A1",
+   "id": "R1-Z2o",
+   "name": "Zapfen Rückwand in T1",
    "gruppe": "korpus",
    "material": "holz",
    "faehrt": null,
@@ -657,13 +657,13 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "A1"
+    "T1"
    ],
-   "zapfen_von": "B1"
+   "zapfen_von": "R1"
   },
   {
-   "id": "B1-Z3u",
-   "name": "Zapfen Rückwand in F1",
+   "id": "R1-Z3u",
+   "name": "Zapfen Rückwand in B1",
    "gruppe": "korpus",
    "material": "holz",
    "faehrt": null,
@@ -682,13 +682,13 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "F1"
+    "B1"
    ],
-   "zapfen_von": "B1"
+   "zapfen_von": "R1"
   },
   {
-   "id": "B1-Z3o",
-   "name": "Zapfen Rückwand in A1",
+   "id": "R1-Z3o",
+   "name": "Zapfen Rückwand in T1",
    "gruppe": "korpus",
    "material": "holz",
    "faehrt": null,
@@ -707,13 +707,13 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "A1"
+    "T1"
    ],
-   "zapfen_von": "B1"
+   "zapfen_von": "R1"
   },
   {
-   "id": "B1-Z4u",
-   "name": "Zapfen Rückwand in F1",
+   "id": "R1-Z4u",
+   "name": "Zapfen Rückwand in B1",
    "gruppe": "korpus",
    "material": "holz",
    "faehrt": null,
@@ -732,13 +732,13 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "F1"
+    "B1"
    ],
-   "zapfen_von": "B1"
+   "zapfen_von": "R1"
   },
   {
-   "id": "B1-Z4o",
-   "name": "Zapfen Rückwand in A1",
+   "id": "R1-Z4o",
+   "name": "Zapfen Rückwand in T1",
    "gruppe": "korpus",
    "material": "holz",
    "faehrt": null,
@@ -757,162 +757,12 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "A1"
+    "T1"
    ],
-   "zapfen_von": "B1"
+   "zapfen_von": "R1"
   },
   {
-   "id": "B3-1-Z1u",
-   "name": "Zapfen Trennwand links in F1",
-   "gruppe": "korpus",
-   "material": "holz",
-   "faehrt": null,
-   "box": [
-    [
-     212.0,
-     230.0
-    ],
-    [
-     0,
-     18
-    ],
-    [
-     50.0,
-     100.0
-    ]
-   ],
-   "steckt_in": [
-    "F1"
-   ],
-   "zapfen_von": "B3-1"
-  },
-  {
-   "id": "B3-1-Z1o",
-   "name": "Zapfen Trennwand links in A1",
-   "gruppe": "korpus",
-   "material": "holz",
-   "faehrt": null,
-   "box": [
-    [
-     212.0,
-     230.0
-    ],
-    [
-     320,
-     338
-    ],
-    [
-     50.0,
-     100.0
-    ]
-   ],
-   "steckt_in": [
-    "A1"
-   ],
-   "zapfen_von": "B3-1"
-  },
-  {
-   "id": "B3-1-Z2u",
-   "name": "Zapfen Trennwand links in F1",
-   "gruppe": "korpus",
-   "material": "holz",
-   "faehrt": null,
-   "box": [
-    [
-     212.0,
-     230.0
-    ],
-    [
-     0,
-     18
-    ],
-    [
-     416.0,
-     466.0
-    ]
-   ],
-   "steckt_in": [
-    "F1"
-   ],
-   "zapfen_von": "B3-1"
-  },
-  {
-   "id": "B3-1-Z2o",
-   "name": "Zapfen Trennwand links in A1",
-   "gruppe": "korpus",
-   "material": "holz",
-   "faehrt": null,
-   "box": [
-    [
-     212.0,
-     230.0
-    ],
-    [
-     320,
-     338
-    ],
-    [
-     416.0,
-     466.0
-    ]
-   ],
-   "steckt_in": [
-    "A1"
-   ],
-   "zapfen_von": "B3-1"
-  },
-  {
-   "id": "B3-1-Z3u",
-   "name": "Zapfen Trennwand links in F1",
-   "gruppe": "korpus",
-   "material": "holz",
-   "faehrt": null,
-   "box": [
-    [
-     212.0,
-     230.0
-    ],
-    [
-     0,
-     18
-    ],
-    [
-     782.0,
-     832.0
-    ]
-   ],
-   "steckt_in": [
-    "F1"
-   ],
-   "zapfen_von": "B3-1"
-  },
-  {
-   "id": "B3-1-Z3o",
-   "name": "Zapfen Trennwand links in A1",
-   "gruppe": "korpus",
-   "material": "holz",
-   "faehrt": null,
-   "box": [
-    [
-     212.0,
-     230.0
-    ],
-    [
-     320,
-     338
-    ],
-    [
-     782.0,
-     832.0
-    ]
-   ],
-   "steckt_in": [
-    "A1"
-   ],
-   "zapfen_von": "B3-1"
-  },
-  {
-   "id": "B3-1-Zh",
+   "id": "M1-Z1u",
    "name": "Zapfen Trennwand links in B1",
    "gruppe": "korpus",
    "material": "holz",
@@ -923,6 +773,156 @@ window.MODELL = {
      230.0
     ],
     [
+     0,
+     18
+    ],
+    [
+     50.0,
+     100.0
+    ]
+   ],
+   "steckt_in": [
+    "B1"
+   ],
+   "zapfen_von": "M1"
+  },
+  {
+   "id": "M1-Z1o",
+   "name": "Zapfen Trennwand links in T1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     212.0,
+     230.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     50.0,
+     100.0
+    ]
+   ],
+   "steckt_in": [
+    "T1"
+   ],
+   "zapfen_von": "M1"
+  },
+  {
+   "id": "M1-Z2u",
+   "name": "Zapfen Trennwand links in B1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     212.0,
+     230.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     416.0,
+     466.0
+    ]
+   ],
+   "steckt_in": [
+    "B1"
+   ],
+   "zapfen_von": "M1"
+  },
+  {
+   "id": "M1-Z2o",
+   "name": "Zapfen Trennwand links in T1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     212.0,
+     230.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     416.0,
+     466.0
+    ]
+   ],
+   "steckt_in": [
+    "T1"
+   ],
+   "zapfen_von": "M1"
+  },
+  {
+   "id": "M1-Z3u",
+   "name": "Zapfen Trennwand links in B1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     212.0,
+     230.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     782.0,
+     832.0
+    ]
+   ],
+   "steckt_in": [
+    "B1"
+   ],
+   "zapfen_von": "M1"
+  },
+  {
+   "id": "M1-Z3o",
+   "name": "Zapfen Trennwand links in T1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     212.0,
+     230.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     782.0,
+     832.0
+    ]
+   ],
+   "steckt_in": [
+    "T1"
+   ],
+   "zapfen_von": "M1"
+  },
+  {
+   "id": "M1-Zh",
+   "name": "Zapfen Trennwand links in R1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     212.0,
+     230.0
+    ],
+    [
      144.0,
      194.0
     ],
@@ -932,162 +932,12 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "B1"
+    "R1"
    ],
-   "zapfen_von": "B3-1"
+   "zapfen_von": "M1"
   },
   {
-   "id": "B3-2-Z1u",
-   "name": "Zapfen Trennwand rechts in F1",
-   "gruppe": "korpus",
-   "material": "holz",
-   "faehrt": null,
-   "box": [
-    [
-     -230.0,
-     -212.0
-    ],
-    [
-     0,
-     18
-    ],
-    [
-     50.0,
-     100.0
-    ]
-   ],
-   "steckt_in": [
-    "F1"
-   ],
-   "zapfen_von": "B3-2"
-  },
-  {
-   "id": "B3-2-Z1o",
-   "name": "Zapfen Trennwand rechts in A1",
-   "gruppe": "korpus",
-   "material": "holz",
-   "faehrt": null,
-   "box": [
-    [
-     -230.0,
-     -212.0
-    ],
-    [
-     320,
-     338
-    ],
-    [
-     50.0,
-     100.0
-    ]
-   ],
-   "steckt_in": [
-    "A1"
-   ],
-   "zapfen_von": "B3-2"
-  },
-  {
-   "id": "B3-2-Z2u",
-   "name": "Zapfen Trennwand rechts in F1",
-   "gruppe": "korpus",
-   "material": "holz",
-   "faehrt": null,
-   "box": [
-    [
-     -230.0,
-     -212.0
-    ],
-    [
-     0,
-     18
-    ],
-    [
-     416.0,
-     466.0
-    ]
-   ],
-   "steckt_in": [
-    "F1"
-   ],
-   "zapfen_von": "B3-2"
-  },
-  {
-   "id": "B3-2-Z2o",
-   "name": "Zapfen Trennwand rechts in A1",
-   "gruppe": "korpus",
-   "material": "holz",
-   "faehrt": null,
-   "box": [
-    [
-     -230.0,
-     -212.0
-    ],
-    [
-     320,
-     338
-    ],
-    [
-     416.0,
-     466.0
-    ]
-   ],
-   "steckt_in": [
-    "A1"
-   ],
-   "zapfen_von": "B3-2"
-  },
-  {
-   "id": "B3-2-Z3u",
-   "name": "Zapfen Trennwand rechts in F1",
-   "gruppe": "korpus",
-   "material": "holz",
-   "faehrt": null,
-   "box": [
-    [
-     -230.0,
-     -212.0
-    ],
-    [
-     0,
-     18
-    ],
-    [
-     782.0,
-     832.0
-    ]
-   ],
-   "steckt_in": [
-    "F1"
-   ],
-   "zapfen_von": "B3-2"
-  },
-  {
-   "id": "B3-2-Z3o",
-   "name": "Zapfen Trennwand rechts in A1",
-   "gruppe": "korpus",
-   "material": "holz",
-   "faehrt": null,
-   "box": [
-    [
-     -230.0,
-     -212.0
-    ],
-    [
-     320,
-     338
-    ],
-    [
-     782.0,
-     832.0
-    ]
-   ],
-   "steckt_in": [
-    "A1"
-   ],
-   "zapfen_von": "B3-2"
-  },
-  {
-   "id": "B3-2-Zh",
+   "id": "M2-Z1u",
    "name": "Zapfen Trennwand rechts in B1",
    "gruppe": "korpus",
    "material": "holz",
@@ -1098,6 +948,156 @@ window.MODELL = {
      -212.0
     ],
     [
+     0,
+     18
+    ],
+    [
+     50.0,
+     100.0
+    ]
+   ],
+   "steckt_in": [
+    "B1"
+   ],
+   "zapfen_von": "M2"
+  },
+  {
+   "id": "M2-Z1o",
+   "name": "Zapfen Trennwand rechts in T1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     -230.0,
+     -212.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     50.0,
+     100.0
+    ]
+   ],
+   "steckt_in": [
+    "T1"
+   ],
+   "zapfen_von": "M2"
+  },
+  {
+   "id": "M2-Z2u",
+   "name": "Zapfen Trennwand rechts in B1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     -230.0,
+     -212.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     416.0,
+     466.0
+    ]
+   ],
+   "steckt_in": [
+    "B1"
+   ],
+   "zapfen_von": "M2"
+  },
+  {
+   "id": "M2-Z2o",
+   "name": "Zapfen Trennwand rechts in T1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     -230.0,
+     -212.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     416.0,
+     466.0
+    ]
+   ],
+   "steckt_in": [
+    "T1"
+   ],
+   "zapfen_von": "M2"
+  },
+  {
+   "id": "M2-Z3u",
+   "name": "Zapfen Trennwand rechts in B1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     -230.0,
+     -212.0
+    ],
+    [
+     0,
+     18
+    ],
+    [
+     782.0,
+     832.0
+    ]
+   ],
+   "steckt_in": [
+    "B1"
+   ],
+   "zapfen_von": "M2"
+  },
+  {
+   "id": "M2-Z3o",
+   "name": "Zapfen Trennwand rechts in T1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     -230.0,
+     -212.0
+    ],
+    [
+     320,
+     338
+    ],
+    [
+     782.0,
+     832.0
+    ]
+   ],
+   "steckt_in": [
+    "T1"
+   ],
+   "zapfen_von": "M2"
+  },
+  {
+   "id": "M2-Zh",
+   "name": "Zapfen Trennwand rechts in R1",
+   "gruppe": "korpus",
+   "material": "holz",
+   "faehrt": null,
+   "box": [
+    [
+     -230.0,
+     -212.0
+    ],
+    [
      144.0,
      194.0
     ],
@@ -1107,9 +1107,9 @@ window.MODELL = {
     ]
    ],
    "steckt_in": [
-    "B1"
+    "R1"
    ],
-   "zapfen_von": "B3-2"
+   "zapfen_von": "M2"
   },
   {
    "id": "C1",
@@ -1565,7 +1565,7 @@ window.MODELL = {
    "richtung": -1
   },
   {
-   "id": "S1-1",
+   "id": "H1-1",
    "name": "Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben)",
    "gruppe": "scharnier",
    "material": "scharnier",
@@ -1586,7 +1586,7 @@ window.MODELL = {
    ]
   },
   {
-   "id": "S2-1",
+   "id": "H2-1",
    "name": "Scharnier Klappbrett Rücksitz ↔ Kopfende (unten)",
    "gruppe": "scharnier",
    "material": "scharnier",
@@ -1605,10 +1605,10 @@ window.MODELL = {
      1630.0
     ]
    ],
-   "klappt_mit": "A2"
+   "klappt_mit": "F1"
   },
   {
-   "id": "S1-2",
+   "id": "H1-2",
    "name": "Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben)",
    "gruppe": "scharnier",
    "material": "scharnier",
@@ -1629,7 +1629,7 @@ window.MODELL = {
    ]
   },
   {
-   "id": "S2-2",
+   "id": "H2-2",
    "name": "Scharnier Klappbrett Rücksitz ↔ Kopfende (unten)",
    "gruppe": "scharnier",
    "material": "scharnier",
@@ -1648,10 +1648,10 @@ window.MODELL = {
      1630.0
     ]
    ],
-   "klappt_mit": "A2"
+   "klappt_mit": "F1"
   },
   {
-   "id": "S1-3",
+   "id": "H1-3",
    "name": "Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben)",
    "gruppe": "scharnier",
    "material": "scharnier",
@@ -1672,7 +1672,7 @@ window.MODELL = {
    ]
   },
   {
-   "id": "S2-3",
+   "id": "H2-3",
    "name": "Scharnier Klappbrett Rücksitz ↔ Kopfende (unten)",
    "gruppe": "scharnier",
    "material": "scharnier",
@@ -1691,10 +1691,10 @@ window.MODELL = {
      1630.0
     ]
    ],
-   "klappt_mit": "A2"
+   "klappt_mit": "F1"
   },
   {
-   "id": "A2",
+   "id": "F1",
    "name": "Klappbrett Rücksitz",
    "gruppe": "liegeflaeche",
    "material": "holz",
@@ -1715,7 +1715,7 @@ window.MODELL = {
    ]
   },
   {
-   "id": "A3",
+   "id": "F2",
    "name": "Klappbrett Kopfende",
    "gruppe": "liegeflaeche",
    "material": "holz",
@@ -1760,27 +1760,30 @@ window.MODELL = {
  "kategorien": {
   "zapfen": "Zapfen steckt in Schlitz/Aussparung (gewollt)",
   "eckverbindung": "Eckausbildung Korpus — welche Platte läuft durch?",
-  "rueckwand": "Rückwand B1 ragt in Schienen/Elemente (lichte Tiefe < Schienenlänge)",
+  "rueckwand": "Rückwand R1 ragt in Schienen/Elemente (lichte Tiefe < Schienenlänge)",
   "frontblende": "Schubladenfront überdeckt Schienen bzw. Nachbarelement",
   "auflage": "Matratze liegt auf den Scharnieren (weich, unkritisch)",
   "sonstige": "Sonstige Überschneidung"
  },
  "gruppen": {
-  "A": "Liegefläche (waagerecht oben)",
-  "B": "Wände (senkrecht)",
-  "F": "Fußboden (waagerecht unten)",
+  "B": "Bodenplatte (Bottom)",
+  "R": "Rückwand (Rear)",
+  "S": "Seitenwände (Side)",
+  "M": "Trennwände (Mid)",
+  "T": "Deckplatte (Top)",
+  "F": "Klappbretter (Fold)",
   "C": "Auszugbretter",
   "D": "Schubladen",
   "E": "Schienen",
   "V": "Verbindungsmittel & Beschläge",
   "G": "Ausstattung",
-  "S": "Scharniere"
+  "H": "Scharniere (Hinge)"
  },
  "varianten": {
   "gezapft": [
    {
-    "a": "B1",
-    "b": "B3-1-Zh",
+    "a": "R1",
+    "b": "M1-Zh",
     "box": [
      [
       212.0,
@@ -1804,8 +1807,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "B1",
-    "b": "B3-2-Zh",
+    "a": "R1",
+    "b": "M2-Zh",
     "box": [
      [
       -230.0,
@@ -1829,8 +1832,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "F1",
-    "b": "B2-F-Z1u",
+    "a": "B1",
+    "b": "S1-Z1u",
     "box": [
      [
       542.0,
@@ -1854,8 +1857,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "F1",
-    "b": "B2-F-Z2u",
+    "a": "B1",
+    "b": "S1-Z2u",
     "box": [
      [
       542.0,
@@ -1879,8 +1882,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "F1",
-    "b": "B2-F-Z3u",
+    "a": "B1",
+    "b": "S1-Z3u",
     "box": [
      [
       542.0,
@@ -1904,8 +1907,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "F1",
-    "b": "B2-B-Z1u",
+    "a": "B1",
+    "b": "S2-Z1u",
     "box": [
      [
       -560.0,
@@ -1929,8 +1932,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "F1",
-    "b": "B2-B-Z2u",
+    "a": "B1",
+    "b": "S2-Z2u",
     "box": [
      [
       -560.0,
@@ -1954,8 +1957,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "F1",
-    "b": "B2-B-Z3u",
+    "a": "B1",
+    "b": "S2-Z3u",
     "box": [
      [
       -560.0,
@@ -1979,8 +1982,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "F1",
-    "b": "B1-Z1u",
+    "a": "B1",
+    "b": "R1-Z1u",
     "box": [
      [
       -500.0,
@@ -2004,8 +2007,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "F1",
-    "b": "B1-Z2u",
+    "a": "B1",
+    "b": "R1-Z2u",
     "box": [
      [
       -180.0,
@@ -2029,8 +2032,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "F1",
-    "b": "B1-Z3u",
+    "a": "B1",
+    "b": "R1-Z3u",
     "box": [
      [
       130.0,
@@ -2054,8 +2057,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "F1",
-    "b": "B1-Z4u",
+    "a": "B1",
+    "b": "R1-Z4u",
     "box": [
      [
       450.0,
@@ -2079,8 +2082,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "F1",
-    "b": "B3-1-Z1u",
+    "a": "B1",
+    "b": "M1-Z1u",
     "box": [
      [
       212.0,
@@ -2104,8 +2107,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "F1",
-    "b": "B3-1-Z2u",
+    "a": "B1",
+    "b": "M1-Z2u",
     "box": [
      [
       212.0,
@@ -2129,8 +2132,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "F1",
-    "b": "B3-1-Z3u",
+    "a": "B1",
+    "b": "M1-Z3u",
     "box": [
      [
       212.0,
@@ -2154,8 +2157,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "F1",
-    "b": "B3-2-Z1u",
+    "a": "B1",
+    "b": "M2-Z1u",
     "box": [
      [
       -230.0,
@@ -2179,8 +2182,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "F1",
-    "b": "B3-2-Z2u",
+    "a": "B1",
+    "b": "M2-Z2u",
     "box": [
      [
       -230.0,
@@ -2204,8 +2207,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "F1",
-    "b": "B3-2-Z3u",
+    "a": "B1",
+    "b": "M2-Z3u",
     "box": [
      [
       -230.0,
@@ -2229,8 +2232,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "A1",
-    "b": "B2-F-Z1o",
+    "a": "T1",
+    "b": "S1-Z1o",
     "box": [
      [
       542.0,
@@ -2254,8 +2257,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "A1",
-    "b": "B2-F-Z2o",
+    "a": "T1",
+    "b": "S1-Z2o",
     "box": [
      [
       542.0,
@@ -2279,8 +2282,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "A1",
-    "b": "B2-F-Z3o",
+    "a": "T1",
+    "b": "S1-Z3o",
     "box": [
      [
       542.0,
@@ -2304,8 +2307,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "A1",
-    "b": "B2-B-Z1o",
+    "a": "T1",
+    "b": "S2-Z1o",
     "box": [
      [
       -560.0,
@@ -2329,8 +2332,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "A1",
-    "b": "B2-B-Z2o",
+    "a": "T1",
+    "b": "S2-Z2o",
     "box": [
      [
       -560.0,
@@ -2354,8 +2357,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "A1",
-    "b": "B2-B-Z3o",
+    "a": "T1",
+    "b": "S2-Z3o",
     "box": [
      [
       -560.0,
@@ -2379,8 +2382,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "A1",
-    "b": "B1-Z1o",
+    "a": "T1",
+    "b": "R1-Z1o",
     "box": [
      [
       -500.0,
@@ -2404,8 +2407,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "A1",
-    "b": "B1-Z2o",
+    "a": "T1",
+    "b": "R1-Z2o",
     "box": [
      [
       -180.0,
@@ -2429,8 +2432,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "A1",
-    "b": "B1-Z3o",
+    "a": "T1",
+    "b": "R1-Z3o",
     "box": [
      [
       130.0,
@@ -2454,8 +2457,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "A1",
-    "b": "B1-Z4o",
+    "a": "T1",
+    "b": "R1-Z4o",
     "box": [
      [
       450.0,
@@ -2479,8 +2482,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "A1",
-    "b": "B3-1-Z1o",
+    "a": "T1",
+    "b": "M1-Z1o",
     "box": [
      [
       212.0,
@@ -2504,8 +2507,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "A1",
-    "b": "B3-1-Z2o",
+    "a": "T1",
+    "b": "M1-Z2o",
     "box": [
      [
       212.0,
@@ -2529,8 +2532,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "A1",
-    "b": "B3-1-Z3o",
+    "a": "T1",
+    "b": "M1-Z3o",
     "box": [
      [
       212.0,
@@ -2554,8 +2557,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "A1",
-    "b": "B3-2-Z1o",
+    "a": "T1",
+    "b": "M2-Z1o",
     "box": [
      [
       -230.0,
@@ -2579,8 +2582,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "A1",
-    "b": "B3-2-Z2o",
+    "a": "T1",
+    "b": "M2-Z2o",
     "box": [
      [
       -230.0,
@@ -2604,8 +2607,8 @@ window.MODELL = {
     ]
    },
    {
-    "a": "A1",
-    "b": "B3-2-Z3o",
+    "a": "T1",
+    "b": "M2-Z3o",
     "box": [
      [
       -230.0,
@@ -2954,7 +2957,7 @@ window.MODELL = {
     ]
    },
    {
-    "a": "S1-1",
+    "a": "H1-1",
     "b": "G1",
     "box": [
      [
@@ -2979,7 +2982,7 @@ window.MODELL = {
     ]
    },
    {
-    "a": "S1-2",
+    "a": "H1-2",
     "b": "G1",
     "box": [
      [
@@ -3004,7 +3007,7 @@ window.MODELL = {
     ]
    },
    {
-    "a": "S1-3",
+    "a": "H1-3",
     "b": "G1",
     "box": [
      [
@@ -3356,7 +3359,7 @@ window.MODELL = {
     ]
    },
    {
-    "a": "S1-1",
+    "a": "H1-1",
     "b": "G1",
     "box": [
      [
@@ -3381,7 +3384,7 @@ window.MODELL = {
     ]
    },
    {
-    "a": "S1-2",
+    "a": "H1-2",
     "b": "G1",
     "box": [
      [
@@ -3406,7 +3409,7 @@ window.MODELL = {
     ]
    },
    {
-    "a": "S1-3",
+    "a": "H1-3",
     "b": "G1",
     "box": [
      [
@@ -3434,8 +3437,8 @@ window.MODELL = {
  },
  "kollisionen": [
   {
-   "a": "B1",
-   "b": "B3-1-Zh",
+   "a": "R1",
+   "b": "M1-Zh",
    "box": [
     [
      212.0,
@@ -3459,8 +3462,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "B1",
-   "b": "B3-2-Zh",
+   "a": "R1",
+   "b": "M2-Zh",
    "box": [
     [
      -230.0,
@@ -3484,8 +3487,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "F1",
-   "b": "B2-F-Z1u",
+   "a": "B1",
+   "b": "S1-Z1u",
    "box": [
     [
      542.0,
@@ -3509,8 +3512,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "F1",
-   "b": "B2-F-Z2u",
+   "a": "B1",
+   "b": "S1-Z2u",
    "box": [
     [
      542.0,
@@ -3534,8 +3537,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "F1",
-   "b": "B2-F-Z3u",
+   "a": "B1",
+   "b": "S1-Z3u",
    "box": [
     [
      542.0,
@@ -3559,8 +3562,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "F1",
-   "b": "B2-B-Z1u",
+   "a": "B1",
+   "b": "S2-Z1u",
    "box": [
     [
      -560.0,
@@ -3584,8 +3587,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "F1",
-   "b": "B2-B-Z2u",
+   "a": "B1",
+   "b": "S2-Z2u",
    "box": [
     [
      -560.0,
@@ -3609,8 +3612,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "F1",
-   "b": "B2-B-Z3u",
+   "a": "B1",
+   "b": "S2-Z3u",
    "box": [
     [
      -560.0,
@@ -3634,8 +3637,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "F1",
-   "b": "B1-Z1u",
+   "a": "B1",
+   "b": "R1-Z1u",
    "box": [
     [
      -500.0,
@@ -3659,8 +3662,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "F1",
-   "b": "B1-Z2u",
+   "a": "B1",
+   "b": "R1-Z2u",
    "box": [
     [
      -180.0,
@@ -3684,8 +3687,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "F1",
-   "b": "B1-Z3u",
+   "a": "B1",
+   "b": "R1-Z3u",
    "box": [
     [
      130.0,
@@ -3709,8 +3712,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "F1",
-   "b": "B1-Z4u",
+   "a": "B1",
+   "b": "R1-Z4u",
    "box": [
     [
      450.0,
@@ -3734,8 +3737,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "F1",
-   "b": "B3-1-Z1u",
+   "a": "B1",
+   "b": "M1-Z1u",
    "box": [
     [
      212.0,
@@ -3759,8 +3762,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "F1",
-   "b": "B3-1-Z2u",
+   "a": "B1",
+   "b": "M1-Z2u",
    "box": [
     [
      212.0,
@@ -3784,8 +3787,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "F1",
-   "b": "B3-1-Z3u",
+   "a": "B1",
+   "b": "M1-Z3u",
    "box": [
     [
      212.0,
@@ -3809,8 +3812,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "F1",
-   "b": "B3-2-Z1u",
+   "a": "B1",
+   "b": "M2-Z1u",
    "box": [
     [
      -230.0,
@@ -3834,8 +3837,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "F1",
-   "b": "B3-2-Z2u",
+   "a": "B1",
+   "b": "M2-Z2u",
    "box": [
     [
      -230.0,
@@ -3859,8 +3862,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "F1",
-   "b": "B3-2-Z3u",
+   "a": "B1",
+   "b": "M2-Z3u",
    "box": [
     [
      -230.0,
@@ -3884,8 +3887,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "A1",
-   "b": "B2-F-Z1o",
+   "a": "T1",
+   "b": "S1-Z1o",
    "box": [
     [
      542.0,
@@ -3909,8 +3912,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "A1",
-   "b": "B2-F-Z2o",
+   "a": "T1",
+   "b": "S1-Z2o",
    "box": [
     [
      542.0,
@@ -3934,8 +3937,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "A1",
-   "b": "B2-F-Z3o",
+   "a": "T1",
+   "b": "S1-Z3o",
    "box": [
     [
      542.0,
@@ -3959,8 +3962,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "A1",
-   "b": "B2-B-Z1o",
+   "a": "T1",
+   "b": "S2-Z1o",
    "box": [
     [
      -560.0,
@@ -3984,8 +3987,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "A1",
-   "b": "B2-B-Z2o",
+   "a": "T1",
+   "b": "S2-Z2o",
    "box": [
     [
      -560.0,
@@ -4009,8 +4012,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "A1",
-   "b": "B2-B-Z3o",
+   "a": "T1",
+   "b": "S2-Z3o",
    "box": [
     [
      -560.0,
@@ -4034,8 +4037,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "A1",
-   "b": "B1-Z1o",
+   "a": "T1",
+   "b": "R1-Z1o",
    "box": [
     [
      -500.0,
@@ -4059,8 +4062,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "A1",
-   "b": "B1-Z2o",
+   "a": "T1",
+   "b": "R1-Z2o",
    "box": [
     [
      -180.0,
@@ -4084,8 +4087,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "A1",
-   "b": "B1-Z3o",
+   "a": "T1",
+   "b": "R1-Z3o",
    "box": [
     [
      130.0,
@@ -4109,8 +4112,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "A1",
-   "b": "B1-Z4o",
+   "a": "T1",
+   "b": "R1-Z4o",
    "box": [
     [
      450.0,
@@ -4134,8 +4137,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "A1",
-   "b": "B3-1-Z1o",
+   "a": "T1",
+   "b": "M1-Z1o",
    "box": [
     [
      212.0,
@@ -4159,8 +4162,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "A1",
-   "b": "B3-1-Z2o",
+   "a": "T1",
+   "b": "M1-Z2o",
    "box": [
     [
      212.0,
@@ -4184,8 +4187,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "A1",
-   "b": "B3-1-Z3o",
+   "a": "T1",
+   "b": "M1-Z3o",
    "box": [
     [
      212.0,
@@ -4209,8 +4212,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "A1",
-   "b": "B3-2-Z1o",
+   "a": "T1",
+   "b": "M2-Z1o",
    "box": [
     [
      -230.0,
@@ -4234,8 +4237,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "A1",
-   "b": "B3-2-Z2o",
+   "a": "T1",
+   "b": "M2-Z2o",
    "box": [
     [
      -230.0,
@@ -4259,8 +4262,8 @@ window.MODELL = {
    ]
   },
   {
-   "a": "A1",
-   "b": "B3-2-Z3o",
+   "a": "T1",
+   "b": "M2-Z3o",
    "box": [
     [
      -230.0,
@@ -4609,7 +4612,7 @@ window.MODELL = {
    ]
   },
   {
-   "a": "S1-1",
+   "a": "H1-1",
    "b": "G1",
    "box": [
     [
@@ -4634,7 +4637,7 @@ window.MODELL = {
    ]
   },
   {
-   "a": "S1-2",
+   "a": "H1-2",
    "b": "G1",
    "box": [
     [
@@ -4659,7 +4662,7 @@ window.MODELL = {
    ]
   },
   {
-   "a": "S1-3",
+   "a": "H1-3",
    "b": "G1",
    "box": [
     [
@@ -4700,31 +4703,31 @@ window.MODELL = {
    "status": "ok"
   },
   {
-   "was": "Liegefläche A1 + A2 + A3 bis zu den Kopfstützen",
+   "was": "Liegefläche T1 + F1 + F2 bis zu den Kopfstützen",
    "plan": 2000,
    "fahrzeug": 2000,
    "ergebnis": "0 mm Luft",
    "status": "knapp"
   },
   {
-   "was": "Unterkante A2 über umgeklappten Rücksitzlehnen",
+   "was": "Unterkante F1 über umgeklappten Rücksitzlehnen",
    "plan": 320,
    "fahrzeug": 310,
-   "ergebnis": "10 mm Spalt — unter A2 ausgleichen (§H4)",
+   "ergebnis": "10 mm Spalt — unter F1 ausgleichen (§H4)",
    "status": "anpassen"
   }
  ],
  "klappachsen": {
-  "A2": {
+  "F1": {
    "y": 341,
    "z": 900,
    "winkel": -180
   },
-  "A3": {
+  "F2": {
    "y": 317,
    "z": 1600,
    "winkel": 180,
-   "an": "A2"
+   "an": "F1"
   }
  }
 };

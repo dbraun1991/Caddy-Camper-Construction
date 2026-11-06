@@ -61,7 +61,7 @@ Alle 6 beweglichen Elemente (3 Schubladen + 2 Sitzbretter + 1 Tischbrett) sind i
 | **Schlafmodus** | eingeklappt | eingeklappt |
 | **Bankmodus** | eingeklappt | 850 mm ausgefahren |
 | **Packmodus** | 850 mm ausgefahren | eingeklappt |
-| **Fahrmodus 1** | eingeklappt | eingeklappt — Klappbretter (A2, A3) auf die Deckplatte geklappt, Matratze verstaut |
+| **Fahrmodus 1** | eingeklappt | eingeklappt — Klappbretter (F1, F2) auf die Deckplatte geklappt, Matratze verstaut |
 | **Fahrmodus 2** | eingeklappt | wie Fahrmodus 1, Rücksitze hochgeklappt → 5 Sitzplätze |
 
 Die Klappbretter hängen an Klappscharnieren: Deckplatte ↔ Klappbrett Rücksitz oben, Klappbrett Rücksitz ↔ Klappbrett Kopfende unten. So klappen beide als Stapel auf die Box (Klappbrett Rücksitz umgedreht auf der Deckplatte, Klappbrett Kopfende darauf, Stapelhöhe 386 mm) — [ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md). Beim Fahren den Stapel mit einem Spanngurt sichern.
@@ -86,12 +86,12 @@ Drei Ansichten nach Dreitafelprojektion (DIN A3 quer, Maßstab 1:5) ein Zuschnit
 | Ansicht | Blickrichtung | Wände gezapft |
 |---|---|---|
 | **Vorderansicht** (Aufriss) | von der Heckklappe auf die offene Korpusfront | [SVG](docs/zeichnungen/gezapft/vorderansicht.svg) |
-| **Draufsicht** (Grundriss) | von oben, Deckel A1 abgenommen | [SVG](docs/zeichnungen/gezapft/draufsicht.svg) |
+| **Draufsicht** (Grundriss) | von oben, Deckplatte T1 abgenommen | [SVG](docs/zeichnungen/gezapft/draufsicht.svg) |
 | **Seitenansicht** (Seitenriss) | von der Fahrerseite | [SVG](docs/zeichnungen/gezapft/seitenansicht.svg) |
 | **Box-Bretter** (Zuschnitt, 1:10) | jede Platte der Box und der Liegefläche einzeln, mit Maß, Stückzahl, Zapfen, Schlitzen und Zuschnittliste | [SVG](docs/zeichnungen/gezapft/box-bretter.svg) |
-| **Brett F1 / A1** (1:5) | Boden- und Deckplatte zum Sägen: jeder Schlitz und jede Aussparung bemaßt, Abfall grau | [SVG](docs/zeichnungen/gezapft/brett-f1-a1.svg) |
-| **Bretter B2 + B3** (1:5) | Seiten- und Trennwände: Zapfen oben/unten, Absatz und hinterer Zapfen an B3 bemaßt | [SVG](docs/zeichnungen/gezapft/brett-b2-b3.svg) |
-| **Brett B1** (1:5) | Rückwand: Zapfen und die zwei Schlitze für B3 bemaßt | [SVG](docs/zeichnungen/gezapft/brett-b1.svg) |
+| **Bodenplatte B1 / Deckplatte T1** (1:5) | Boden- und Deckplatte zum Sägen: jeder Schlitz und jede Aussparung bemaßt, Abfall grau | [SVG](docs/zeichnungen/gezapft/brett-b1-t1.svg) |
+| **Seitenwände S1/S2 + Trennwände M1/M2** (1:5) | Seiten- und Trennwände: Zapfen oben/unten, Absatz und hinterer Zapfen an M1/M2 bemaßt | [SVG](docs/zeichnungen/gezapft/brett-s-m.svg) |
+| **Rückwand R1** (1:5) | Rückwand: Zapfen und die zwei Schlitze für M1/M2 bemaßt | [SVG](docs/zeichnungen/gezapft/brett-r1.svg) |
 
 Sichtbare Kanten durchgezogen, verdeckte Kanten gestrichelt. **Rot hinterlegt** sind rechnerische Überschneidungen zweier Bauteile — Stellen, an denen der Plan so nicht baubar ist. **Grün** hinterlegt sind gewollte Überdeckungen: Die Zapfen der Wände stecken in Schlitzen und Aussparungen. Dieselben Blätter gibt es für die Rückfallvariante ohne Zapfen (`stumpf`, Ordner nebenan, im Viewer per Auswahlfeld).
 
@@ -128,7 +128,7 @@ Basis: VW Caddy Mk3 Kombi, Erstzulassung 05/2012, Laderaumbreite nutzbar **1.120
 
 Nutzbare Innenhöhe: 320 mm − 18 mm Bodenplatte = **302 mm**.
 
-Sektionsbreiten nach Abzug B2-Seitenwände (18 mm innen): **312 mm** L/R · **424 mm** Mitte.
+Sektionsbreiten nach Abzug der Seitenwände S1/S2 (18 mm innen): **312 mm** L/R · **424 mm** Mitte.
 
 | Sektion | Innenbreite | Element oben | Element unten |
 |---|---|---|---|
@@ -145,9 +145,9 @@ Alle Elemente fahren auf **Vollauszug-Schienen 850 mm Schwerlast** aus ([ADR 001
 
 | Segment | Länge | Funktion |
 |---|---|---|
-| A1 Deckplatte | 900 mm | Fest, Deckel der Box |
-| A2 Klappbrett Rücksitz | 700 mm | Auf umgeklappten Rücksitzlehnen (310 mm hoch → 10 mm Ausgleich) |
-| A3 Klappbrett Kopfende | 400 mm | Kopfbereich, 2 Gurtschlaufen um die Vordersitz-Kopfstützen |
+| T1 Deckplatte | 900 mm | Fest, Deckel der Box |
+| F1 Klappbrett Rücksitz | 700 mm | Auf umgeklappten Rücksitzlehnen (310 mm hoch → 10 mm Ausgleich) |
+| F2 Klappbrett Kopfende | 400 mm | Kopfbereich, 2 Gurtschlaufen um die Vordersitz-Kopfstützen |
 
 Matratzenbreite: **1.100 mm** (passt in 1.120 mm Innenbreite).
 
@@ -157,7 +157,7 @@ Matratzenbreite: **1.100 mm** (passt in 1.120 mm Innenbreite).
 
 | Farbe | Bedeutung |
 |---|---|
-| Dunkelbraun (transparent) | Holz / Korpus + Liegefläche (B1, B2, B3, F1, A1–A3 · Birke-Multiplex) |
+| Dunkelbraun (transparent) | Holz / Korpus + Liegefläche (R1, S1/S2, M1/M2, B1, T1, F1, F2 · Birke-Multiplex) |
 | Türkis (transparent) | Sitzbrett L/R (C1, C2) |
 | Orange (transparent) | Tischbrett Mitte (C3) |
 | Blau (transparent) | Schubladen × 3 |
@@ -185,14 +185,14 @@ Alle Bauteile kommen aus `MODELL.teile` (`modell/modell.js`) — jeweils ein Qua
 Alle Elemente — Korpusbretter, Liegefläche, Schubladen, Sitz-/Tischbretter und Führungsschienen — leben permanent in der statischen Szenengruppe `sg`. Beim Moduswechsel wird nur die Z-Position der 6 Elemente plus ihrer jeweils zugehörigen Schienen-Innenmember verschoben.
 
 ```
-sg    — Korpus (B1, B2, B3, F1), Liegefläche (A1–A3), Matratze,
+sg    — Korpus (R1, S1/S2, M1/M2, B1), Liegefläche (T1, F1, F2), Matratze,
         alle 6 Elemente + 12 Führungsschienen-Innenmember (immer sichtbar)
 bankG — (leer, reserviert)
 packG — (leer, reserviert)
 caddyG — transparente Caddy-Hülle (Wände mit Türöffnungen, Dach, Radkästen, Vordersitze, Lade-Referenzebene, Rücksitzbank), per Button ausblendbar
 ```
 
-Der Korpus besteht aus Einzelbrettern (keine Vollbox): B2 links/rechts, B1 Rückwand, F1 Boden, B3 × 2 Trennwände. Die Vorderseite ist offen.
+Der Korpus besteht aus Einzelbrettern (keine Vollbox): S1/S2 Seitenwände links/rechts, R1 Rückwand, B1 Boden, M1/M2 Trennwände. Die Vorderseite ist offen.
 
 ---
 
@@ -201,9 +201,9 @@ Der Korpus besteht aus Einzelbrettern (keine Vollbox): B2 links/rechts, B1 Rück
 - [x] Verbindungstechnik Korpus — [List_of_Materials.md §H](./List_of_Materials.md#h--verbindungstechnik) · [ADR 0007](docs/adrs/0007-dowel-screw-bracket-joinery.md)
 - [x] Schubladendetails (Kastenbau, Frontblende, Griffe) — [§H2/§H3](./List_of_Materials.md#h2--schubladenkästen-d1d3) · [ADR 0011](docs/adrs/0011-drawer-box-panel-shear-joinery.md)
 - [x] Schienenbefestigung an Wänden und Trennwänden — [§H1](./List_of_Materials.md#h1--schienenbefestigung-an-wänden-und-trennwänden)
-- [x] Befestigung Unterbau im Fahrzeug — Rücksitz-Ösen neben dem Korpus, Winkel außen an B2 — [§H5](./List_of_Materials.md#h5--befestigung-des-korpus-im-fahrzeug) · [ADR 0012](docs/adrs/0012-non-destructive-vehicle-tie-down.md) · [ADR 0016](docs/adrs/0016-rear-lashing-eyes-carry-the-hold-down.md)
-- [x] Klappbare Liegefläche: A2/A3 per Scharnier an der Box, zum Fahren zurückklappbar (Fahrmodus 1/2) — [ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md)
-- [x] Brett 3 (A3) an den Vordersitz-Kopfstützen: 2 verstellbare Gurtschlaufen — [§H4](./List_of_Materials.md#h4--liegefläche-stöße-a1--a2--a3)
+- [x] Befestigung Unterbau im Fahrzeug — Rücksitz-Ösen neben dem Korpus, Winkel außen an S1/S2 — [§H5](./List_of_Materials.md#h5--befestigung-des-korpus-im-fahrzeug) · [ADR 0012](docs/adrs/0012-non-destructive-vehicle-tie-down.md) · [ADR 0016](docs/adrs/0016-rear-lashing-eyes-carry-the-hold-down.md)
+- [x] Klappbare Liegefläche: F1/F2 per Scharnier an der Box, zum Fahren zurückklappbar (Fahrmodus 1/2) — [ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md)
+- [x] Brett 3 (F2) an den Vordersitz-Kopfstützen: 2 verstellbare Gurtschlaufen — [§H4](./List_of_Materials.md#h4--liegefläche-stöße-t1--f1--f2)
 - [x] Fahrzeug nachgemessen (Breite, Heckklappe, Tiefe, Lehnenhöhe, Länge, Zurrösen) — [List_of_Materials.md](./List_of_Materials.md#fahrzeugmaße-am-eigenen-fahrzeug-nachgemessen-2026-10-17)
 - [x] Budget und Kaufreihenfolge — [Einkaufsliste.md](./Einkaufsliste.md)
 - [x] Rechtliches (Rasten vs. Campen), Zuladung, Lüftung (CO₂ + Hitze), Sicht-/Insektenschutz für Sommerbetrieb — [Hinweise-Sommernutzung.md](./Hinweise-Sommernutzung.md)
@@ -211,7 +211,7 @@ Der Korpus besteht aus Einzelbrettern (keine Vollbox): B2 links/rechts, B1 Rück
 Offen:
 
 - [ ] **Entscheidung ADR 0013** — Schienenhöhe (76 mm bei C1–C3) vs. Brettstärke (32 mm) bei C1–C3: [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Blockiert den Zuschnitt von C1–C3, nicht mehr den Schienenkauf.
-- [x] Eckausbildung Korpus — Boden F1 und Deckel A1 durchgehend, Wände mit Zapfen 18 × 50 mm durch F1 und A1, Wandzuschnitt 340 mm hoch — [ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md), [ADR 0020](docs/adrs/0020-through-tenons-instead-of-routed-grooves.md)
+- [x] Eckausbildung Korpus — Boden B1 und Deckel T1 durchgehend, Wände mit Zapfen 18 × 50 mm durch B1 und T1, Wandzuschnitt 340 mm hoch — [ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md), [ADR 0020](docs/adrs/0020-through-tenons-instead-of-routed-grooves.md)
 - [x] Lichte Tiefe 882 mm vs. Schienenlänge — gelöst mit 850-mm-Schienen, Korpus bleibt 900 mm (20–30 mm Luft zu den Rücksitzen, 32 mm hinter den Schienen) — [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)
 - [ ] 1 Paar 170-kg-Schienen für das Tischbrett C3 nachbestellen (bestellt sind 2 × 170 kg + 4 × 80 kg, nötig 3 + 3) — [ADR 0021](docs/adrs/0021-table-board-on-170-kg-runners.md)
 - [ ] Schienen nach der Lieferung prüfen: Arretierung im ausgezogenen Zustand (170 kg), Stärke der 80-kg-Schiene (geplant 19 mm); die 170-kg-Schiene passt laut Hersteller mit 19,2 + 0,5 mm je Seite
