@@ -61,7 +61,7 @@ window.MODELL = {
    "zuordnung": {
     "C1": "schwer",
     "C2": "schwer",
-    "C3": "leicht",
+    "C3": "schwer",
     "D1": "leicht",
     "D2": "leicht",
     "D3": "leicht"
@@ -1522,7 +1522,7 @@ window.MODELL = {
   },
   {
    "id": "E-C3-a",
-   "name": "Schiene Tischbrett Mitte, an Trennwand rechts · AOLISHENG 850 mm · 80 kg",
+   "name": "Schiene Tischbrett Mitte, an Trennwand rechts · AOLISHENG 850 mm · 170 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "bretter",
@@ -1532,7 +1532,7 @@ window.MODELL = {
      -193.0
     ],
     [
-     262,
+     239,
      315
     ],
     [
@@ -1544,7 +1544,7 @@ window.MODELL = {
   },
   {
    "id": "E-C3-b",
-   "name": "Schiene Tischbrett Mitte, an Trennwand links · AOLISHENG 850 mm · 80 kg",
+   "name": "Schiene Tischbrett Mitte, an Trennwand links · AOLISHENG 850 mm · 170 kg",
    "gruppe": "schiene",
    "material": "schiene",
    "faehrt": "bretter",
@@ -1554,7 +1554,7 @@ window.MODELL = {
      212.0
     ],
     [
-     262,
+     239,
      315
     ],
     [
@@ -2912,7 +2912,7 @@ window.MODELL = {
       -193.0
      ],
      [
-      262,
+      239,
       286
      ],
      [
@@ -2924,7 +2924,7 @@ window.MODELL = {
     "gewollt": false,
     "mass": [
      19.0,
-     24,
+     47,
      16.5
     ]
    },
@@ -2937,7 +2937,7 @@ window.MODELL = {
       212.0
      ],
      [
-      262,
+      239,
       286
      ],
      [
@@ -2949,7 +2949,7 @@ window.MODELL = {
     "gewollt": false,
     "mass": [
      19.0,
-     24,
+     47,
      16.5
     ]
    },
@@ -3314,7 +3314,7 @@ window.MODELL = {
       -193.0
      ],
      [
-      262,
+      239,
       286
      ],
      [
@@ -3326,7 +3326,7 @@ window.MODELL = {
     "gewollt": false,
     "mass": [
      19.0,
-     24,
+     47,
      16.5
     ]
    },
@@ -3339,7 +3339,7 @@ window.MODELL = {
       212.0
      ],
      [
-      262,
+      239,
       286
      ],
      [
@@ -3351,7 +3351,7 @@ window.MODELL = {
     "gewollt": false,
     "mass": [
      19.0,
-     24,
+     47,
      16.5
     ]
    },
@@ -4567,7 +4567,7 @@ window.MODELL = {
      -193.0
     ],
     [
-     262,
+     239,
      286
     ],
     [
@@ -4579,7 +4579,7 @@ window.MODELL = {
    "gewollt": false,
    "mass": [
     19.0,
-    24,
+    47,
     16.5
    ]
   },
@@ -4592,7 +4592,7 @@ window.MODELL = {
      212.0
     ],
     [
-     262,
+     239,
      286
     ],
     [
@@ -4604,7 +4604,7 @@ window.MODELL = {
    "gewollt": false,
    "mass": [
     19.0,
-    24,
+    47,
     16.5
    ]
   },

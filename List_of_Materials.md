@@ -26,7 +26,7 @@ Die Gruppen der Holzplatten folgen der Raumlage: **A** und **F** liegen waagerec
 | | C3 | Tischbrett Mitte |
 | **D — Schubladen** | D1 / D2 / D3 | Schubladenkasten links / rechts / Mitte |
 | | D1-F / D2-F / D3-F | Schubladenfront links / rechts / Mitte |
-| **E — Schienen** | E1 / E2 | Schwerlastschiene 170 kg (Sitzbretter) / Schiene 80 kg (Schubladen + Tischbrett) |
+| **E — Schienen** | E1 / E2 | Schwerlastschiene 170 kg (Sitz- und Tischbretter) / Schiene 80 kg (Schubladen) |
 | | E-C1-a … | im Modell je Einzelschiene, z. B. „Schiene Sitzbrett links, an Seitenwand links“ |
 | **V — Verbindungsmittel & Beschläge** | V1 … V17 | Schrauben, Winkel, Dübel, Leim, Gurte, Scharniere — Langnamen in §V |
 | **G — Ausstattung** | G1 … G5 | Matratze, Bezug, Antirutschmatte, Kantenband, Öl |
@@ -106,9 +106,11 @@ Alle drei fahren 850 mm auf Vollauszug-Schienen aus — **kein Klappen**, reine 
 |---|---|---|---|---|
 | C1 | Sitzbrett Links | 272 × 850 × 32 | 1 | y 18–50 mm; 312 mm Innen − 38 mm Schienen − 2 mm Spalt |
 | C2 | Sitzbrett Rechts | 272 × 850 × 32 | 1 | y 18–50 mm; 312 mm Innen − 38 mm Schienen − 2 mm Spalt |
-| C3 | Tischbrett Mitte | 384 × 850 × 32 | 1 | y 286–318 mm; 424 mm Innen − 38 mm Schienen − 2 mm Spalt |
+| C3 | Tischbrett Mitte | 384 × 850 × 32 | 1 | y 283–315 mm; 424 mm Innen − 38 mm Schienen − 2 mm Spalt |
 
 > **Hinweis:** 32 mm Brettstärke = 18 mm Multiplex + 14 mm Auflageleiste, oder direkt aus 32 mm Leimholz.
+
+> **Auf dem Tischbrett C3 darf auch jemand sitzen** — zumindest darf es dabei nicht brechen. Deshalb läuft C3 wie C1/C2 auf der 170-kg-Schiene ([ADR 0021](docs/adrs/0021-table-board-on-170-kg-runners.md)). Auch das Brett selbst muss eine Person bei 850 mm Auszug tragen: das wird mit [ADR 0013](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md) (Aufbau der Bretter) mitgeprüft.
 
 > **Spalt zwischen Tischbrett C3 und Deckplatte A1:** laut Modell 5 mm (C3 oben bei y = 315, A1 unten bei y = 320). Steht jemand auf A1, biegt sich die Platte über der Mittelsektion grob 3 mm durch, an der freien Vorderkante grob 6,5 mm (Überschlag: 150 kg auf einer Stelle, geschätzte Materialwerte). A1 kann dann auf C3 aufliegen — **Auszüge nur ohne Last auf A1 bewegen.** Das Maß am fertigen Korpus prüfen.
 
@@ -157,8 +159,8 @@ Mindestanforderung: **850 mm Auszug**, **Schwerlast**, mit Arretierung (Lock). 9
 | 3 | Schublade Rechts (D2) | Option 2 · 80 kg · 53 mm | 1 |
 | 4 | Sitzbrett Links (C1) | Option 1 · 170 kg · 76 mm | 1 |
 | 5 | Sitzbrett Rechts (C2) | Option 1 · 170 kg · 76 mm | 1 |
-| 6 | Tischbrett Mitte (C3) | Option 2 · 80 kg · 53 mm | 1 |
-| | **Gesamt** | 2 × Option 1 + 4 × Option 2 | **6 Paare (12 Einzelschienen)** |
+| 6 | Tischbrett Mitte (C3) | Option 1 · 170 kg · 76 mm | 1 |
+| | **Gesamt** | 3 × Option 1 + 3 × Option 2 | **6 Paare (12 Einzelschienen)** |
 
 Zuordnung und Maße stehen in [`modell/parameter.json`](modell/parameter.json) (`schienen.typen` / `schienen.zuordnung`).
 
@@ -168,25 +170,26 @@ Zuordnung und Maße stehen in [`modell/parameter.json`](modell/parameter.json) (
 
 ---
 
-#### Option 1 — AOLISHENG 850 mm · 170 kg ⭐ Gewählt für die Sitzbretter C1/C2 (2 Paare) — dort sitzt eine Person
-**170 kg Traglast** · 76 mm Höhe · mit Arretierung · 104,99 €/Paar (gesehen 2026-10-17) · Link/ASIN noch nachtragen  
-⚠ **Stärke je Seite vor Bestellung prüfen** — die Elementbreiten rechnen mit 19 mm (wie die 900-mm-Variante).
+#### Option 1 — AOLISHENG 850 mm · 170 kg ⭐ Gewählt für die Sitzbretter C1/C2 und das Tischbrett C3 (3 Paare) — dort sitzt eine Person
+**170 kg Traglast** · 76 mm Höhe · mit Arretierung · 104,99 €/Paar · 2 Paare bestellt 2026-11-04, **1 Paar nachbestellen** (C3, ADR 0021) · [Amazon.de — B086JQXRR5](https://www.amazon.de/dp/B086JQXRR5)  
+Einbaumaß laut Hersteller 19,2 + 0,5 mm je Seite: passt in die eingeplanten 20 mm (19 mm Schiene + 1 mm Spiel).  
+⚠ **Nach der Lieferung prüfen:** Rastet die Arretierung im ausgezogenen Zustand ein? Für die Sitz- und Tischbretter Pflicht, sonst zurückschicken.
 
 ```
-Vollauszug 850 mm · Höhe 76 mm · Stärke 19 mm je Seite (zu prüfen) · Traglast 170 kg · Arretierung: Ja
+Vollauszug 850 mm · Höhe 76 mm · Einbaumaß 19,2 + 0,5 mm je Seite · Stahl 2,5 mm · Traglast 170 kg · Arretierung: Ja · nicht trennbar
 Einbaumaß: Sektionsbreite − 2 × 19 mm − 2 mm Spalt = Elementbreite
 Hinter der Schiene: 882 mm lichte Tiefe − 850 mm = 32 mm Luft
 ```
 
 ---
 
-#### Option 2 — AOLISHENG 850 mm · 80 kg ⭐ Gewählt für Schubladen D1–D3 + Tischbrett C3 (4 Paare)
-**80 kg Traglast** · 53 mm Höhe · mit Arretierung · 61,99 €/Paar (gesehen 2026-10-17) · Link/ASIN noch nachtragen  
-⚠ **Stärke je Seite vor Bestellung prüfen** — geplant sind 19 mm; ist sie anders, ändern sich die Breiten von D1–D3 und C3.
+#### Option 2 — AOLISHENG 850 mm · 80 kg ⭐ Gewählt für die Schubladen D1–D3 (3 Paare)
+**80 kg Traglast** · 53 mm Höhe · mit Arretierung · 61,99 €/Paar · 4 Paare bestellt 2026-11-04, **1 Paar zu viel** (C3 jetzt auf Option 1) · Link/ASIN noch nachtragen  
+⚠ **Nach der Lieferung messen:** Stärke je Seite, geplant sind 19 mm; ist sie anders, ändern sich die Breiten von D1–D3. Außerdem prüfen, ob die Schiene trennbar ist und ob die Befestigungslöcher am 830 mm langen Kasten sitzen.
 
 ```
 Vollauszug 850 mm · Höhe 53 mm · Stärke 19 mm je Seite (zu prüfen) · Traglast 80 kg · Arretierung: Ja
-Geeignet für: Gepäck in den Schubladen, Tisch — nicht zum Draufsetzen
+Geeignet für: Gepäck in den Schubladen — nicht zum Draufsetzen
 ```
 
 Bisherige Wahl, **verworfen** (passt nicht in 882 mm lichte Tiefe): AOLISHENG 900 mm · 150 kg · 19 mm Stärke  
@@ -298,11 +301,12 @@ Die Außenmember der Schienen werden auf die **Flächen** von Seitenwänden (B2)
 | Punkt | Vorgabe | Grund |
 |---|---|---|
 | Schraubenlänge in B3 | max. **3,5 × 16 mm** | Trennwände tragen Schienen auf **beiden** Seiten; längere Schrauben durchstoßen die 18 mm Platte |
-| Höhenversatz der Schienenbänder | aus `modell/modell.py`: Sektion L/R Sitzbrett 18–94 (76 mm), Schublade ≈ 202–255 (53 mm); Mitte Schublade ≈ 78–131, Tisch 262–315 (je 53 mm) | Kein Überlapp → keine Schraubenkollision in der Trennwand |
+| Höhenversatz der Schienenbänder | aus `modell/modell.py`: Sektion L/R Sitzbrett 18–94 (76 mm), Schublade ≈ 202–255 (53 mm); Mitte Schublade ≈ 78–131 (53 mm), Tisch 239–315 (76 mm). An B3 überlappen sich je 16 mm: Sitz L/R ↔ Schublade M (78–94) und Schublade L/R ↔ Tisch M (239–255) | 16-mm-Schrauben von beiden Seiten in 18 mm Trennwand dürfen sich nicht gegenüberstehen → Lochreihen der gelieferten Schienen prüfen, in diesen Bändern ggf. in z versetzt schrauben |
 | Vorderste 2 Bohrungen je Schiene | **M5 Durchsteckschraube** mit U-Scheibe + Stoppmutter statt Holzschraube | Am Korpusvorderkant ist das Kippmoment bei 850 mm Auszug maximal — hier reißen Holzschrauben zuerst aus |
+| Nicht trennbare Schiene (170 kg, „not separable“) | wird als Ganzes montiert, durch die Löcher der ausgezogenen Schiene; hinten nur mit langer Bit-Verlängerung oder Winkelaufsatz erreichbar. **Vor dem Verleimen an einer Wand trocken ausprobieren**, ggf. Schienen vor dem Aufsetzen von A1 montieren | Der Korpus ist sonst bei der Montage schon geschlossen |
 | Verschrauben | von innen nach außen anreißen, Schienen **paarweise** auf gleiche Höhe lehren (Reststück Multiplex als Abstandslehre) | 1 mm Höhenversatz im Paar blockiert den Vollauszug |
 
-⚠ Zuerst ADR 0013 entscheiden: die Sitz-/Tischbretter (32 mm) sind niedriger als die Schienen-Innenmember (76 mm bei C1/C2, 53 mm bei C3) — siehe [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Empfehlung: **Trägerwangen** 18 mm × Schienenhöhe × 850 mm, verleimt + verschraubt an beiden Längskanten; die Schiene greift dann in Faserfläche, nicht in Stirnkante.
+⚠ Zuerst ADR 0013 entscheiden: die Sitz-/Tischbretter (32 mm) sind niedriger als die Schienen-Innenmember (76 mm bei C1–C3) — siehe [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Empfehlung: **Trägerwangen** 18 mm × Schienenhöhe × 850 mm, verleimt + verschraubt an beiden Längskanten; die Schiene greift dann in Faserfläche, nicht in Stirnkante.
 
 ### H2 — Schubladenkästen (D1–D3)
 
@@ -350,7 +354,7 @@ A3 trägt wenig Last (Kopfbereich) — hier ist Sicherung gegen Verrutschen wich
 
 **Keine neue Bohrung in Karosserie, Ladeboden oder Verkleidung.** Befestigung ausschließlich über die werkseitigen Zurrösen.
 
-Maßgeblicher Lastfall ist **Sitzen im Bankmodus**: Eine Person auf dem 850 mm ausgefahrenen Brett hebelt den Korpus um seine Unterkante an der Heckklappe; das Ende an den Rücksitzen will hoch. Grob (mit 900 mm gerechnet, also leicht konservativ): 100 kg am Brettende → **ca. 700 N Niederhaltekraft** am hinteren Ende (≈ 350 N je Öse). Deshalb:
+Maßgeblicher Lastfall ist **Sitzen im Bankmodus**: Eine Person auf dem 850 mm ausgefahrenen Brett hebelt den Korpus um seine Unterkante an der Heckklappe; das Ende an den Rücksitzen will hoch. Grob (mit 900 mm gerechnet, also leicht konservativ): 100 kg am Brettende → **ca. 700 N Niederhaltekraft** am hinteren Ende (≈ 350 N je Öse). Da auch auf dem Tischbrett C3 jemand sitzen darf (ADR 0021), können bis zu drei Personen gleichzeitig hebeln — dann grob das Dreifache. Deshalb:
 
 1. **Rücksitz-Ösen (wichtig):** liegen seitlich neben dem Korpus. Je Seite 1 Stahlwinkel (V3) **außen auf die Seitenwand B2**, hinteres Ende, in die Fläche geschraubt (4 × 30 mm), M8-Schraube mit U-Scheibe und Stoppmutter (V10) in die Öse. Winkelform/Biegung nach der tatsächlichen Ösenlage.
 2. **Heckklappen-Ösen (optional):** falls unter dem Korpus, je 1 Winkel von innen auf F1 — nur gegen Verrutschen/Klappern; gegen Kippen bringen sie fast nichts, weil sie am Drehpunkt sitzen.

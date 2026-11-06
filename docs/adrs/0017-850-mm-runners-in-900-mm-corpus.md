@@ -1,6 +1,6 @@
 # 0017: 850 mm runners in the 900 mm corpus
 
-Status: Accepted — amends [ADR 0008](0008-heavy-duty-full-extension-runners.md) (runner length only)
+Status: Accepted — amends [ADR 0008](0008-heavy-duty-full-extension-runners.md) (runner length only); amended by [ADR 0021](0021-table-board-on-170-kg-runners.md) (`C3` moves to the 170 kg runner)
 
 ## Context
 

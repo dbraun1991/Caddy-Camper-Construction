@@ -130,7 +130,7 @@ def _einbauten(p):
     D, H, T = k["tiefe"], k["hoehe"], k["plattenstaerke"]
     rl = s["laenge"]
 
-    def typ(element_id):                # Schienentyp je Element (C1/C2 schwer, Rest leicht)
+    def typ(element_id):                # Schienentyp je Element (C1–C3 schwer, Schubladen leicht)
         return s["typen"][s["zuordnung"][element_id]]
     bh, sp, spiel = e["brett_hoehe"], e["spalt_hoehe"], e["spiel_seitlich"]
     vor, bs = e["vorstand_front"], e["blende_staerke"]

@@ -49,6 +49,7 @@ Einzige Voraussetzung: Internetverbindung beim ersten Öffnen (Three.js wird per
 | Rücksitze umgeklappt / hochgeklappt / ausgebaut | Button „Rücksitze“ (Fahrmodus 2 klappt sie automatisch hoch) |
 | Ansicht zurücksetzen | Reset-Button (Standardansicht: von hinten rechts, Caddy-Hülle sichtbar) |
 | Überschneidungen anzeigen | Button „Überschneidungen“ — rot, bezogen auf den eingefahrenen Zustand |
+| Legende ein-/ausblenden | Button „Legende“ — am Handy (≤ 700 px Breite) standardmäßig ausgeblendet, weil sie sonst die Szene verdeckt |
 | Werkzeichnungen | Reiter „Statisch · Werkzeichnungen“ (oben rechts), direkt verlinkbar mit `index.html#statisch` |
 
 ### Modi
@@ -133,7 +134,7 @@ Sektionsbreiten nach Abzug B2-Seitenwände (18 mm innen): **312 mm** L/R · **42
 | Rechts | 312 mm | Schublade 268 mm hoch · 272 mm breit | Sitzbrett 32 mm hoch · 272 mm breit |
 
 Breitenformel: Innenbreite − 2 × 19 mm Schiene − 2 mm Spalt = Elementbreite.  
-Schienen: AOLISHENG 850 mm — 170 kg / 76 mm für die Sitzbretter C1/C2, 80 kg / 53 mm für Schubladen und Tischbrett. Stärke je Seite: 19 mm angenommen, vor der Bestellung am Produkt prüfen. Im Render dunkelgrau dargestellt.
+Schienen: AOLISHENG 850 mm — 170 kg / 76 mm für die Sitzbretter C1/C2 und das Tischbrett C3 (auch dort darf jemand sitzen, [ADR 0021](docs/adrs/0021-table-board-on-170-kg-runners.md)), 80 kg / 53 mm für die Schubladen. Stärke je Seite: 19 mm angenommen, vor der Bestellung am Produkt prüfen. Im Render dunkelgrau dargestellt.
 
 Alle Elemente fahren auf **Vollauszug-Schienen 850 mm Schwerlast** aus ([ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)): Korpus 900 mm − Rückwand 18 mm = 882 mm lichte Tiefe → 32 mm Luft hinter Schienen, Kästen (830 mm) und Brettern (850 mm).
 
@@ -206,10 +207,11 @@ Der Korpus besteht aus Einzelbrettern (keine Vollbox): B2 links/rechts, B1 Rück
 
 Offen:
 
-- [ ] **Entscheidung ADR 0013** — Schienenhöhe (76 mm bei C1/C2, 53 mm bei C3) vs. Brettstärke (32 mm) bei C1–C3: [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Blockiert den Zuschnitt von C1–C3, nicht mehr den Schienenkauf.
+- [ ] **Entscheidung ADR 0013** — Schienenhöhe (76 mm bei C1–C3) vs. Brettstärke (32 mm) bei C1–C3: [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Blockiert den Zuschnitt von C1–C3, nicht mehr den Schienenkauf.
 - [x] Eckausbildung Korpus — Boden F1 und Deckel A1 durchgehend, Wände mit Zapfen 18 × 50 mm durch F1 und A1, Wandzuschnitt 340 mm hoch — [ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md), [ADR 0020](docs/adrs/0020-through-tenons-instead-of-routed-grooves.md)
 - [x] Lichte Tiefe 882 mm vs. Schienenlänge — gelöst mit 850-mm-Schienen, Korpus bleibt 900 mm (20–30 mm Luft zu den Rücksitzen, 32 mm hinter den Schienen) — [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)
-- [ ] Schienenstärke der 850-mm-Schiene prüfen (geplant 19 mm je Seite) — vor der Bestellung
+- [ ] 1 Paar 170-kg-Schienen für das Tischbrett C3 nachbestellen (bestellt sind 2 × 170 kg + 4 × 80 kg, nötig 3 + 3) — [ADR 0021](docs/adrs/0021-table-board-on-170-kg-runners.md)
+- [ ] Schienen nach der Lieferung prüfen: Arretierung im ausgezogenen Zustand (170 kg), Stärke der 80-kg-Schiene (geplant 19 mm); die 170-kg-Schiene passt laut Hersteller mit 19,2 + 0,5 mm je Seite
 - [ ] **Frontblenden** (einliegend mit Luft oder aufliegend, Höhen mit ~2 mm Spalt, Lage der Schienen) — **wird nach dem Korpusbau entschieden:** Schienen am fertigen Korpus anhalten, messen, dann festlegen. Bis dahin bleiben die roten Stellen an den Blenden in den Zeichnungen bewusst stehen.
 - [x] Bezeichnung links/rechts: immer aus Sicht des Fahrers — Sektion L (C1, D1) = Fahrerseite, R (C2, D2) = Beifahrerseite
 

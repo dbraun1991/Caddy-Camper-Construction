@@ -1,3 +1,6 @@
 .venv/
 __pycache__/
 docs/zeichnungen/**/*.png
+
+# Persönliche Einkaufsübersicht
+eingekauft-liste.md

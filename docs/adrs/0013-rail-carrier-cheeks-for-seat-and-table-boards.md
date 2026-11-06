@@ -49,6 +49,13 @@ Options:
 > `C1`/`C2`. The runners themselves are chosen; only cutting `C1`–`C3` is
 > blocked.
 
+> **Update 2026-11-06 ([ADR 0021](0021-table-board-on-170-kg-runners.md)):**
+> `C3` must take a person sitting on it and now runs on the 170 kg / **76 mm**
+> runner too. The 53 mm case no longer exists. For `C3` a 76 mm cheek would
+> reach down to y = 239, into the drawer `D3` zone (box top y = 278), so option 1
+> would cost `D3` height. The decision must also check that the board build-up
+> carries a person at 850 mm extension, on all three boards.
+
 ## Decision
 
 *Not yet taken.* Recommendation is **option 1 (carrier cheeks)** with the 53 mm

@@ -72,6 +72,17 @@
       pointer-events: none;
     }
 
+    /* Legende per Button ein-/ausblendbar; auf schmalen Bildschirmen startet sie ausgeblendet */
+    body.legende-aus #legend { display: none; }
+    @media (max-width: 700px) {
+      #legend {
+        left: 14px;
+        background: rgba(20,20,20,0.85);
+        border-radius: 6px;
+        padding: 4px 8px;
+      }
+    }
+
     #legend span {
       display: inline-block;
       width: 10px;
@@ -191,7 +202,7 @@
     <span style="background:#B5E48C;"></span>Lade-Referenzebene Kofferraum (y = 0)<br>
     <span style="background:#5F6B7A;"></span>Rücksitzbank (umgeklappt / hochgeklappt / ausgebaut)<br>
     <span style="background:#B8BEC6;"></span>Scharniere Deckplatte ↔ Klappbrett (oben) · zwischen den Klappbrettern (unten)<br>
-    <span style="background:#FF1111;"></span>Schienen × 12 &nbsp;(AOLISHENG 850 mm · 76 mm Sitz / 53 mm Rest · fährt mit Element)
+    <span style="background:#FF1111;"></span>Schienen × 12 &nbsp;(AOLISHENG 850 mm · 76 mm Sitz/Tisch / 53 mm Schubladen · fährt mit Element)
   </div>
 
   <div id="info">Schlafmodus — alles eingeklappt</div>
@@ -205,6 +216,7 @@
     <button id="btnCaddy" class="active"   onclick="toggleCaddy()">Caddy-Hülle</button>
     <button id="btnSeats"                  onclick="toggleRearSeats()">Rücksitze: umgeklappt</button>
     <button id="btnKoll"                   onclick="toggleKollisionen()">Überschneidungen</button>
+    <button id="btnLegende"                onclick="toggleLegende()">Legende</button>
     <button                                onclick="resetCam()">↺ Reset</button>
   </div>
 </div>
@@ -613,6 +625,14 @@
     document.getElementById('btnKoll').classList.toggle('active', kollG.visible);
   };
   document.getElementById('btnKoll').textContent = 'Überschneidungen (' + fehler.length + ')';
+
+  // Legende: am Handy standardmäßig aus, weil sie dort die Szene verdeckt
+  window.toggleLegende = function (an) {
+    if (typeof an !== 'boolean') an = document.body.classList.contains('legende-aus');
+    document.body.classList.toggle('legende-aus', !an);
+    document.getElementById('btnLegende').classList.toggle('active', an);
+  };
+  toggleLegende(!window.matchMedia('(max-width: 700px)').matches);
 
   window.resetCam = function () {
     theta = DEF_THETA; phi = DEF_PHI; radius = DEF_RADIUS; updCam();

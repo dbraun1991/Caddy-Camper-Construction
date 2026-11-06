@@ -108,7 +108,8 @@ down.
 - Rail visualization (inner/moving member only, see
   [ADR 0005](docs/adrs/0005-simplified-rail-visualization.md)).
 - Mobile support: pinch-zoom, controls clear of the phone's system navigation
-  (`100dvh` + safe-area inset).
+  (`100dvh` + safe-area inset), legend toggle button ("Legende", hidden by
+  default at ≤ 700 px width, on a dark backing when shown).
 - Translucent Caddy shell (60 % opacity, open rear, visible by default, toggle button) in its own group
   `caddyG`, see [ADR 0009](docs/adrs/0009-translucent-caddy-shell-overlay.md) and
   [ADR 0010](docs/adrs/0010-detailed-caddy-shell.md): door openings, front seats,
@@ -148,7 +149,7 @@ down.
 
 - **[ADR 0013](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md) is
   Proposed, not Accepted** — the seat/table boards are 32 mm thick but the runner
-  inner members are 76 mm (C1/C2) and 53 mm (C3) high (ADR 0017), so there is no full-height face to screw them
+  inner members are 76 mm high on all three (ADR 0017, ADR 0021: `C3` must take a person sitting on it), so there is no full-height face to screw them
   to. Deciding it changes `elemente.brett_hoehe` / the rail bands in `modell/`
   plus the height tables in `List_of_Materials.md` and `README.md`. Don't cut
   `C1`–`C3` before it is resolved (the runner itself is no longer blocked).
@@ -166,8 +167,10 @@ down.
     order is forced: `B3`, then `B1` from behind, then `B2`, then `A1`.
   - ~~Clear depth 882 mm < 900 mm rail length~~ — resolved by
     [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md): 850 mm
-    runners, corpus stays 900 mm. Open: verify the 850 mm runner's thickness
-    (19 mm assumed in `schienen.typen.*.staerke`, both types).
+    runners, corpus stays 900 mm. Runners ordered 2026-11-04 (2 × 170 kg + 4 × 80 kg; since ADR 0021 `C3` needs the 170 kg type → 3 + 3, one 170 kg pair still to order). The 170 kg type is
+    specified at 19.2 + 0.5 mm per side, which fits the planned 19 mm + 1 mm
+    clearance. Open on delivery: measure the 80 kg type (19 mm assumed in
+    `schienen.typen.*.staerke`) and check the 170 kg lock holds when extended.
   - Full-section-width inset drawer fronts sit in front of the runners.
   - Drawer fronts (inset vs. overlay, ~2 mm gaps all round, rails set back
     18 mm if inset — 868 ≤ 882 fits) and the 3 mm `D3-F`/`C3` overlap:
@@ -192,7 +195,6 @@ down.
   documented in §H4 (V16). A3 hangs from the headrests on two adjustable loops
   (V15); the user sets holes and loop length on the car — documented, otherwise
   out of scope.
-- Mobile: the legend (top right) is wide and overlaps the scene on phones.
 
 ### Possible viewer improvements (not requested yet — candidates only)
 
