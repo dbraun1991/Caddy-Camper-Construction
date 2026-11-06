@@ -122,7 +122,9 @@ down.
   dashed, overlaps red, intended tenon overlaps green) for the two
   corner-construction variants (`gezapft`, `stumpf`), a fourth sheet
   "Box-Bretter" (every corpus/platform board flat at 1:10 with tenons, slots and a
-  cut list, `zeichne_bretter()`), plus an overlap
+  cut list, `zeichne_bretter()`), three single-board sheets at 1:5 (`brett-f1-a1`,
+  `brett-b2-b3`, `brett-b1`, `zeichne_detail()`) with every tenon, slot and
+  notch dimensioned from the board edge and the waste shaded, plus an overlap
   report in the "Statisch" tab and a collision toggle in the 3D tab
   ([ADR 0015](docs/adrs/0015-shared-model-data-for-viewer-and-drawings.md)).
 - Full bill of materials with cut list, hardware options and links, and a

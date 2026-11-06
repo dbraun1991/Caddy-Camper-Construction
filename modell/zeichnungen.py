@@ -2,7 +2,9 @@
 
 Baut jedes Teil aus modell.teile() als Volumenkörper in build123d auf, projiziert
 orthogonal mit getrennten sichtbaren und verdeckten Kanten und schreibt je
-Eckausbildung drei DIN-A3-Blätter im Maßstab 1:5 nach docs/zeichnungen/<variante>/.
+Eckausbildung drei DIN-A3-Blätter im Maßstab 1:5 nach docs/zeichnungen/<variante>/,
+dazu das Zuschnittblatt „Box-Bretter“ (1:10) und drei Einzelbrett-Blätter (1:5), auf
+denen jeder Zapfen, Schlitz und jede Aussparung zum Sägen bemaßt ist.
 Rechnerische Überschneidungen (modell.kollisionen) werden rot hinterlegt, gewollte
 Überdeckungen (Zapfen steckt in Schlitz/Aussparung) grün.
 
@@ -80,7 +82,8 @@ class Blatt:
     def __init__(self, mitte, massstab=M):
         self.mitte = mitte                     # Papierposition des Modell-Ursprungs (u=0, v=0)
         self.m = massstab                      # mm Modell → mm Papier
-        self.ebenen = {n: [] for n in ("rahmen", "verdeckt", "sichtbar", "zapfen", "kollision", "mass", "text")}
+        self.ebenen = {n: [] for n in ("rahmen", "abfall", "verdeckt", "sichtbar", "kontur", "zapfen", "kollision",
+                                       "mass", "text")}
         self.draft = bd.Draft(font_size=3.0, font=SCHRIFT, decimal_precision=0, display_units=False,
                               arrow_length=2.2, line_width=0.18, pad_around_text=1.0, extension_gap=1.0)
 
@@ -106,6 +109,8 @@ class Blatt:
         versatz = 0
         for a, b in zip(punkte, punkte[1:]):
             laenge = ((b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2) ** 0.5
+            if laenge < 0.01:                     # doppelter Punkt in der Kette
+                continue
             if laenge * M >= 10:                 # Zahl passt zwischen die Pfeile
                 self.mass(a, b, abstand)
                 continue
@@ -146,7 +151,7 @@ class Blatt:
         felder = [
             (x0 + 2, 43, "Benennung", titel, 4.2), (x0 + 62, 43, "Projekt", "VW Caddy Mk3 Camper — Unterbau", 3.0),
             (x0 + 2, 31, "Maßstab", massstab, 3.0), (x0 + 62, 31, "Eckausbildung", variante, 2.6),
-            (x0 + 2, 19, "Blatt", f"{nummer} von {len(ANSICHTEN) + 1}", 3.0), (x0 + 62, 19, "Stand", date.today().isoformat(), 3.0),
+            (x0 + 2, 19, "Blatt", f"{nummer} von {BLATT_GESAMT}", 3.0), (x0 + 62, 19, "Stand", date.today().isoformat(), 3.0),
             (x0 + 122, 19, "Maße", "mm", 3.0),
         ]
         for x, y, kopf, wert, gr in felder:
@@ -191,11 +196,13 @@ class Blatt:
     def schreiben(self, pfad):
         svg = bd.ExportSVG(unit=bd.Unit.MM, margin=0, fit_to_stroke=False)
         svg.add_layer("rahmen", line_weight=0.5, fill_color=None, line_color=(0.0, 0.0, 0.0))
+        svg.add_layer("abfall", line_weight=0.05, fill_color=(0.78, 0.78, 0.78), line_color=(0.6, 0.6, 0.6))
         svg.add_layer("zapfen", line_weight=0.1, fill_color=(0.2, 0.65, 0.3, 0.55), line_color=(0.1, 0.45, 0.2))
         svg.add_layer("kollision", line_weight=0.1, fill_color=(0.9, 0.16, 0.16, 0.45), line_color=(0.78, 0.0, 0.0))
         svg.add_layer("verdeckt", line_weight=0.18, fill_color=None, line_color=(0.43, 0.43, 0.43),
                       line_type=bd.LineType.ISO_DASH)
         svg.add_layer("sichtbar", line_weight=0.35, fill_color=None, line_color=(0.0, 0.0, 0.0))
+        svg.add_layer("kontur", line_weight=0.5, fill_color=None, line_color=(0.0, 0.0, 0.0))
         svg.add_layer("mass", line_weight=0.18, fill_color=(0.12, 0.24, 0.55), line_color=(0.12, 0.24, 0.55))
         svg.add_layer("text", line_weight=0.01, fill_color=(0.0, 0.0, 0.0), line_color=None)
         # unsichtbare Blattecken, damit jede SVG exakt A3 groß ist
@@ -411,6 +418,8 @@ def zeichne_bretter(variante, png=False):
         blatt.text("Zapfen, Schlitze, Aussparungen — selbst sägen", 40, 41, 2.6, papier=True, ausrichtung=links)
         blatt.text("Wandhöhe 340 = 302 + 2 × 19 mm Zapfen (1 mm Schleifzugabe je Kante).", 25, 34, 2.2, papier=True, ausrichtung=links)
         blatt.text("Absatz an B3 hinten genau 882 ab Vorderkante.", 25, 30, 2.2, papier=True, ausrichtung=links)
+        blatt.text(f"Alle Zapfen, Schlitze und Aussparungen bemaßt: Blätter {len(ANSICHTEN) + 2}–{BLATT_GESAMT} (1:5).",
+                   25, 26, 2.2, papier=True, ausrichtung=links)
     blatt.text("Ohne Schubladen und Sitz-/Tischbretter — deren Maße werden am fertigen Korpus festgelegt.",
                25, 14, 2.2, papier=True, ausrichtung=links)
     x0, y0 = 120, 46
@@ -432,6 +441,215 @@ def zeichne_bretter(variante, png=False):
     return pfad
 
 
+# ── Blätter 5–7: Einzelbretter mit Bemaßung aller Zapfen, Schlitze, Aussparungen ──
+# Jede Platte in ihrer eigenen Ebene (u, v) in mm, Ursprung links unten an der gelieferten Plattenkante.
+DETAILBLAETTER = [  # (Dateiname, Titel, [(Kürzel, gleiche Kürzel, Ansicht, Papier-x, Papier-y)])
+    ("brett-f1-a1", "Brett F1 / A1", [("F1", ["A1"], "oben", 55, 58)]),
+    ("brett-b2-b3", "Bretter B2 + B3", [("B2-F", ["B2-B"], "z", 50, 178), ("B3-1", ["B3-2"], "z", 50, 70)]),
+    ("brett-b1", "Brett B1", [("B1", [], "x", 50, 150)]),
+]
+BLATT_GESAMT = len(ANSICHTEN) + 1 + len(DETAILBLAETTER)
+
+
+def brett_geometrie(alle, p, id, ansicht):
+    """Rohzuschnitt, fertige Kontur und Ausschnitte einer Platte in ihrer Ebene (u, v).
+
+    Liefert (breite, hoehe, behalten, loecher, eigene_zapfen): Rechtecke (u0, v0, u1, v1).
+    Wände: Körper + eigene Zapfen (unten/oben mit Schleifzugabe bis zur Plattenkante).
+    Löcher: Fußabdruck jedes fremden Zapfens, der in dieser Platte steckt.
+    """
+    t = teil(alle, id)
+    (x0, x1), (y0, y1), (z0, z1) = t["box"]
+    zug = p["zapfen"]["schleifzugabe"] if "zuschnitt" in t else 0
+    if ansicht == "oben":
+        breite, hoehe = x1 - x0, z1 - z0
+        lage = lambda b: (x1 - b[0][1], b[2][0] - z0, x1 - b[0][0], b[2][1] - z0)   # Fahrerseite (+x) links
+    else:
+        breite, hoehe = (z1 - z0, y1 - y0) if ansicht == "z" else (x1 - x0, y1 - y0)
+        if "zuschnitt" in t:
+            breite, hoehe = t["zuschnitt"]
+        rand = (breite - ((z1 - z0) if ansicht == "z" else (x1 - x0))) / 2 if ansicht == "x" else 0
+        unten = y0 - (hoehe - (y1 - y0)) / 2                # Modell-y der gelieferten Unterkante (−1 bei Zapfen)
+        if ansicht == "z":
+            lage = lambda b: (b[2][0] - z0, b[1][0] - unten, b[2][1] - z0, b[1][1] - unten)
+        else:
+            lage = lambda b: (b[0][0] - x0 + rand, b[1][0] - unten, b[0][1] - x0 + rand, b[1][1] - unten)
+    behalten = [lage(t["box"])]
+    zapfen = []
+    for w in (w for w in alle if w.get("zapfen_von") == id):
+        u0, v0, u1, v1 = lage(w["box"])
+        if w["id"].endswith("u"):
+            v0 -= zug
+        elif w["id"].endswith("o"):
+            v1 += zug
+        zapfen.append((u0, v0, u1, v1))
+    loecher = [lage(w["box"]) for w in alle if id in w.get("steckt_in", [])]
+    if ansicht == "oben":
+        behalten = [(0, 0, breite, hoehe)]
+    return breite, hoehe, behalten + zapfen, loecher, zapfen
+
+
+def _rechteck(blatt, u0, v0, u1, v1):
+    """Rechteck in Modell-mm (u, v) direkt in Papier-Koordinaten (Skalieren verschiebt sonst nicht mit)."""
+    (x0, y0, _), (x1, y1, _) = blatt.p(u0, v0), blatt.p(u1, v1)
+    return bd.Pos(x0, y0) * bd.Rectangle(x1 - x0, y1 - y0, align=(bd.Align.MIN, bd.Align.MIN))
+
+
+def zeichne_brett(blatt, alle, p, id, gleiche, ansicht):
+    breite, hoehe, behalten, loecher, zapfen = brett_geometrie(alle, p, id, ansicht)
+    roh = _rechteck(blatt, 0, 0, breite, hoehe)
+    fertig = _rechteck(blatt, *behalten[0])
+    for r in behalten[1:]:
+        fertig = fertig + _rechteck(blatt, *r)
+    for r in loecher:
+        fertig = fertig - _rechteck(blatt, *r)
+    abfall = roh - fertig
+    blatt.ebenen["abfall"] += list(abfall.faces())
+    blatt.rechteck(0, 0, breite, hoehe, "verdeckt")                 # gelieferte Plattenkante
+    blatt.ebenen["kontur"] += list(fertig.edges())
+
+    t = teil(alle, id)
+    stk = 1 + len(gleiche)
+    namen = [teil(alle, i)["name"].split(" (")[0] for i in [id] + gleiche]
+    name = namen[0] if len(set(namen)) == 1 else " / ".join(namen)
+    name = name.replace("Seitenwand links / Seitenwand rechts", "Seitenwand links / rechts") \
+               .replace("Trennwand links / Trennwand rechts", "Trennwand links / rechts")
+    links = (bd.TextAlign.LEFT, bd.TextAlign.CENTER)
+    x, y = blatt.mitte
+    staerke = t["box"][1][1] - t["box"][1][0] if ansicht == "oben" else \
+        (t["box"][0][1] - t["box"][0][0] if ansicht == "z" else t["box"][2][1] - t["box"][2][0])
+    beschriftung = (f"{' / '.join([id] + gleiche)}  ·  {name}  ·  {stk} Stk.  ·  "
+                    f"Rohmaß {fmt(breite)} × {fmt(hoehe)} × {fmt(staerke)}")
+    if ansicht == "oben":                                          # über dem Brett ist kein Platz (Maßketten)
+        blatt.text(beschriftung.replace("  ·  Rohmaß", "\nRohmaß"), 312, 264, 3.0, papier=True, ausrichtung=links)
+    else:
+        oben_kette = loecher or behalten[0][2] < breite             # B1 Schlitze, B3 Absatz: Kette über dem Brett
+        blatt.text(beschriftung, x, y + hoehe * blatt.m + (22 if oben_kette else 6), 3.0, papier=True,
+                   ausrichtung=links)
+
+    unten = sorted({z for r in zapfen if r[1] == 0 for z in (r[0], r[2])})
+    if ansicht == "oben" and not loecher:                          # stumpf: nur Rohmaß
+        blatt.mass((0, 0), (breite, 0), 8, fmt(breite))
+        blatt.mass((0, hoehe), (0, 0), 10, fmt(hoehe))
+        return
+    if ansicht == "oben":
+        # oben (Hinterkante): Aussparungen für B1 · zweite Kette: Schlitze für B3
+        hinten = sorted({u for r in loecher if r[3] == hoehe for u in (r[0], r[2])})
+        mitte = sorted({u for r in loecher if 0 < r[0] and r[2] < breite and r[3] < hoehe for u in (r[0], r[2])})
+        blatt.kette([(u, hoehe) for u in reversed([0] + hinten + [breite])], 8)
+        blatt.kette([(u, hoehe) for u in reversed([0] + mitte + [breite])], 21)
+        # links (Fahrerseite): Aussparungen für B2 · rechts: Schlitze für B3 + Aussparungstiefe für B1
+        seite = sorted({v for r in loecher if r[0] == 0 for v in (r[1], r[3])})
+        schlitz = sorted({v for r in loecher if 0 < r[0] and r[2] < breite for v in (r[1], r[3])} |
+                         {r[1] for r in loecher if r[3] == hoehe})
+        blatt.kette([(0, v) for v in reversed([0] + seite + [hoehe])], 10)
+        blatt.kette([(breite, v) for v in [0] + schlitz + [hoehe]], 10)
+        tiefe = min(r[2] - r[0] for r in loecher if r[0] == 0)
+        lage_b2 = next(r for r in loecher if r[0] == 0)
+        blatt.text(f"Aussparungen {fmt(tiefe)} tief", lage_b2[2] + 10, (lage_b2[1] + lage_b2[3]) / 2, 2.4,
+                   ausrichtung=(bd.TextAlign.LEFT, bd.TextAlign.CENTER))
+        return
+    # Wände: unten Zapfenkette (oben gleich), rechts Höhen
+    blatt.kette([(u, 0) for u in [0] + unten + [breite]], 8)
+    hoehen = {0, hoehe} | {v for r in behalten[:1] for v in (r[1], r[3])}
+    hoehen |= {v for r in zapfen if r[2] == breite and 0 < r[1] for v in (r[1], r[3])}   # hinterer B3-Zapfen
+    blatt.kette([(breite, v) for v in sorted(hoehen)], 10)
+    if behalten[0][2] < breite:                                    # B3: Absatz vor dem hinteren Zapfen
+        blatt.kette([(u, hoehe) for u in (breite, behalten[0][2], 0)], 8)
+    if loecher:                                                    # B1: Schlitze für die B3-Zapfen
+        quer = sorted({u for r in loecher for u in (r[0], r[2])})
+        blatt.kette([(u, hoehe) for u in reversed([0] + quer + [breite])], 8)
+        hoch = sorted({v for r in loecher for v in (r[1], r[3])})
+        blatt.kette([(0, v) for v in reversed([0] + hoch + [hoehe])], 10)
+
+
+def zeichne_detail(variante, datei, titel, bretter, nr, png=False):
+    p = modell.lade_parameter()
+    alle = modell.teile(p, variante)
+    blatt = Blatt((0, 0))
+    for id, gleiche, ansicht, x, y in bretter:
+        blatt.mitte = (x, y)
+        zeichne_brett(blatt, alle, p, id, gleiche, ansicht)
+
+    gezapft = any(w.get("zapfen_von") or w.get("steckt_in") for w in alle)
+    untertitel = ("Einzelbrett zum Sägen: jeder Zapfen, Schlitz und jede Aussparung bemaßt"
+                  if gezapft else "Einzelbrett — in dieser Eckausbildung ohne Zapfen")
+    blatt.rahmen(titel, untertitel, nr, VARIANTEN[variante])
+
+    links = (bd.TextAlign.LEFT, bd.TextAlign.CENTER)
+    blatt.linie((25, 46), (37, 46), ebene="kontur")
+    blatt.text("fertige Kontur = Sägelinie", 40, 46, 2.6, papier=True, ausrichtung=links)
+    blatt.linie((25, 41), (37, 41), ebene="verdeckt")
+    blatt.text("gelieferte Plattenkante (Rohzuschnitt)", 40, 41, 2.6, papier=True, ausrichtung=links)
+    blatt.ebenen["abfall"].append(bd.Pos(31, 36) * bd.Rectangle(12, 3))
+    blatt.text("Abfall: wegsägen bzw. ausschneiden", 40, 36, 2.6, papier=True, ausrichtung=links)
+
+    z = p["zapfen"]
+    hinweise = {
+        "brett-f1-a1": [
+            "F1 und A1 sind gleich: dieselbe Zeichnung gilt",
+            "für beide, Blick von oben, Fahrerseite links,",
+            "Heckklappe (Vorderkante) unten.",
+            "",
+            f"Seitlich: Aussparungen {fmt(z['laenge'])} × 18 für B2,",
+            "offen zum Rand.",
+            f"Hinten: Aussparungen {fmt(z['laenge'])} × 18 für B1, offen.",
+            f"Innen: Schlitze 18 × {fmt(z['laenge'])} für B3, geschlossen.",
+            "Alles ganz durch die 18-mm-Platte.",
+            "",
+            "Schlitze: in den Ecken vorbohren (≥ 8 mm),",
+            "mit der Stichsäge aussägen, auf Linie feilen.",
+            "Lieber knapp sägen und nachpassen.",
+            "",
+            "A1: Scharniere V17 bei x = 0 und ± 410",
+            "liegen zwischen den B1-Aussparungen.",
+        ],
+        "brett-b2-b3": [
+            "Zapfen oben und unten an denselben Stellen",
+            "(Maßkette unten gilt für beide Kanten).",
+            f"Zapfenlänge 19 = 18 Plattenstärke + {fmt(z['schleifzugabe'])} mm",
+            "Schleifzugabe; nach dem Verleimen bündig",
+            "schleifen.",
+            "",
+            "Maße ab Vorderkante (Heckklappe, links).",
+            "",
+            "B3 hinten: Absatz genau bei 882,",
+            "dahinter nur der mittige Zapfen in B1",
+            "(ohne Schleifzugabe).",
+            "",
+            "Schnitte zwischen den Zapfen mit der",
+            "Stichsäge, an Zapfen auf Linie feilen.",
+        ],
+        "brett-b1": [
+            "Zapfen oben und unten an denselben Stellen",
+            "(Maßkette unten gilt für beide Kanten).",
+            f"Zapfenlänge 19 = 18 + {fmt(z['schleifzugabe'])} mm Schleifzugabe.",
+            "",
+            "Zwei Schlitze 18 × 50 für die hinteren",
+            "B3-Zapfen, ganz durch (Kette oben + links).",
+            "",
+            "Symmetrisch — von welcher Seite gemessen",
+            "wird, ist egal.",
+            "",
+            "Zapfenlage weicht den Scharnieren V17",
+            "auf A1 aus (ADR 0020).",
+        ],
+    }[datei] if gezapft else ["Ohne Zapfen: Platte nur auf Rohmaß zuschneiden."]
+    hx = 312 if datei == "brett-f1-a1" else 300
+    for i, zeile in enumerate(hinweise):
+        blatt.text(zeile, hx, 255 - i * 5, 2.6, papier=True, ausrichtung=links)
+
+    ordner = ZIEL / variante
+    ordner.mkdir(parents=True, exist_ok=True)
+    pfad = ordner / f"{datei}.svg"
+    blatt.schreiben(pfad)
+    if png:
+        import cairosvg
+        cairosvg.svg2png(url=str(pfad), write_to=str(pfad.with_suffix(".png")),
+                         output_width=2400, background_color="white")
+    return pfad
+
+
 def main():
     png = "--png" in sys.argv
     for variante in VARIANTEN:
@@ -439,6 +657,8 @@ def main():
             pfad, n = zeichne(variante, name, png)
             print(f"{pfad.relative_to(ZIEL.parent.parent)}  ({n} Überschneidungen inkl. gewollter Zapfen)")
         print(zeichne_bretter(variante, png).relative_to(ZIEL.parent.parent))
+        for nr, (datei, titel, bretter) in enumerate(DETAILBLAETTER, len(ANSICHTEN) + 2):
+            print(zeichne_detail(variante, datei, titel, bretter, nr, png).relative_to(ZIEL.parent.parent))
 
 
 if __name__ == "__main__":

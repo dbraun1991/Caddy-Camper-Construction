@@ -20,7 +20,7 @@ Hinweise-Sommernutzung.md   — Rechtliches, Zuladung, Lüftung, Sicht-/Insekten
 README.md
 docs/adrs/                   — Architecture Decision Records
 docs/pics/                   — Screenshots des Viewers
-docs/zeichnungen/            — Draufsicht, Vorderansicht, Seitenansicht (SVG, A3, 1:5) je Eckausbildung
+docs/zeichnungen/            — Draufsicht, Vorderansicht, Seitenansicht, Box-Bretter, Einzelbretter (SVG, A3) je Eckausbildung
 ```
 
 → Vollständige Stückliste, Maßtabellen, Schienen-Optionen und **Verbindungstechnik**: **[List_of_Materials.md](./List_of_Materials.md)**
@@ -81,7 +81,7 @@ Die Führungsschienen-Innenmember (rot) sind immer Teil der 3D-Geometrie und fah
 
 ## Werkzeichnungen
 
-Drei Ansichten nach Dreitafelprojektion (DIN A3 quer, Maßstab 1:5) und ein Zuschnittblatt „Box-Bretter“ (1:10), erzeugt mit [build123d](https://github.com/gumyr/build123d) aus derselben Datenbasis wie der 3D-Viewer:
+Drei Ansichten nach Dreitafelprojektion (DIN A3 quer, Maßstab 1:5) ein Zuschnittblatt „Box-Bretter“ (1:10) und drei Einzelbrett-Blätter (1:5) zum Sägen, erzeugt mit [build123d](https://github.com/gumyr/build123d) aus derselben Datenbasis wie der 3D-Viewer:
 
 | Ansicht | Blickrichtung | Wände gezapft |
 |---|---|---|
@@ -89,6 +89,9 @@ Drei Ansichten nach Dreitafelprojektion (DIN A3 quer, Maßstab 1:5) und ein Zusc
 | **Draufsicht** (Grundriss) | von oben, Deckel A1 abgenommen | [SVG](docs/zeichnungen/gezapft/draufsicht.svg) |
 | **Seitenansicht** (Seitenriss) | von der Fahrerseite | [SVG](docs/zeichnungen/gezapft/seitenansicht.svg) |
 | **Box-Bretter** (Zuschnitt, 1:10) | jede Platte der Box und der Liegefläche einzeln, mit Maß, Stückzahl, Zapfen, Schlitzen und Zuschnittliste | [SVG](docs/zeichnungen/gezapft/box-bretter.svg) |
+| **Brett F1 / A1** (1:5) | Boden- und Deckplatte zum Sägen: jeder Schlitz und jede Aussparung bemaßt, Abfall grau | [SVG](docs/zeichnungen/gezapft/brett-f1-a1.svg) |
+| **Bretter B2 + B3** (1:5) | Seiten- und Trennwände: Zapfen oben/unten, Absatz und hinterer Zapfen an B3 bemaßt | [SVG](docs/zeichnungen/gezapft/brett-b2-b3.svg) |
+| **Brett B1** (1:5) | Rückwand: Zapfen und die zwei Schlitze für B3 bemaßt | [SVG](docs/zeichnungen/gezapft/brett-b1.svg) |
 
 Sichtbare Kanten durchgezogen, verdeckte Kanten gestrichelt. **Rot hinterlegt** sind rechnerische Überschneidungen zweier Bauteile — Stellen, an denen der Plan so nicht baubar ist. **Grün** hinterlegt sind gewollte Überdeckungen: Die Zapfen der Wände stecken in Schlitzen und Aussparungen. Dieselben Blätter gibt es für die Rückfallvariante ohne Zapfen (`stumpf`, Ordner nebenan, im Viewer per Auswahlfeld).
 
