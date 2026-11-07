@@ -139,8 +139,42 @@
       padding: 14px 16px calc(16px + env(safe-area-inset-bottom, 0px));
       background: #1a1a1a;
     }
-    body.statisch #viewport { display: none; }
+    body.statisch #viewport, body.cnc #viewport { display: none; }
     body.statisch #statisch { display: block; }
+    body.cnc #cnc { display: block; }
+
+    /* Reiter „DXF · CNC“: Vorschau der CNC-Dateien aus modell/cnc.py (ADR 0023) */
+    #cnc {
+      flex: 1;
+      overflow: auto;
+      display: none;
+      padding: 14px 16px calc(16px + env(safe-area-inset-bottom, 0px));
+      background: #1a1a1a;
+      font-size: 13px;
+      line-height: 1.5;
+      color: #ccc;
+    }
+    #cnc .leiste { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 12px; }
+    #cnc select {
+      background: #222; color: #ddd; border: 1px solid #444; border-radius: 6px;
+      padding: 7px 10px; font-size: 13px; max-width: 100%;
+    }
+    #cnc a { color: #8ab4f8; }
+    #cnc .inhalt { max-width: 1400px; }
+    #cnc h2 { font-size: 14px; font-weight: 500; margin: 18px 0 6px; color: #e0e0e0; }
+    #cnc .karten { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+    #cnc .karte { background: #222; border: 1px solid #333; border-radius: 6px; padding: 10px; }
+    #cnc .karte img, #cnc .gesamt {
+      display: block; width: 100%; background: #fff; border-radius: 4px; padding: 6px; box-sizing: border-box;
+    }
+    #cnc .karte img { height: 170px; object-fit: contain; }
+    #cnc .gesamt { max-width: 700px; }
+    #cnc .karte b { color: #e0e0e0; }
+    #cnc .klein { font-size: 12px; color: #999; }
+    #cnc code { background: #2a2a2a; padding: 0 4px; border-radius: 3px; font-size: 12px; color: #ddd; }
+    #cnc ol, #cnc ul { margin: 4px 0; padding-left: 22px; }
+    #cnc li { margin: 3px 0; }
+    #cnc .legende span { display: inline-block; width: 18px; height: 3px; vertical-align: middle; margin: 0 4px 0 10px; }
 
     #statisch .leiste {
       display: flex;
@@ -184,6 +218,7 @@
   <div id="tabs">
     <button id="tabDyn" class="active" onclick="zeigeReiter('dynamisch')">Dynamisch · 3D</button>
     <button id="tabStat"               onclick="zeigeReiter('statisch')">Statisch · Werkzeichnungen</button>
+    <button id="tabCnc"                onclick="zeigeReiter('cnc')">DXF · CNC</button>
   </div>
 </header>
 
@@ -244,11 +279,24 @@
   <div id="pruefung"></div>
 </div>
 
+<div id="cnc">
+  <div class="leiste">
+    <select id="selCncVariante" onchange="zeigeCnc()">
+      <option value="gezapft">Wände gezapft in Boden- + Deckplatte</option>
+      <option value="stumpf">Wände stumpf zwischen Boden- + Deckplatte</option>
+    </select>
+    <span class="legende klein"><span style="background:#d91a1a"></span>Außenkontur<span style="background:#1a40d9"></span>Schlitze (Innenkontur)</span>
+  </div>
+  <div class="inhalt" id="cncInhalt"></div>
+</div>
+
 <!-- Ohne Build-Schritt im Browser zu öffnen: docs/adrs/0001-self-contained-single-file-viewer.md -->
 <!-- Version bewusst gepinnt, nicht "latest": docs/adrs/0002-pinned-threejs-r128-via-cdn.md -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <!-- Gemeinsame Datenbasis mit den Werkzeichnungen, generiert aus modell/parameter.json: docs/adrs/0015-shared-model-data-for-viewer-and-drawings.md -->
 <script src="modell/modell.js"></script>
+<!-- CNC-Dateien (Teileliste + Hinweise), generiert von modell/cnc.py: docs/adrs/0023-cnc-dxf-export-with-dogbones.md -->
+<script src="docs/cnc/cnc.js"></script>
 <script>
 (function () {
 
@@ -669,10 +717,13 @@
 
   window.zeigeReiter = function (r) {
     document.body.classList.toggle('statisch', r === 'statisch');
-    document.getElementById('tabDyn').classList.toggle('active', r !== 'statisch');
+    document.body.classList.toggle('cnc', r === 'cnc');
+    document.getElementById('tabDyn').classList.toggle('active', r === 'dynamisch');
     document.getElementById('tabStat').classList.toggle('active', r === 'statisch');
+    document.getElementById('tabCnc').classList.toggle('active', r === 'cnc');
     if (r === 'statisch') zeigeBlatt();
-    history.replaceState(null, '', r === 'statisch' ? '#statisch' : location.pathname + location.search);
+    if (r === 'cnc') zeigeCnc();
+    history.replaceState(null, '', r === 'dynamisch' ? location.pathname + location.search : '#' + r);
   };
 
   function mm(v) { return String(v).replace('.', ','); }
@@ -718,8 +769,51 @@
   };
 
   document.getElementById('selVariante').value = MODELL.eckausbildung;
-  if (location.hash === '#statisch') zeigeReiter('statisch');
+  document.getElementById('selCncVariante').value = MODELL.eckausbildung;
 })();
+
+// ── Reiter „DXF · CNC“: Vorschau und Hinweise aus docs/cnc/cnc.js (modell/cnc.py) ──
+(function () {
+  function esc(t) {
+    return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+  // Hinweistexte enthalten nur **fett** und `code` — dieselben Texte wie in AUFTRAG.md
+  function text(t) {
+    return esc(t).replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\*\*([^*]+)\*\*/g, '<b>$1</b>');
+  }
+
+  window.zeigeCnc = function () {
+    var ziel = document.getElementById('cncInhalt');
+    var v = window.CNC && window.CNC.varianten[document.getElementById('selCncVariante').value];
+    if (!v) {
+      ziel.innerHTML = '<p>Keine CNC-Daten gefunden. Erzeugen mit <code>.venv/bin/python modell/cnc.py</code>.</p>';
+      return;
+    }
+    var html = '<p class="klein">Stand ' + esc(window.CNC.stand) + ' · <a href="' + v.auftrag +
+               '" target="_blank" rel="noopener">AUFTRAG.md</a> (zum Mitschicken) · ' +
+               '<a href="' + v.alle_dxf + '" download>alle-teile.dxf</a></p>';
+    html += '<div class="karten">' + v.teile.map(function (t) {
+      return '<div class="karte"><img src="' + t.vorschau + '" alt="' + esc(t.kuerzel) + '" loading="lazy">' +
+             '<div style="margin-top:8px"><b>' + esc(t.kuerzel) + '</b> · ' + esc(t.name) + '</div>' +
+             '<div class="klein">' + t.stk + ' Stk. · ' + esc(t.mass) + ' mm' +
+             (t.schlitze ? ' · ' + t.schlitze + ' Schlitze innen' : '') + '</div>' +
+             '<a href="' + t.datei + '" download>' + esc(t.datei.split('/').pop()) + ' herunterladen</a></div>';
+    }).join('') + '</div>';
+    v.abschnitte.forEach(function (a) {
+      html += '<h2>' + esc(a.titel) + '</h2>';
+      if (a.art === 'absatz') html += a.texte.map(function (t) { return '<p>' + text(t) + '</p>'; }).join('');
+      else {
+        var tag = a.art === 'nummeriert' ? 'ol' : 'ul';
+        html += '<' + tag + '>' + a.texte.map(function (t) { return '<li>' + text(t) + '</li>'; }).join('') + '</' + tag + '>';
+      }
+    });
+    html += '<h2>Alle Teile (Übersicht, kein Nesting)</h2><img class="gesamt" src="' + v.alle_vorschau + '" alt="Alle Teile">';
+    ziel.innerHTML = html;
+  };
+})();
+
+// Direkt verlinkbar: index.html#statisch bzw. #cnc (erst hier, wenn alle Reiter definiert sind)
+if (location.hash === '#statisch' || location.hash === '#cnc') zeigeReiter(location.hash.slice(1));
 </script>
 </body>
 </html>

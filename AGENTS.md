@@ -17,8 +17,9 @@ regenerating them after a dimension change runs two Python scripts (ADR 0015).
 ## Repo structure
 
 ```
-index.html                 — viewer: tab "Dynamisch" (Three.js r128 via CDN) + tab "Statisch"
-                              (workshop drawings); builds all parts from modell/modell.js
+index.html                 — viewer: tab "Dynamisch" (Three.js r128 via CDN), tab "Statisch"
+                              (workshop drawings), tab "DXF · CNC" (docs/cnc/cnc.js);
+                              builds all parts from modell/modell.js
 modell/parameter.json      — single source of all build dimensions (mm)
 modell/modell.py           — derives every part as a box + overlap check → modell/modell.js
                               (stdlib only; generated file is committed)
@@ -38,7 +39,8 @@ Hinweise-Sommernutzung.md  — legal (rasten vs. campen), payload, ventilation, 
 README.md                  — usage, controls, dimensions overview, render architecture notes
 docs/adrs/                 — architecture decision records (see below)
 docs/zeichnungen/          — generated drawings, one folder per `eckausbildung` variant
-docs/cnc/                  — generated DXF + AUFTRAG.md per variant (CNC job)
+docs/cnc/                  — generated DXF + AUFTRAG.md + vorschau/*.svg per variant,
+                              cnc.js (parts + notes for the viewer tab, via <script src>)
 ```
 
 There are no tests or linter. "Running" the project means opening `index.html` in
@@ -140,7 +142,9 @@ down.
   `werkzeichnungen.pdf` per variant for printing on A3, DXF files for a CNC
   service (`modell/cnc.py`, [ADR 0023](docs/adrs/0023-cnc-dxf-export-with-dogbones.md):
   dogbones and slot clearance from the `cnc` parameters, which are still
-  assumptions until a service confirms cutter Ø and fit), plus an overlap
+  assumptions until a service confirms cutter Ø and fit; shown in the viewer tab
+  "DXF · CNC" with previews, downloads and the same notes as `AUFTRAG.md`,
+  generated from one list in `cnc.abschnitte()`), plus an overlap
   report in the "Statisch" tab and a collision toggle in the 3D tab
   ([ADR 0015](docs/adrs/0015-shared-model-data-for-viewer-and-drawings.md)).
 - Full bill of materials with cut list, hardware options and links, and a

@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<svg width="1165.0mm" height="945.0mm" viewBox="-22.5 -922.5 1165.0 945.0" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <g transform="scale(1,-1)" stroke-linecap="round">
+    <g fill="none" stroke="rgb(216,25,25)" stroke-width="5.0" id="AUSSENKONTUR">
+      <path d="M 0.0,900.0 L 0.0,0.0 L 1120.0,0.0 L 1120.0,900.0 L 0.0,900.0" />
+    </g>
+  </g>
+</svg>

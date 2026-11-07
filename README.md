@@ -10,7 +10,7 @@ Gebaut mit [Three.js r128](https://threejs.org) — keine Installation, kein Bui
 ## Dateien
 
 ```
-index.html                  — Viewer: Reiter „Dynamisch · 3D“ und „Statisch · Werkzeichnungen“
+index.html                  — Viewer: Reiter „Dynamisch · 3D“, „Statisch · Werkzeichnungen“ und „DXF · CNC“
 modell/parameter.json       — gemeinsame Datenbasis: alle Hauptmaße (mm)
 modell/modell.py            — leitet daraus alle Bauteile + Überschneidungen ab → modell/modell.js
 modell/zeichnungen.py       — Werkzeichnungen mit build123d → docs/zeichnungen/
@@ -52,6 +52,7 @@ Einzige Voraussetzung: Internetverbindung beim ersten Öffnen (Three.js wird per
 | Überschneidungen anzeigen | Button „Überschneidungen“ — rot, bezogen auf den eingefahrenen Zustand |
 | Legende ein-/ausblenden | Button „Legende“ — am Handy (≤ 700 px Breite) standardmäßig ausgeblendet, weil sie sonst die Szene verdeckt |
 | Werkzeichnungen | Reiter „Statisch · Werkzeichnungen“ (oben rechts), direkt verlinkbar mit `index.html#statisch` |
+| CNC-Dateien | Reiter „DXF · CNC“: Vorschau jeder DXF, Download und alle Hinweise zum Auftrag, direkt verlinkbar mit `index.html#cnc` |
 
 ### Modi
 
@@ -115,6 +116,7 @@ Für einen CNC-Fräs-Dienstleister liegen alle Bretter der Box und der Liegeflä
 
 - eine DXF je Brettform (`b1-t1`, `s1-s2`, `m1-m2`, `r1`, `f1`, `f2`), 1:1 in mm, Layer `AUSSENKONTUR` und `INNENKONTUR`, nur Durchfräsungen, keine Bohrungen
 - `alle-teile.dxf`: alle 9 Teile nebeneinander (Übersicht, kein Nesting)
+- im Viewer im Reiter „DXF · CNC“: Vorschau, Download und dieselben Hinweise wie in `AUFTRAG.md` (Daten aus `docs/cnc/cnc.js` und `vorschau/*.svg`, beides von `modell/cnc.py` erzeugt)
 - [`AUFTRAG.md`](docs/cnc/gezapft/AUFTRAG.md): Stückliste und **alle Annahmen** zum Mitschicken — Fräser Ø 6 mm (bestimmt die Dogbones in den Innenecken), 0,2 mm Passungsluft in Schlitzen und Aussparungen
 
 Die Annahmen stehen in `modell/parameter.json` → `cnc`. Nach der Rückmeldung des Dienstleisters dort anpassen und neu erzeugen:
