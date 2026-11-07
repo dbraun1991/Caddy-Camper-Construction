@@ -37,7 +37,14 @@ Anbietersuche (**Recherche 2026-11-07**, nur Webseiten gelesen, niemand angefrag
 | [Hobeth / Holz-Zentrum Theile](https://hobeth.de/holz-cnc-fraesen-lassen/) | Elsterwerda (Brandenburg), Versand | DXF/STEP, auch privat | weit weg |
 | [Plattenzuschnitt24](https://www.plattenzuschnitt24.de/Multiplexplatten-Zuschnitt/Multiplexplatte-Birke/) | online, Versand | Birke-Multiplex „gesägt oder gefräst“ | ob Konturen nach DXF |
 
-Nur Plattenzuschnitt (gerade Schnitte, für Zapfen/Schlitze nicht ausreichend): [AuProTec](https://auprotec.de/de/zuschnitt/multiplex-platten/c/000484), [myspiegel.de](https://www.myspiegel.de/multiplex-birke-pb-1193.html) (Kassel; Birke dort laut Shop „zum Möbelbau nicht geeignet“). Holz Leineweber in Duisburg hat 2019 geschlossen. Daneben lohnt die direkte Frage bei Tischlereien in Duisburg/Moers — viele haben eine CNC-Nesting-Anlage, ohne es online anzubieten.
+Nur Plattenzuschnitt (gerade Schnitte, für Zapfen/Schlitze nicht ausreichend, aber z. B. für die reinen Rechtecke F1/F2 oder die Variante „stumpf“):
+
+| Anbieter | Ort | Stand laut Webseite (2026-11-07) | Offen |
+|---|---|---|---|
+| [myspiegel.de](https://www.myspiegel.de/multiplex-birke-pb-1193.html) | Holländische Str. 207b, 34127 Kassel · **versendet** | Zuschnitt-Konfigurator für Rechtecke (max. 122 × 247 cm, Mindestfläche 0,3 m²); Lieferung mit eigenen Fahrzeugen, in Deutschland 9,90 €, ca. 5–8 Arbeitstage; Abholung im Werk Kassel möglich. Birke-Multiplex in sechs Stärken von 4 bis 21 mm; Äste ausgebessert und „deutlich zu erkennen“, laut Shop **„zum Möbelbau nicht geeignet“** | ob 18 mm lieferbar ist (Stärken nicht einzeln genannt); kein Fräsen nach DXF genannt |
+| [AuProTec](https://auprotec.de/de/zuschnitt/multiplex-platten/c/000484) | online | „Zuschnitt nach Maß“, Birke-Multiplex 6,5–30 mm | Produktseite ließ sich nicht auslesen — Fräsen, Versand und Standort nicht geprüft |
+
+Holz Leineweber in Duisburg hat 2019 geschlossen. Daneben lohnt die direkte Frage bei Tischlereien in Duisburg/Moers — viele haben eine CNC-Nesting-Anlage, ohne es online anzubieten.
 
 ---
 
