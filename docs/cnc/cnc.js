@@ -8,7 +8,7 @@ window.CNC = {
      "datei": "docs/cnc/gezapft/b1-t1.dxf",
      "vorschau": "docs/cnc/gezapft/vorschau/b1-t1.svg",
      "kuerzel": "B1 / T1",
-     "name": "Bodenplatte / Deckplatte",
+     "name": "Bodenplatte (Bottom_1) und Deckplatte (Top_1)",
      "stk": 2,
      "mass": "1120 × 900",
      "schlitze": 6
@@ -17,7 +17,7 @@ window.CNC = {
      "datei": "docs/cnc/gezapft/s1-s2.dxf",
      "vorschau": "docs/cnc/gezapft/vorschau/s1-s2.svg",
      "kuerzel": "S1 / S2",
-     "name": "Seitenwand links / rechts",
+     "name": "Seitenwände links (Side_1) und rechts (Side_2)",
      "stk": 2,
      "mass": "900 × 340",
      "schlitze": 0
@@ -26,7 +26,7 @@ window.CNC = {
      "datei": "docs/cnc/gezapft/m1-m2.dxf",
      "vorschau": "docs/cnc/gezapft/vorschau/m1-m2.svg",
      "kuerzel": "M1 / M2",
-     "name": "Trennwand links / rechts",
+     "name": "Trennwand links (Mid_1) / rechts (Mid_2)",
      "stk": 2,
      "mass": "900 × 340",
      "schlitze": 0
@@ -35,7 +35,7 @@ window.CNC = {
      "datei": "docs/cnc/gezapft/r1.dxf",
      "vorschau": "docs/cnc/gezapft/vorschau/r1.svg",
      "kuerzel": "R1",
-     "name": "Rückwand",
+     "name": "Rückwand (Rear_1)",
      "stk": 1,
      "mass": "1084 × 340",
      "schlitze": 2
@@ -44,7 +44,7 @@ window.CNC = {
      "datei": "docs/cnc/gezapft/f1.dxf",
      "vorschau": "docs/cnc/gezapft/vorschau/f1.svg",
      "kuerzel": "F1",
-     "name": "Klappbrett Rücksitz",
+     "name": "Klappbrett Rücksitz (Fold_1)",
      "stk": 1,
      "mass": "1120 × 700",
      "schlitze": 0
@@ -53,7 +53,7 @@ window.CNC = {
      "datei": "docs/cnc/gezapft/f2.dxf",
      "vorschau": "docs/cnc/gezapft/vorschau/f2.svg",
      "kuerzel": "F2",
-     "name": "Klappbrett Kopfende",
+     "name": "Klappbrett Kopfende (Fold_2)",
      "stk": 1,
      "mass": "1120 × 400",
      "schlitze": 0
@@ -112,7 +112,7 @@ window.CNC = {
      "datei": "docs/cnc/stumpf/b1-t1.dxf",
      "vorschau": "docs/cnc/stumpf/vorschau/b1-t1.svg",
      "kuerzel": "B1 / T1",
-     "name": "Bodenplatte / Deckplatte",
+     "name": "Bodenplatte (Bottom_1) und Deckplatte (Top_1)",
      "stk": 2,
      "mass": "1120 × 900",
      "schlitze": 0
@@ -121,7 +121,7 @@ window.CNC = {
      "datei": "docs/cnc/stumpf/s1-s2.dxf",
      "vorschau": "docs/cnc/stumpf/vorschau/s1-s2.svg",
      "kuerzel": "S1 / S2",
-     "name": "Seitenwand links / rechts",
+     "name": "Seitenwände links (Side_1) und rechts (Side_2)",
      "stk": 2,
      "mass": "900 × 302",
      "schlitze": 0
@@ -130,7 +130,7 @@ window.CNC = {
      "datei": "docs/cnc/stumpf/m1-m2.dxf",
      "vorschau": "docs/cnc/stumpf/vorschau/m1-m2.svg",
      "kuerzel": "M1 / M2",
-     "name": "Trennwand links / rechts",
+     "name": "Trennwand links (Mid_1) / rechts (Mid_2)",
      "stk": 2,
      "mass": "882 × 302",
      "schlitze": 0
@@ -139,7 +139,7 @@ window.CNC = {
      "datei": "docs/cnc/stumpf/r1.dxf",
      "vorschau": "docs/cnc/stumpf/vorschau/r1.svg",
      "kuerzel": "R1",
-     "name": "Rückwand",
+     "name": "Rückwand (Rear_1)",
      "stk": 1,
      "mass": "1084 × 302",
      "schlitze": 0
@@ -148,7 +148,7 @@ window.CNC = {
      "datei": "docs/cnc/stumpf/f1.dxf",
      "vorschau": "docs/cnc/stumpf/vorschau/f1.svg",
      "kuerzel": "F1",
-     "name": "Klappbrett Rücksitz",
+     "name": "Klappbrett Rücksitz (Fold_1)",
      "stk": 1,
      "mass": "1120 × 700",
      "schlitze": 0
@@ -157,7 +157,7 @@ window.CNC = {
      "datei": "docs/cnc/stumpf/f2.dxf",
      "vorschau": "docs/cnc/stumpf/vorschau/f2.svg",
      "kuerzel": "F2",
-     "name": "Klappbrett Kopfende",
+     "name": "Klappbrett Kopfende (Fold_2)",
      "stk": 1,
      "mass": "1120 × 400",
      "schlitze": 0

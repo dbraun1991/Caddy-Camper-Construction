@@ -8,12 +8,12 @@ Material: **Birke-Multiplex 18 mm**, 9 Teile in 6 unterschiedlichen Formen.
 
 | Datei | Kürzel | Langname | Stk. | Außenmaß (mm) |
 |---|---|---|---|---|
-| `b1-t1.dxf` | B1 / T1 | Bodenplatte / Deckplatte | 2 | 1120 × 900 |
-| `s1-s2.dxf` | S1 / S2 | Seitenwand links / rechts | 2 | 900 × 340 |
-| `m1-m2.dxf` | M1 / M2 | Trennwand links / rechts | 2 | 900 × 340 |
-| `r1.dxf` | R1 | Rückwand | 1 | 1084 × 340 |
-| `f1.dxf` | F1 | Klappbrett Rücksitz | 1 | 1120 × 700 |
-| `f2.dxf` | F2 | Klappbrett Kopfende | 1 | 1120 × 400 |
+| `b1-t1.dxf` | B1 / T1 | Bodenplatte (Bottom_1) und Deckplatte (Top_1) | 2 | 1120 × 900 |
+| `s1-s2.dxf` | S1 / S2 | Seitenwände links (Side_1) und rechts (Side_2) | 2 | 900 × 340 |
+| `m1-m2.dxf` | M1 / M2 | Trennwand links (Mid_1) / rechts (Mid_2) | 2 | 900 × 340 |
+| `r1.dxf` | R1 | Rückwand (Rear_1) | 1 | 1084 × 340 |
+| `f1.dxf` | F1 | Klappbrett Rücksitz (Fold_1) | 1 | 1120 × 700 |
+| `f2.dxf` | F2 | Klappbrett Kopfende (Fold_2) | 1 | 1120 × 400 |
 
 ## Dateien
 

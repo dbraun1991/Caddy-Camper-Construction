@@ -28,15 +28,22 @@ import zeichnungen  # noqa: E402
 ZIEL = Path(__file__).resolve().parent.parent / "docs" / "cnc"
 
 # (Dateiname, Kürzel gleicher Bretter, Ansicht wie in zeichnungen.brett_geometrie)
+# Bezeichnung: {B1} usw. wird zur Eselsbrücke aus modell.GRUPPEN, z. B. „Bottom_1“ (ADR 0022)
 BRETTER = [
-    ("b1-t1", ["B1", "T1"], "oben"),
-    ("s1-s2", ["S1", "S2"], "z"),
-    ("m1-m2", ["M1", "M2"], "z"),
-    ("r1", ["R1"], "x"),
-    ("f1", ["F1"], "oben"),
-    ("f2", ["F2"], "oben"),
+    ("b1-t1", ["B1", "T1"], "oben", "Bodenplatte ({B1}) und Deckplatte ({T1})"),
+    ("s1-s2", ["S1", "S2"], "z", "Seitenwände links ({S1}) und rechts ({S2})"),
+    ("m1-m2", ["M1", "M2"], "z", "Trennwand links ({M1}) / rechts ({M2})"),
+    ("r1", ["R1"], "x", "Rückwand ({R1})"),
+    ("f1", ["F1"], "oben", "Klappbrett Rücksitz ({F1})"),
+    ("f2", ["F2"], "oben", "Klappbrett Kopfende ({F2})"),
 ]
 LAYER_AUSSEN, LAYER_INNEN = "AUSSENKONTUR", "INNENKONTUR"
+
+
+def eselsbruecke(id):
+    """„S2“ → „Side_2“: Wort aus der Klammer in modell.GRUPPEN, Nummer aus dem Kürzel."""
+    gruppe = modell.GRUPPEN[id[0]]
+    return f"{gruppe[gruppe.index('(') + 1:gruppe.index(')')]}_{id[1:]}"
 
 
 def _rechteck(u0, v0, u1, v1):
@@ -145,7 +152,7 @@ def erzeuge(variante):
     ordner.mkdir(parents=True, exist_ok=True)
 
     zeilen, sammlung, v = [], [], 0
-    for datei, ids, ansicht in BRETTER:
+    for datei, ids, ansicht, bezeichnung in BRETTER:
         flaeche, breite, hoehe, _ = brett_kontur(alle, p, ids[0], ansicht)
         for weitere in ids[1:]:                            # gleiche Bretter müssen wirklich gleich sein
             andere = brett_kontur(alle, p, weitere, ansicht)[0]
@@ -155,9 +162,7 @@ def erzeuge(variante):
         _vorschau([(flaeche, 0, 0)], ordner / "vorschau" / f"{datei}.svg", 5)
         sammlung += [(flaeche, i * (breite + c["teileabstand"]), v) for i in range(len(ids))]
         v += hoehe + c["teileabstand"]
-        namen = " / ".join(zeichnungen.langname(alle, i) for i in ids)
-        namen = namen.replace("Seitenwand links / Seitenwand rechts", "Seitenwand links / rechts") \
-                     .replace("Trennwand links / Trennwand rechts", "Trennwand links / rechts")
+        namen = bezeichnung.format(**{i: eselsbruecke(i) for i in ids})
         zeilen.append((f"{datei}.dxf", " / ".join(ids), namen, len(ids),
                        f"{zeichnungen.fmt(breite)} × {zeichnungen.fmt(hoehe)}",
                        len(flaeche.inner_wires()), _symmetrie(flaeche, breite, hoehe)))
