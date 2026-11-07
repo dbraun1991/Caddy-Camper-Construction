@@ -40,3 +40,4 @@ Decision, Consequences.
 | [0020](0020-through-tenons-instead-of-routed-grooves.md) | Through tenons instead of routed grooves | Accepted |
 | [0021](0021-table-board-on-170-kg-runners.md) | Table board C3 on the 170 kg runners (it must take a person sitting on it) | Accepted |
 | [0022](0022-mnemonic-board-codes.md) | Mnemonic part codes for the boards (Bottom, Rear, Side, Mid, Top, Fold) | Accepted |
+| [0023](0023-cnc-dxf-export-with-dogbones.md) | CNC export as 2D DXF with dogbones and slot clearance | Accepted (values are assumptions) |

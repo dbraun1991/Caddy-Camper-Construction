@@ -89,6 +89,18 @@ window.MODELL = {
    "heckklappe_passt": true,
    "ladekante": 0
   },
+  "cnc": {
+   "_hinweis": "DXF-Export für den CNC-Dienstleister (modell/cnc.py, ADR 0023). Alle Werte sind ANNAHMEN, bis der Dienstleister geantwortet hat — dann hier anpassen und neu erzeugen.",
+   "fraeser_durchmesser": 6,
+   "_fraeser_durchmesser": "Annahme: Schaftfräser Ø 6 mm (üblich für 18-mm-Platten). Bestimmt den Radius der Dogbones in den Innenecken.",
+   "innenecken": "dogbone",
+   "_innenecken": "dogbone = Freischnitt Ø Fräser in jeder Innenecke, damit eckige Zapfen in die Schlitze passen · keine = Dienstleister setzt die Freischnitte selbst",
+   "passungsluft": 0.2,
+   "_passungsluft": "Annahme: Schlitze und Aussparungen je Richtung 0,2 mm größer als der Zapfen (je Seite 0,1). Bei gemessener Plattenstärke über 18,0 mm entsprechend erhöhen.",
+   "plattenstaerke": 18,
+   "material": "Birke-Multiplex 18 mm",
+   "teileabstand": 20
+  },
   "eckausbildung": "gezapft",
   "_eckausbildung_werte": "Boden B1 und Deckel T1 laufen immer durch (ADR 0018). gezapft = Wände greifen mit Zapfen in Schlitze/Aussparungen von B1, T1 und R1 (ADR 0020) · stumpf = Wände 302 mm, stumpf zwischen B1 und T1"
  },

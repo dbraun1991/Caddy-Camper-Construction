@@ -14,6 +14,7 @@ index.html                  — Viewer: Reiter „Dynamisch · 3D“ und „Stat
 modell/parameter.json       — gemeinsame Datenbasis: alle Hauptmaße (mm)
 modell/modell.py            — leitet daraus alle Bauteile + Überschneidungen ab → modell/modell.js
 modell/zeichnungen.py       — Werkzeichnungen mit build123d → docs/zeichnungen/
+modell/cnc.py               — CNC-Dateien (DXF) + Auftrag für den Fräs-Dienstleister → docs/cnc/
 List_of_Materials.md        — Holzteile, Schienen, Befestigungsmaterial, Verbindungstechnik
 Einkaufsliste.md            — Einkaufsliste, Preise und Gesamtbudget
 Hinweise-Sommernutzung.md   — Rechtliches, Zuladung, Lüftung, Sicht-/Insektenschutz (Sommerbetrieb)
@@ -107,6 +108,22 @@ python3 -m venv .venv && .venv/bin/pip install -r modell/requirements.txt   # ei
 ```
 
 > Entscheidungsprotokoll: [ADR 0015](docs/adrs/0015-shared-model-data-for-viewer-and-drawings.md)
+
+### CNC-Dateien (DXF)
+
+Für einen CNC-Fräs-Dienstleister liegen alle Bretter der Box und der Liegefläche als DXF bereit — hochladen, fertige Bretter abholen, ohne Stich- und Kreissäge. Je Eckausbildung ein Ordner, z. B. [`docs/cnc/gezapft/`](docs/cnc/gezapft/):
+
+- eine DXF je Brettform (`b1-t1`, `s1-s2`, `m1-m2`, `r1`, `f1`, `f2`), 1:1 in mm, Layer `AUSSENKONTUR` und `INNENKONTUR`, nur Durchfräsungen, keine Bohrungen
+- `alle-teile.dxf`: alle 9 Teile nebeneinander (Übersicht, kein Nesting)
+- [`AUFTRAG.md`](docs/cnc/gezapft/AUFTRAG.md): Stückliste und **alle Annahmen** zum Mitschicken — Fräser Ø 6 mm (bestimmt die Dogbones in den Innenecken), 0,2 mm Passungsluft in Schlitzen und Aussparungen
+
+Die Annahmen stehen in `modell/parameter.json` → `cnc`. Nach der Rückmeldung des Dienstleisters dort anpassen und neu erzeugen:
+
+```bash
+.venv/bin/python modell/cnc.py
+```
+
+> Entscheidungsprotokoll: [ADR 0023](docs/adrs/0023-cnc-dxf-export-with-dogbones.md)
 
 ---
 

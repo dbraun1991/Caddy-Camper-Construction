@@ -25,7 +25,10 @@ modell/modell.py           — derives every part as a box + overlap check → m
 modell/zeichnungen.py      — build123d: 8 A3 sheets as SVG per corner variant plus
                               werkzeichnungen.pdf (all sheets, for printing)
                               → docs/zeichnungen/ (committed)
-modell/requirements.txt    — build123d for the drawings; install into .venv/ (gitignored)
+modell/cnc.py              — 2D DXF per board for a CNC routing service, dogbones +
+                              slot clearance from `cnc` in parameter.json → docs/cnc/
+                              (committed, ADR 0023)
+modell/requirements.txt    — build123d (+ cairosvg, pypdf) for drawings and DXF; .venv/ (gitignored)
 List_of_Materials.md       — bill of materials, dimensions, hardware options, joinery (§H)
 Einkaufsliste.md           — shopping list, current prices, total budget estimate
 Hinweise-Sommernutzung.md  — legal (rasten vs. campen), payload, ventilation, privacy/
@@ -35,12 +38,14 @@ Hinweise-Sommernutzung.md  — legal (rasten vs. campen), payload, ventilation, 
 README.md                  — usage, controls, dimensions overview, render architecture notes
 docs/adrs/                 — architecture decision records (see below)
 docs/zeichnungen/          — generated drawings, one folder per `eckausbildung` variant
+docs/cnc/                  — generated DXF + AUFTRAG.md per variant (CNC job)
 ```
 
 There are no tests or linter. "Running" the project means opening `index.html` in
 a browser (internet connection required on first load for the Three.js CDN
 script). After editing `modell/parameter.json` or `modell/modell.py`, regenerate:
-`python3 modell/modell.py` and `.venv/bin/python modell/zeichnungen.py` (add
+`python3 modell/modell.py`, `.venv/bin/python modell/zeichnungen.py` and
+`.venv/bin/python modell/cnc.py` (add
 `--png` to also render PNGs for a visual check; PNGs are gitignored). The overlap
 count printed by both scripts is the closest thing to a test — it should only go
 down.
@@ -132,7 +137,10 @@ down.
   notch dimensioned from the board edge and the waste shaded, an overview sheet
   "Bezeichnungen" (sheet 1: isometric view with board codes + table of every
   code and long name, `zeichne_uebersicht()`), all sheets merged into
-  `werkzeichnungen.pdf` per variant for printing on A3, plus an overlap
+  `werkzeichnungen.pdf` per variant for printing on A3, DXF files for a CNC
+  service (`modell/cnc.py`, [ADR 0023](docs/adrs/0023-cnc-dxf-export-with-dogbones.md):
+  dogbones and slot clearance from the `cnc` parameters, which are still
+  assumptions until a service confirms cutter Ø and fit), plus an overlap
   report in the "Statisch" tab and a collision toggle in the 3D tab
   ([ADR 0015](docs/adrs/0015-shared-model-data-for-viewer-and-drawings.md)).
 - Full bill of materials with cut list, hardware options and links, and a
