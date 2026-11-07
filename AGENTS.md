@@ -175,6 +175,13 @@ down.
   to. Deciding it changes `elemente.brett_hoehe` / the rail bands in `modell/`
   plus the height tables in `List_of_Materials.md` and `README.md`. Don't cut
   `C1`–`C3` before it is resolved (the runner itself is no longer blocked).
+- **CNC job not placed yet** ([ADR 0023](docs/adrs/0023-cnc-dxf-export-with-dogbones.md)).
+  The `cnc` values in `modell/parameter.json` (cutter Ø 6 mm, clearance 0.2 mm)
+  are assumptions until a service answers — don't present them as confirmed.
+  The builder is near Duisburg and wants to pick the parts up in person; the
+  provider search (2026-11-07, websites only, nobody contacted) is in
+  `Einkaufsliste.md` §1 "Option: CNC-Fräsen statt Zuschnitt", first candidate
+  Brockmann Holz, Krefeld. Next step the user named: a draft e-mail to providers.
 - **Open findings from the overlap check** (red in the drawings; details in the
   "Statisch" tab report). Don't silently "fix" open ones in the model; each is
   a build decision for the user:

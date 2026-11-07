@@ -21,6 +21,24 @@ Spanne erklärt sich über die Qualitätsklasse (BB/BB vs. S/BB) und den Händle
 
 **Zuschnitt:** 8 – 25 € je nach Händler. Lohnt sich hier klar — die großen Teile (T1, F1, F2, B1 je 1.120 mm breit) sind ohne Formatkreissäge kaum exakt zu schneiden, und ADR 0007 setzt maßhaltige Stirnkanten voraus. **Budget: ~20 €.** Erste Bestellung: 9 Teile in 18 mm, Maße in [List_of_Materials.md §Korpus](./List_of_Materials.md#korpus--unterbau-900-mm-tief-320-mm-hoch-1120-mm-breit) (Wände 340 mm hoch, [ADR 0020](docs/adrs/0020-through-tenons-instead-of-routed-grooves.md)). Passt rechnerisch auf 2 Platten; die 3. Platte und die 12-mm-Platte erst für Schubladen und Sitzbretter.
 
+### Option: CNC-Fräsen statt Zuschnitt
+
+Statt Zuschnitt + Stich-/Kreissäge können die 9 Bretter der ersten Bestellung fertig gefräst werden — mit Zapfen, Schlitzen und Aussparungen. Die Dateien liegen bereit: [`docs/cnc/gezapft/`](docs/cnc/gezapft/) (DXF je Brett + [`AUFTRAG.md`](docs/cnc/gezapft/AUFTRAG.md) zum Mitschicken, im Viewer Reiter „DXF · CNC“, [ADR 0023](docs/adrs/0023-cnc-dxf-export-with-dogbones.md)). **Preis: auf Anfrage**, noch kein Angebot. Fräserdurchmesser (angenommen 6 mm) und Passungsluft (0,2 mm) erst nach Rückmeldung des Anbieters in `modell/parameter.json` → `cnc` festlegen und neu erzeugen.
+
+Anbietersuche (**Recherche 2026-11-07**, nur Webseiten gelesen, niemand angefragt). Ziel: Abholung selbst, Raum Duisburg.
+
+| Anbieter | Ort | Stand laut Webseite | Offen |
+|---|---|---|---|
+| [Brockmann Holz](https://brockmann-holz.de/timber-processing.html) | Bataverstraße 1, 47809 Krefeld · 02151 5124-0 · info@brockmann-holz.de | CNC-Bearbeitungszentrum (Fräsen von Konturen); Birke-Multiplex BFU 100, 4–50 mm, 1.250 × 2.500 mm | Privatkunden? Abholung? Dateiformat? — **erster Kandidat** |
+| [RheinRuhr-Holz](https://rheinruhr-holz.de/) | Zinkstr. 30, 45356 Essen | Privatkunden ja, Abholung kostenlos; Zuschnitt nur für Balken (KVH) | kein CNC-Fräsen genannt — höchstens Material |
+| [HRW FabLab](https://fablabs.io/labs/hrwfablab?locale=es) | Bottrop | „CNC milling“ gelistet | ob eine Portalfräse für ganze Platten da ist; selbst fräsen |
+| Verzeichnis [wlw.de, Duisburg](https://www.wlw.de/de/suche/cnc-fraesarbeiten-fuer-holz/duisburg) | Duisburg / Moers | Einträge u. a. A-Z Möbelfertigteile Tischlerservice, hasenkamp Service (Moers) | alles ungeprüft |
+| [Panelzz](https://www.panelzz.com/de/service/maatwerk/) | Wijlre (NL), Versand | fräst Multiplex nach DXF 1:1, Nesting | keine Birke im Sortiment |
+| [Hobeth / Holz-Zentrum Theile](https://hobeth.de/holz-cnc-fraesen-lassen/) | Elsterwerda (Brandenburg), Versand | DXF/STEP, auch privat | weit weg |
+| [Plattenzuschnitt24](https://www.plattenzuschnitt24.de/Multiplexplatten-Zuschnitt/Multiplexplatte-Birke/) | online, Versand | Birke-Multiplex „gesägt oder gefräst“ | ob Konturen nach DXF |
+
+Nur Plattenzuschnitt (gerade Schnitte, für Zapfen/Schlitze nicht ausreichend): [AuProTec](https://auprotec.de/de/zuschnitt/multiplex-platten/c/000484), [myspiegel.de](https://www.myspiegel.de/multiplex-birke-pb-1193.html) (Kassel; Birke dort laut Shop „zum Möbelbau nicht geeignet“). Holz Leineweber in Duisburg hat 2019 geschlossen. Daneben lohnt die direkte Frage bei Tischlereien in Duisburg/Moers — viele haben eine CNC-Nesting-Anlage, ohne es online anzubieten.
+
 ---
 
 ## 2 — Vollauszug-Schienen (der größte Einzelposten)
@@ -112,7 +130,7 @@ Die kommerzielle Alternative [Moonbox 111](https://www.moonbox.de/products/moonb
 
 Die Montagereihenfolge in [§H](./List_of_Materials.md#montagereihenfolge) gibt die Kaufreihenfolge vor — der fertige Korpus liefert das verbindliche Innenmaß, nicht die Zeichnung:
 
-1. **Jetzt:** Holz 18 mm + 12 mm mit Zuschnitt, Leim, Dübel, Schrauben V1/V2/V7/V8, Winkel V3, Eckleisten V12, Spanngurte V11 → Korpus bauen
+1. **Jetzt:** Holz 18 mm + 12 mm mit Zuschnitt (oder die 18-mm-Teile CNC-gefräst, §1), Leim, Dübel, Schrauben V1/V2/V7/V8, Winkel V3, Eckleisten V12, Spanngurte V11 → Korpus bauen
 2. **Schienen** E1 (3 Paare) + E2 (3 Paare), Durchsteckschrauben V9 → Arretierung und Stärke prüfen, einmessen und montieren (Bretter C1–C3 erst nach ADR 0013 zuschneiden)
 3. **Nach Einbau im Fahrzeug:** M8-Sätze V10 (Gewinde der Zurrösen erst am Auto prüfen; Rücksitz-Ösen liegen neben dem Korpus → Winkel außen an S1/S2, ADR 0016), Griffe V6
 4. **Zuletzt:** Matratze G1 + Bezug G2 — erst messen, wenn die Liegefläche real liegt; Scharniere V17, Gurtschlaufen V15 und Ausgleich V16 beim Anpassen von F1/F2 im Fahrzeug
