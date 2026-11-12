@@ -375,9 +375,14 @@ def schubladen_bretter(p=None, alle=None, zusammenfassen=True):
         mitte = B / 2 + zug
         if g["art"] == "ausschnitt":
             griff = (mitte - g["breite"] / 2, H - g["tiefe"], mitte + g["breite"] / 2, H + g["radius"] + 1, g["radius"])
+            ro = g.get("radius_oben", 0)
+            assert ro + g["radius"] <= g["tiefe"], "Griff: radius + radius_oben größer als die Tiefe"
+            # obere Außenecken des Ausschnitts: (Ecke u, v, Radius, Richtung zum Material)
+            griff_ecken = [(griff[0], H, ro, -1), (griff[2], H, ro, 1)] if ro else []
         else:
             griff = (mitte - g["breite"] / 2, H - g["abstand_oben"] - g["tiefe"],
                      mitte + g["breite"] / 2, H - g["abstand_oben"], min(g["radius"], g["tiefe"] / 2))
+            griff_ecken = []
         steg = s["lochraster"]["abstand"] - s["lochraster"]["durchmesser"]
         frei_griff = (griff[0] - steg, griff[1] - steg, griff[2] + steg, griff[3] + steg)
         e_a, e_b = rand + f["rand_ende"], rand + Bi - f["rand_ende"]
@@ -400,7 +405,7 @@ def schubladen_bretter(p=None, alle=None, zusammenfassen=True):
             {"id": f"{d}-E1", "teil": "Kastenfront mit Griff", "lagen": [lage], "stk": 1, "staerke": T, "kasten": d,
              "breite": B + 2 * zug, "hoehe": H, "behalten": [(0, 0, B + 2 * zug, H)],
              "loecher": zinken(B, H, False) + bodenschlitze(Bi, bz["anzahl_kurz"]), "fenster": loecher_vorn,
-             "griff": [griff]},
+             "griff": [griff], "griff_ecken": griff_ecken},
             {"id": f"{d}-E2", "teil": "Kastenrückwand", "lagen": [lage], "stk": 1, "staerke": T, "kasten": d,
              "breite": B + 2 * zug, "hoehe": H, "behalten": [(0, 0, B + 2 * zug, H)],
              "loecher": zinken(B, H, False) + bodenschlitze(Bi, bz["anzahl_kurz"]), "fenster": loecher_hinten},
@@ -501,6 +506,11 @@ def schubladen_3d(p=None, alle=None):
         flaeche = lambda pts: sum(u0 * v1 - u1 * v0 for (u0, v0), (u1, v1) in zip(pts, pts[1:] + pts[:1]))
         aussen = [l for l in schleifen if flaeche(l) > 0]
         assert len(aussen) == 1, f"{b['id']}: {len(aussen)} Außenkonturen"
+        g = [r for r in b.get("griff", []) if r[3] > b["hoehe"]]
+        if g:   # Griffausschnitt von oben: unten Radius, oben die Außenecken (wie in der DXF)
+            u0, v0, u1, _, r = g[0]
+            aussen = [_verrunde(aussen[0], [((u0, v0), r), ((u1, v0), r)] +
+                                [((u, v), ro) for u, v, ro, _ in b.get("griff_ecken", [])])]
         for suffix, ursprung in lagen:
             out.append({"id": b["id"] + suffix, "name": b["name"], "kasten": b["kasten"], "faehrt": "schubladen",
                         "auszug": nach_id[b["kasten"]]["auszug"],
@@ -509,6 +519,31 @@ def schubladen_3d(p=None, alle=None):
                         "loecher": [l for l in schleifen if flaeche(l) < 0],
                         "fenster": [[round(c, 2) for c in f] for f in b["fenster"] +
                                     [r for r in b.get("griff", []) if r[3] <= b["hoehe"]]]})
+    return out
+
+
+def _verrunde(poly, ecken, schritte=8):
+    """Rechtwinklige Ecken eines Polygons [(u, v), …] durch Kreisbögen ersetzen (konvex oder konkav).
+    ecken: [((u, v), radius)] — Punkte, die nicht im Polygon liegen, werden ignoriert."""
+    out, n = [], len(poly)
+    for k, pkt in enumerate(poly):
+        r = next((r for e, r in ecken if abs(e[0] - pkt[0]) < 1e-6 and abs(e[1] - pkt[1]) < 1e-6), 0)
+        if not r:
+            out.append(pkt)
+            continue
+        a, b = poly[k - 1], poly[(k + 1) % n]
+
+        def richtung(q):
+            du, dv = q[0] - pkt[0], q[1] - pkt[1]
+            l = math.hypot(du, dv)
+            return du / l, dv / l
+        (au, av), (bu, bv) = richtung(a), richtung(b)
+        mu, mv = pkt[0] + r * (au + bu), pkt[1] + r * (av + bv)          # Kreismitte
+        w0 = math.atan2(pkt[1] + r * av - mv, pkt[0] + r * au - mu)
+        w1 = math.atan2(pkt[1] + r * bv - mv, pkt[0] + r * bu - mu)
+        d = (w1 - w0 + math.pi) % (2 * math.pi) - math.pi                 # kürzerer Bogen (90°)
+        out += [(round(mu + r * math.cos(w0 + d * i / schritte), 3), round(mv + r * math.sin(w0 + d * i / schritte), 3))
+                for i in range(schritte + 1)]
     return out
 
 

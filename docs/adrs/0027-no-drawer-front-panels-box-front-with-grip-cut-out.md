@@ -40,7 +40,9 @@ and the handles.
   hole by the builder on Claude's recommendation: it can be grabbed from above
   and at an angle while seated, has no thin bridge above it carrying the pull,
   and gives a glimpse of the contents. `art: "loch"` switches to a closed
-  grip hole if wanted. The sharp top corners of the cut-out are eased by hand.
+  grip hole if wanted. The two top corners, where the cut-out meets the top
+  edge, are milled with R 10 (`griff.radius_oben`, builder 2026-11-12; first
+  planned to be eased by hand), so the grip has four rounded corners.
 - **Hole grid on all end walls**: the Ø 25 / 40 mm grid of ADR 0026 covers the
   whole free area of every `-E2`, and of every `-E1` except a 15 mm margin
   around the grip. The side walls keep their ADR 0026 assignment (windows on

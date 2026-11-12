@@ -35,7 +35,7 @@ Gewicht aller drei Kästen ca. **19,3 kg** (ohne Fenster, Löcher und Griffe wä
 - Zinken und Bodenzapfen sind **19 mm lang** (18 mm Wandstärke + 1 mm Schleifzugabe): Sie stehen nach dem Verleimen 1 mm über und werden bündig geschliffen, bevor die Schienen angeschraubt werden. Gewollt, nicht korrigieren.
 - Jede Innenecke hat einen **Dogbone**: Freischnitt Ø 6 mm über die Ecke hinaus, Kreis durch den Eckpunkt. Ohne ihn bliebe in jeder Ecke ein Radius stehen, und die eckigen Zapfen passten nicht in Schlitze und Aussparungen.
 - **Fenster** in den Seitenwänden der äußeren Schubladen (D1, D2): Ecken mit Radius 20 mm, ohne Dogbone. **Lochraster** (runde Löcher Ø 25 mm im Abstand 40 mm) in den Seitenwänden der mittleren Schublade (D3) und in allen Kastenfronten und -rückwänden (ADR 0026, ADR 0027). Das Band der Schubladenschiene (± 15 mm) bleibt immer voll stehen — dort wird die Schiene angeschraubt.
-- **Griff** in der Kastenfront (`-E1`): Ausschnitt von der Oberkante, 120 mm breit, 35 mm tief, unten Radius 15 mm (ADR 0027).
+- **Griff** in der Kastenfront (`-E1`): Ausschnitt von der Oberkante, 120 mm breit, 35 mm tief, unten Radius 15 mm, die beiden oberen Außenecken Radius 10 mm (ADR 0027).
 
 ## Annahmen (vor dem Auftrag klären)
 

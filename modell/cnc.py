@@ -219,6 +219,10 @@ def erzeuge_schubladen():
     zeilen, flaechen = [], []
     for b in modell.schubladen_bretter(p):
         flaeche = kontur(p, b["behalten"], b["loecher"], b["fenster"] + b.get("griff", []))
+        for u, v, r, seite in b.get("griff_ecken", []):    # obere Außenecken des Griffausschnitts runden
+            mu = u + seite * r
+            ecke = bd.Pos(u + seite * r / 2, v - r / 2) * bd.Rectangle(r, r) - bd.Pos(mu, v - r) * bd.Circle(r)
+            flaeche = (flaeche - ecke).faces()[0]
         datei = "-".join(i.lower() for i in b["ids"]) + ".dxf"   # z. B. d1-s-d2-s.dxf
         zeilen.append(_zeile(datei, b["ids"], b["name"], b["stk"], flaeche, b["breite"], b["hoehe"],
                              f"Birke-Multiplex {zeichnungen.fmt(b['staerke'])} mm", len(b["fenster"])))
@@ -346,7 +350,9 @@ def abschnitte_schubladen(p, zeilen):
             "Kastenfronten und -rückwänden (ADR 0026, ADR 0027). Das Band der Schubladenschiene "
             f"(± {f(fe['abstand_schiene'])} mm) bleibt immer voll stehen — dort wird die Schiene angeschraubt.",
             (f"**Griff** in der Kastenfront (`-E1`): Ausschnitt von der Oberkante, {f(s['griff']['breite'])} mm breit, "
-             f"{f(s['griff']['tiefe'])} mm tief, unten Radius {f(s['griff']['radius'])} mm (ADR 0027)."
+             f"{f(s['griff']['tiefe'])} mm tief, unten Radius {f(s['griff']['radius'])} mm"
+             + (f", die beiden oberen Außenecken Radius {f(s['griff']['radius_oben'])} mm"
+                if s["griff"].get("radius_oben") else "") + " (ADR 0027)."
              if s["griff"]["art"] == "ausschnitt" else
              f"**Griff** in der Kastenfront (`-E1`): Griffloch {f(s['griff']['breite'])} × {f(s['griff']['tiefe'])} mm "
              f"mit runden Enden, {f(s['griff']['abstand_oben'])} mm unter der Oberkante (ADR 0027)."),

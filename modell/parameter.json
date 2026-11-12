@@ -113,6 +113,8 @@
       "breite": 120,
       "tiefe": 35,
       "radius": 15,
+      "radius_oben": 10,
+      "_radius_oben": "nur bei art = ausschnitt: die beiden oberen (äußeren) Ecken, wo der Ausschnitt in die Oberkante läuft, mitgefräst gerundet statt von Hand gebrochen (2026-11-12). Höchstens tiefe − radius",
       "abstand_oben": 25,
       "_abstand_oben": "nur bei art = loch: Steg über dem Griffloch"
     },

@@ -372,7 +372,7 @@ Durch die Fenster von D1/D2 können Kleinteile in den Korpus fallen — bei Beda
 
 **Keine Frontblenden.** Die Kastenfront (-E1) ist die sichtbare Front und schließt bündig mit den Sitz- und Tischbrettern ab. Die Blenden hätten die 76 mm hohen Schienen der Sitz-/Tischbretter verdeckt — und genau dadurch blockiert: bei geschlossener Schublade hätte das Brett nicht ausfahren können.
 
-- **Griff**: Ausschnitt von der Oberkante, 120 × 35 mm, unten Radius 15 mm, mitgefräst. Die beiden oberen Ecken des Ausschnitts von Hand brechen. Alternativ in `modell/parameter.json` → `schubladen.griff.art: "loch"` ein geschlossenes Griffloch.
+- **Griff**: Ausschnitt von der Oberkante, 120 × 35 mm, unten Radius 15 mm, die beiden oberen Außenecken Radius 10 mm, alles mitgefräst. Alternativ in `modell/parameter.json` → `schubladen.griff.art: "loch"` ein geschlossenes Griffloch.
 - Seitlich bleibt je ~20 mm Fuge, in der die Schiene zu sehen ist. Das Spaltmaß ergibt sich aus der Lage der Schienen und ist nicht einstellbar — die Schienen deshalb paarweise genau auf Höhe lehren (→ H1).
 
 ### H4 — Liegefläche: Stöße T1 / F1 / F2
