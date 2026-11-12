@@ -39,11 +39,12 @@
   "schienen": {
     "_hinweis": "Je Typ: Stärke je Seite, Höhe und Länge des Schienenkörpers (eingefahren). Die Löcher liegen mittig in der Höhe. Ausgerichtet bündig an der Korpusfront (Datenblatt). ADR 0028",
     "typen": {
-      "schwer": { "name": "AOLISHENG 870 mm · 170 kg", "staerke": 19, "hoehe": 76, "laenge": 870, "traglast": 170 },
+      "schwer": { "name": "AOLISHENG 870 mm · 170 kg", "staerke": 19, "hoehe": 76, "hoehe_auszug": 55, "laenge": 870, "traglast": 170 },
       "leicht": { "name": "AOLISHENG 850 mm · 80 kg",  "staerke": 19, "hoehe": 53, "laenge": 850, "traglast": 80 }
     },
     "_staerke": "Gemessen 2026-11-12: Stärke je Seite bei beiden Typen 19 mm, Höhe 53 mm (80 kg) und 76 mm (170 kg, nachgemessen). Datenblatt 170 kg (docs/runner-pdfs/heavy-runners.pdf): Stärke 19,2 ± 0,3, Höhe 76,2 ± 0,5, Schrauben M6. Mit 19 mm + 1 mm Spiel je Seite ist bis 20 mm Schienenstärke Platz",
     "_laenge": "Gemessen 2026-11-12: 80 kg 850 mm, 170 kg 870 mm Schienenkörper, jeweils + Arretierungshebel vorn (bis 880 bzw. 900 mm)",
+    "_hoehe_auszug": "Gemessen 2026-11-12 (170 kg): ausgefahren ragen nur der Arretierungshebel (30 mm), das äußerste Teleskopteil (430 mm lang, 30 mm hoch) und das mittlere (430 mm lang, 55 mm hoch) aus dem Korpus, der Rest bleibt im Gehäuse. Sitzt mittig in der Schiene (bestätigt 2026-11-12). Die Wangen richten sich nach diesen 55 mm (ADR 0029)",
     "hebel_vorn": 30,
     "_hebel_vorn": "Arretierungshebel am beweglichen Teil, ragt eingefahren so weit vor das vordere Schienenende (= Korpusfront) — gegen die Luft zur Heckklappe prüfen (fahrzeug_pruefung)",
     "zuordnung": { "C1": "schwer", "C2": "schwer", "C3": "schwer", "D1": "leicht", "D2": "leicht", "D3": "leicht" }
@@ -53,12 +54,16 @@
     "_hinweis": "Höhenplan ADR 0028: Sitz-/Tischbrett-Element = Brett oben + zwei Wangen darunter (umgedrehtes U), so hoch wie die Schiene + Überstand. Kästen bekommen den Rest, Schubladenschiene mittig am Kasten",
     "brett_staerke": 18,
     "wange_staerke": 18,
-    "ueberstand_brett": 1.5,
-    "_ueberstand_brett": "Brettoberkante über der Schienenoberkante — 1–2 mm erlaubt, damit nie die Schiene als Kante über die Sitzfläche steht (Datenblatt: Höhe bis 76,7 mm)",
+    "ueberstand_brett": 0,
+    "_ueberstand_brett": "Brettoberkante über der Schienenoberkante. Seit ADR 0029 genau bündig geplant (wenig Platz); bis 1 mm Fertigungsabweichung nach oben fängt das Wangenspiel auf",
     "boden_luft": 3,
+    "kasten_mitte_plus": 15,
+    "_kasten_mitte_plus": "D3 so viel höher als D1/D2 (Wunsch 2026-11-12: „erstmal 15 mm“), höchstens bis `boden_luft` unter die Wangen von C3 — das Modell kappt und meldet es",
     "_boden_luft": "Luft des Kastens D3 über der Bodenplatte (Durchhang unter Last, Toleranzen, Krümel). Kostet keine Kastenhöhe, D3 rückt nur hoch",
-    "wange_luft": 20,
-    "_wange_luft": "Abstand der Wangen-Unterkante zur Schienen-Unterkante (C1/C2: zu B1). Größer = kürzere Wangen, weniger Material. Unter der mittigen Lochreihe müssen mindestens `rand_lochreihe` mm Holz bleiben. Die Schiene C1/C2 selbst steht auf B1 (bewegliche Teile ~10 mm frei, gemessen 2026-11-12)",
+    "wange_spiel": 2,
+    "_wange_spiel": "Wangen-Unterkante so viel über der Unterkante des 55-mm-Teleskopteils (`hoehe_auszug`, mittig in der Schiene), ADR 0029. Bei 76/55 mm: 12,5 mm über der Schienen-Unterkante (C1/C2: über B1). Unter der mittigen Lochreihe müssen mindestens `rand_lochreihe` mm Holz bleiben",
+    "wangenzapfen": { "laenge": 50, "anzahl": 5, "abstand_rand": 50, "schleifzugabe": 1 },
+    "_wangenzapfen": "Wangen greifen mit Zapfen durch Schlitze im Brett und werden verleimt (ADR 0029). Zapfen = Brettstärke + Schleifzugabe hoch, bündig geschliffen. Fertigung (CNC oder Zuschnitt) noch offen",
     "rand_lochreihe": 15,
     "_rand_lochreihe": "Mindest-Holz unter der Lochmitte der 170-kg-Schiene in der Wange: ~3 × Schraubendurchmesser (5 mm, V18), damit die Schraube nicht zum Rand ausbricht",
     "spalt_hoehe": 5,
@@ -67,7 +72,9 @@
       "aussen": "unten",
       "mitte": "oben",
       "abstand_kasten": 5,
-      "mindestabstand_gegenseite": 10
+      "mindestabstand_gegenseite": 10,
+      "abstand_tischschiene": 5,
+      "_abstand_tischschiene": "D3-Schiene mindestens so weit unter der C3-Schiene (beide an derselben Seite von M1/M2)"
     },
     "spiel_seitlich": 1,
     "vorstand_front": 1.5,
@@ -127,7 +134,9 @@
     "ruecksitzlehne_hoehe": 310,
     "laenge_heck_bis_kopfstuetzen": 2000,
     "heckklappe_passt": true,
-    "ladekante": 0
+    "ladekante": 0,
+    "ladekante_hoehe": 580,
+    "_ladekante_hoehe": "Ladeboden über der Straße, NICHT gemessen: Standardwert Caddy 2K (580 mm, cars-data.com für den Kastenwagen), ±10 cm reichen laut Bauherr. Nur für den Viewer (Boden, Räder)"
   },
 
   "cnc": {

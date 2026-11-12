@@ -582,7 +582,7 @@ def zeichne_detail(variante, datei, titel, bretter, nr, png=False):
         blatt.mitte = (x, y)
         zeichne_brett(blatt, alle, p, id, gleiche, ansicht)
 
-    gezapft = any(w.get("zapfen_von") or w.get("steckt_in") for w in alle)
+    gezapft = any(w.get("zapfen_von") and w["gruppe"] == "korpus" for w in alle)   # Wangenzapfen C1–C3 zählen nicht
     untertitel = ("Einzelbrett zum Sägen: jeder Zapfen, Schlitz und jede Aussparung bemaßt"
                   if gezapft else "Einzelbrett — in dieser Eckausbildung ohne Zapfen")
     blatt.rahmen(titel, untertitel, nr, VARIANTEN[variante])
@@ -689,7 +689,7 @@ def zeichne_uebersicht(variante, png=False):
     links = (bd.TextAlign.LEFT, bd.TextAlign.CENTER)
 
     # Isometrie: Kanten projizieren, Abbildung Modell → Bild aus vier projizierten Punkten bestimmen
-    teile = [t for t in alle if t["id"] in ISO_TEILE or t.get("zapfen_von")]
+    teile = [t for t in alle if t["id"] in ISO_TEILE or (t.get("zapfen_von") and t["gruppe"] == "korpus")]
     sichtbar, verdeckt = bd.Compound([solid(t) for t in teile]).project_to_viewport(
         ISO_KAMERA, viewport_up=(0, 1, 0), look_at=ISO_ZIEL)
 

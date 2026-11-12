@@ -229,12 +229,12 @@
 
   <div id="legend">
     <span style="background:#8B6520;"></span>Holz / Korpus + Liegefläche (Birke-Multiplex)<br>
-    <span style="background:#5DCAA5;"></span>Sitzbrett L/R &nbsp;(Brett 18 mm auf zwei Wangen, 57,5 mm hoch · 870 mm Auszug)<br>
-    <span style="background:#EF9F27;"></span>Tischbrett Mitte (Brett 18 mm auf zwei Wangen, 57,5 mm hoch · 870 mm Auszug)<br>
-    <span style="background:#378ADD;"></span>Schubladen × 3 &nbsp;(Kasten 214,5 mm hoch, ohne Blende · 850 mm Auszug)<br>
+    <span style="background:#5DCAA5;"></span>Sitzbrett L/R &nbsp;(Brett 18 mm auf zwei gezapften Wangen, 63,5 mm hoch, bündig mit der Schiene · 870 mm Auszug)<br>
+    <span style="background:#EF9F27;"></span>Tischbrett Mitte (Brett 18 mm auf zwei gezapften Wangen, 63,5 mm hoch · 870 mm Auszug)<br>
+    <span style="background:#378ADD;"></span>Schubladen × 3 &nbsp;(Kasten L/R 216 mm, Mitte 227,5 mm hoch, ohne Blende · 850 mm Auszug)<br>
     <span style="background:#E62929;"></span>Rechnerische Überschneidung (Button „Überschneidungen“)<br>
     <span style="background:#9DB4C8;"></span>Caddy-Hülle, Heckklappe offen (60 % · teils nachgemessen)<br>
-    <span style="background:#B5E48C;"></span>Lade-Referenzebene Kofferraum (y = 0)<br>
+    <span style="background:#B5E48C;"></span>Lade-Referenzebene Kofferraum (y = 0, Annahme 580 mm über der Straße · Räder/Unterbau Platzhalter)<br>
     <span style="background:#5F6B7A;"></span>Rücksitzbank (umgeklappt / hochgeklappt / ausgebaut)<br>
     <span style="background:#B8BEC6;"></span>Scharniere Deckplatte ↔ Klappbrett (oben) · zwischen den Klappbrettern (unten)<br>
     <span style="background:#FF1111;"></span>Schienen × 12 &nbsp;(AOLISHENG · 870 mm / 76 mm Sitz/Tisch · 850 mm / 53 mm Schubladen · fährt mit Element)
@@ -406,8 +406,10 @@
   }
 
   // ── Grid floor ────────────────────────────────────────────────────────────
+  // Straße: Ladeboden (y = 0) steht auf der Standard-Ladekantenhöhe des Caddy (Annahme, nicht gemessen)
+  var LADEKANTE = P.fahrzeug.ladekante_hoehe || 0;
   var grid = new THREE.GridHelper(30, 30, 0x333333, 0x2a2a2a);
-  grid.position.set(0, -0.01, 8);
+  grid.position.set(0, -LADEKANTE * S - 0.01, 8);
   sg.add(grid);
 
   // ── Bauteile aus dem gemeinsamen Teilemodell ──────────────────────────────
@@ -561,6 +563,27 @@
   var mPlane = new THREE.MeshLambertMaterial({ color: 0xB5E48C, transparent: true, opacity: 0.45, depthWrite: false, side: THREE.DoubleSide });
   var floorPlane = box(CW, 2, zFront, mPlane, 0, -1, zFront / 2, caddyG);
   wireframe(floorPlane, 0x6B8F3A);
+
+  // Unterbau bis zur Straße (Platzhalter): Ladeboden auf LADEKANTE über dem Boden, Bodenfreiheit
+  // und Räder grob nach Datenblatt Caddy 2K (Radstand 2.682 mm, Rad Ø 630 mm, Spur ~1.500 mm).
+  // Hinterachse mittig unter dem Radkasten-Platzhalter.
+  if (LADEKANTE > 0) {
+    var bodenfrei = 150, radD = 630, radB = 200, radstand = 2682;
+    var yU = -LADEKANTE + bodenfrei;                                   // Unterkante Karosserie
+    shell(CW + 2 * CT, -yU, CT, 0, yU / 2, -CT / 2);                   // Heckschürze unter der Ladekante
+    shell(CT, -yU, CL, -(CW / 2 + CT / 2), yU / 2, CL / 2);            // Schweller links/rechts
+    shell(CT, -yU, CL,  (CW / 2 + CT / 2), yU / 2, CL / 2);
+    var mRad = new THREE.MeshLambertMaterial({ color: 0x2B2F36, transparent: true, opacity: 0.85, depthWrite: false });
+    var zHA = carZ + carLen / 2;
+    [zHA, zHA + radstand].forEach(function (zr) {
+      [-1, 1].forEach(function (sx) {
+        var rad = new THREE.Mesh(new THREE.CylinderGeometry(radD / 2 * S, radD / 2 * S, radB * S, 32), mRad);
+        rad.rotation.z = Math.PI / 2;
+        rad.position.set(sx * (CW / 2 - radB / 2) * S, (-LADEKANTE + radD / 2) * S, zr * S);
+        caddyG.add(rad);
+      });
+    });
+  }
 
   // Rücksitzbank (2. Reihe): umgeklappt (Standard) oder ausgebaut — per Button
   // Umgeklappt: Sitzfläche/Unterbau + flach liegende Lehne; Brett F1 liegt darauf (mit Ausgleich)

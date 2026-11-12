@@ -4,19 +4,19 @@ Erzeugt am 2026-11-12 von `modell/cnc.py` aus `modell/parameter.json` — nicht 
 
 ## Teile
 
-Material: **Birke-Multiplex 18 mm** (Wände) und **12 mm** (Böden), 15 Teile in 8 unterschiedlichen Formen — die Wände und Böden der drei Schubladenkästen (Außenmaß B × T × H: D1 272 × 848 × 214,5, D2 272 × 848 × 214,5, D3 384 × 848 × 214,5 mm).
+Material: **Birke-Multiplex 18 mm** (Wände) und **12 mm** (Böden), 15 Teile in 8 unterschiedlichen Formen — die Wände und Böden der drei Schubladenkästen (Außenmaß B × T × H: D1 272 × 848 × 216, D2 272 × 848 × 216, D3 384 × 848 × 227,5 mm).
 
-Gewicht aller drei Kästen ca. **19 kg** (ohne Fenster, Löcher und Griffe wären es 23,1 kg, Dichte 680 kg/m³ angenommen).
+Gewicht aller drei Kästen ca. **19,3 kg** (ohne Fenster, Löcher und Griffe wären es 23,6 kg, Dichte 680 kg/m³ angenommen).
 
 | Datei | Kürzel | Langname | Material | Stk. | Außenmaß (mm) |
 |---|---|---|---|---|---|
-| `d1-s-d2-s.dxf` | D1-S / D2-S | Schublade links / rechts, Seitenwand | Birke-Multiplex 18 mm | 4 | 850 × 214,5 |
-| `d1-e1-d2-e1.dxf` | D1-E1 / D2-E1 | Schublade links / rechts, Kastenfront mit Griff | Birke-Multiplex 18 mm | 2 | 274 × 214,5 |
-| `d1-e2-d2-e2.dxf` | D1-E2 / D2-E2 | Schublade links / rechts, Kastenrückwand | Birke-Multiplex 18 mm | 2 | 274 × 214,5 |
+| `d1-s-d2-s.dxf` | D1-S / D2-S | Schublade links / rechts, Seitenwand | Birke-Multiplex 18 mm | 4 | 850 × 216 |
+| `d1-e1-d2-e1.dxf` | D1-E1 / D2-E1 | Schublade links / rechts, Kastenfront mit Griff | Birke-Multiplex 18 mm | 2 | 274 × 216 |
+| `d1-e2-d2-e2.dxf` | D1-E2 / D2-E2 | Schublade links / rechts, Kastenrückwand | Birke-Multiplex 18 mm | 2 | 274 × 216 |
 | `d1-b-d2-b.dxf` | D1-B / D2-B | Schublade links / rechts, Boden | Birke-Multiplex 12 mm | 2 | 274 × 850 |
-| `d3-s.dxf` | D3-S | Schublade Mitte, Seitenwand | Birke-Multiplex 18 mm | 2 | 850 × 214,5 |
-| `d3-e1.dxf` | D3-E1 | Schublade Mitte, Kastenfront mit Griff | Birke-Multiplex 18 mm | 1 | 386 × 214,5 |
-| `d3-e2.dxf` | D3-E2 | Schublade Mitte, Kastenrückwand | Birke-Multiplex 18 mm | 1 | 386 × 214,5 |
+| `d3-s.dxf` | D3-S | Schublade Mitte, Seitenwand | Birke-Multiplex 18 mm | 2 | 850 × 227,5 |
+| `d3-e1.dxf` | D3-E1 | Schublade Mitte, Kastenfront mit Griff | Birke-Multiplex 18 mm | 1 | 386 × 227,5 |
+| `d3-e2.dxf` | D3-E2 | Schublade Mitte, Kastenrückwand | Birke-Multiplex 18 mm | 1 | 386 × 227,5 |
 | `d3-b.dxf` | D3-B | Schublade Mitte, Boden | Birke-Multiplex 12 mm | 1 | 386 × 850 |
 
 ## Dateien

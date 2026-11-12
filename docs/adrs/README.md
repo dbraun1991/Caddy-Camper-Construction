@@ -46,3 +46,4 @@ Decision, Consequences.
 | [0026](0026-windows-for-outer-drawers-hole-grid-for-middle-drawer.md) | Large windows in the outer drawers (reach in while seated), hole grid in the middle drawer | Accepted |
 | [0027](0027-no-drawer-front-panels-box-front-with-grip-cut-out.md) | No drawer front panels; the box front is the visible front, with a milled grip cut-out | Accepted |
 | [0028](0028-height-plan-board-on-cheeks-foolproof-runner-layout.md) | Height plan: seat/table board on cheeks, equal drawer boxes, foolproof runner layout (outer low, middle high), runner lengths 870/850 | Accepted |
+| [0029](0029-cheeks-sized-to-the-moving-runner-member-flush-seat-taller-middle-drawer.md) | Cheeks sized to the 55 mm moving runner member, flush seat, through-tenoned cheeks, taller middle drawer | Accepted |

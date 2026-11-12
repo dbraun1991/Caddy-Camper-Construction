@@ -4,6 +4,10 @@ Status: Accepted (2026-11-12). Decides [ADR 0013](0013-rail-carrier-cheeks-for-s
 (variant: board on top, cheeks below), replaces the runner placement of
 [ADR 0025](0025-drawer-runners-interleaved-between-seat-and-table-runners.md),
 corrects the 170 kg runner length assumed in [ADR 0017](0017-850-mm-runners-in-900-mm-corpus.md).
+Amended the same day by [ADR 0029](0029-cheeks-sized-to-the-moving-runner-member-flush-seat-taller-middle-drawer.md):
+board flush with the runner, cheeks end 2 mm above the 55 mm moving member
+(12.5 mm above the runner bottom), cheeks through-tenoned into the board, `D3`
+taller than `D1/D2`. The heights below are the state of this ADR.
 
 ## Context
 

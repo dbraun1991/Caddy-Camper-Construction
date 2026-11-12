@@ -131,9 +131,10 @@ def _einbauten(p):
     """Sitz-/Tischbretter, Schubladenkästen und Schienen (Höhenplan ADR 0028).
 
     Sektion L/R von unten: Sitzbrett-Element (Wangen + Brett oben), Spalt, Kasten, Spalt zu T1.
-    Sektion M von unten: Kasten, Spalt, Tischbrett-Element, Spalt zu T1. Das Element ist so hoch
-    wie seine Schiene + Überstand − Bodenluft, die Brettoberkante steht `ueberstand_brett` über
-    der Schiene. Alle Kästen werden dadurch gleich hoch, die Schubladenschiene sitzt mittig.
+    Sektion M von unten: Kasten, Spalt, Tischbrett-Element, Spalt zu T1. Das Element reicht von der
+    Brettoberkante (`ueberstand_brett` über der Schiene, seit ADR 0029 bündig) bis zur Wangen-Unterkante,
+    die `wange_spiel` über dem 55-mm-Teleskopteil endet (ADR 0029). D1/D2 sind gleich hoch, D3 ist
+    `kasten_mitte_plus` höher, höchstens bis `boden_luft` unter die Wangen von C3.
     """
     k, s, e = p["korpus"], p["schienen"], p["elemente"]
     H, T = k["hoehe"], k["plattenstaerke"]
@@ -141,12 +142,14 @@ def _einbauten(p):
     def typ(element_id):                # Schienentyp je Element (C1–C3 schwer, Schubladen leicht)
         return s["typen"][s["zuordnung"][element_id]]
     sp, spiel, vor = e["spalt_hoehe"], e["spiel_seitlich"], e["vorstand_front"]
-    ue, luft, wl = e["ueberstand_brett"], e["boden_luft"], e["wange_luft"]
+    ue, luft = e["ueberstand_brett"], e["boden_luft"]
     bs, ws = e["brett_staerke"], e["wange_staerke"]
     yB = T                                          # Oberkante Bodenplatte
     rhC = typ("C1")["hoehe"]
     assert typ("C3")["hoehe"] == rhC, "C1 und C3 brauchen dieselbe Schienenhöhe"
-    hE = rhC + ue - wl                              # Element: Schiene steht auf B1, Wangen enden `wange_luft` darüber
+    # Wangen-Unterkante über der Schienen-Unterkante: Teleskopteil mittig + Spiel (ADR 0029)
+    wl = (rhC - typ("C1")["hoehe_auszug"]) / 2 + e["wange_spiel"]
+    hE = rhC + ue - wl                              # Element: Brettoberkante bis Wangen-Unterkante
     assert rhC / 2 - wl >= e["rand_lochreihe"], \
         f"Wange zu kurz: unter der Lochreihe blieben nur {rhC / 2 - wl} mm Holz (mind. {e['rand_lochreihe']})"
     assert luft <= wl, "D3 braucht mindestens so viel Luft zum Tischbrett-Element wie die Wangen zu B1"
@@ -171,32 +174,43 @@ def _einbauten(p):
                              "schiene", xs, y, (0, t["laenge"]), faehrt, richtung=r, auszug=t["laenge"]))
         return y
 
+    wz = e["wangenzapfen"]
+
     def brett_element(id, sx, y0, material):
-        """Brett oben über die ganze Breite, darunter je eine Wange an den Schienenseiten."""
+        """Brett oben über die ganze Breite, darunter je eine Wange an den Schienenseiten. Die Wangen
+        greifen mit Zapfen durch Schlitze im Brett (verleimt, bündig geschliffen, ADR 0029)."""
         x0, x1 = element(sx, id)
         y1 = y0 + hE
         auszug = typ(id)["laenge"]
         out.append(_teil(id, ELEMENTE[id], "brett", material, (x0, x1), (y1 - bs, y1), zB, "bretter", auszug=auszug))
         for seite, xs in (("a", (x0, x0 + ws)), ("b", (x1 - ws, x1))):
-            out.append(_teil(f"{id}-W{seite}", f"{ELEMENTE[id]}, Wange", "brett", material, xs, (y0, y1 - bs), zB,
-                             "bretter", auszug=auszug))
+            wid = f"{id}-W{seite}"
+            out.append(_teil(wid, f"{ELEMENTE[id]}, Wange", "brett", material, xs, (y0, y1 - bs), zB,
+                             "bretter", auszug=auszug,
+                             rohmass=[zB[1] - zB[0], round(hE + wz["schleifzugabe"], 2)]))   # Länge × Höhe inkl. Zapfen
+            for nr, start in enumerate(_verteilt(zB[1] - zB[0], wz["anzahl"], wz["laenge"], wz["abstand_rand"]), 1):
+                z = zB[0] + start
+                out.append(_teil(f"{wid}-Z{nr}", f"Zapfen Wange in {ELEMENTE[id]}", "brett", material, xs,
+                                 (y1 - bs, y1), (z, z + wz["laenge"]), "bretter", auszug=auszug,
+                                 steckt_in=[id], zapfen_von=wid))
 
-    def kasten(id, sx, y0):
+    def kasten(id, sx, y0, h=hK, y_max=None, **extra):
         lage = ELEMENTE[id].split()[-1]
         out.append(_teil(id, f"Schubladenkasten {lage}", "schublade", "schublade", element(sx, id),
-                         (y0, y0 + hK), zK, "schubladen", auszug=typ(id)["laenge"]))
-        return schienenpaar_mittig(id, y0)
+                         (y0, round(y0 + h, 2)), zK, "schubladen", auszug=typ(id)["laenge"], **extra))
+        return schienenpaar_mittig(id, y0, h, y_max)
 
-    def schienenpaar_mittig(id, y0):    # Schubladenschiene am Kasten: außen unten, Mitte oben (ADR 0028)
+    def schienenpaar_mittig(id, y0, h, y_max):  # Schubladenschiene am Kasten: außen unten, Mitte oben (ADR 0028)
         sid = {"D1": "L", "D2": "R", "D3": "M"}[id]
         lage = e["schubladenschiene"]["mitte" if sid == "M" else "aussen"]
         ab, rh = e["schubladenschiene"]["abstand_kasten"], typ(id)["hoehe"]
         if lage == "unten":
             y = math.ceil(y0 + ab)                      # ganze mm, nach innen gerundet
         elif lage == "oben":
-            y = math.floor(y0 + hK - ab - rh)
+            oben = y0 + h - ab if y_max is None else min(y0 + h - ab, y_max)
+            y = math.floor(oben - rh)
         else:
-            y = y0 + (hK - rh) / 2
+            y = y0 + (h - rh) / 2
         return schienenpaar(sid, y, "schubladen", id)
 
     baender = {}
@@ -205,11 +219,18 @@ def _einbauten(p):
         baender[f"C{nr}"] = schienenpaar(sid, yB, "bretter", f"C{nr}")
         brett_element(f"C{nr}", sek[sid], yB + wl, "sitz")
         baender[f"D{nr}"] = kasten(f"D{nr}", sek[sid], yB + rhC + ue + sp)
-    # Mitte: unten Schublade, oben Tischbrett-Element
-    baender["D3"] = kasten("D3", sek["M"], yB + luft)
-    y_c3 = H - sp - hE                              # Tischbrett-Element hängt von oben (5 mm unter T1)
-    assert yB + luft + hK + sp <= y_c3 + 1e-6, "Kasten D3 stößt an das Tischbrett-Element"
-    baender["C3"] = schienenpaar("M", y_c3 + hE - ue - typ("C3")["hoehe"], "bretter", "C3")
+    # Mitte: unten Schublade, oben Tischbrett-Element (hängt von oben, 5 mm unter T1)
+    y_c3 = H - sp - hE
+    y_c3_schiene = y_c3 + hE - ue - typ("C3")["hoehe"]
+    h3_max = y_c3 - luft - (yB + luft)              # D3 höchstens `boden_luft` unter die Wangen von C3
+    h3 = min(hK + e["kasten_mitte_plus"], h3_max)
+    assert h3 >= hK, "Kasten D3 stößt an das Tischbrett-Element"
+    extra = {"gekappt": round(hK + e["kasten_mitte_plus"] - h3, 2)} if h3 < hK + e["kasten_mitte_plus"] else {}
+    baender["D3"] = kasten("D3", sek["M"], yB + luft, h3,
+                           y_c3_schiene - e["schubladenschiene"]["abstand_tischschiene"], **extra)
+    baender["C3"] = schienenpaar("M", y_c3_schiene, "bretter", "C3")
+    assert baender["D3"][1] + e["schubladenschiene"]["abstand_tischschiene"] <= baender["C3"][0], \
+        "Schiene D3 stößt an die Schiene C3"
     brett_element("C3", sek["M"], y_c3, "tisch")
     assert y_c3 + hE + sp <= H + 1e-6, "Tischbrett stößt an die Deckplatte"
 

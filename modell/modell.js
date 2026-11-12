@@ -48,6 +48,7 @@ window.MODELL = {
      "name": "AOLISHENG 870 mm · 170 kg",
      "staerke": 19,
      "hoehe": 76,
+     "hoehe_auszug": 55,
      "laenge": 870,
      "traglast": 170
     },
@@ -61,6 +62,7 @@ window.MODELL = {
    },
    "_staerke": "Gemessen 2026-11-12: Stärke je Seite bei beiden Typen 19 mm, Höhe 53 mm (80 kg) und 76 mm (170 kg, nachgemessen). Datenblatt 170 kg (docs/runner-pdfs/heavy-runners.pdf): Stärke 19,2 ± 0,3, Höhe 76,2 ± 0,5, Schrauben M6. Mit 19 mm + 1 mm Spiel je Seite ist bis 20 mm Schienenstärke Platz",
    "_laenge": "Gemessen 2026-11-12: 80 kg 850 mm, 170 kg 870 mm Schienenkörper, jeweils + Arretierungshebel vorn (bis 880 bzw. 900 mm)",
+   "_hoehe_auszug": "Gemessen 2026-11-12 (170 kg): ausgefahren ragen nur der Arretierungshebel (30 mm), das äußerste Teleskopteil (430 mm lang, 30 mm hoch) und das mittlere (430 mm lang, 55 mm hoch) aus dem Korpus, der Rest bleibt im Gehäuse. Sitzt mittig in der Schiene (bestätigt 2026-11-12). Die Wangen richten sich nach diesen 55 mm (ADR 0029)",
    "hebel_vorn": 30,
    "_hebel_vorn": "Arretierungshebel am beweglichen Teil, ragt eingefahren so weit vor das vordere Schienenende (= Korpusfront) — gegen die Luft zur Heckklappe prüfen (fahrzeug_pruefung)",
    "zuordnung": {
@@ -76,12 +78,21 @@ window.MODELL = {
    "_hinweis": "Höhenplan ADR 0028: Sitz-/Tischbrett-Element = Brett oben + zwei Wangen darunter (umgedrehtes U), so hoch wie die Schiene + Überstand. Kästen bekommen den Rest, Schubladenschiene mittig am Kasten",
    "brett_staerke": 18,
    "wange_staerke": 18,
-   "ueberstand_brett": 1.5,
-   "_ueberstand_brett": "Brettoberkante über der Schienenoberkante — 1–2 mm erlaubt, damit nie die Schiene als Kante über die Sitzfläche steht (Datenblatt: Höhe bis 76,7 mm)",
+   "ueberstand_brett": 0,
+   "_ueberstand_brett": "Brettoberkante über der Schienenoberkante. Seit ADR 0029 genau bündig geplant (wenig Platz); bis 1 mm Fertigungsabweichung nach oben fängt das Wangenspiel auf",
    "boden_luft": 3,
+   "kasten_mitte_plus": 15,
+   "_kasten_mitte_plus": "D3 so viel höher als D1/D2 (Wunsch 2026-11-12: „erstmal 15 mm“), höchstens bis `boden_luft` unter die Wangen von C3 — das Modell kappt und meldet es",
    "_boden_luft": "Luft des Kastens D3 über der Bodenplatte (Durchhang unter Last, Toleranzen, Krümel). Kostet keine Kastenhöhe, D3 rückt nur hoch",
-   "wange_luft": 20,
-   "_wange_luft": "Abstand der Wangen-Unterkante zur Schienen-Unterkante (C1/C2: zu B1). Größer = kürzere Wangen, weniger Material. Unter der mittigen Lochreihe müssen mindestens `rand_lochreihe` mm Holz bleiben. Die Schiene C1/C2 selbst steht auf B1 (bewegliche Teile ~10 mm frei, gemessen 2026-11-12)",
+   "wange_spiel": 2,
+   "_wange_spiel": "Wangen-Unterkante so viel über der Unterkante des 55-mm-Teleskopteils (`hoehe_auszug`, mittig in der Schiene), ADR 0029. Bei 76/55 mm: 12,5 mm über der Schienen-Unterkante (C1/C2: über B1). Unter der mittigen Lochreihe müssen mindestens `rand_lochreihe` mm Holz bleiben",
+   "wangenzapfen": {
+    "laenge": 50,
+    "anzahl": 5,
+    "abstand_rand": 50,
+    "schleifzugabe": 1
+   },
+   "_wangenzapfen": "Wangen greifen mit Zapfen durch Schlitze im Brett und werden verleimt (ADR 0029). Zapfen = Brettstärke + Schleifzugabe hoch, bündig geschliffen. Fertigung (CNC oder Zuschnitt) noch offen",
    "rand_lochreihe": 15,
    "_rand_lochreihe": "Mindest-Holz unter der Lochmitte der 170-kg-Schiene in der Wange: ~3 × Schraubendurchmesser (5 mm, V18), damit die Schraube nicht zum Rand ausbricht",
    "spalt_hoehe": 5,
@@ -90,7 +101,9 @@ window.MODELL = {
     "aussen": "unten",
     "mitte": "oben",
     "abstand_kasten": 5,
-    "mindestabstand_gegenseite": 10
+    "mindestabstand_gegenseite": 10,
+    "abstand_tischschiene": 5,
+    "_abstand_tischschiene": "D3-Schiene mindestens so weit unter der C3-Schiene (beide an derselben Seite von M1/M2)"
    },
    "spiel_seitlich": 1,
    "vorstand_front": 1.5,
@@ -157,7 +170,9 @@ window.MODELL = {
    "ruecksitzlehne_hoehe": 310,
    "laenge_heck_bis_kopfstuetzen": 2000,
    "heckklappe_passt": true,
-   "ladekante": 0
+   "ladekante": 0,
+   "ladekante_hoehe": 580,
+   "_ladekante_hoehe": "Ladeboden über der Straße, NICHT gemessen: Standardwert Caddy 2K (580 mm, cars-data.com für den Kastenwagen), ±10 cm reichen laut Bauherr. Nur für den Viewer (Boden, Räder)"
   },
   "cnc": {
    "_hinweis": "DXF-Export für den CNC-Dienstleister (modell/cnc.py, ADR 0023). Alle Werte sind ANNAHMEN, bis der Dienstleister geantwortet hat — dann hier anpassen und neu erzeugen.",
@@ -1251,8 +1266,8 @@ window.MODELL = {
      522.0
     ],
     [
-     77.5,
-     95.5
+     76.0,
+     94.0
     ],
     [
      -1.5,
@@ -1273,15 +1288,149 @@ window.MODELL = {
      268.0
     ],
     [
-     38,
-     77.5
+     30.5,
+     76.0
     ],
     [
      -1.5,
      868.5
     ]
    ],
-   "auszug": 870
+   "auszug": 870,
+   "rohmass": [
+    870.0,
+    64.5
+   ]
+  },
+  {
+   "id": "C1-Wa-Z1",
+   "name": "Zapfen Wange in Sitzbrett links",
+   "gruppe": "brett",
+   "material": "sitz",
+   "faehrt": "bretter",
+   "box": [
+    [
+     250.0,
+     268.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     48.5,
+     98.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C1"
+   ],
+   "zapfen_von": "C1-Wa"
+  },
+  {
+   "id": "C1-Wa-Z2",
+   "name": "Zapfen Wange in Sitzbrett links",
+   "gruppe": "brett",
+   "material": "sitz",
+   "faehrt": "bretter",
+   "box": [
+    [
+     250.0,
+     268.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     228.5,
+     278.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C1"
+   ],
+   "zapfen_von": "C1-Wa"
+  },
+  {
+   "id": "C1-Wa-Z3",
+   "name": "Zapfen Wange in Sitzbrett links",
+   "gruppe": "brett",
+   "material": "sitz",
+   "faehrt": "bretter",
+   "box": [
+    [
+     250.0,
+     268.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     408.5,
+     458.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C1"
+   ],
+   "zapfen_von": "C1-Wa"
+  },
+  {
+   "id": "C1-Wa-Z4",
+   "name": "Zapfen Wange in Sitzbrett links",
+   "gruppe": "brett",
+   "material": "sitz",
+   "faehrt": "bretter",
+   "box": [
+    [
+     250.0,
+     268.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     588.5,
+     638.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C1"
+   ],
+   "zapfen_von": "C1-Wa"
+  },
+  {
+   "id": "C1-Wa-Z5",
+   "name": "Zapfen Wange in Sitzbrett links",
+   "gruppe": "brett",
+   "material": "sitz",
+   "faehrt": "bretter",
+   "box": [
+    [
+     250.0,
+     268.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     768.5,
+     818.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C1"
+   ],
+   "zapfen_von": "C1-Wa"
   },
   {
    "id": "C1-Wb",
@@ -1295,15 +1444,149 @@ window.MODELL = {
      522.0
     ],
     [
-     38,
-     77.5
+     30.5,
+     76.0
     ],
     [
      -1.5,
      868.5
     ]
    ],
-   "auszug": 870
+   "auszug": 870,
+   "rohmass": [
+    870.0,
+    64.5
+   ]
+  },
+  {
+   "id": "C1-Wb-Z1",
+   "name": "Zapfen Wange in Sitzbrett links",
+   "gruppe": "brett",
+   "material": "sitz",
+   "faehrt": "bretter",
+   "box": [
+    [
+     504.0,
+     522.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     48.5,
+     98.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C1"
+   ],
+   "zapfen_von": "C1-Wb"
+  },
+  {
+   "id": "C1-Wb-Z2",
+   "name": "Zapfen Wange in Sitzbrett links",
+   "gruppe": "brett",
+   "material": "sitz",
+   "faehrt": "bretter",
+   "box": [
+    [
+     504.0,
+     522.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     228.5,
+     278.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C1"
+   ],
+   "zapfen_von": "C1-Wb"
+  },
+  {
+   "id": "C1-Wb-Z3",
+   "name": "Zapfen Wange in Sitzbrett links",
+   "gruppe": "brett",
+   "material": "sitz",
+   "faehrt": "bretter",
+   "box": [
+    [
+     504.0,
+     522.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     408.5,
+     458.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C1"
+   ],
+   "zapfen_von": "C1-Wb"
+  },
+  {
+   "id": "C1-Wb-Z4",
+   "name": "Zapfen Wange in Sitzbrett links",
+   "gruppe": "brett",
+   "material": "sitz",
+   "faehrt": "bretter",
+   "box": [
+    [
+     504.0,
+     522.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     588.5,
+     638.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C1"
+   ],
+   "zapfen_von": "C1-Wb"
+  },
+  {
+   "id": "C1-Wb-Z5",
+   "name": "Zapfen Wange in Sitzbrett links",
+   "gruppe": "brett",
+   "material": "sitz",
+   "faehrt": "bretter",
+   "box": [
+    [
+     504.0,
+     522.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     768.5,
+     818.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C1"
+   ],
+   "zapfen_von": "C1-Wb"
   },
   {
    "id": "D1",
@@ -1317,8 +1600,8 @@ window.MODELL = {
      522.0
     ],
     [
-     100.5,
-     315.0
+     99,
+     315
     ],
     [
      -1.5,
@@ -1339,8 +1622,8 @@ window.MODELL = {
      249.0
     ],
     [
-     106,
-     159
+     104,
+     157
     ],
     [
      0,
@@ -1362,8 +1645,8 @@ window.MODELL = {
      542.0
     ],
     [
-     106,
-     159
+     104,
+     157
     ],
     [
      0,
@@ -1431,8 +1714,8 @@ window.MODELL = {
      -250.0
     ],
     [
-     77.5,
-     95.5
+     76.0,
+     94.0
     ],
     [
      -1.5,
@@ -1453,15 +1736,149 @@ window.MODELL = {
      -504.0
     ],
     [
-     38,
-     77.5
+     30.5,
+     76.0
     ],
     [
      -1.5,
      868.5
     ]
    ],
-   "auszug": 870
+   "auszug": 870,
+   "rohmass": [
+    870.0,
+    64.5
+   ]
+  },
+  {
+   "id": "C2-Wa-Z1",
+   "name": "Zapfen Wange in Sitzbrett rechts",
+   "gruppe": "brett",
+   "material": "sitz",
+   "faehrt": "bretter",
+   "box": [
+    [
+     -522.0,
+     -504.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     48.5,
+     98.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C2"
+   ],
+   "zapfen_von": "C2-Wa"
+  },
+  {
+   "id": "C2-Wa-Z2",
+   "name": "Zapfen Wange in Sitzbrett rechts",
+   "gruppe": "brett",
+   "material": "sitz",
+   "faehrt": "bretter",
+   "box": [
+    [
+     -522.0,
+     -504.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     228.5,
+     278.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C2"
+   ],
+   "zapfen_von": "C2-Wa"
+  },
+  {
+   "id": "C2-Wa-Z3",
+   "name": "Zapfen Wange in Sitzbrett rechts",
+   "gruppe": "brett",
+   "material": "sitz",
+   "faehrt": "bretter",
+   "box": [
+    [
+     -522.0,
+     -504.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     408.5,
+     458.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C2"
+   ],
+   "zapfen_von": "C2-Wa"
+  },
+  {
+   "id": "C2-Wa-Z4",
+   "name": "Zapfen Wange in Sitzbrett rechts",
+   "gruppe": "brett",
+   "material": "sitz",
+   "faehrt": "bretter",
+   "box": [
+    [
+     -522.0,
+     -504.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     588.5,
+     638.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C2"
+   ],
+   "zapfen_von": "C2-Wa"
+  },
+  {
+   "id": "C2-Wa-Z5",
+   "name": "Zapfen Wange in Sitzbrett rechts",
+   "gruppe": "brett",
+   "material": "sitz",
+   "faehrt": "bretter",
+   "box": [
+    [
+     -522.0,
+     -504.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     768.5,
+     818.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C2"
+   ],
+   "zapfen_von": "C2-Wa"
   },
   {
    "id": "C2-Wb",
@@ -1475,15 +1892,149 @@ window.MODELL = {
      -250.0
     ],
     [
-     38,
-     77.5
+     30.5,
+     76.0
     ],
     [
      -1.5,
      868.5
     ]
    ],
-   "auszug": 870
+   "auszug": 870,
+   "rohmass": [
+    870.0,
+    64.5
+   ]
+  },
+  {
+   "id": "C2-Wb-Z1",
+   "name": "Zapfen Wange in Sitzbrett rechts",
+   "gruppe": "brett",
+   "material": "sitz",
+   "faehrt": "bretter",
+   "box": [
+    [
+     -268.0,
+     -250.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     48.5,
+     98.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C2"
+   ],
+   "zapfen_von": "C2-Wb"
+  },
+  {
+   "id": "C2-Wb-Z2",
+   "name": "Zapfen Wange in Sitzbrett rechts",
+   "gruppe": "brett",
+   "material": "sitz",
+   "faehrt": "bretter",
+   "box": [
+    [
+     -268.0,
+     -250.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     228.5,
+     278.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C2"
+   ],
+   "zapfen_von": "C2-Wb"
+  },
+  {
+   "id": "C2-Wb-Z3",
+   "name": "Zapfen Wange in Sitzbrett rechts",
+   "gruppe": "brett",
+   "material": "sitz",
+   "faehrt": "bretter",
+   "box": [
+    [
+     -268.0,
+     -250.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     408.5,
+     458.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C2"
+   ],
+   "zapfen_von": "C2-Wb"
+  },
+  {
+   "id": "C2-Wb-Z4",
+   "name": "Zapfen Wange in Sitzbrett rechts",
+   "gruppe": "brett",
+   "material": "sitz",
+   "faehrt": "bretter",
+   "box": [
+    [
+     -268.0,
+     -250.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     588.5,
+     638.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C2"
+   ],
+   "zapfen_von": "C2-Wb"
+  },
+  {
+   "id": "C2-Wb-Z5",
+   "name": "Zapfen Wange in Sitzbrett rechts",
+   "gruppe": "brett",
+   "material": "sitz",
+   "faehrt": "bretter",
+   "box": [
+    [
+     -268.0,
+     -250.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     768.5,
+     818.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C2"
+   ],
+   "zapfen_von": "C2-Wb"
   },
   {
    "id": "D2",
@@ -1497,8 +2048,8 @@ window.MODELL = {
      -250.0
     ],
     [
-     100.5,
-     315.0
+     99,
+     315
     ],
     [
      -1.5,
@@ -1519,8 +2070,8 @@ window.MODELL = {
      -523.0
     ],
     [
-     106,
-     159
+     104,
+     157
     ],
     [
      0,
@@ -1542,8 +2093,8 @@ window.MODELL = {
      -230.0
     ],
     [
-     106,
-     159
+     104,
+     157
     ],
     [
      0,
@@ -1566,14 +2117,15 @@ window.MODELL = {
     ],
     [
      21,
-     235.5
+     248.5
     ],
     [
      -1.5,
      846.5
     ]
    ],
-   "auszug": 850
+   "auszug": 850,
+   "gekappt": 3.5
   },
   {
    "id": "E-D3-a",
@@ -1587,8 +2139,8 @@ window.MODELL = {
      -193.0
     ],
     [
-     177,
-     230
+     181,
+     234
     ],
     [
      0,
@@ -1610,8 +2162,8 @@ window.MODELL = {
      212.0
     ],
     [
-     177,
-     230
+     181,
+     234
     ],
     [
      0,
@@ -1633,8 +2185,8 @@ window.MODELL = {
      -193.0
     ],
     [
-     237.5,
-     313.5
+     239.0,
+     315.0
     ],
     [
      0,
@@ -1656,8 +2208,8 @@ window.MODELL = {
      212.0
     ],
     [
-     237.5,
-     313.5
+     239.0,
+     315.0
     ],
     [
      0,
@@ -1701,7 +2253,7 @@ window.MODELL = {
      -174.0
     ],
     [
-     257.5,
+     251.5,
      297.0
     ],
     [
@@ -1709,7 +2261,141 @@ window.MODELL = {
      868.5
     ]
    ],
-   "auszug": 870
+   "auszug": 870,
+   "rohmass": [
+    870.0,
+    64.5
+   ]
+  },
+  {
+   "id": "C3-Wa-Z1",
+   "name": "Zapfen Wange in Tischbrett Mitte",
+   "gruppe": "brett",
+   "material": "tisch",
+   "faehrt": "bretter",
+   "box": [
+    [
+     -192.0,
+     -174.0
+    ],
+    [
+     297.0,
+     315.0
+    ],
+    [
+     48.5,
+     98.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C3"
+   ],
+   "zapfen_von": "C3-Wa"
+  },
+  {
+   "id": "C3-Wa-Z2",
+   "name": "Zapfen Wange in Tischbrett Mitte",
+   "gruppe": "brett",
+   "material": "tisch",
+   "faehrt": "bretter",
+   "box": [
+    [
+     -192.0,
+     -174.0
+    ],
+    [
+     297.0,
+     315.0
+    ],
+    [
+     228.5,
+     278.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C3"
+   ],
+   "zapfen_von": "C3-Wa"
+  },
+  {
+   "id": "C3-Wa-Z3",
+   "name": "Zapfen Wange in Tischbrett Mitte",
+   "gruppe": "brett",
+   "material": "tisch",
+   "faehrt": "bretter",
+   "box": [
+    [
+     -192.0,
+     -174.0
+    ],
+    [
+     297.0,
+     315.0
+    ],
+    [
+     408.5,
+     458.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C3"
+   ],
+   "zapfen_von": "C3-Wa"
+  },
+  {
+   "id": "C3-Wa-Z4",
+   "name": "Zapfen Wange in Tischbrett Mitte",
+   "gruppe": "brett",
+   "material": "tisch",
+   "faehrt": "bretter",
+   "box": [
+    [
+     -192.0,
+     -174.0
+    ],
+    [
+     297.0,
+     315.0
+    ],
+    [
+     588.5,
+     638.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C3"
+   ],
+   "zapfen_von": "C3-Wa"
+  },
+  {
+   "id": "C3-Wa-Z5",
+   "name": "Zapfen Wange in Tischbrett Mitte",
+   "gruppe": "brett",
+   "material": "tisch",
+   "faehrt": "bretter",
+   "box": [
+    [
+     -192.0,
+     -174.0
+    ],
+    [
+     297.0,
+     315.0
+    ],
+    [
+     768.5,
+     818.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C3"
+   ],
+   "zapfen_von": "C3-Wa"
   },
   {
    "id": "C3-Wb",
@@ -1723,7 +2409,7 @@ window.MODELL = {
      192.0
     ],
     [
-     257.5,
+     251.5,
      297.0
     ],
     [
@@ -1731,7 +2417,141 @@ window.MODELL = {
      868.5
     ]
    ],
-   "auszug": 870
+   "auszug": 870,
+   "rohmass": [
+    870.0,
+    64.5
+   ]
+  },
+  {
+   "id": "C3-Wb-Z1",
+   "name": "Zapfen Wange in Tischbrett Mitte",
+   "gruppe": "brett",
+   "material": "tisch",
+   "faehrt": "bretter",
+   "box": [
+    [
+     174.0,
+     192.0
+    ],
+    [
+     297.0,
+     315.0
+    ],
+    [
+     48.5,
+     98.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C3"
+   ],
+   "zapfen_von": "C3-Wb"
+  },
+  {
+   "id": "C3-Wb-Z2",
+   "name": "Zapfen Wange in Tischbrett Mitte",
+   "gruppe": "brett",
+   "material": "tisch",
+   "faehrt": "bretter",
+   "box": [
+    [
+     174.0,
+     192.0
+    ],
+    [
+     297.0,
+     315.0
+    ],
+    [
+     228.5,
+     278.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C3"
+   ],
+   "zapfen_von": "C3-Wb"
+  },
+  {
+   "id": "C3-Wb-Z3",
+   "name": "Zapfen Wange in Tischbrett Mitte",
+   "gruppe": "brett",
+   "material": "tisch",
+   "faehrt": "bretter",
+   "box": [
+    [
+     174.0,
+     192.0
+    ],
+    [
+     297.0,
+     315.0
+    ],
+    [
+     408.5,
+     458.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C3"
+   ],
+   "zapfen_von": "C3-Wb"
+  },
+  {
+   "id": "C3-Wb-Z4",
+   "name": "Zapfen Wange in Tischbrett Mitte",
+   "gruppe": "brett",
+   "material": "tisch",
+   "faehrt": "bretter",
+   "box": [
+    [
+     174.0,
+     192.0
+    ],
+    [
+     297.0,
+     315.0
+    ],
+    [
+     588.5,
+     638.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C3"
+   ],
+   "zapfen_von": "C3-Wb"
+  },
+  {
+   "id": "C3-Wb-Z5",
+   "name": "Zapfen Wange in Tischbrett Mitte",
+   "gruppe": "brett",
+   "material": "tisch",
+   "faehrt": "bretter",
+   "box": [
+    [
+     174.0,
+     192.0
+    ],
+    [
+     297.0,
+     315.0
+    ],
+    [
+     768.5,
+     818.5
+    ]
+   ],
+   "auszug": 870,
+   "steckt_in": [
+    "C3"
+   ],
+   "zapfen_von": "C3-Wb"
   },
   {
    "id": "H1-1",
@@ -2800,6 +3620,756 @@ window.MODELL = {
     ]
    },
    {
+    "a": "C1",
+    "b": "C1-Wa-Z1",
+    "box": [
+     [
+      250.0,
+      268.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      48.5,
+      98.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C1",
+    "b": "C1-Wa-Z2",
+    "box": [
+     [
+      250.0,
+      268.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      228.5,
+      278.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C1",
+    "b": "C1-Wa-Z3",
+    "box": [
+     [
+      250.0,
+      268.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      408.5,
+      458.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C1",
+    "b": "C1-Wa-Z4",
+    "box": [
+     [
+      250.0,
+      268.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      588.5,
+      638.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C1",
+    "b": "C1-Wa-Z5",
+    "box": [
+     [
+      250.0,
+      268.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      768.5,
+      818.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C1",
+    "b": "C1-Wb-Z1",
+    "box": [
+     [
+      504.0,
+      522.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      48.5,
+      98.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C1",
+    "b": "C1-Wb-Z2",
+    "box": [
+     [
+      504.0,
+      522.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      228.5,
+      278.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C1",
+    "b": "C1-Wb-Z3",
+    "box": [
+     [
+      504.0,
+      522.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      408.5,
+      458.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C1",
+    "b": "C1-Wb-Z4",
+    "box": [
+     [
+      504.0,
+      522.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      588.5,
+      638.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C1",
+    "b": "C1-Wb-Z5",
+    "box": [
+     [
+      504.0,
+      522.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      768.5,
+      818.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C2",
+    "b": "C2-Wa-Z1",
+    "box": [
+     [
+      -522.0,
+      -504.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      48.5,
+      98.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C2",
+    "b": "C2-Wa-Z2",
+    "box": [
+     [
+      -522.0,
+      -504.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      228.5,
+      278.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C2",
+    "b": "C2-Wa-Z3",
+    "box": [
+     [
+      -522.0,
+      -504.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      408.5,
+      458.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C2",
+    "b": "C2-Wa-Z4",
+    "box": [
+     [
+      -522.0,
+      -504.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      588.5,
+      638.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C2",
+    "b": "C2-Wa-Z5",
+    "box": [
+     [
+      -522.0,
+      -504.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      768.5,
+      818.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C2",
+    "b": "C2-Wb-Z1",
+    "box": [
+     [
+      -268.0,
+      -250.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      48.5,
+      98.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C2",
+    "b": "C2-Wb-Z2",
+    "box": [
+     [
+      -268.0,
+      -250.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      228.5,
+      278.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C2",
+    "b": "C2-Wb-Z3",
+    "box": [
+     [
+      -268.0,
+      -250.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      408.5,
+      458.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C2",
+    "b": "C2-Wb-Z4",
+    "box": [
+     [
+      -268.0,
+      -250.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      588.5,
+      638.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C2",
+    "b": "C2-Wb-Z5",
+    "box": [
+     [
+      -268.0,
+      -250.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      768.5,
+      818.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C3",
+    "b": "C3-Wa-Z1",
+    "box": [
+     [
+      -192.0,
+      -174.0
+     ],
+     [
+      297.0,
+      315.0
+     ],
+     [
+      48.5,
+      98.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C3",
+    "b": "C3-Wa-Z2",
+    "box": [
+     [
+      -192.0,
+      -174.0
+     ],
+     [
+      297.0,
+      315.0
+     ],
+     [
+      228.5,
+      278.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C3",
+    "b": "C3-Wa-Z3",
+    "box": [
+     [
+      -192.0,
+      -174.0
+     ],
+     [
+      297.0,
+      315.0
+     ],
+     [
+      408.5,
+      458.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C3",
+    "b": "C3-Wa-Z4",
+    "box": [
+     [
+      -192.0,
+      -174.0
+     ],
+     [
+      297.0,
+      315.0
+     ],
+     [
+      588.5,
+      638.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C3",
+    "b": "C3-Wa-Z5",
+    "box": [
+     [
+      -192.0,
+      -174.0
+     ],
+     [
+      297.0,
+      315.0
+     ],
+     [
+      768.5,
+      818.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C3",
+    "b": "C3-Wb-Z1",
+    "box": [
+     [
+      174.0,
+      192.0
+     ],
+     [
+      297.0,
+      315.0
+     ],
+     [
+      48.5,
+      98.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C3",
+    "b": "C3-Wb-Z2",
+    "box": [
+     [
+      174.0,
+      192.0
+     ],
+     [
+      297.0,
+      315.0
+     ],
+     [
+      228.5,
+      278.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C3",
+    "b": "C3-Wb-Z3",
+    "box": [
+     [
+      174.0,
+      192.0
+     ],
+     [
+      297.0,
+      315.0
+     ],
+     [
+      408.5,
+      458.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C3",
+    "b": "C3-Wb-Z4",
+    "box": [
+     [
+      174.0,
+      192.0
+     ],
+     [
+      297.0,
+      315.0
+     ],
+     [
+      588.5,
+      638.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C3",
+    "b": "C3-Wb-Z5",
+    "box": [
+     [
+      174.0,
+      192.0
+     ],
+     [
+      297.0,
+      315.0
+     ],
+     [
+      768.5,
+      818.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
     "a": "H1-1",
     "b": "G1",
     "box": [
@@ -2876,6 +4446,756 @@ window.MODELL = {
    }
   ],
   "stumpf": [
+   {
+    "a": "C1",
+    "b": "C1-Wa-Z1",
+    "box": [
+     [
+      250.0,
+      268.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      48.5,
+      98.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C1",
+    "b": "C1-Wa-Z2",
+    "box": [
+     [
+      250.0,
+      268.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      228.5,
+      278.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C1",
+    "b": "C1-Wa-Z3",
+    "box": [
+     [
+      250.0,
+      268.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      408.5,
+      458.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C1",
+    "b": "C1-Wa-Z4",
+    "box": [
+     [
+      250.0,
+      268.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      588.5,
+      638.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C1",
+    "b": "C1-Wa-Z5",
+    "box": [
+     [
+      250.0,
+      268.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      768.5,
+      818.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C1",
+    "b": "C1-Wb-Z1",
+    "box": [
+     [
+      504.0,
+      522.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      48.5,
+      98.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C1",
+    "b": "C1-Wb-Z2",
+    "box": [
+     [
+      504.0,
+      522.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      228.5,
+      278.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C1",
+    "b": "C1-Wb-Z3",
+    "box": [
+     [
+      504.0,
+      522.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      408.5,
+      458.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C1",
+    "b": "C1-Wb-Z4",
+    "box": [
+     [
+      504.0,
+      522.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      588.5,
+      638.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C1",
+    "b": "C1-Wb-Z5",
+    "box": [
+     [
+      504.0,
+      522.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      768.5,
+      818.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C2",
+    "b": "C2-Wa-Z1",
+    "box": [
+     [
+      -522.0,
+      -504.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      48.5,
+      98.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C2",
+    "b": "C2-Wa-Z2",
+    "box": [
+     [
+      -522.0,
+      -504.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      228.5,
+      278.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C2",
+    "b": "C2-Wa-Z3",
+    "box": [
+     [
+      -522.0,
+      -504.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      408.5,
+      458.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C2",
+    "b": "C2-Wa-Z4",
+    "box": [
+     [
+      -522.0,
+      -504.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      588.5,
+      638.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C2",
+    "b": "C2-Wa-Z5",
+    "box": [
+     [
+      -522.0,
+      -504.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      768.5,
+      818.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C2",
+    "b": "C2-Wb-Z1",
+    "box": [
+     [
+      -268.0,
+      -250.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      48.5,
+      98.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C2",
+    "b": "C2-Wb-Z2",
+    "box": [
+     [
+      -268.0,
+      -250.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      228.5,
+      278.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C2",
+    "b": "C2-Wb-Z3",
+    "box": [
+     [
+      -268.0,
+      -250.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      408.5,
+      458.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C2",
+    "b": "C2-Wb-Z4",
+    "box": [
+     [
+      -268.0,
+      -250.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      588.5,
+      638.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C2",
+    "b": "C2-Wb-Z5",
+    "box": [
+     [
+      -268.0,
+      -250.0
+     ],
+     [
+      76.0,
+      94.0
+     ],
+     [
+      768.5,
+      818.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C3",
+    "b": "C3-Wa-Z1",
+    "box": [
+     [
+      -192.0,
+      -174.0
+     ],
+     [
+      297.0,
+      315.0
+     ],
+     [
+      48.5,
+      98.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C3",
+    "b": "C3-Wa-Z2",
+    "box": [
+     [
+      -192.0,
+      -174.0
+     ],
+     [
+      297.0,
+      315.0
+     ],
+     [
+      228.5,
+      278.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C3",
+    "b": "C3-Wa-Z3",
+    "box": [
+     [
+      -192.0,
+      -174.0
+     ],
+     [
+      297.0,
+      315.0
+     ],
+     [
+      408.5,
+      458.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C3",
+    "b": "C3-Wa-Z4",
+    "box": [
+     [
+      -192.0,
+      -174.0
+     ],
+     [
+      297.0,
+      315.0
+     ],
+     [
+      588.5,
+      638.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C3",
+    "b": "C3-Wa-Z5",
+    "box": [
+     [
+      -192.0,
+      -174.0
+     ],
+     [
+      297.0,
+      315.0
+     ],
+     [
+      768.5,
+      818.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C3",
+    "b": "C3-Wb-Z1",
+    "box": [
+     [
+      174.0,
+      192.0
+     ],
+     [
+      297.0,
+      315.0
+     ],
+     [
+      48.5,
+      98.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C3",
+    "b": "C3-Wb-Z2",
+    "box": [
+     [
+      174.0,
+      192.0
+     ],
+     [
+      297.0,
+      315.0
+     ],
+     [
+      228.5,
+      278.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C3",
+    "b": "C3-Wb-Z3",
+    "box": [
+     [
+      174.0,
+      192.0
+     ],
+     [
+      297.0,
+      315.0
+     ],
+     [
+      408.5,
+      458.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C3",
+    "b": "C3-Wb-Z4",
+    "box": [
+     [
+      174.0,
+      192.0
+     ],
+     [
+      297.0,
+      315.0
+     ],
+     [
+      588.5,
+      638.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
+   {
+    "a": "C3",
+    "b": "C3-Wb-Z5",
+    "box": [
+     [
+      174.0,
+      192.0
+     ],
+     [
+      297.0,
+      315.0
+     ],
+     [
+      768.5,
+      818.5
+     ]
+    ],
+    "kategorie": "zapfen",
+    "gewollt": true,
+    "mass": [
+     18.0,
+     18.0,
+     50.0
+    ]
+   },
    {
     "a": "H1-1",
     "b": "G1",
@@ -3805,6 +6125,756 @@ window.MODELL = {
    ]
   },
   {
+   "a": "C1",
+   "b": "C1-Wa-Z1",
+   "box": [
+    [
+     250.0,
+     268.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     48.5,
+     98.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C1",
+   "b": "C1-Wa-Z2",
+   "box": [
+    [
+     250.0,
+     268.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     228.5,
+     278.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C1",
+   "b": "C1-Wa-Z3",
+   "box": [
+    [
+     250.0,
+     268.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     408.5,
+     458.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C1",
+   "b": "C1-Wa-Z4",
+   "box": [
+    [
+     250.0,
+     268.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     588.5,
+     638.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C1",
+   "b": "C1-Wa-Z5",
+   "box": [
+    [
+     250.0,
+     268.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     768.5,
+     818.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C1",
+   "b": "C1-Wb-Z1",
+   "box": [
+    [
+     504.0,
+     522.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     48.5,
+     98.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C1",
+   "b": "C1-Wb-Z2",
+   "box": [
+    [
+     504.0,
+     522.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     228.5,
+     278.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C1",
+   "b": "C1-Wb-Z3",
+   "box": [
+    [
+     504.0,
+     522.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     408.5,
+     458.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C1",
+   "b": "C1-Wb-Z4",
+   "box": [
+    [
+     504.0,
+     522.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     588.5,
+     638.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C1",
+   "b": "C1-Wb-Z5",
+   "box": [
+    [
+     504.0,
+     522.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     768.5,
+     818.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C2",
+   "b": "C2-Wa-Z1",
+   "box": [
+    [
+     -522.0,
+     -504.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     48.5,
+     98.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C2",
+   "b": "C2-Wa-Z2",
+   "box": [
+    [
+     -522.0,
+     -504.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     228.5,
+     278.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C2",
+   "b": "C2-Wa-Z3",
+   "box": [
+    [
+     -522.0,
+     -504.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     408.5,
+     458.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C2",
+   "b": "C2-Wa-Z4",
+   "box": [
+    [
+     -522.0,
+     -504.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     588.5,
+     638.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C2",
+   "b": "C2-Wa-Z5",
+   "box": [
+    [
+     -522.0,
+     -504.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     768.5,
+     818.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C2",
+   "b": "C2-Wb-Z1",
+   "box": [
+    [
+     -268.0,
+     -250.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     48.5,
+     98.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C2",
+   "b": "C2-Wb-Z2",
+   "box": [
+    [
+     -268.0,
+     -250.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     228.5,
+     278.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C2",
+   "b": "C2-Wb-Z3",
+   "box": [
+    [
+     -268.0,
+     -250.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     408.5,
+     458.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C2",
+   "b": "C2-Wb-Z4",
+   "box": [
+    [
+     -268.0,
+     -250.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     588.5,
+     638.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C2",
+   "b": "C2-Wb-Z5",
+   "box": [
+    [
+     -268.0,
+     -250.0
+    ],
+    [
+     76.0,
+     94.0
+    ],
+    [
+     768.5,
+     818.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C3",
+   "b": "C3-Wa-Z1",
+   "box": [
+    [
+     -192.0,
+     -174.0
+    ],
+    [
+     297.0,
+     315.0
+    ],
+    [
+     48.5,
+     98.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C3",
+   "b": "C3-Wa-Z2",
+   "box": [
+    [
+     -192.0,
+     -174.0
+    ],
+    [
+     297.0,
+     315.0
+    ],
+    [
+     228.5,
+     278.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C3",
+   "b": "C3-Wa-Z3",
+   "box": [
+    [
+     -192.0,
+     -174.0
+    ],
+    [
+     297.0,
+     315.0
+    ],
+    [
+     408.5,
+     458.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C3",
+   "b": "C3-Wa-Z4",
+   "box": [
+    [
+     -192.0,
+     -174.0
+    ],
+    [
+     297.0,
+     315.0
+    ],
+    [
+     588.5,
+     638.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C3",
+   "b": "C3-Wa-Z5",
+   "box": [
+    [
+     -192.0,
+     -174.0
+    ],
+    [
+     297.0,
+     315.0
+    ],
+    [
+     768.5,
+     818.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C3",
+   "b": "C3-Wb-Z1",
+   "box": [
+    [
+     174.0,
+     192.0
+    ],
+    [
+     297.0,
+     315.0
+    ],
+    [
+     48.5,
+     98.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C3",
+   "b": "C3-Wb-Z2",
+   "box": [
+    [
+     174.0,
+     192.0
+    ],
+    [
+     297.0,
+     315.0
+    ],
+    [
+     228.5,
+     278.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C3",
+   "b": "C3-Wb-Z3",
+   "box": [
+    [
+     174.0,
+     192.0
+    ],
+    [
+     297.0,
+     315.0
+    ],
+    [
+     408.5,
+     458.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C3",
+   "b": "C3-Wb-Z4",
+   "box": [
+    [
+     174.0,
+     192.0
+    ],
+    [
+     297.0,
+     315.0
+    ],
+    [
+     588.5,
+     638.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
+   "a": "C3",
+   "b": "C3-Wb-Z5",
+   "box": [
+    [
+     174.0,
+     192.0
+    ],
+    [
+     297.0,
+     315.0
+    ],
+    [
+     768.5,
+     818.5
+    ]
+   ],
+   "kategorie": "zapfen",
+   "gewollt": true,
+   "mass": [
+    18.0,
+    18.0,
+    50.0
+   ]
+  },
+  {
    "a": "H1-1",
    "b": "G1",
    "box": [
@@ -3940,7 +7010,7 @@ window.MODELL = {
    "staerke": 18,
    "ursprung": [
     268.0,
-    100.5,
+    99,
     -2.5
    ],
    "u": [
@@ -3960,107 +7030,107 @@ window.MODELL = {
     ],
     [
      850.0,
-     30.64
+     30.86
     ],
     [
      831.0,
-     30.64
+     30.86
     ],
     [
      831.0,
-     61.29
+     61.71
     ],
     [
      850.0,
-     61.29
+     61.71
     ],
     [
      850.0,
-     91.93
+     92.57
     ],
     [
      831.0,
-     91.93
+     92.57
     ],
     [
      831.0,
-     122.57
+     123.43
     ],
     [
      850.0,
-     122.57
+     123.43
     ],
     [
      850.0,
-     153.21
+     154.29
     ],
     [
      831.0,
-     153.21
+     154.29
     ],
     [
      831.0,
-     183.86
+     185.14
     ],
     [
      850.0,
-     183.86
+     185.14
     ],
     [
      850.0,
-     214.5
+     216
     ],
     [
      0,
-     214.5
+     216
     ],
     [
      0,
-     183.86
+     185.14
     ],
     [
      19,
-     183.86
+     185.14
     ],
     [
      19,
-     153.21
+     154.29
     ],
     [
      0,
-     153.21
+     154.29
     ],
     [
      0,
-     122.57
+     123.43
     ],
     [
      19,
-     122.57
+     123.43
     ],
     [
      19,
-     91.93
+     92.57
     ],
     [
      0,
-     91.93
+     92.57
     ],
     [
      0,
-     61.29
+     61.71
     ],
     [
      19,
-     61.29
+     61.71
     ],
     [
      19,
-     30.64
+     30.86
     ],
     [
      0,
-     30.64
+     30.86
     ],
     [
      0,
@@ -4162,30 +7232,30 @@ window.MODELL = {
    "fenster": [
     [
      69.0,
-     73.5,
+     73,
      217.0,
-     184.5,
+     186,
      20
     ],
     [
      257.0,
-     73.5,
+     73,
      405.0,
-     184.5,
+     186,
      20
     ],
     [
      445.0,
-     73.5,
+     73,
      593.0,
-     184.5,
+     186,
      20
     ],
     [
      633.0,
-     73.5,
+     73,
      781.0,
-     184.5,
+     186,
      20
     ]
    ]
@@ -4199,7 +7269,7 @@ window.MODELL = {
    "staerke": 18,
    "ursprung": [
     522.0,
-    100.5,
+    99,
     -2.5
    ],
    "u": [
@@ -4219,107 +7289,107 @@ window.MODELL = {
     ],
     [
      850.0,
-     30.64
+     30.86
     ],
     [
      831.0,
-     30.64
+     30.86
     ],
     [
      831.0,
-     61.29
+     61.71
     ],
     [
      850.0,
-     61.29
+     61.71
     ],
     [
      850.0,
-     91.93
+     92.57
     ],
     [
      831.0,
-     91.93
+     92.57
     ],
     [
      831.0,
-     122.57
+     123.43
     ],
     [
      850.0,
-     122.57
+     123.43
     ],
     [
      850.0,
-     153.21
+     154.29
     ],
     [
      831.0,
-     153.21
+     154.29
     ],
     [
      831.0,
-     183.86
+     185.14
     ],
     [
      850.0,
-     183.86
+     185.14
     ],
     [
      850.0,
-     214.5
+     216
     ],
     [
      0,
-     214.5
+     216
     ],
     [
      0,
-     183.86
+     185.14
     ],
     [
      19,
-     183.86
+     185.14
     ],
     [
      19,
-     153.21
+     154.29
     ],
     [
      0,
-     153.21
+     154.29
     ],
     [
      0,
-     122.57
+     123.43
     ],
     [
      19,
-     122.57
+     123.43
     ],
     [
      19,
-     91.93
+     92.57
     ],
     [
      0,
-     91.93
+     92.57
     ],
     [
      0,
-     61.29
+     61.71
     ],
     [
      19,
-     61.29
+     61.71
     ],
     [
      19,
-     30.64
+     30.86
     ],
     [
      0,
-     30.64
+     30.86
     ],
     [
      0,
@@ -4421,30 +7491,30 @@ window.MODELL = {
    "fenster": [
     [
      69.0,
-     73.5,
+     73,
      217.0,
-     184.5,
+     186,
      20
     ],
     [
      257.0,
-     73.5,
+     73,
      405.0,
-     184.5,
+     186,
      20
     ],
     [
      445.0,
-     73.5,
+     73,
      593.0,
-     184.5,
+     186,
      20
     ],
     [
      633.0,
-     73.5,
+     73,
      781.0,
-     184.5,
+     186,
      20
     ]
    ]
@@ -4458,7 +7528,7 @@ window.MODELL = {
    "staerke": 18,
    "ursprung": [
     249.0,
-    100.5,
+    99,
     -1.5
    ],
    "u": [
@@ -4478,123 +7548,123 @@ window.MODELL = {
     ],
     [
      255.0,
-     30.64
+     30.86
     ],
     [
      274.0,
-     30.64
+     30.86
     ],
     [
      274.0,
-     61.29
+     61.71
     ],
     [
      255.0,
-     61.29
+     61.71
     ],
     [
      255.0,
-     91.93
+     92.57
     ],
     [
      274.0,
-     91.93
+     92.57
     ],
     [
      274.0,
-     122.57
+     123.43
     ],
     [
      255.0,
-     122.57
+     123.43
     ],
     [
      255.0,
-     153.21
+     154.29
     ],
     [
      274.0,
-     153.21
+     154.29
     ],
     [
      274.0,
-     183.86
+     185.14
     ],
     [
      255.0,
-     183.86
+     185.14
     ],
     [
      255.0,
-     214.5
+     216
     ],
     [
      197.0,
-     214.5
+     216
     ],
     [
      197.0,
-     179.5
+     181
     ],
     [
      77.0,
-     179.5
+     181
     ],
     [
      77.0,
-     214.5
+     216
     ],
     [
      19,
-     214.5
+     216
     ],
     [
      19,
-     183.86
+     185.14
     ],
     [
      0,
-     183.86
+     185.14
     ],
     [
      0,
-     153.21
+     154.29
     ],
     [
      19,
-     153.21
+     154.29
     ],
     [
      19,
-     122.57
+     123.43
     ],
     [
      0,
-     122.57
+     123.43
     ],
     [
      0,
-     91.93
+     92.57
     ],
     [
      19,
-     91.93
+     92.57
     ],
     [
      19,
-     61.29
+     61.71
     ],
     [
      0,
-     61.29
+     61.71
     ],
     [
      0,
-     30.64
+     30.86
     ],
     [
      19,
-     30.64
+     30.86
     ],
     [
      19,
@@ -4642,44 +7712,44 @@ window.MODELL = {
    "fenster": [
     [
      84.5,
-     65.75,
+     66.5,
      109.5,
-     90.75,
+     91.5,
      12.5
     ],
     [
      124.5,
-     65.75,
+     66.5,
      149.5,
-     90.75,
+     91.5,
      12.5
     ],
     [
      164.5,
-     65.75,
+     66.5,
      189.5,
-     90.75,
+     91.5,
      12.5
     ],
     [
      84.5,
-     105.75,
+     106.5,
      109.5,
-     130.75,
+     131.5,
      12.5
     ],
     [
      124.5,
-     105.75,
+     106.5,
      149.5,
-     130.75,
+     131.5,
      12.5
     ],
     [
      164.5,
-     105.75,
+     106.5,
      189.5,
-     130.75,
+     131.5,
      12.5
     ]
    ]
@@ -4693,7 +7763,7 @@ window.MODELL = {
    "staerke": 18,
    "ursprung": [
     249.0,
-    100.5,
+    99,
     828.5
    ],
    "u": [
@@ -4713,107 +7783,107 @@ window.MODELL = {
     ],
     [
      255.0,
-     30.64
+     30.86
     ],
     [
      274.0,
-     30.64
+     30.86
     ],
     [
      274.0,
-     61.29
+     61.71
     ],
     [
      255.0,
-     61.29
+     61.71
     ],
     [
      255.0,
-     91.93
+     92.57
     ],
     [
      274.0,
-     91.93
+     92.57
     ],
     [
      274.0,
-     122.57
+     123.43
     ],
     [
      255.0,
-     122.57
+     123.43
     ],
     [
      255.0,
-     153.21
+     154.29
     ],
     [
      274.0,
-     153.21
+     154.29
     ],
     [
      274.0,
-     183.86
+     185.14
     ],
     [
      255.0,
-     183.86
+     185.14
     ],
     [
      255.0,
-     214.5
+     216
     ],
     [
      19,
-     214.5
+     216
     ],
     [
      19,
-     183.86
+     185.14
     ],
     [
      0,
-     183.86
+     185.14
     ],
     [
      0,
-     153.21
+     154.29
     ],
     [
      19,
-     153.21
+     154.29
     ],
     [
      19,
-     122.57
+     123.43
     ],
     [
      0,
-     122.57
+     123.43
     ],
     [
      0,
-     91.93
+     92.57
     ],
     [
      19,
-     91.93
+     92.57
     ],
     [
      19,
-     61.29
+     61.71
     ],
     [
      0,
-     61.29
+     61.71
     ],
     [
      0,
-     30.64
+     30.86
     ],
     [
      19,
-     30.64
+     30.86
     ],
     [
      19,
@@ -4861,65 +7931,65 @@ window.MODELL = {
    "fenster": [
     [
      84.5,
-     65.75,
+     66.5,
      109.5,
-     90.75,
+     91.5,
      12.5
     ],
     [
      124.5,
-     65.75,
+     66.5,
      149.5,
-     90.75,
+     91.5,
      12.5
     ],
     [
      164.5,
-     65.75,
+     66.5,
      189.5,
-     90.75,
+     91.5,
      12.5
     ],
     [
      84.5,
-     105.75,
+     106.5,
      109.5,
-     130.75,
+     131.5,
      12.5
     ],
     [
      124.5,
-     105.75,
+     106.5,
      149.5,
-     130.75,
+     131.5,
      12.5
     ],
     [
      164.5,
-     105.75,
+     106.5,
      189.5,
-     130.75,
+     131.5,
      12.5
     ],
     [
      84.5,
-     145.75,
+     146.5,
      109.5,
-     170.75,
+     171.5,
      12.5
     ],
     [
      124.5,
-     145.75,
+     146.5,
      149.5,
-     170.75,
+     171.5,
      12.5
     ],
     [
      164.5,
-     145.75,
+     146.5,
      189.5,
-     170.75,
+     171.5,
      12.5
     ]
    ]
@@ -4933,7 +8003,7 @@ window.MODELL = {
    "staerke": 12,
    "ursprung": [
     249.0,
-    122.5,
+    121,
     -2.5
    ],
    "u": [
@@ -5200,7 +8270,7 @@ window.MODELL = {
    "staerke": 18,
    "ursprung": [
     -504.0,
-    100.5,
+    99,
     -2.5
    ],
    "u": [
@@ -5220,107 +8290,107 @@ window.MODELL = {
     ],
     [
      850.0,
-     30.64
+     30.86
     ],
     [
      831.0,
-     30.64
+     30.86
     ],
     [
      831.0,
-     61.29
+     61.71
     ],
     [
      850.0,
-     61.29
+     61.71
     ],
     [
      850.0,
-     91.93
+     92.57
     ],
     [
      831.0,
-     91.93
+     92.57
     ],
     [
      831.0,
-     122.57
+     123.43
     ],
     [
      850.0,
-     122.57
+     123.43
     ],
     [
      850.0,
-     153.21
+     154.29
     ],
     [
      831.0,
-     153.21
+     154.29
     ],
     [
      831.0,
-     183.86
+     185.14
     ],
     [
      850.0,
-     183.86
+     185.14
     ],
     [
      850.0,
-     214.5
+     216
     ],
     [
      0,
-     214.5
+     216
     ],
     [
      0,
-     183.86
+     185.14
     ],
     [
      19,
-     183.86
+     185.14
     ],
     [
      19,
-     153.21
+     154.29
     ],
     [
      0,
-     153.21
+     154.29
     ],
     [
      0,
-     122.57
+     123.43
     ],
     [
      19,
-     122.57
+     123.43
     ],
     [
      19,
-     91.93
+     92.57
     ],
     [
      0,
-     91.93
+     92.57
     ],
     [
      0,
-     61.29
+     61.71
     ],
     [
      19,
-     61.29
+     61.71
     ],
     [
      19,
-     30.64
+     30.86
     ],
     [
      0,
-     30.64
+     30.86
     ],
     [
      0,
@@ -5422,30 +8492,30 @@ window.MODELL = {
    "fenster": [
     [
      69.0,
-     73.5,
+     73,
      217.0,
-     184.5,
+     186,
      20
     ],
     [
      257.0,
-     73.5,
+     73,
      405.0,
-     184.5,
+     186,
      20
     ],
     [
      445.0,
-     73.5,
+     73,
      593.0,
-     184.5,
+     186,
      20
     ],
     [
      633.0,
-     73.5,
+     73,
      781.0,
-     184.5,
+     186,
      20
     ]
    ]
@@ -5459,7 +8529,7 @@ window.MODELL = {
    "staerke": 18,
    "ursprung": [
     -250.0,
-    100.5,
+    99,
     -2.5
    ],
    "u": [
@@ -5479,107 +8549,107 @@ window.MODELL = {
     ],
     [
      850.0,
-     30.64
+     30.86
     ],
     [
      831.0,
-     30.64
+     30.86
     ],
     [
      831.0,
-     61.29
+     61.71
     ],
     [
      850.0,
-     61.29
+     61.71
     ],
     [
      850.0,
-     91.93
+     92.57
     ],
     [
      831.0,
-     91.93
+     92.57
     ],
     [
      831.0,
-     122.57
+     123.43
     ],
     [
      850.0,
-     122.57
+     123.43
     ],
     [
      850.0,
-     153.21
+     154.29
     ],
     [
      831.0,
-     153.21
+     154.29
     ],
     [
      831.0,
-     183.86
+     185.14
     ],
     [
      850.0,
-     183.86
+     185.14
     ],
     [
      850.0,
-     214.5
+     216
     ],
     [
      0,
-     214.5
+     216
     ],
     [
      0,
-     183.86
+     185.14
     ],
     [
      19,
-     183.86
+     185.14
     ],
     [
      19,
-     153.21
+     154.29
     ],
     [
      0,
-     153.21
+     154.29
     ],
     [
      0,
-     122.57
+     123.43
     ],
     [
      19,
-     122.57
+     123.43
     ],
     [
      19,
-     91.93
+     92.57
     ],
     [
      0,
-     91.93
+     92.57
     ],
     [
      0,
-     61.29
+     61.71
     ],
     [
      19,
-     61.29
+     61.71
     ],
     [
      19,
-     30.64
+     30.86
     ],
     [
      0,
-     30.64
+     30.86
     ],
     [
      0,
@@ -5681,30 +8751,30 @@ window.MODELL = {
    "fenster": [
     [
      69.0,
-     73.5,
+     73,
      217.0,
-     184.5,
+     186,
      20
     ],
     [
      257.0,
-     73.5,
+     73,
      405.0,
-     184.5,
+     186,
      20
     ],
     [
      445.0,
-     73.5,
+     73,
      593.0,
-     184.5,
+     186,
      20
     ],
     [
      633.0,
-     73.5,
+     73,
      781.0,
-     184.5,
+     186,
      20
     ]
    ]
@@ -5718,7 +8788,7 @@ window.MODELL = {
    "staerke": 18,
    "ursprung": [
     -523.0,
-    100.5,
+    99,
     -1.5
    ],
    "u": [
@@ -5738,123 +8808,123 @@ window.MODELL = {
     ],
     [
      255.0,
-     30.64
+     30.86
     ],
     [
      274.0,
-     30.64
+     30.86
     ],
     [
      274.0,
-     61.29
+     61.71
     ],
     [
      255.0,
-     61.29
+     61.71
     ],
     [
      255.0,
-     91.93
+     92.57
     ],
     [
      274.0,
-     91.93
+     92.57
     ],
     [
      274.0,
-     122.57
+     123.43
     ],
     [
      255.0,
-     122.57
+     123.43
     ],
     [
      255.0,
-     153.21
+     154.29
     ],
     [
      274.0,
-     153.21
+     154.29
     ],
     [
      274.0,
-     183.86
+     185.14
     ],
     [
      255.0,
-     183.86
+     185.14
     ],
     [
      255.0,
-     214.5
+     216
     ],
     [
      197.0,
-     214.5
+     216
     ],
     [
      197.0,
-     179.5
+     181
     ],
     [
      77.0,
-     179.5
+     181
     ],
     [
      77.0,
-     214.5
+     216
     ],
     [
      19,
-     214.5
+     216
     ],
     [
      19,
-     183.86
+     185.14
     ],
     [
      0,
-     183.86
+     185.14
     ],
     [
      0,
-     153.21
+     154.29
     ],
     [
      19,
-     153.21
+     154.29
     ],
     [
      19,
-     122.57
+     123.43
     ],
     [
      0,
-     122.57
+     123.43
     ],
     [
      0,
-     91.93
+     92.57
     ],
     [
      19,
-     91.93
+     92.57
     ],
     [
      19,
-     61.29
+     61.71
     ],
     [
      0,
-     61.29
+     61.71
     ],
     [
      0,
-     30.64
+     30.86
     ],
     [
      19,
-     30.64
+     30.86
     ],
     [
      19,
@@ -5902,44 +8972,44 @@ window.MODELL = {
    "fenster": [
     [
      84.5,
-     65.75,
+     66.5,
      109.5,
-     90.75,
+     91.5,
      12.5
     ],
     [
      124.5,
-     65.75,
+     66.5,
      149.5,
-     90.75,
+     91.5,
      12.5
     ],
     [
      164.5,
-     65.75,
+     66.5,
      189.5,
-     90.75,
+     91.5,
      12.5
     ],
     [
      84.5,
-     105.75,
+     106.5,
      109.5,
-     130.75,
+     131.5,
      12.5
     ],
     [
      124.5,
-     105.75,
+     106.5,
      149.5,
-     130.75,
+     131.5,
      12.5
     ],
     [
      164.5,
-     105.75,
+     106.5,
      189.5,
-     130.75,
+     131.5,
      12.5
     ]
    ]
@@ -5953,7 +9023,7 @@ window.MODELL = {
    "staerke": 18,
    "ursprung": [
     -523.0,
-    100.5,
+    99,
     828.5
    ],
    "u": [
@@ -5973,107 +9043,107 @@ window.MODELL = {
     ],
     [
      255.0,
-     30.64
+     30.86
     ],
     [
      274.0,
-     30.64
+     30.86
     ],
     [
      274.0,
-     61.29
+     61.71
     ],
     [
      255.0,
-     61.29
+     61.71
     ],
     [
      255.0,
-     91.93
+     92.57
     ],
     [
      274.0,
-     91.93
+     92.57
     ],
     [
      274.0,
-     122.57
+     123.43
     ],
     [
      255.0,
-     122.57
+     123.43
     ],
     [
      255.0,
-     153.21
+     154.29
     ],
     [
      274.0,
-     153.21
+     154.29
     ],
     [
      274.0,
-     183.86
+     185.14
     ],
     [
      255.0,
-     183.86
+     185.14
     ],
     [
      255.0,
-     214.5
+     216
     ],
     [
      19,
-     214.5
+     216
     ],
     [
      19,
-     183.86
+     185.14
     ],
     [
      0,
-     183.86
+     185.14
     ],
     [
      0,
-     153.21
+     154.29
     ],
     [
      19,
-     153.21
+     154.29
     ],
     [
      19,
-     122.57
+     123.43
     ],
     [
      0,
-     122.57
+     123.43
     ],
     [
      0,
-     91.93
+     92.57
     ],
     [
      19,
-     91.93
+     92.57
     ],
     [
      19,
-     61.29
+     61.71
     ],
     [
      0,
-     61.29
+     61.71
     ],
     [
      0,
-     30.64
+     30.86
     ],
     [
      19,
-     30.64
+     30.86
     ],
     [
      19,
@@ -6121,65 +9191,65 @@ window.MODELL = {
    "fenster": [
     [
      84.5,
-     65.75,
+     66.5,
      109.5,
-     90.75,
+     91.5,
      12.5
     ],
     [
      124.5,
-     65.75,
+     66.5,
      149.5,
-     90.75,
+     91.5,
      12.5
     ],
     [
      164.5,
-     65.75,
+     66.5,
      189.5,
-     90.75,
+     91.5,
      12.5
     ],
     [
      84.5,
-     105.75,
+     106.5,
      109.5,
-     130.75,
+     131.5,
      12.5
     ],
     [
      124.5,
-     105.75,
+     106.5,
      149.5,
-     130.75,
+     131.5,
      12.5
     ],
     [
      164.5,
-     105.75,
+     106.5,
      189.5,
-     130.75,
+     131.5,
      12.5
     ],
     [
      84.5,
-     145.75,
+     146.5,
      109.5,
-     170.75,
+     171.5,
      12.5
     ],
     [
      124.5,
-     145.75,
+     146.5,
      149.5,
-     170.75,
+     171.5,
      12.5
     ],
     [
      164.5,
-     145.75,
+     146.5,
      189.5,
-     170.75,
+     171.5,
      12.5
     ]
    ]
@@ -6193,7 +9263,7 @@ window.MODELL = {
    "staerke": 12,
    "ursprung": [
     -523.0,
-    122.5,
+    121,
     -2.5
    ],
    "u": [
@@ -6480,107 +9550,107 @@ window.MODELL = {
     ],
     [
      850.0,
-     30.64
+     32.5
     ],
     [
      831.0,
-     30.64
+     32.5
     ],
     [
      831.0,
-     61.29
+     65.0
     ],
     [
      850.0,
-     61.29
+     65.0
     ],
     [
      850.0,
-     91.93
+     97.5
     ],
     [
      831.0,
-     91.93
+     97.5
     ],
     [
      831.0,
-     122.57
+     130.0
     ],
     [
      850.0,
-     122.57
+     130.0
     ],
     [
      850.0,
-     153.21
+     162.5
     ],
     [
      831.0,
-     153.21
+     162.5
     ],
     [
      831.0,
-     183.86
+     195.0
     ],
     [
      850.0,
-     183.86
+     195.0
     ],
     [
      850.0,
-     214.5
+     227.5
     ],
     [
      0,
-     214.5
+     227.5
     ],
     [
      0,
-     183.86
+     195.0
     ],
     [
      19,
-     183.86
+     195.0
     ],
     [
      19,
-     153.21
+     162.5
     ],
     [
      0,
-     153.21
+     162.5
     ],
     [
      0,
-     122.57
+     130.0
     ],
     [
      19,
-     122.57
+     130.0
     ],
     [
      19,
-     91.93
+     97.5
     ],
     [
      0,
-     91.93
+     97.5
     ],
     [
      0,
-     61.29
+     65.0
     ],
     [
      19,
-     61.29
+     65.0
     ],
     [
      19,
-     30.64
+     32.5
     ],
     [
      0,
-     30.64
+     32.5
     ],
     [
      0,
@@ -6682,254 +9752,254 @@ window.MODELL = {
    "fenster": [
     [
      72.5,
-     64.0,
+     66.0,
      97.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      112.5,
-     64.0,
+     66.0,
      137.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      152.5,
-     64.0,
+     66.0,
      177.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      192.5,
-     64.0,
+     66.0,
      217.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      232.5,
-     64.0,
+     66.0,
      257.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      272.5,
-     64.0,
+     66.0,
      297.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      312.5,
-     64.0,
+     66.0,
      337.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      352.5,
-     64.0,
+     66.0,
      377.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      392.5,
-     64.0,
+     66.0,
      417.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      432.5,
-     64.0,
+     66.0,
      457.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      472.5,
-     64.0,
+     66.0,
      497.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      512.5,
-     64.0,
+     66.0,
      537.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      552.5,
-     64.0,
+     66.0,
      577.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      592.5,
-     64.0,
+     66.0,
      617.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      632.5,
-     64.0,
+     66.0,
      657.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      672.5,
-     64.0,
+     66.0,
      697.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      712.5,
-     64.0,
+     66.0,
      737.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      752.5,
-     64.0,
+     66.0,
      777.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      72.5,
-     104.0,
+     106.0,
      97.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      112.5,
-     104.0,
+     106.0,
      137.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      152.5,
-     104.0,
+     106.0,
      177.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      192.5,
-     104.0,
+     106.0,
      217.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      232.5,
-     104.0,
+     106.0,
      257.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      272.5,
-     104.0,
+     106.0,
      297.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      312.5,
-     104.0,
+     106.0,
      337.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      352.5,
-     104.0,
+     106.0,
      377.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      392.5,
-     104.0,
+     106.0,
      417.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      432.5,
-     104.0,
+     106.0,
      457.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      472.5,
-     104.0,
+     106.0,
      497.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      512.5,
-     104.0,
+     106.0,
      537.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      552.5,
-     104.0,
+     106.0,
      577.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      592.5,
-     104.0,
+     106.0,
      617.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      632.5,
-     104.0,
+     106.0,
      657.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      672.5,
-     104.0,
+     106.0,
      697.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      712.5,
-     104.0,
+     106.0,
      737.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      752.5,
-     104.0,
+     106.0,
      777.5,
-     129.0,
+     131.0,
      12.5
     ]
    ]
@@ -6963,107 +10033,107 @@ window.MODELL = {
     ],
     [
      850.0,
-     30.64
+     32.5
     ],
     [
      831.0,
-     30.64
+     32.5
     ],
     [
      831.0,
-     61.29
+     65.0
     ],
     [
      850.0,
-     61.29
+     65.0
     ],
     [
      850.0,
-     91.93
+     97.5
     ],
     [
      831.0,
-     91.93
+     97.5
     ],
     [
      831.0,
-     122.57
+     130.0
     ],
     [
      850.0,
-     122.57
+     130.0
     ],
     [
      850.0,
-     153.21
+     162.5
     ],
     [
      831.0,
-     153.21
+     162.5
     ],
     [
      831.0,
-     183.86
+     195.0
     ],
     [
      850.0,
-     183.86
+     195.0
     ],
     [
      850.0,
-     214.5
+     227.5
     ],
     [
      0,
-     214.5
+     227.5
     ],
     [
      0,
-     183.86
+     195.0
     ],
     [
      19,
-     183.86
+     195.0
     ],
     [
      19,
-     153.21
+     162.5
     ],
     [
      0,
-     153.21
+     162.5
     ],
     [
      0,
-     122.57
+     130.0
     ],
     [
      19,
-     122.57
+     130.0
     ],
     [
      19,
-     91.93
+     97.5
     ],
     [
      0,
-     91.93
+     97.5
     ],
     [
      0,
-     61.29
+     65.0
     ],
     [
      19,
-     61.29
+     65.0
     ],
     [
      19,
-     30.64
+     32.5
     ],
     [
      0,
-     30.64
+     32.5
     ],
     [
      0,
@@ -7165,254 +10235,254 @@ window.MODELL = {
    "fenster": [
     [
      72.5,
-     64.0,
+     66.0,
      97.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      112.5,
-     64.0,
+     66.0,
      137.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      152.5,
-     64.0,
+     66.0,
      177.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      192.5,
-     64.0,
+     66.0,
      217.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      232.5,
-     64.0,
+     66.0,
      257.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      272.5,
-     64.0,
+     66.0,
      297.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      312.5,
-     64.0,
+     66.0,
      337.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      352.5,
-     64.0,
+     66.0,
      377.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      392.5,
-     64.0,
+     66.0,
      417.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      432.5,
-     64.0,
+     66.0,
      457.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      472.5,
-     64.0,
+     66.0,
      497.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      512.5,
-     64.0,
+     66.0,
      537.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      552.5,
-     64.0,
+     66.0,
      577.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      592.5,
-     64.0,
+     66.0,
      617.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      632.5,
-     64.0,
+     66.0,
      657.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      672.5,
-     64.0,
+     66.0,
      697.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      712.5,
-     64.0,
+     66.0,
      737.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      752.5,
-     64.0,
+     66.0,
      777.5,
-     89.0,
+     91.0,
      12.5
     ],
     [
      72.5,
-     104.0,
+     106.0,
      97.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      112.5,
-     104.0,
+     106.0,
      137.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      152.5,
-     104.0,
+     106.0,
      177.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      192.5,
-     104.0,
+     106.0,
      217.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      232.5,
-     104.0,
+     106.0,
      257.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      272.5,
-     104.0,
+     106.0,
      297.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      312.5,
-     104.0,
+     106.0,
      337.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      352.5,
-     104.0,
+     106.0,
      377.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      392.5,
-     104.0,
+     106.0,
      417.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      432.5,
-     104.0,
+     106.0,
      457.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      472.5,
-     104.0,
+     106.0,
      497.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      512.5,
-     104.0,
+     106.0,
      537.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      552.5,
-     104.0,
+     106.0,
      577.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      592.5,
-     104.0,
+     106.0,
      617.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      632.5,
-     104.0,
+     106.0,
      657.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      672.5,
-     104.0,
+     106.0,
      697.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      712.5,
-     104.0,
+     106.0,
      737.5,
-     129.0,
+     131.0,
      12.5
     ],
     [
      752.5,
-     104.0,
+     106.0,
      777.5,
-     129.0,
+     131.0,
      12.5
     ]
    ]
@@ -7446,123 +10516,123 @@ window.MODELL = {
     ],
     [
      367.0,
-     30.64
+     32.5
     ],
     [
      386.0,
-     30.64
+     32.5
     ],
     [
      386.0,
-     61.29
+     65.0
     ],
     [
      367.0,
-     61.29
+     65.0
     ],
     [
      367.0,
-     91.93
+     97.5
     ],
     [
      386.0,
-     91.93
+     97.5
     ],
     [
      386.0,
-     122.57
+     130.0
     ],
     [
      367.0,
-     122.57
+     130.0
     ],
     [
      367.0,
-     153.21
+     162.5
     ],
     [
      386.0,
-     153.21
+     162.5
     ],
     [
      386.0,
-     183.86
+     195.0
     ],
     [
      367.0,
-     183.86
+     195.0
     ],
     [
      367.0,
-     214.5
+     227.5
     ],
     [
      253.0,
-     214.5
+     227.5
     ],
     [
      253.0,
-     179.5
+     192.5
     ],
     [
      133.0,
-     179.5
+     192.5
     ],
     [
      133.0,
-     214.5
+     227.5
     ],
     [
      19,
-     214.5
+     227.5
     ],
     [
      19,
-     183.86
+     195.0
     ],
     [
      0,
-     183.86
+     195.0
     ],
     [
      0,
-     153.21
+     162.5
     ],
     [
      19,
-     153.21
+     162.5
     ],
     [
      19,
-     122.57
+     130.0
     ],
     [
      0,
-     122.57
+     130.0
     ],
     [
      0,
-     91.93
+     97.5
     ],
     [
      19,
-     91.93
+     97.5
     ],
     [
      19,
-     61.29
+     65.0
     ],
     [
      0,
-     61.29
+     65.0
     ],
     [
      0,
-     30.64
+     32.5
     ],
     [
      19,
-     30.64
+     32.5
     ],
     [
      19,
@@ -7610,100 +10680,142 @@ window.MODELL = {
    "fenster": [
     [
      80.5,
-     65.75,
+     52.25,
      105.5,
-     90.75,
+     77.25,
      12.5
     ],
     [
      120.5,
-     65.75,
+     52.25,
      145.5,
-     90.75,
+     77.25,
      12.5
     ],
     [
      160.5,
-     65.75,
+     52.25,
      185.5,
-     90.75,
+     77.25,
      12.5
     ],
     [
      200.5,
-     65.75,
+     52.25,
      225.5,
-     90.75,
+     77.25,
      12.5
     ],
     [
      240.5,
-     65.75,
+     52.25,
      265.5,
-     90.75,
+     77.25,
      12.5
     ],
     [
      280.5,
-     65.75,
+     52.25,
      305.5,
-     90.75,
+     77.25,
      12.5
     ],
     [
      80.5,
-     105.75,
+     92.25,
      105.5,
-     130.75,
+     117.25,
      12.5
     ],
     [
      120.5,
-     105.75,
+     92.25,
      145.5,
-     130.75,
+     117.25,
      12.5
     ],
     [
      160.5,
-     105.75,
+     92.25,
      185.5,
-     130.75,
+     117.25,
      12.5
     ],
     [
      200.5,
-     105.75,
+     92.25,
      225.5,
-     130.75,
+     117.25,
      12.5
     ],
     [
      240.5,
-     105.75,
+     92.25,
      265.5,
-     130.75,
+     117.25,
      12.5
     ],
     [
      280.5,
-     105.75,
+     92.25,
      305.5,
-     130.75,
+     117.25,
      12.5
     ],
     [
      80.5,
-     145.75,
+     132.25,
      105.5,
-     170.75,
+     157.25,
+     12.5
+    ],
+    [
+     120.5,
+     132.25,
+     145.5,
+     157.25,
+     12.5
+    ],
+    [
+     160.5,
+     132.25,
+     185.5,
+     157.25,
+     12.5
+    ],
+    [
+     200.5,
+     132.25,
+     225.5,
+     157.25,
+     12.5
+    ],
+    [
+     240.5,
+     132.25,
+     265.5,
+     157.25,
      12.5
     ],
     [
      280.5,
-     145.75,
+     132.25,
      305.5,
-     170.75,
+     157.25,
+     12.5
+    ],
+    [
+     80.5,
+     172.25,
+     105.5,
+     197.25,
+     12.5
+    ],
+    [
+     280.5,
+     172.25,
+     305.5,
+     197.25,
      12.5
     ]
    ]
@@ -7737,107 +10849,107 @@ window.MODELL = {
     ],
     [
      367.0,
-     30.64
+     32.5
     ],
     [
      386.0,
-     30.64
+     32.5
     ],
     [
      386.0,
-     61.29
+     65.0
     ],
     [
      367.0,
-     61.29
+     65.0
     ],
     [
      367.0,
-     91.93
+     97.5
     ],
     [
      386.0,
-     91.93
+     97.5
     ],
     [
      386.0,
-     122.57
+     130.0
     ],
     [
      367.0,
-     122.57
+     130.0
     ],
     [
      367.0,
-     153.21
+     162.5
     ],
     [
      386.0,
-     153.21
+     162.5
     ],
     [
      386.0,
-     183.86
+     195.0
     ],
     [
      367.0,
-     183.86
+     195.0
     ],
     [
      367.0,
-     214.5
+     227.5
     ],
     [
      19,
-     214.5
+     227.5
     ],
     [
      19,
-     183.86
+     195.0
     ],
     [
      0,
-     183.86
+     195.0
     ],
     [
      0,
-     153.21
+     162.5
     ],
     [
      19,
-     153.21
+     162.5
     ],
     [
      19,
-     122.57
+     130.0
     ],
     [
      0,
-     122.57
+     130.0
     ],
     [
      0,
-     91.93
+     97.5
     ],
     [
      19,
-     91.93
+     97.5
     ],
     [
      19,
-     61.29
+     65.0
     ],
     [
      0,
-     61.29
+     65.0
     ],
     [
      0,
-     30.64
+     32.5
     ],
     [
      19,
-     30.64
+     32.5
     ],
     [
      19,
@@ -7885,128 +10997,170 @@ window.MODELL = {
    "fenster": [
     [
      80.5,
-     65.75,
+     52.25,
      105.5,
-     90.75,
+     77.25,
      12.5
     ],
     [
      120.5,
-     65.75,
+     52.25,
      145.5,
-     90.75,
+     77.25,
      12.5
     ],
     [
      160.5,
-     65.75,
+     52.25,
      185.5,
-     90.75,
+     77.25,
      12.5
     ],
     [
      200.5,
-     65.75,
+     52.25,
      225.5,
-     90.75,
+     77.25,
      12.5
     ],
     [
      240.5,
-     65.75,
+     52.25,
      265.5,
-     90.75,
+     77.25,
      12.5
     ],
     [
      280.5,
-     65.75,
+     52.25,
      305.5,
-     90.75,
+     77.25,
      12.5
     ],
     [
      80.5,
-     105.75,
+     92.25,
      105.5,
-     130.75,
+     117.25,
      12.5
     ],
     [
      120.5,
-     105.75,
+     92.25,
      145.5,
-     130.75,
+     117.25,
      12.5
     ],
     [
      160.5,
-     105.75,
+     92.25,
      185.5,
-     130.75,
+     117.25,
      12.5
     ],
     [
      200.5,
-     105.75,
+     92.25,
      225.5,
-     130.75,
+     117.25,
      12.5
     ],
     [
      240.5,
-     105.75,
+     92.25,
      265.5,
-     130.75,
+     117.25,
      12.5
     ],
     [
      280.5,
-     105.75,
+     92.25,
      305.5,
-     130.75,
+     117.25,
      12.5
     ],
     [
      80.5,
-     145.75,
+     132.25,
      105.5,
-     170.75,
+     157.25,
      12.5
     ],
     [
      120.5,
-     145.75,
+     132.25,
      145.5,
-     170.75,
+     157.25,
      12.5
     ],
     [
      160.5,
-     145.75,
+     132.25,
      185.5,
-     170.75,
+     157.25,
      12.5
     ],
     [
      200.5,
-     145.75,
+     132.25,
      225.5,
-     170.75,
+     157.25,
      12.5
     ],
     [
      240.5,
-     145.75,
+     132.25,
      265.5,
-     170.75,
+     157.25,
      12.5
     ],
     [
      280.5,
-     145.75,
+     132.25,
      305.5,
-     170.75,
+     157.25,
+     12.5
+    ],
+    [
+     80.5,
+     172.25,
+     105.5,
+     197.25,
+     12.5
+    ],
+    [
+     120.5,
+     172.25,
+     145.5,
+     197.25,
+     12.5
+    ],
+    [
+     160.5,
+     172.25,
+     185.5,
+     197.25,
+     12.5
+    ],
+    [
+     200.5,
+     172.25,
+     225.5,
+     197.25,
+     12.5
+    ],
+    [
+     240.5,
+     172.25,
+     265.5,
+     197.25,
+     12.5
+    ],
+    [
+     280.5,
+     172.25,
+     305.5,
+     197.25,
      12.5
     ]
    ]

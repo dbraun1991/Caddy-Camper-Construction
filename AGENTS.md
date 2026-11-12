@@ -192,11 +192,17 @@ down.
 ### Open / planned (tracked in README "Weiterführende Planung")
 
 - ~~ADR 0013~~ — decided by [ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md) (2026-11-12): seat/table element =
-  18 mm board on top of two 39.5 mm cheeks (ending 20 mm above the runner bottom, ≥ 15 mm wood below the hole line, `rand_lochreihe`) (inverted U), board top 1.5 mm above
-  the 76 mm runner (no edge on the seat), runner screwed to the cheek (holes are
-  on the runner's centre line). Drawer boxes 214.5 mm high in all sections,
-  drawer runners centred on the box. Still open: how board and cheeks are joined,
-  and a CNC job for `C1`–`C3`.
+  18 mm board on top of two cheeks (inverted U), runner screwed to the cheek
+  (holes are on the runner's centre line). Amended by [ADR 0029](docs/adrs/0029-cheeks-sized-to-the-moving-runner-member-flush-seat-taller-middle-drawer.md)
+  (2026-11-12): extended, only the lock lever, a 30 mm and a 55 mm telescope
+  member stand out of the corpus, so the cheek ends `wange_spiel` = 2 mm above
+  the 55 mm member (`hoehe_auszug`, centred, confirmed by the builder → 12.5 mm above the runner
+  bottom, cheek 45.5 mm, ≥ 15 mm wood below the hole line, `rand_lochreihe`);
+  board top flush with the runner (`ueberstand_brett` = 0); cheeks joined to the
+  board by 5 through-tenons each + glue (`wangenzapfen`, tenon parts flagged as
+  intended overlaps); `D1/D2` 216 mm, `D3` 227.5 mm (`kasten_mitte_plus` 15,
+  capped 3 mm under the `C3` cheeks → +13). Still open: who makes `C1`–`C3`
+  (CNC job or plain cutting, deliberately left open).
 - **CNC job not placed yet** ([ADR 0023](docs/adrs/0023-cnc-dxf-export-with-dogbones.md)).
   The `cnc` values in `modell/parameter.json` (cutter Ø 6 mm, clearance 0.2 mm)
   are assumptions until a service answers — don't present them as confirmed.
@@ -228,13 +234,15 @@ down.
     doesn't matter for the model (user, 2026-11-12). Runner length is per type
     (`schienen.typen.*.laenge`), the viewer extends each element by its own.
     Still open: lock levers (~30 mm proud) vs. the 20–30 mm room to the
-    tailgate — check on the car (flagged in `fahrzeug_pruefung()`); hole size of
-    the 80 kg runner; whether the 170 kg lock holds when extended.
+    tailgate — the builder left ~10 mm behind the box, expects it to fit and
+    will test it on the car before ordering the drawer wood (flagged in
+    `fahrzeug_pruefung()`); hole size of the 80 kg runner. The 170 kg lock does
+    hold when extended (builder, 2026-11-12).
     Drawer runners (user, 2026-11-12, "narrenkompatibel"): outer `D1/D2` runner
-    as low as possible on the box (106–159, windows above), middle `D3` as high
-    as possible (177–230, hole grid below), whole mm. On `M1/M2` the outer-section
-    face has every runner below 141 mm above `B1`, the middle face every runner
-    above 159 mm; `modell.py` asserts ≥ 10 mm to the opposite face, so the M6
+    as low as possible on the box (104–157, windows above), middle `D3` as high
+    as possible but ≥ 5 mm under the `C3` runner (181–234, hole grid below),
+    whole mm. On `M1/M2` the outer-section face has every runner below 139 mm
+    above `B1`, the middle face every runner above 163 mm; `modell.py` asserts ≥ 10 mm to the opposite face, so the M6
     through-bolts (V9, M6 × 30) land on bare wall. Mounting table in §H1.
   - ~~Drawer fronts (inset vs. overlay) and the front-panel overlaps~~ —
     resolved by [ADR 0027](docs/adrs/0027-no-drawer-front-panels-box-front-with-grip-cut-out.md)
@@ -248,6 +256,10 @@ down.
 
 ### TODOs
 
+- The load-floor height above the ground (`fahrzeug.ladekante_hoehe` = 580) is
+  the Caddy 2K standard value, not measured; the builder said ±10 cm doesn't
+  matter. The viewer uses it for the ground grid and placeholder underbody and
+  wheels only.
 - Vehicle measurements (2026-10-17) live in `modell/parameter.json` → `fahrzeug`
   and are checked by `modell.fahrzeug_pruefung()` (shown in the "Statisch" tab).
   The remaining shell placeholders (`CW`, `CH`, `CL`, wheel arches, seats,
