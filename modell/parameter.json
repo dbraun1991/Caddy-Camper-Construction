@@ -37,24 +37,44 @@
   },
 
   "schienen": {
-    "laenge": 850,
+    "_hinweis": "Je Typ: Stärke je Seite, Höhe und Länge des Schienenkörpers (eingefahren). Die Löcher liegen mittig in der Höhe. Ausgerichtet bündig an der Korpusfront (Datenblatt). ADR 0028",
     "typen": {
-      "schwer": { "name": "AOLISHENG 850 mm · 170 kg", "staerke": 19, "hoehe": 76, "traglast": 170 },
-      "leicht": { "name": "AOLISHENG 850 mm · 80 kg",  "staerke": 19, "hoehe": 53, "traglast": 80 }
+      "schwer": { "name": "AOLISHENG 870 mm · 170 kg", "staerke": 19, "hoehe": 76, "laenge": 870, "traglast": 170 },
+      "leicht": { "name": "AOLISHENG 850 mm · 80 kg",  "staerke": 19, "hoehe": 53, "laenge": 850, "traglast": 80 }
     },
-    "_staerke": "Am 2026-11-12 an den gelieferten Schienen gemessen: Stärke je Seite bei beiden Typen exakt 19 mm (die Elementbreiten hängen davon ab). Höhe 80 kg: 53 mm bestätigt. Höhe 170 kg: gemessen ~74 mm, Messung unsicher — bis zur Kontrolle bleibt der Datenblattwert 76 mm (größeres Band, sichere Seite für die Schraubenbänder an M1/M2 und ADR 0013)",
+    "_staerke": "Gemessen 2026-11-12: Stärke je Seite bei beiden Typen 19 mm, Höhe 53 mm (80 kg) und 76 mm (170 kg, nachgemessen). Datenblatt 170 kg (docs/runner-pdfs/heavy-runners.pdf): Stärke 19,2 ± 0,3, Höhe 76,2 ± 0,5, Schrauben M6. Mit 19 mm + 1 mm Spiel je Seite ist bis 20 mm Schienenstärke Platz",
+    "_laenge": "Gemessen 2026-11-12: 80 kg 850 mm, 170 kg 870 mm Schienenkörper, jeweils + Arretierungshebel vorn (bis 880 bzw. 900 mm)",
+    "hebel_vorn": 30,
+    "_hebel_vorn": "Arretierungshebel am beweglichen Teil, ragt eingefahren so weit vor das vordere Schienenende (= Korpusfront) — gegen die Luft zur Heckklappe prüfen (fahrzeug_pruefung)",
     "zuordnung": { "C1": "schwer", "C2": "schwer", "C3": "schwer", "D1": "leicht", "D2": "leicht", "D3": "leicht" }
   },
 
   "elemente": {
-    "brett_hoehe": 32,
+    "_hinweis": "Höhenplan ADR 0028: Sitz-/Tischbrett-Element = Brett oben + zwei Wangen darunter (umgedrehtes U), so hoch wie die Schiene + Überstand. Kästen bekommen den Rest, Schubladenschiene mittig am Kasten",
+    "brett_staerke": 18,
+    "wange_staerke": 18,
+    "ueberstand_brett": 1.5,
+    "_ueberstand_brett": "Brettoberkante über der Schienenoberkante — 1–2 mm erlaubt, damit nie die Schiene als Kante über die Sitzfläche steht (Datenblatt: Höhe bis 76,7 mm)",
+    "boden_luft": 3,
+    "_boden_luft": "Luft des Kastens D3 über der Bodenplatte (Durchhang unter Last, Toleranzen, Krümel). Kostet keine Kastenhöhe, D3 rückt nur hoch",
+    "wange_luft": 20,
+    "_wange_luft": "Abstand der Wangen-Unterkante zur Schienen-Unterkante (C1/C2: zu B1). Größer = kürzere Wangen, weniger Material. Unter der mittigen Lochreihe müssen mindestens `rand_lochreihe` mm Holz bleiben. Die Schiene C1/C2 selbst steht auf B1 (bewegliche Teile ~10 mm frei, gemessen 2026-11-12)",
+    "rand_lochreihe": 15,
+    "_rand_lochreihe": "Mindest-Holz unter der Lochmitte der 170-kg-Schiene in der Wange: ~3 × Schraubendurchmesser (5 mm, V18), damit die Schraube nicht zum Rand ausbricht",
     "spalt_hoehe": 5,
+    "schubladenschiene": {
+      "_hinweis": "Lage der Schubladenschiene am Kasten (ADR 0028): Außenschubladen D1/D2 so tief wie möglich (Platz für Fenster darüber), Mitte D3 so hoch wie möglich (Lochraster darunter). An M1/M2 liegen so alle Schienen der Außensektion unten, alle der Mitte oben. Höhen auf ganze mm gerundet (Abstandsklötze)",
+      "aussen": "unten",
+      "mitte": "oben",
+      "abstand_kasten": 5,
+      "mindestabstand_gegenseite": 10
+    },
     "spiel_seitlich": 1,
     "vorstand_front": 1.5,
-    "kasten_tiefe": 830,
-    "brett_tiefe": 850,
-    "blende_staerke": 18,
-    "blende_hoehe": 268
+    "kasten_tiefe": 848,
+    "_kasten_tiefe": "Ohne Frontblende (ADR 0027): Kastenfront bündig mit den Sitz-/Tischbrettern (1,5 mm vor der Korpusfront), hinten 35,5 mm Luft bis R1",
+    "brett_tiefe": 870,
+    "_brett_tiefe": "So lang wie die 170-kg-Schiene, hinten 13,5 mm Luft bis R1"
   },
 
   "schubladen": {
@@ -76,6 +96,22 @@
       "abstand_schiene": 15,
       "radius": 20,
       "min_hoehe": 60
+    },
+    "aussparung": { "D1": "fenster", "D2": "fenster", "D3": "lochraster" },
+    "_aussparung": "Seitenwände je Kasten: fenster = große Durchbrüche (äußere Schubladen, beim Sitzen leicht geöffnet hineingreifen) · lochraster = viele kleine Löcher (Mitte: Luft und Material sparen, nichts fällt durch) · keine. ADR 0026. Kastenfront und -rückwand bekommen immer das Lochraster (ADR 0027)",
+    "griff": {
+      "_hinweis": "Griff in der Kastenfront (-E1), die ohne Blende die sichtbare Front ist (ADR 0027). ausschnitt = von der Oberkante her ausgefräst · loch = geschlossenes Griffloch (Langloch)",
+      "art": "ausschnitt",
+      "breite": 120,
+      "tiefe": 35,
+      "radius": 15,
+      "abstand_oben": 25,
+      "_abstand_oben": "nur bei art = loch: Steg über dem Griffloch"
+    },
+    "lochraster": {
+      "_hinweis": "Runde Löcher im Quadratraster, in denselben freien Bändern wie die Fenster (gleiche Ränder und Stege aus `fenster`)",
+      "durchmesser": 25,
+      "abstand": 40
     },
     "dichte_kg_m3": 680,
     "_dichte": "Birke-Multiplex, nur für die Gewichtsangabe im CNC-Auftrag"

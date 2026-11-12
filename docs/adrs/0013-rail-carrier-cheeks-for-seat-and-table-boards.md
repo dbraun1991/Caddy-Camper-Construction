@@ -1,6 +1,7 @@
 # 0013: Carrier cheeks to give the seat/table boards a full-height rail face
 
-Status: Proposed — needs a decision before cutting `C1`–`C3`
+Status: Accepted in a variant by [ADR 0028](0028-height-plan-board-on-cheeks-foolproof-runner-layout.md) (2026-11-12): board on top,
+cheeks hanging below (inverted U), so the seat has no raised edges
 
 ## Context
 

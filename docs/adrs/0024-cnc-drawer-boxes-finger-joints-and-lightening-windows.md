@@ -40,7 +40,8 @@ still taken from the `D1`–`D3` boxes in `teile()`, so they follow the runner
 thickness and section widths automatically.
 
 - **Part codes** per box: `-S` side wall (2 per box), `-E` end wall (box front
-  and back, identical, 2 per box), `-B` bottom. `D1-F`…`D3-F` stay the visible
+  and back, identical, 2 per box), `-B` bottom. *Since [ADR 0027](0027-no-drawer-front-panels-box-front-with-grip-cut-out.md):
+  `-E1` front with grip and `-E2` rear, no front panels.* `D1-F`…`D3-F` stay the visible
   front panels. `D1`/`D2` boxes are identical, so their parts share a DXF.
 - **Corners: finger joints** over the box height, `zinken_anzahl` = 7 fields
   (odd, so the side walls carry the top and bottom fingers). Fingers are
@@ -60,6 +61,8 @@ thickness and section widths automatically.
   rim, 30 mm web above the bottom slots, 50 mm next to the finger zone, 40 mm
   webs between windows. A band shorter than 60 mm gets no windows. Result:
   `D1/D2` have one row above the runner, `D3` one row below it.
+  *Amended by [ADR 0026](0026-windows-for-outer-drawers-hole-grid-for-middle-drawer.md):
+  `D3` gets a grid of Ø 25 mm holes in that band instead of windows.*
 - ADR 0011 still applies to: rail inner members screwed to the side faces with
   3.5 × 16 mm screws (now into the solid band), and the front panel mounted
   last from inside the box.
@@ -69,7 +72,8 @@ thickness and section widths automatically.
 - No corner screws, no bottom screws and no corner cleats: `V8` and `V12` are no
   longer needed, `V7` only for the front panels. The corners now carry load
   through glued finger joints instead of the bottom panel alone.
-- Weight: about 22.2 kg for the three boxes without front panels, 4.2 kg less
+- Weight (since ADR 0026): about 23.0 kg for the three boxes without front
+  panels. Originally 22.2 kg with windows everywhere, 4.2 kg less
   than without windows (680 kg/m³ assumed). The windows are a modest saving;
   most of the mass is the 18 mm walls.
 - Small items can fall through the windows into the corpus. Accepted by the
@@ -83,5 +87,8 @@ thickness and section widths automatically.
   runner's screw holes against the solid band left in the side walls. The cutter
   diameter and clearance remain the ADR 0023 assumptions, now also for the
   12 mm sheet.
-- The 3D viewer still shows each drawer box as one block; only the CNC tab
-  shows the individual parts.
+- The 3D viewer renders each drawer box from its CNC boards
+  (`modell.schubladen_3d()`: outline with fingers and tabs, slots and rounded
+  windows as holes, extruded by the board thickness and placed by origin + axes).
+  The `D1`–`D3` blocks stay in the model for the drawings and the overlap check,
+  but are not drawn in the 3D tab.

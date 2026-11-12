@@ -28,13 +28,13 @@ Decision, Consequences.
 | [0008](0008-heavy-duty-full-extension-runners.md) | Heavy-duty 900 mm full-extension runners over shorter soft-close runners | Accepted, length amended by 0017 |
 | [0009](0009-translucent-caddy-shell-overlay.md) | Translucent Caddy shell as a separate, toggled overlay group | Accepted |
 | [0010](0010-detailed-caddy-shell.md) | More detailed Caddy shell: door openings, rear-seat states, load-floor plane | Accepted |
-| [0011](0011-drawer-box-panel-shear-joinery.md) | Drawer boxes braced by their bottom panel, not by corner joints | Box joinery superseded by 0024 |
+| [0011](0011-drawer-box-panel-shear-joinery.md) | Drawer boxes braced by their bottom panel, not by corner joints | Box joinery superseded by 0024, front panels by 0027 |
 | [0012](0012-non-destructive-vehicle-tie-down.md) | Non-destructive tie-down via factory lashing eyes, no holes in the body | Accepted, amended by 0016 |
-| [0013](0013-rail-carrier-cheeks-for-seat-and-table-boards.md) | Carrier cheeks to give the seat/table boards a full-height rail face | **Proposed** |
+| [0013](0013-rail-carrier-cheeks-for-seat-and-table-boards.md) | Carrier cheeks to give the seat/table boards a full-height rail face | Accepted as variant in 0028 |
 | [0014](0014-self-contained-corpus-with-own-side-walls.md) | Self-contained corpus with its own side walls, removable as one unit | Accepted |
 | [0015](0015-shared-model-data-for-viewer-and-drawings.md) | Shared part model for the 3D viewer and build123d workshop drawings | Accepted |
 | [0016](0016-rear-lashing-eyes-carry-the-hold-down.md) | Rear lashing eyes carry the hold-down, fastened to the side walls | Accepted |
-| [0017](0017-850-mm-runners-in-900-mm-corpus.md) | 850 mm runners in the 900 mm corpus | Accepted, C3 runner amended by 0021 |
+| [0017](0017-850-mm-runners-in-900-mm-corpus.md) | 850 mm runners in the 900 mm corpus | Accepted, C3 runner amended by 0021, heavy runner length (870) by 0028 |
 | [0018](0018-continuous-bottom-and-lid-walls-in-grooves.md) | Continuous bottom and lid; walls housed in grooves between them | Accepted, grooves replaced by 0020 |
 | [0019](0019-hinged-sleeping-boards-fold-onto-the-corpus.md) | Hinged sleeping boards fold back onto the corpus for driving | Accepted |
 | [0020](0020-through-tenons-instead-of-routed-grooves.md) | Through tenons instead of routed grooves | Accepted |
@@ -42,4 +42,7 @@ Decision, Consequences.
 | [0022](0022-mnemonic-board-codes.md) | Mnemonic part codes for the boards (Bottom, Rear, Side, Mid, Top, Fold) | Accepted |
 | [0023](0023-cnc-dxf-export-with-dogbones.md) | CNC export as 2D DXF with dogbones and slot clearance | Accepted (values are assumptions) |
 | [0024](0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md) | CNC-cut drawer boxes: finger joints, tabbed bottom, lightening windows | Accepted |
-| [0025](0025-drawer-runners-interleaved-between-seat-and-table-runners.md) | Drawer runners interleaved between the seat and table runners (no overlap on M1/M2) | Accepted |
+| [0025](0025-drawer-runners-interleaved-between-seat-and-table-runners.md) | Drawer runners interleaved between the seat and table runners (no overlap on M1/M2) | Accepted, placement replaced by 0028 |
+| [0026](0026-windows-for-outer-drawers-hole-grid-for-middle-drawer.md) | Large windows in the outer drawers (reach in while seated), hole grid in the middle drawer | Accepted |
+| [0027](0027-no-drawer-front-panels-box-front-with-grip-cut-out.md) | No drawer front panels; the box front is the visible front, with a milled grip cut-out | Accepted |
+| [0028](0028-height-plan-board-on-cheeks-foolproof-runner-layout.md) | Height plan: seat/table board on cheeks, equal drawer boxes, foolproof runner layout (outer low, middle high), runner lengths 870/850 | Accepted |

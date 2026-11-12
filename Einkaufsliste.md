@@ -24,7 +24,7 @@ Spanne erklärt sich über die Qualitätsklasse (BB/BB vs. S/BB) und den Händle
 
 Statt Zuschnitt + Stich-/Kreissäge können die 9 Bretter der ersten Bestellung fertig gefräst werden — mit Zapfen, Schlitzen und Aussparungen. Die Dateien liegen bereit: [`docs/cnc/gezapft/`](docs/cnc/gezapft/) (DXF je Brett + [`AUFTRAG.md`](docs/cnc/gezapft/AUFTRAG.md) zum Mitschicken, im Viewer Reiter „DXF · CNC“, [ADR 0023](docs/adrs/0023-cnc-dxf-export-with-dogbones.md)). **Preis: auf Anfrage**, noch kein Angebot. Fräserdurchmesser (angenommen 6 mm) und Passungsluft (0,2 mm) erst nach Rückmeldung des Anbieters in `modell/parameter.json` → `cnc` festlegen und neu erzeugen.
 
-**Zweiter Auftrag: Schubladenkästen D1–D3** ([`docs/cnc/schubladen/`](docs/cnc/schubladen/), [ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md)): 12 Wände in 18 mm mit Fingerzinken und Fenstern, 3 Böden in 12 mm mit Zapfen — Material dafür ist die 3. Platte 18 mm und die 12-mm-Platte aus der Tabelle oben. Preis ebenfalls auf Anfrage. Die Schienenstärke (bestimmt die Kastenbreite) ist gemessen: 19 mm wie geplant (2026-11-12). Vor der Bestellung nur noch die Schraublöcher der Schiene gegen das volle Schienenband prüfen. Schrauben V8 und Eckleisten V12 entfallen dadurch.
+**Zweiter Auftrag: Schubladenkästen D1–D3** ([`docs/cnc/schubladen/`](docs/cnc/schubladen/), [ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md)): 12 Wände in 18 mm mit Fingerzinken und Fenstern (D1/D2) bzw. Lochraster (D3), 3 Böden in 12 mm mit Zapfen — Material dafür ist die 3. Platte 18 mm und die 12-mm-Platte aus der Tabelle oben. Preis ebenfalls auf Anfrage. Die Schienenstärke (bestimmt die Kastenbreite) ist gemessen: 19 mm wie geplant (2026-11-12). Vor der Bestellung nur noch die Schraublöcher der Schiene gegen das volle Schienenband prüfen. Schrauben V8 und Eckleisten V12 entfallen dadurch, ohne Frontblenden auch die Griffe V6 ([ADR 0027](docs/adrs/0027-no-drawer-front-panels-box-front-with-grip-cut-out.md)).
 
 Anbietersuche (**Recherche 2026-11-07**, nur Webseiten gelesen, niemand angefragt). Ziel: Abholung selbst, Raum Duisburg.
 
@@ -57,7 +57,7 @@ Holz Leineweber in Duisburg hat 2019 geschlossen. Daneben lohnt die direkte Frag
 | E2 | Schiene AOLISHENG 850 mm · 80 kg · 53 mm hoch · Arretierung — Schubladen (D1–D3) | 3 Paare | 61,99 € | **~186 €** |
 | | | | **Teilsumme** | **~501 €** |
 
-Gut **ein Drittel des Gesamtbudgets**. Beide aus derselben 850-mm-Serie ([ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)); Schwerlast überall, wo eine Person sitzen kann — auch auf dem Tischbrett C3 ([ADR 0021](docs/adrs/0021-table-board-on-170-kg-runners.md)). Bestellt sind 2 × E1 + 4 × E2 (2026-11-04): **1 Paar E1 nachbestellen, 1 Paar E2 ist übrig.** 170-kg-Schiene: Einbaumaß laut Hersteller 19,2 + 0,5 mm je Seite, passt. Geliefert, gemessen 2026-11-12: beide Typen **19 mm** stark wie geplant, Höhen 53 mm und ~74 mm (170 kg, Datenblatt 76 mm).
+Gut **ein Drittel des Gesamtbudgets**. Beide aus derselben 850-mm-Serie ([ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)); Schwerlast überall, wo eine Person sitzen kann — auch auf dem Tischbrett C3 ([ADR 0021](docs/adrs/0021-table-board-on-170-kg-runners.md)). Bestellt sind 2 × E1 + 4 × E2 (2026-11-04): **1 Paar E1 nachbestellen, 1 Paar E2 ist übrig.** 170-kg-Schiene: Einbaumaß laut Hersteller 19,2 + 0,5 mm je Seite, passt. Geliefert, gemessen 2026-11-12: beide Typen **19 mm** stark wie geplant, Höhen 53 / 76 mm, Längen 850 / **870 mm** (+ Arretierungshebel vorn), 170-kg-Schiene für **M6**-Schrauben ([ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md)).
 
 - Bei den Sitz- und Tischbrettern **nicht** sparen: dort sitzt eine Person bei 850 mm Auszug, und ADR 0008 macht die Arretierung zur harten Anforderung.
 - Preisvergleich: Nicht-Amazon-Quellen (teleskopschienen-shop.de, teleskopschienen24.de) lagen bei 900 mm/120 kg um ~84 €/Paar — 850 mm dort prüfen.
@@ -69,20 +69,21 @@ Gut **ein Drittel des Gesamtbudgets**. Beide aus derselben 850-mm-Serie ([ADR 00
 | Pos | Artikel | Menge | Summe |
 |---|---|---|---|
 | V1 | Schrauben Torx Senkkopf 4 × 45 mm | ~80 Stk. (1 Pack 100) | ~12 € |
-| V2 | Schrauben Torx Senkkopf 3,5 × 16 mm | ~120 Stk. (1 Pack 200) | ~10 € |
+| V2 | Schrauben Torx 3,5 × 16 mm, Flach-/Tellerkopf (80-kg-Schienen) | ~70 Stk. (1 Pack 100) | ~8 € |
+| V18 | Schrauben Torx 5 × 16 mm, Flach-/Tellerkopf (170-kg-Schienen, M6-Löcher) | ~60 Stk. (1 Pack 100) | ~10 € ² |
 | V3 | Stahlwinkel 40 × 40 × 2 mm | 12 Stk. | ~18 € |
 | V4 | Holzdübel Ø 8 × 40 mm | ~30 Stk. (1 Pack 50) | ~6 € |
 | V5 | Holzleim D3 wasserfest, 750 ml | 1 Flasche | ~12 € |
-| V6 | Schubladengriffe | 3 Stk. | 15 – 45 € |
 | V7 | Schrauben 4 × 30 / 4 × 40 mm | je 1 Pack 100 | ~20 € |
-| V9 | M5 × 30 Durchsteckschrauben + U-Scheibe + Stoppmutter | 24 Sätze | ~14 € |
+| V9 | M6 × 30 Durchsteckschrauben + U-Scheibe + Stoppmutter | 24 Sätze | ~15 € ² |
 | V10 | M8 × 30/40 + U-Scheibe + Stoppmutter | 4 Sätze | ~6 € |
 | V11 | Spanngurt mit Ratsche | 2 Stk. | ~20 € |
 | V15 | Gurtschlaufe verstellbar (Gurtband ~25 mm + Klemmschnalle), Klappbrett Kopfende (F2) ↔ Kopfstütze | 2 Stk. | ~10 € ¹ |
 | V17 | Klappscharniere Standard ~60 mm (3 × Deckplatte ↔ Klappbrett Rücksitz oben, 3 × zwischen den Klappbrettern unten) | 6 Stk. | ~15 € ¹ |
-| | | **Teilsumme** | **~158 – 188 €** |
+| | | **Teilsumme** | **~154 €** |
 
-¹ V15/V16/V17 am 2026-10-17 ergänzt — grobe Schätzung, Quellen noch nicht geprüft.
+¹ V15/V16/V17 am 2026-10-17 ergänzt — grobe Schätzung, Quellen noch nicht geprüft.  
+² V9 (M6 statt M5) und V18 am 2026-11-12 nach dem Datenblatt der 170-kg-Schiene geändert bzw. ergänzt ([ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md)) — grobe Schätzung.
 
 ---
 
@@ -113,17 +114,17 @@ Gut **ein Drittel des Gesamtbudgets**. Beide aus derselben 850-mm-Serie ([ADR 00
 |---|---|---|---|
 | Holz + Zuschnitt | 390 € | 467 € | 571 € |
 | Schienen | 501 € | 501 € | 501 € |
-| Befestigungsmaterial | 158 € | 173 € | 188 € |
+| Befestigungsmaterial | 154 € | 154 € | 154 € |
 | Ausbau / Sonstiges | 135 € | 230 € | 680 € |
-| **Summe** | **~1.185 €** | **~1.370 €** | **~1.940 €** |
-| + Puffer 10 % (Verschnitt, Nachkauf, Versand) | ~120 € | ~135 € | ~195 € |
-| **Gesamt** | **~1.305 €** | **~1.505 €** | **~2.135 €** |
+| **Summe** | **~1.180 €** | **~1.350 €** | **~1.905 €** |
+| + Puffer 10 % (Verschnitt, Nachkauf, Versand) | ~120 € | ~135 € | ~190 € |
+| **Gesamt** | **~1.300 €** | **~1.485 €** | **~2.095 €** |
 
 ### Realistische Planungsgröße: **~1.500 €**
 
 Das setzt voraus: Multiplex aus dem Baumarkt mit Zuschnitt, die empfohlenen Schienen, Matratze als zugeschnittene Schaumplatte, Werkzeug schon vorhanden.
 
-**Nicht enthalten:** Werkzeug (Akkuschrauber, Handkreissäge mit Führungsschiene und Stichsäge für die Zapfen, Feilen — oder Dübelhilfe bei stumpfer Variante, Forstnerbohrer für die Griffe, Senker), Versandkosten, sowie die noch offenen Punkte Belüftung und 12-V-Installation aus der [README](./README.md#weiterführende-planung).
+**Nicht enthalten:** Werkzeug (Akkuschrauber, Handkreissäge mit Führungsschiene und Stichsäge für die Zapfen, Feilen — oder Dübelhilfe bei stumpfer Variante, Senker), Versandkosten, sowie die noch offenen Punkte Belüftung und 12-V-Installation aus der [README](./README.md#weiterführende-planung).
 
 ---
 
@@ -139,5 +140,5 @@ Die Montagereihenfolge in [§H](./List_of_Materials.md#montagereihenfolge) gibt 
 
 1. **Jetzt:** Holz 18 mm + 12 mm mit Zuschnitt (oder die 18-mm-Teile CNC-gefräst, §1), Leim, Dübel, Schrauben V1/V2/V7, Winkel V3, Spanngurte V11 → Korpus bauen
 2. **Schienen** E1 (3 Paare) + E2 (3 Paare), Durchsteckschrauben V9 → Arretierung und Stärke prüfen, einmessen und montieren (Bretter C1–C3 erst nach ADR 0013 zuschneiden)
-3. **Nach Einbau im Fahrzeug:** M8-Sätze V10 (Gewinde der Zurrösen erst am Auto prüfen; Rücksitz-Ösen liegen neben dem Korpus → Winkel außen an S1/S2, ADR 0016), Griffe V6
+3. **Nach Einbau im Fahrzeug:** M8-Sätze V10 (Gewinde der Zurrösen erst am Auto prüfen; Rücksitz-Ösen liegen neben dem Korpus → Winkel außen an S1/S2, ADR 0016)
 4. **Zuletzt:** Matratze G1 + Bezug G2 — erst messen, wenn die Liegefläche real liegt; Scharniere V17, Gurtschlaufen V15 und Ausgleich V16 beim Anpassen von F1/F2 im Fahrzeug

@@ -1,6 +1,10 @@
 # 0025: Drawer runners interleaved between the seat and table runners
 
-Status: Accepted (2026-11-12). Amends the rail band layout in
+Status: Accepted (2026-11-12), placement replaced by [ADR 0028](0028-height-plan-board-on-cheeks-foolproof-runner-layout.md) the same
+day: outer drawer runners low, middle drawer runner high on equal-height boxes;
+the rule "no band overlaps one on the opposite face of `M1/M2`" still holds
+(now with ≥ 10 mm) and is asserted.
+Amends the rail band layout in
 [ADR 0021](0021-table-board-on-170-kg-runners.md) and §H1.
 
 ## Context

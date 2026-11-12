@@ -25,8 +25,8 @@ Die Holzplatten von Box und Liegefläche tragen seit 2026-11-07 sprechende Buchs
 | **C — Auszugbretter** | C1 / C2 | Sitzbrett links / Sitzbrett rechts |
 | | C3 | Tischbrett Mitte |
 | **D — Schubladen** | D1 / D2 / D3 | Schubladenkasten links / rechts / Mitte |
-| | D1-F / D2-F / D3-F | Schubladenfront links / rechts / Mitte (sichtbare Blende) |
-| | D1-S, D1-E, D1-B … | Teile eines Kastens: Seitenwand (Side), Kastenfront/-rückwand (End), Boden (Bottom) — [ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md) |
+| | D1-S, D1-E1, D1-E2, D1-B … | Teile eines Kastens: Seitenwand (Side), Kastenfront mit Griff (End 1), Kastenrückwand (End 2), Boden (Bottom) — [ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md), [ADR 0027](docs/adrs/0027-no-drawer-front-panels-box-front-with-grip-cut-out.md) |
+| | ~~D1-F / D2-F / D3-F~~ | *entfallen (2026-11-12, ADR 0027): früher die Frontblenden — Kürzel nicht neu vergeben* |
 | **E — Schienen** | E1 / E2 | Schwerlastschiene 170 kg (Sitz- und Tischbretter) / Schiene 80 kg (Schubladen) |
 | | E-C1-a … | im Modell je Einzelschiene, z. B. „Schiene Sitzbrett links, an Seitenwand links“ |
 | **V — Verbindungsmittel & Beschläge** | V1 … V17 | Schrauben, Winkel, Dübel, Leim, Gurte, Scharniere — Langnamen in §V |
@@ -69,7 +69,7 @@ Alle drei Bretter gleich stark (18 mm), bündig auf Plattformhöhe 320 mm.
 
 Eckausbildung ([ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md), [ADR 0020](docs/adrs/0020-through-tenons-instead-of-routed-grooves.md)): **Bodenplatte B1 und Deckel T1 laufen durch** (1.120 × 900 mm), alle Wände stehen dazwischen und greifen mit **Zapfen 18 × 50 mm** durch B1 und T1. Werkzeug: Handkreissäge und Stichsäge, keine Oberfräse nötig.
 
-Nutzbare Innenhöhe: 320 mm − 18 mm (Bodenplatte) = **302 mm** (davon 32 mm Sitz/Tischbrett + 268 mm Schublade + 2 mm Spaltmaß oben); **Wandhöhe im Zuschnitt = 340 mm** (302 + 2 × 19 mm Zapfen, je Kante 1 mm zum Bündigschleifen).  
+Nutzbare Innenhöhe: 320 mm − 18 mm (Bodenplatte) = **302 mm** (je Sektion: 76 mm Schiene Sitz-/Tischbrett + 1,5 mm Brettüberstand + 214,5 mm Schubladenkasten + 2 × 5 mm Spalt; Wangen enden 20 mm über der Schienen-Unterkante, D3 mit 3 mm Luft zu B1, [ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md)); **Wandhöhe im Zuschnitt = 340 mm** (302 + 2 × 19 mm Zapfen, je Kante 1 mm zum Bündigschleifen).  
 Nutzbare Innenbreite L/R: 1.120 mm − 2 × 18 mm (S1/S2 Seitenwand) − 2 × 18 mm (M1/M2 Trennwand) = 1.048 mm → **312 mm** je Sektion L/R + **424 mm** Mitte.
 
 | Pos | Bezeichnung | Zuschnitt (Länge × Höhe × Stärke) | Menge | Hinweis |
@@ -100,18 +100,19 @@ Rückfallvariante „stumpf“, falls das Sägen am Probestück nicht gelingt: D
 
 ## C — Sitz- und Tischbretter (auf Vollauszug-Schienen)
 
-Untere 10 % der Sektionshöhe (32 mm) bei L/R, obere 10 % bei Mitte.  
-Alle drei fahren 850 mm auf Vollauszug-Schienen aus — **kein Klappen**, reine Zugbewegung.
+Aufbau ([ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md), entscheidet [ADR 0013](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md)): **Brett oben, zwei Wangen darunter** (umgedrehtes U). Die 170-kg-Schiene ist 76 mm hoch, ihre Schraubenlöcher liegen mittig (38 mm); das Innenteil wird an die Außenseite der Wange geschraubt. Die Brettoberkante steht **1,5 mm über der Schiene** — so steht die Schiene nie als Kante über die Sitzfläche (Datenblatt: Höhe bis 76,7 mm), und es gibt keine seitlichen Wülste.  
+Alle drei fahren **870 mm** auf Vollauszug-Schienen aus — **kein Klappen**, reine Zugbewegung.
 
-| Pos | Bezeichnung | Maß (B × T × H) | Menge | Position im Korpus |
+| Pos | Bezeichnung | Maß (B × T × H) | Menge | Position im Korpus (y) |
 |---|---|---|---|---|
-| C1 | Sitzbrett Links | 272 × 850 × 32 | 1 | y 18–50 mm; 312 mm Innen − 38 mm Schienen − 2 mm Spalt |
-| C2 | Sitzbrett Rechts | 272 × 850 × 32 | 1 | y 18–50 mm; 312 mm Innen − 38 mm Schienen − 2 mm Spalt |
-| C3 | Tischbrett Mitte | 384 × 850 × 32 | 1 | y 283–315 mm; 424 mm Innen − 38 mm Schienen − 2 mm Spalt |
+| C1 / C2 | Sitzbrett links / rechts | 272 × 870 × 18 | 2 | 77,5–95,5 mm; 312 mm Sektion − 2 × 19 mm Schiene − 2 mm Spiel |
+| C1-Wa/Wb, C2-Wa/Wb | Wangen Sitzbrett | 18 × 870 × 39,5 | 4 | 38–77,5 mm, unter den Brettkanten, 20 mm Luft zu B1 |
+| C3 | Tischbrett Mitte | 384 × 870 × 18 | 1 | 297–315 mm; 424 mm Sektion − 2 × 19 mm Schiene − 2 mm Spiel |
+| C3-Wa/Wb | Wangen Tischbrett | 18 × 870 × 39,5 | 2 | 257,5–297 mm |
 
-> **Hinweis:** 32 mm Brettstärke = 18 mm Multiplex + 14 mm Auflageleiste, oder direkt aus 32 mm Leimholz.
+Das Element ist 57,5 mm hoch, Schiene C1/C2 bei 18–94 mm (steht auf B1; die beweglichen Teile haben ~10 mm Luft nach unten, gemessen 2026-11-12). Die Wange endet 20 mm über der Schienen-Unterkante: unter der Lochmitte (38 mm) bleiben 18 mm Holz, mindestens 15 mm sind nötig, damit die 5-mm-Schraube nicht ausbricht, C3 bei 237,5–313,5 mm. Verbindung Brett ↔ Wangen: verleimt und von oben verschraubt, oder später als CNC-Teile mit Zapfen wie die Schubladenböden — noch offen.
 
-> **Auf dem Tischbrett C3 darf auch jemand sitzen** — zumindest darf es dabei nicht brechen. Deshalb läuft C3 wie C1/C2 auf der 170-kg-Schiene ([ADR 0021](docs/adrs/0021-table-board-on-170-kg-runners.md)). Auch das Brett selbst muss eine Person bei 850 mm Auszug tragen: das wird mit [ADR 0013](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md) (Aufbau der Bretter) mitgeprüft.
+> **Auf dem Tischbrett C3 darf auch jemand sitzen** — zumindest darf es dabei nicht brechen. Deshalb läuft C3 wie C1/C2 auf der 170-kg-Schiene ([ADR 0021](docs/adrs/0021-table-board-on-170-kg-runners.md)). Das Brett trägt nur noch quer zwischen den Wangen (348 mm bei C3, 236 mm bei C1/C2) — dafür reichen 18 mm; die Wangen tragen in der Länge.
 
 > **Spalt zwischen Tischbrett C3 und Deckplatte T1:** laut Modell 5 mm (C3 oben bei y = 315, T1 unten bei y = 320). Steht jemand auf T1, biegt sich die Platte über der Mittelsektion grob 3 mm durch, an der freien Vorderkante grob 6,5 mm (Überschlag: 150 kg auf einer Stelle, geschätzte Materialwerte). T1 kann dann auf C3 aufliegen — **Auszüge nur ohne Last auf T1 bewegen.** Das Maß am fertigen Korpus prüfen.
 
@@ -119,8 +120,8 @@ Alle drei fahren 850 mm auf Vollauszug-Schienen aus — **kein Klappen**, reine 
 
 ## D — Schubladen (3 Stück)
 
-Schubladenkästen als **CNC-Teile** ([ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md)): Wände 18 mm mit **Fingerzinken** an den Ecken, Boden 12 mm mit **Zapfen durch Schlitze** in allen vier Wänden, **Fenster** in den Seitenwänden zur Gewichtsersparnis. DXF und Auftrag: [`docs/cnc/schubladen/`](docs/cnc/schubladen/) (im Viewer Reiter „DXF · CNC“ → „Schubladenkästen“).  
-Kastentiefe 830 mm (850-mm-Auszug, dahinter 32 mm Luft bis zur Rückwand R1, [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)), Kastenhöhe 260 mm, nutzbare Innenhöhe 238 mm (Boden liegt 10 mm über der Wandunterkante).
+Schubladenkästen als **CNC-Teile** ([ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md)): Wände 18 mm mit **Fingerzinken** an den Ecken, Boden 12 mm mit **Zapfen durch Schlitze** in allen vier Wänden. **Keine Frontblenden** — die Kastenfront ist die sichtbare Front, mit gefrästem Griffausschnitt ([ADR 0027](docs/adrs/0027-no-drawer-front-panels-box-front-with-grip-cut-out.md)). Seitenwände der äußeren Schubladen mit großen **Fenstern**, alle übrigen Wände mit **Lochraster** Ø 25 mm ([ADR 0026](docs/adrs/0026-windows-for-outer-drawers-hole-grid-for-middle-drawer.md)). DXF und Auftrag: [`docs/cnc/schubladen/`](docs/cnc/schubladen/) (im Viewer Reiter „DXF · CNC“ → „Schubladenkästen“).  
+Kastentiefe 848 mm, vorn bündig mit den Sitz-/Tischbrettern, hinten 35,5 mm Luft bis zur Rückwand R1 ([ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)); Kastenhöhe 214,5 mm, nutzbare Innenhöhe 192,5 mm (Boden liegt 10 mm über der Wandunterkante; Höhenplan [ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md)).
 
 > **Kastenbreiten bestätigt** (2026-11-12): Sektionsbreite − 2 × Schienenstärke − 2 mm Spiel, die gelieferte 80-kg-Schiene ist wie geplant **19 mm** stark. Vor der Bestellung noch die Schraublöcher der Schiene gegen das volle Schienenband der Seitenwände prüfen.
 
@@ -128,33 +129,46 @@ Maße = fertiges Teil. Zinken und Bodenzapfen stehen je 1 mm über (Schleifzugab
 
 ### D1 + D2 — Schublade links & rechts (je 1×, identische Teile)
 
-y = 50–318 mm (Blende 268 mm hoch); 312 mm Sektion − 2 × 19 mm Schiene − 2 mm Spalt = **272 mm** Außenbreite.
+y = 100,5–315 mm (über dem Sitzbrett-Element), Schiene 106–159 mm; 312 mm Sektion − 2 × 19 mm Schiene − 2 mm Spalt = **272 mm** Außenbreite.
 
 | Kürzel | Bauteil | Fertig (mm) | Rohteil (mm) | Stärke | Menge |
 |---|---|---|---|---|---|
-| D1-S / D2-S | Seitenwand, 4 Fenster über dem Schienenband | 830 × 260 | 832 × 260 | 18 mm | 4 |
-| D1-E / D2-E | Kastenfront und -rückwand | 272 × 260 | 274 × 260 | 18 mm | 4 |
-| D1-B / D2-B | Boden, 14 Zapfen | 236 × 794 (+ Zapfen) | 274 × 832 | 12 mm | 2 |
-| D1-F / D2-F | Frontblende (sichtbar, nicht im CNC-Auftrag, → §H3) | 312 × 268 | — | 18 mm | 2 |
+| D1-S / D2-S | Seitenwand, Schiene unten, 4 Fenster ~110 mm hoch darüber | 848 × 214,5 | 850 × 214,5 | 18 mm | 4 |
+| D1-E1 / D2-E1 | Kastenfront, Griffausschnitt 120 × 35 mm, 6 Löcher | 272 × 214,5 | 274 × 214,5 | 18 mm | 2 |
+| D1-E2 / D2-E2 | Kastenrückwand, 9 Löcher | 272 × 214,5 | 274 × 214,5 | 18 mm | 2 |
+| D1-B / D2-B | Boden, 14 Zapfen | 236 × 812 (+ Zapfen) | 274 × 850 | 12 mm | 2 |
 
 ### D3 — Schublade Mitte (1×)
 
-y = 18–286 mm (Blende 268 mm hoch); 424 mm Sektion − 2 × 19 mm Schiene − 2 mm Spalt = **384 mm** Außenbreite.
+y = 21–235,5 mm (3 mm über der Bodenplatte), Schiene 177–230 mm; 424 mm Sektion − 2 × 19 mm Schiene − 2 mm Spalt = **384 mm** Außenbreite.
 
 | Kürzel | Bauteil | Fertig (mm) | Rohteil (mm) | Stärke | Menge |
 |---|---|---|---|---|---|
-| D3-S | Seitenwand, 4 Fenster unter dem Schienenband | 830 × 260 | 832 × 260 | 18 mm | 2 |
-| D3-E | Kastenfront und -rückwand | 384 × 260 | 386 × 260 | 18 mm | 2 |
-| D3-B | Boden, 14 Zapfen | 348 × 794 (+ Zapfen) | 386 × 832 | 12 mm | 1 |
-| D3-F | Frontblende (sichtbar, nicht im CNC-Auftrag, → §H3) | 424 × 268 | — | 18 mm | 1 |
+| D3-S | Seitenwand, Schiene oben, Lochraster 2 × 18 Löcher darunter | 848 × 214,5 | 850 × 214,5 | 18 mm | 2 |
+| D3-E1 | Kastenfront, Griffausschnitt 120 × 35 mm, 14 Löcher | 384 × 214,5 | 386 × 214,5 | 18 mm | 1 |
+| D3-E2 | Kastenrückwand, 18 Löcher | 384 × 214,5 | 386 × 214,5 | 18 mm | 1 |
+| D3-B | Boden, 14 Zapfen | 348 × 812 (+ Zapfen) | 386 × 850 | 12 mm | 1 |
 
-Gewicht der drei Kästen ohne Blenden ca. **22,2 kg** — ohne Fenster wären es 26,4 kg (Dichte 680 kg/m³ angenommen, berechnet in `modell/cnc.py`).
+Gewicht der drei Kästen ca. **19 kg** — ohne Fenster, Löcher und Griffe wären es 23,1 kg (Dichte 680 kg/m³ angenommen, berechnet in `modell/cnc.py`).
 
 ---
 
 ## E — Vollauszug-Schienen (6 Paare gesamt)
 
-> Auswahlbegründung: [ADR 0008](docs/adrs/0008-heavy-duty-full-extension-runners.md) (Schwerlast + Arretierung) · [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md) (850 statt 900 mm: lichte Tiefe hinter R1 nur 882 mm)
+> Auswahlbegründung: [ADR 0008](docs/adrs/0008-heavy-duty-full-extension-runners.md) (Schwerlast + Arretierung) · [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md) (850 statt 900 mm: lichte Tiefe hinter R1 nur 882 mm) · Maße der gelieferten Schienen: [ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md)
+
+**Gemessen 2026-11-12** (Datenblatt der 170-kg-Schiene: [`docs/runner-pdfs/heavy-runners.pdf`](docs/runner-pdfs/heavy-runners.pdf)):
+
+| | 80 kg (Schubladen) | 170 kg (Sitz-/Tischbretter) |
+|---|---|---|
+| Länge eingefahren | 850 mm | **870 mm** |
+| mit Arretierungshebel vorn | 880 mm | 900 mm |
+| Höhe | 53 mm | 76 mm (Datenblatt 76,2 ± 0,5) |
+| Stärke je Seite | 19 mm | 19 mm (Datenblatt 19,2 ± 0,3) |
+| Schrauben | Lochgröße noch prüfen | **M6** laut Datenblatt |
+| Löcher | mittig in der Höhe | mittig in der Höhe |
+
+Beide Schienen werden bündig an der Korpusfront ausgerichtet (Datenblatt). Der Arretierungshebel sitzt vorn am beweglichen Teil und ragt eingefahren ~30 mm vor die Korpusfront — **am Auto prüfen, ob die Heckklappe schließt** (Luft laut Messung 20–30 mm); sonst den Korpus ganz an die Rücksitze schieben oder die Schienen bis 12 mm zurücksetzen.
 
 **6 Paare** insgesamt: 3× für Schubladen + 3× für Sitz-/Tischbretter.  
 Mindestanforderung: **850 mm Auszug**, **Schwerlast**, mit Arretierung (Lock). 900-mm-Schienen passen nicht: hinter der Rückwand bleiben nur 882 mm lichte Tiefe.
@@ -179,13 +193,13 @@ Zuordnung und Maße stehen in [`modell/parameter.json`](modell/parameter.json) (
 
 #### Option 1 — AOLISHENG 850 mm · 170 kg ⭐ Gewählt für die Sitzbretter C1/C2 und das Tischbrett C3 (3 Paare) — dort sitzt eine Person
 **170 kg Traglast** · 76 mm Höhe · mit Arretierung · 104,99 €/Paar · 2 Paare bestellt 2026-11-04, **1 Paar nachbestellen** (C3, ADR 0021) · [Amazon.de — B086JQXRR5](https://www.amazon.de/dp/B086JQXRR5)  
-Einbaumaß laut Hersteller 19,2 + 0,5 mm je Seite: passt in die eingeplanten 20 mm (19 mm Schiene + 1 mm Spiel). **Gemessen 2026-11-12: 19 mm Stärke**, Höhe ~74 mm (Messung unsicher; im Modell bleibt bis zur Kontrolle der Datenblattwert 76 mm). Verarbeitung sehr gut.  
+Einbaumaß laut Hersteller 19,2 + 0,5 mm je Seite: passt in die eingeplanten 20 mm (19 mm Schiene + 1 mm Spiel). **Gemessen 2026-11-12: 19 mm Stärke, 76 mm Höhe (nachgemessen), 870 mm Länge + Hebel.** Verarbeitung sehr gut.  
 ⚠ **Noch prüfen:** Rastet die Arretierung im ausgezogenen Zustand ein? Für die Sitz- und Tischbretter Pflicht, sonst zurückschicken.
 
 ```
-Vollauszug 850 mm · Höhe 76 mm · Einbaumaß 19,2 + 0,5 mm je Seite · Stahl 2,5 mm · Traglast 170 kg · Arretierung: Ja · nicht trennbar
+Vollauszug 870 mm (Angebot: 850 mm) · Höhe 76 mm · Einbaumaß 19,2 + 0,5 mm je Seite · Stahl 2,5 mm · Schrauben M6 · Traglast 170 kg · Arretierung: Ja · nicht trennbar
 Einbaumaß: Sektionsbreite − 2 × 19 mm − 2 mm Spalt = Elementbreite
-Hinter der Schiene: 882 mm lichte Tiefe − 850 mm = 32 mm Luft
+Gelieferte Länge 870 mm (+ Hebel vorn): hinter der Schiene 882 − 870 = 12 mm Luft
 ```
 
 ---
@@ -231,19 +245,20 @@ Vollauszug 550 mm · 3-teilig · SoftClose · Traglast 105 kg
 | Pos | Bezeichnung | Typ / Größe | Menge |
 |---|---|---|---|
 | V1 | Spanplattenschrauben (Korpus, Stirnkante) | Torx Senkkopf 4 × 45 mm | ~80 Stk. |
-| V2 | Spanplattenschrauben (Schienen) | Torx Senkkopf 3,5 × 16 mm | ~120 Stk. |
+| V2 | Spanplattenschrauben (80-kg-Schienen an Wände und Schubladen) | Torx 3,5 × 16 mm, Flach-/Tellerkopf — Lochgröße der Schiene prüfen | ~70 Stk. |
+| V18 | Spanplattenschrauben (170-kg-Schienen an Wände und Wangen, M6-Löcher) | Torx 5 × 16 mm, Flach-/Tellerkopf | ~60 Stk. |
 | V3 | Stahlwinkel (Korpus 8× innen + Fahrzeug 4×: 2 außen an S1/S2 hinten, 2 optional auf B1 vorne, → §H5) | 40 × 40 × 2 mm | 12 Stk. |
 | V4 | Holzdübel (nur für die Rückfallvariante „stumpf“ nötig) | Ø 8 × 40 mm | ~30 Stk. |
 | V5 | Holzleim D3 (wasserfest) | 750 ml | 1 Flasche |
-| V6 | Schubladengriff | nach Wahl, mind. 64 mm Bohrung | 3 Stk. |
-| V7 | Spanplattenschrauben (Blenden, Winkel) | Torx Senkkopf 4 × 30/40 mm | je ~100 Stk. |
+| V6 | ~~Schubladengriff~~ — entfällt, Griffausschnitt in der Kastenfront ([ADR 0027](docs/adrs/0027-no-drawer-front-panels-box-front-with-grip-cut-out.md)) | — | — |
+| V7 | Spanplattenschrauben (Winkel) | Torx Senkkopf 4 × 30/40 mm | je ~100 Stk. |
 | V8 | ~~Spanplattenschrauben Schubladenböden~~ — entfällt, Boden mit Zapfen ([ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md)) | — | — |
-| V9 | Durchsteckschrauben Schienen-Vorderkante (→ §H1) | M5 × 30 mm + U-Scheibe + Stoppmutter (nicht länger, [ADR 0025](docs/adrs/0025-drawer-runners-interleaved-between-seat-and-table-runners.md)) | 24 Sätze |
+| V9 | Durchsteckschrauben Schienen-Vorderkante (→ §H1) | **M6** × 30 mm + U-Scheibe + Stoppmutter (Datenblatt M6, nicht länger, [ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md)) | 24 Sätze |
 | V10 | Schrauben Zurrösen-Anbindung (→ §H5) | M8 × 30/40 mm + U-Scheibe + Stoppmutter | 4 Sätze |
 | V11 | Spanngurt (Ratsche) | ≥ 1,5 m, 2-teilig | 2 Stk. |
 | V12 | ~~Eckleiste Weichholz Schubladen-Innenecken~~ — entfällt, Fingerzinken ([ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md)) | — | — |
 | V13 | ~~Überlappungsleisten Liegefläche~~ — entfällt, ersetzt durch Scharniere V17 ([ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md)) | — | — |
-| V14 | Trägerwangen Sitz-/Tischbretter (→ §H1 / ADR 0013) | 18 mm × Schienenhöhe × 850 mm | 6 Stk. ⚠ erst nach ADR 0013 |
+| V14 | Wangen Sitz-/Tischbretter (→ §C, [ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md)) | 18 × 870 × 39,5 mm Multiplex | 6 Stk. |
 | V15 | Gurtschlaufe F2 ↔ Kopfstütze, verstellbar (→ §H4) | Gurtband ~25 mm mit Klemmschnalle | 2 Stk. |
 | V17 | Klappscharnier, Standard, aufschraubbar, ~60 mm (→ §H4) — 3 × T1↔F1 oben, 3 × F1↔F2 unten | Schrauben max. 15 mm (Platte 18 mm) | 6 Stk. |
 | V16 | Ausgleich unter F1 (→ §H4) | Leiste 10 × 40 × 1.000 mm oder 10-mm-Gummistreifen | 2 Stk. |
@@ -264,9 +279,9 @@ Vollauszug 550 mm · 3-teilig · SoftClose · Traglast 105 kg
 
 ## H — Verbindungstechnik
 
-> Entscheidungsprotokolle: [ADR 0007 Korpus](docs/adrs/0007-dowel-screw-bracket-joinery.md) · [ADR 0011](docs/adrs/0011-drawer-box-panel-shear-joinery.md) + [ADR 0024 Schubladen](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md) · [ADR 0012 Fahrzeugbefestigung](docs/adrs/0012-non-destructive-vehicle-tie-down.md) · [ADR 0013 Trägerwangen (offen)](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md)
+> Entscheidungsprotokolle: [ADR 0007 Korpus](docs/adrs/0007-dowel-screw-bracket-joinery.md) · [ADR 0011](docs/adrs/0011-drawer-box-panel-shear-joinery.md) + [ADR 0024 Schubladen](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md) · [ADR 0012 Fahrzeugbefestigung](docs/adrs/0012-non-destructive-vehicle-tie-down.md) · [ADR 0013](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md) + [ADR 0028 Wangen](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md)
 
-Abschnitte: Korpus (unten) · [H1 Schienen](#h1--schienenbefestigung-an-wänden-und-trennwänden) · [H2 Schubladenkästen](#h2--schubladenkästen-d1d3) · [H3 Frontblenden](#h3--frontblenden) · [H4 Liegefläche](#h4--liegefläche-stöße-t1--f1--f2) · [H5 Fahrzeug](#h5--befestigung-des-korpus-im-fahrzeug)
+Abschnitte: Korpus (unten) · [H1 Schienen](#h1--schienenbefestigung-an-wänden-und-trennwänden) · [H2 Schubladenkästen](#h2--schubladenkästen-d1d3) · [H3 Front und Griff](#h3--front-und-griff) · [H4 Liegefläche](#h4--liegefläche-stöße-t1--f1--f2) · [H5 Fahrzeug](#h5--befestigung-des-korpus-im-fahrzeug)
 
 ### Ausgangslage
 
@@ -307,25 +322,37 @@ Die Außenmember der Schienen werden auf die **Flächen** von Seitenwänden (S1/
 
 | Punkt | Vorgabe | Grund |
 |---|---|---|
-| Schraubenlänge in M1/M2 | max. **3,5 × 16 mm** | Trennwände tragen Schienen auf **beiden** Seiten; längere Schrauben durchstoßen die 18 mm Platte |
-| Höhen der Schienenbänder | aus `modell/modell.py` ([ADR 0025](docs/adrs/0025-drawer-runners-interleaved-between-seat-and-table-runners.md)): Sektion L/R Sitzbrett **18–94**, Schublade **107–160**; Mitte Schublade **173–226**, Tisch **239–315**. Die Schubladenschienen liegen im freien Streifen zwischen Sitz- und Tischbrett-Schiene, je 13 mm Luft — an M1/M2 überlappt sich **kein** Band mit dem der Gegenseite | Durchsteckschrauben und Muttern landen auf der Gegenseite immer auf freier Wandfläche; 16-mm-Schrauben von beiden Seiten stehen sich nie gegenüber |
-| Vorderste 2 Bohrungen je Schiene | **M5 × 30 Durchsteckschraube** mit U-Scheibe + Stoppmutter statt Holzschraube. Höchstens ~10 mm Überstand auf der Gegenseite: das Element der Nachbarsektion läuft 20 mm vor der Wand (19 mm Schiene + 1 mm Spiel) | Am Korpusvorderkant ist das Kippmoment bei 850 mm Auszug maximal — hier reißen Holzschrauben zuerst aus |
+| Schraubenlänge | max. **16 mm** (V2 3,5 × 16 für die 80-kg-Schienen, V18 5 × 16 für die 170-kg-Schienen mit M6-Löchern), Flach- oder Tellerkopf | Trennwände tragen Schienen auf **beiden** Seiten; längere Schrauben durchstoßen die 18 mm Platte. Der Kopf darf nicht über die Schiene stehen, sonst schleift das bewegliche Teil |
+| Höhen der Schienenbänder | aus `modell/modell.py` ([ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md)), Montagetabelle unten. **Außensektionen: Schienen unten, Mitte: Schienen oben** — an M1/M2 liegt die Außenseite ganz unter 141 mm über B1, die Mittelseite ganz über 159 mm | Durchsteckschrauben und Muttern landen auf der Gegenseite immer auf freier Wandfläche, 16-mm-Schrauben von beiden Seiten stehen sich nie gegenüber |
+| Vorderste 2 Bohrungen je Schiene | **M6 × 30 Durchsteckschraube** (V9) mit U-Scheibe + Stoppmutter statt Holzschraube. Höchstens ~10 mm Überstand auf der Gegenseite: das Element der Nachbarsektion läuft 20 mm vor der Wand (19 mm Schiene + 1 mm Spiel) | Am Korpusvorderkant ist das Kippmoment bei 870 mm Auszug maximal — hier reißen Holzschrauben zuerst aus |
 | Nicht trennbare Schiene (170 kg, „not separable“) | wird als Ganzes montiert, durch die Löcher der ausgezogenen Schiene; hinten nur mit langer Bit-Verlängerung oder Winkelaufsatz erreichbar. **Vor dem Verleimen an einer Wand trocken ausprobieren**, ggf. Schienen vor dem Aufsetzen von T1 montieren | Der Korpus ist sonst bei der Montage schon geschlossen |
 | Verschrauben | von innen nach außen anreißen, Schienen **paarweise** auf gleiche Höhe lehren (Reststück Multiplex als Abstandslehre) | 1 mm Höhenversatz im Paar blockiert den Vollauszug |
 
-⚠ Zuerst ADR 0013 entscheiden: die Sitz-/Tischbretter (32 mm) sind niedriger als die Schienen-Innenmember (76 mm bei C1–C3) — siehe [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Empfehlung: **Trägerwangen** 18 mm × Schienenhöhe × 850 mm, verleimt + verschraubt an beiden Längskanten; die Schiene greift dann in Faserfläche, nicht in Stirnkante.
+**Montagetabelle** — Unterkante jeder Schiene, gemessen von der **Oberkante B1** (Abstandsklotz in dieser Höhe zuschneiden, Schiene daraufstellen, Vorderkante bündig zur Korpusfront):
+
+| Wandseite | Schiene | Unterkante über B1 | Band über B1 |
+|---|---|---|---|
+| S1 innen, M1 links (Sektion L) · S2 innen, M2 rechts (Sektion R) | Sitzbrett C1 / C2 (170 kg) | **0** (steht auf B1) | 0–76 |
+| | Schublade D1 / D2 (80 kg) | **88** | 88–141 |
+| M1 rechts, M2 links (Sektion Mitte) | Schublade D3 (80 kg) | **159** | 159–212 |
+| | Tischbrett C3 (170 kg) | **219,5** | 219,5–295,5 |
+
+**Narrensicher an M1/M2:** einen Bleistiftstrich **150 mm über B1** auf beiden Seiten ziehen — auf der Seite zur Außensektion liegt alles darunter, auf der Seite zur Mitte alles darüber.
+
+Die Innenmember der 170-kg-Schienen werden an die **Wangen** der Sitz-/Tischbretter geschraubt (§C, [ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md)) — volle Schienenhöhe, Faserfläche statt Stirnkante.
 
 ### H2 — Schubladenkästen (D1–D3)
 
-> Entscheidungsprotokoll: [ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md) (ersetzt den Kastenbau aus [ADR 0011](docs/adrs/0011-drawer-box-panel-shear-joinery.md); Blende und Schienenbefestigung bleiben wie dort)
+> Entscheidungsprotokoll: [ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md) (ersetzt den Kastenbau aus [ADR 0011](docs/adrs/0011-drawer-box-panel-shear-joinery.md)) · ohne Blenden: [ADR 0027](docs/adrs/0027-no-drawer-front-panels-box-front-with-grip-cut-out.md)
 
 Alle Teile kommen fertig gefräst; verbunden wird nur mit **Leim**, ohne Schrauben und ohne Eckleisten.
 
 | Verbindung | Ausführung | Zweck |
 |---|---|---|
-| Ecken | **Fingerzinken**, 7 Felder über 260 mm Höhe; Seitenwände (-S) haben oben und unten einen Zinken | trägt Zug an der Blende und Verwindung, große Leimfläche in Langholz |
+| Ecken | **Fingerzinken**, 7 Felder über 214,5 mm Höhe; Seitenwände (-S) haben oben und unten einen Zinken | trägt den Zug am Griff und Verwindung, große Leimfläche in Langholz |
 | Boden ↔ Wände | Boden 12 mm mit **Zapfen 50 mm** (5 je lange, 2 je kurze Kante) durch **Schlitze 50 × 12 mm** in allen vier Wänden, 10 mm über der Wandunterkante | trägt die Ladung, legt den Kasten rechtwinklig fest |
-| Fenster | 4 Durchbrüche je Seitenwand, Radius 20 mm; das **Schienenband ± 15 mm bleibt voll stehen** | Gewicht sparen, ohne die Schienenbefestigung zu schwächen |
+| Fenster (D1/D2) | 4 Durchbrüche je Seitenwand, Radius 20 mm; das **Schienenband ± 15 mm bleibt voll stehen** | Gewicht sparen; beim Sitzen auf den Sitzbrettern die leicht geöffnete Schublade von der Seite erreichen ([ADR 0026](docs/adrs/0026-windows-for-outer-drawers-hole-grid-for-middle-drawer.md)) |
+| Lochraster (D3) | 2 × 17 Löcher Ø 25 mm im 40-mm-Raster, gleiche Ränder wie die Fenster | Luft und etwas Gewicht sparen, ohne dass Kleinteile herausfallen |
 
 **Zusammenbau** (ein Leimgang, vorher trocken zusammenstecken):
 
@@ -335,17 +362,16 @@ Alle Teile kommen fertig gefräst; verbunden wird nur mit **Leim**, ohne Schraub
 4. Zwingen, **Diagonalen messen**, bevor der Leim anzieht
 5. Nach dem Trocknen überstehende Zinken und Zapfen (1 mm) **bündig schleifen**, dann erst die Schienen anschrauben (V2, 3,5 × 16 mm, nur im vollen Schienenband)
 
-Durch die Fenster können Kleinteile in den Korpus fallen — bei Bedarf eine Einlage oder Tasche in die Schublade.
+Durch die Fenster von D1/D2 können Kleinteile in den Korpus fallen — bei Bedarf eine Einlage oder Tasche in die Schublade. D3 hat deshalb nur kleine Löcher.
 
-### H3 — Frontblenden
+### H3 — Front und Griff
 
-Die Frontblende ist kein tragendes Teil und wird **zuletzt** montiert, erst wenn der Kasten auf den Schienen läuft. **Art und Maße der Blenden (einliegend/aufliegend, Spaltmaße) werden erst am fertigen Korpus festgelegt** — Schienen anhalten, messen, dann entscheiden; die Blendenmaße in §D sind bis dahin vorläufig.
+> Entscheidungsprotokoll: [ADR 0027](docs/adrs/0027-no-drawer-front-panels-box-front-with-grip-cut-out.md)
 
-1. Blende mit 2 Schrauben provisorisch von innen fixieren
-2. Spaltmaß zur Nachbarsektion mit Pappstreifen (1–2 mm) einstellen, Schublade mehrfach auf- und zufahren
-3. Erst dann 4 × Schrauben 4 × 30 mm **von innen** durch die Kastenfront in die Blende
+**Keine Frontblenden.** Die Kastenfront (-E1) ist die sichtbare Front und schließt bündig mit den Sitz- und Tischbrettern ab. Die Blenden hätten die 76 mm hohen Schienen der Sitz-/Tischbretter verdeckt — und genau dadurch blockiert: bei geschlossener Schublade hätte das Brett nicht ausfahren können.
 
-Von außen ist nie eine Schraube sichtbar. Griffe (V6) erst nach Fixierung der Blende bohren.
+- **Griff**: Ausschnitt von der Oberkante, 120 × 35 mm, unten Radius 15 mm, mitgefräst. Die beiden oberen Ecken des Ausschnitts von Hand brechen. Alternativ in `modell/parameter.json` → `schubladen.griff.art: "loch"` ein geschlossenes Griffloch.
+- Seitlich bleibt je ~20 mm Fuge, in der die Schiene zu sehen ist. Das Spaltmaß ergibt sich aus der Lage der Schienen und ist nicht einstellbar — die Schienen deshalb paarweise genau auf Höhe lehren (→ H1).
 
 ### H4 — Liegefläche: Stöße T1 / F1 / F2
 
@@ -385,9 +411,8 @@ Die Winkelpositionen lassen sich nicht aus der Zeichnung ableiten: sie werden im
 3. In derselben Reihenfolge verleimen und von unten und oben verschrauben, Zapfen bündig schleifen; Innenwinkel optional
 4. Schienen erst danach einmessen und montieren — der fertige Korpus gibt das verbindliche Innenmaß (→ H1)
 5. Schubladenkästen bauen (→ H2), einhängen, Lauf prüfen
-6. Frontblenden einstellen und von innen festschrauben (→ H3), danach Griffe bohren
-7. Korpus ins Fahrzeug, Positionen der Rücksitz-Ösen außen an S1/S2 anreißen (ggf. Heckklappen-Ösen auf B1), Winkel setzen (→ H5)
-8. Klappbretter F1/F2 mit den Scharnieren V17 an der Deckplatte anschlagen, Ausgleich V16 und Kopfstützen-Schlaufen V15 anpassen (→ H4) — im Fahrzeug, bei umgeklappten Sitzen
+6. Korpus ins Fahrzeug, Positionen der Rücksitz-Ösen außen an S1/S2 anreißen (ggf. Heckklappen-Ösen auf B1), Winkel setzen (→ H5)
+7. Klappbretter F1/F2 mit den Scharnieren V17 an der Deckplatte anschlagen, Ausgleich V16 und Kopfstützen-Schlaufen V15 anpassen (→ H4) — im Fahrzeug, bei umgeklappten Sitzen
 
 ### Was vermieden werden sollte
 
@@ -399,7 +424,6 @@ Die Winkelpositionen lassen sich nicht aus der Zeichnung ableiten: sie werden im
 | Schienen-Innenmember auf die 32 mm Brettkante schrauben | Nur die unterste Lochreihe greift, und das in Stirnkante — genau dort, wo eine Person sitzt (→ ADR 0013) |
 | Schrauben > 16 mm in die Trennwände M1/M2 | Schienen auf beiden Seiten → Durchstoß / Schraubenkollision |
 | Durch den Ladeboden in die Karosserie bohren | Zerstört Korrosionsschutz und Unterbodendichtung; Leitungen nicht einsehbar (→ ADR 0012) |
-| Frontblende von außen verschrauben | Sichtbare Schraubenköpfe, und das Spaltmaß ist danach nicht mehr korrigierbar |
 
 ---
 

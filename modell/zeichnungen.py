@@ -44,7 +44,7 @@ ANSICHTEN = {
         kamera=(0, 0, -20000), oben=(0, 1, 0), uv=lambda x, y, z: (-x, y),
         ohne={"F1", "F2", "G1"},
         # Rückwand-Kollisionen liegen 882–900 mm tief — frontal projiziert würden sie ganze Schubladen rot färben
-        zeige={"zapfen", "eckverbindung", "frontblende", "sonstige"},
+        zeige={"zapfen", "eckverbindung", "sonstige"},
         # der hintere M1/M2-Zapfen in der Rückwand läge frontal mitten auf der Trennwand
         ohne_koll_mit={"R1"}),
     "draufsicht": dict(
@@ -256,10 +256,6 @@ def bemassen(name, blatt, teile, p):
         u = -(d3[0][0] + 40)
         blatt.masslinie((u, d3[1][0]), (u, d3[1][1]), f"Schubladenkasten (D3) {fmt(d3[1][1] - d3[1][0])}")
         blatt.masslinie((u, c3[1][0]), (u, c3[1][1]), fmt(c3[1][1] - c3[1][0]))
-        # Blendenhöhen
-        d2f = teil(teile, "D1-F")["box"]
-        u = -(d2f[0][0] + 30)
-        blatt.masslinie((u, d2f[1][0]), (u, d2f[1][1]), f"Blende {fmt(d2f[1][1] - d2f[1][0])}")
 
     elif name == "draufsicht":
         blatt.mass((-W / 2, 0), (W / 2, 0), 16, fmt(W))
@@ -286,7 +282,7 @@ def bemassen(name, blatt, teile, p):
 
 # ── Teile-Beschriftung ───────────────────────────────────────────────────────
 BESCHRIFTUNG = {
-    "vorderansicht": ["S1", "S2", "M1", "M2", "B1", "T1", "C1", "C2", "C3", "D1-F", "D2-F", "D3-F"],
+    "vorderansicht": ["S1", "S2", "M1", "M2", "B1", "T1", "C1", "C2", "C3", "D1", "D2", "D3"],
     "draufsicht": ["R1", "S1", "S2", "M1", "M2", "D1", "D2", "C3"],
     "seitenansicht": ["S1", "T1"],
 }

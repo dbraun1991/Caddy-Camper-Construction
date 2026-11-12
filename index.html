@@ -225,19 +225,19 @@
 <div id="viewport">
   <canvas id="c3d"></canvas>
 
-  <div id="hint">Ziehen: drehen &nbsp;·&nbsp; Scrollen / Pinch: zoom &nbsp;·&nbsp; Rechtsklick: verschieben</div>
+  <div id="hint">Ziehen: drehen &nbsp;·&nbsp; Rechts ziehen / Shift + Ziehen / 2 Finger: verschieben &nbsp;·&nbsp; Scrollen / Pinch: zoom &nbsp;·&nbsp; Doppelklick: Drehpunkt setzen</div>
 
   <div id="legend">
     <span style="background:#8B6520;"></span>Holz / Korpus + Liegefläche (Birke-Multiplex)<br>
-    <span style="background:#5DCAA5;"></span>Sitzbrett L/R &nbsp;(32 mm hoch · 850 mm Auszug)<br>
-    <span style="background:#EF9F27;"></span>Tischbrett Mitte (32 mm hoch · 850 mm Auszug)<br>
-    <span style="background:#378ADD;"></span>Schubladen × 3 &nbsp;(Kasten 260 · Blende 268 mm hoch · 850 mm Auszug)<br>
+    <span style="background:#5DCAA5;"></span>Sitzbrett L/R &nbsp;(Brett 18 mm auf zwei Wangen, 57,5 mm hoch · 870 mm Auszug)<br>
+    <span style="background:#EF9F27;"></span>Tischbrett Mitte (Brett 18 mm auf zwei Wangen, 57,5 mm hoch · 870 mm Auszug)<br>
+    <span style="background:#378ADD;"></span>Schubladen × 3 &nbsp;(Kasten 214,5 mm hoch, ohne Blende · 850 mm Auszug)<br>
     <span style="background:#E62929;"></span>Rechnerische Überschneidung (Button „Überschneidungen“)<br>
     <span style="background:#9DB4C8;"></span>Caddy-Hülle, Heckklappe offen (60 % · teils nachgemessen)<br>
     <span style="background:#B5E48C;"></span>Lade-Referenzebene Kofferraum (y = 0)<br>
     <span style="background:#5F6B7A;"></span>Rücksitzbank (umgeklappt / hochgeklappt / ausgebaut)<br>
     <span style="background:#B8BEC6;"></span>Scharniere Deckplatte ↔ Klappbrett (oben) · zwischen den Klappbrettern (unten)<br>
-    <span style="background:#FF1111;"></span>Schienen × 12 &nbsp;(AOLISHENG 850 mm · 76 mm Sitz/Tisch / 53 mm Schubladen · fährt mit Element)
+    <span style="background:#FF1111;"></span>Schienen × 12 &nbsp;(AOLISHENG · 870 mm / 76 mm Sitz/Tisch · 850 mm / 53 mm Schubladen · fährt mit Element)
   </div>
 
   <div id="info">Schlafmodus — alles eingeklappt</div>
@@ -343,7 +343,9 @@
   var TH = P.korpus.plattenstaerke;         // 18
   var LF1 = P.liegeflaeche.laenge_f1;       // 700, F1 Klappbrett Rücksitz
   var LF2 = P.liegeflaeche.laenge_f2;       // 400, F2 Klappbrett Kopfende
-  var AUSZUG = P.schienen.laenge;           // 850 — docs/adrs/0008-heavy-duty-full-extension-runners.md, Länge: docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md
+  // Auszug je Element = Länge seiner Schiene (870 mm Sitz/Tisch, 850 mm Schubladen) — ADR 0028
+  var TYP = P.schienen.typen, ZU = P.schienen.zuordnung;
+  var AUSZUG_BRETT = TYP[ZU.C1].laenge, AUSZUG_KASTEN = TYP[ZU.D1].laenge;
 
   // ── Materials ─────────────────────────────────────────────────────────────
   var mWoodDk  = new THREE.MeshLambertMaterial({ color: 0x8B6520, transparent: true, opacity: 0.90 });
@@ -354,7 +356,6 @@
   // Caddy-Hülle: 60 % deckend, kein Tiefenschreiben, damit der Aufbau dahinter sichtbar bleibt
   var mCaddy   = new THREE.MeshLambertMaterial({ color: 0x9DB4C8, transparent: true, opacity: 0.60, depthWrite: false, side: THREE.DoubleSide });
   var mRailRed = new THREE.MeshLambertMaterial({ color: 0xFF1111, transparent: true, opacity: 0.90 });
-  var mBlende  = new THREE.MeshLambertMaterial({ color: 0x2A6DB5, transparent: true, opacity: 0.92 });
   // Überschneidungen: kräftig, ohne Tiefentest, damit sie auch innerhalb von Platten sichtbar sind
   var mKoll    = new THREE.MeshBasicMaterial({ color: 0xE62929, transparent: true, opacity: 0.75, depthTest: false });
 
@@ -414,13 +415,17 @@
   // stehen alle in MODELL.teile, im eingefahrenen Zustand. setMode verschiebt die
   // Teile mit `faehrt` nur in z, siehe docs/adrs/0004-static-scene-graph-with-z-position-toggle.md
   var mScharnier = new THREE.MeshLambertMaterial({ color: 0xB8BEC6 });
-  var MAT  = { holz: mWoodDk, sitz: mTeal, tisch: mAmber, schublade: mBlue, blende: mBlende, schiene: mRailRed, matratze: mMat, scharnier: mScharnier };
-  var KANTE = { holz: 0x5A3A0A, sitz: 0x0F6E56, tisch: 0x854F0B, schublade: 0x185FA5, blende: 0x185FA5, matratze: 0xaaaaaa, scharnier: 0x6A6F75 };
-  var beweglich = [];   // { mesh, z: Mittelpunkt eingefahren (mm), faehrt }
+  var MAT  = { holz: mWoodDk, sitz: mTeal, tisch: mAmber, schublade: mBlue, schiene: mRailRed, matratze: mMat, scharnier: mScharnier };
+  var KANTE = { holz: 0x5A3A0A, sitz: 0x0F6E56, tisch: 0x854F0B, schublade: 0x185FA5, matratze: 0xaaaaaa, scharnier: 0x6A6F75 };
+  var beweglich = [];   // { mesh, z: Mittelpunkt eingefahren (mm), faehrt, element: C1…C3 / D1…D3 }
+  // Zu welchem Element gehört ein bewegliches Teil? C1 → C1, E-C1-a → C1 (Schienen fahren mit)
+  function elementVon(id) { var m = /^(?:E-)?([CD]\d)/.exec(id); return m ? m[1] : id; }
   var meshById = {};
 
+  var kastenBretter = MODELL.schubladen_3d && MODELL.schubladen_3d.length;
   MODELL.teile.forEach(function (t) {
     var mesh;
+    if (t.material === 'schublade' && kastenBretter) return;   // Kästen D1–D3 kommen als Bretter (unten)
     if (t.material === 'schiene') {
       // Nur Innenmember darstellen, 0,5 mm zum Element hin versetzt, 1 mm niedriger:
       // kein visueller Overlap mit den Spaltmaßen — docs/adrs/0005-simplified-rail-visualization.md
@@ -429,8 +434,38 @@
       mesh = teilBox(t, MAT[t.material]);
       if (t.gruppe !== 'korpus') wireframe(mesh, KANTE[t.material]);
     }
-    if (t.faehrt) beweglich.push({ mesh: mesh, z: (t.box[2][0] + t.box[2][1]) / 2, faehrt: t.faehrt });
+    if (t.faehrt) beweglich.push({ mesh: mesh, z: (t.box[2][0] + t.box[2][1]) / 2, faehrt: t.faehrt,
+                                   element: elementVon(t.id), auszug: t.auszug });
     meshById[t.id] = mesh;
+  });
+
+  // Schubladenkästen aus ihren CNC-Brettern (ADR 0024): Umriss mit Zinken und Bodenzapfen,
+  // Schlitze und runde Fenster als Löcher, extrudiert um die Brettstärke. Lage aus modell.schubladen_3d():
+  // Ursprung + Achsen u, v (w = u × v) in mm.
+  function v2(p) { return new THREE.Vector2(p[0] * S, p[1] * S); }
+  function fensterPfad(f) {
+    var u0 = f[0] * S, v0 = f[1] * S, u1 = f[2] * S, v1 = f[3] * S, r = f[4] * S, pfad = new THREE.Path();
+    pfad.moveTo(u0 + r, v0);
+    pfad.lineTo(u1 - r, v0); pfad.absarc(u1 - r, v0 + r, r, -Math.PI / 2, 0, false);
+    pfad.lineTo(u1, v1 - r); pfad.absarc(u1 - r, v1 - r, r, 0, Math.PI / 2, false);
+    pfad.lineTo(u0 + r, v1); pfad.absarc(u0 + r, v1 - r, r, Math.PI / 2, Math.PI, false);
+    pfad.lineTo(u0, v0 + r); pfad.absarc(u0 + r, v0 + r, r, Math.PI, Math.PI * 1.5, false);
+    return pfad;
+  }
+  (MODELL.schubladen_3d || []).forEach(function (b) {
+    var form = new THREE.Shape(b.aussen.map(v2));
+    b.loecher.forEach(function (l) { form.holes.push(new THREE.Path(l.map(v2))); });
+    b.fenster.forEach(function (f) { form.holes.push(fensterPfad(f)); });
+    var geo = new THREE.ExtrudeGeometry(form, { depth: b.staerke * S, bevelEnabled: false, curveSegments: 6 });
+    var mesh = new THREE.Mesh(geo, mBlue);
+    var u = new THREE.Vector3().fromArray(b.u), v = new THREE.Vector3().fromArray(b.v);
+    mesh.quaternion.setFromRotationMatrix(new THREE.Matrix4().makeBasis(u, v, new THREE.Vector3().crossVectors(u, v)));
+    mesh.position.set(b.ursprung[0] * S, b.ursprung[1] * S, b.ursprung[2] * S);
+    mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo, 20),
+                                    new THREE.LineBasicMaterial({ color: KANTE.schublade })));
+    sg.add(mesh);
+    beweglich.push({ mesh: mesh, z: b.ursprung[2], faehrt: b.faehrt, element: b.kasten, auszug: b.auszug });
+    meshById[b.id] = mesh;
   });
 
   // Dünne dunkle Streifen auf den Liegebrettern (Optik) — als Kind des Bretts, damit sie mitklappen
@@ -561,7 +596,8 @@
   var theta  = DEF_THETA;
   var phi    = DEF_PHI;
   var radius = DEF_RADIUS;
-  var tgt    = new THREE.Vector3(0, UH * S * 0.55, UD * S * 0.6);
+  var DEF_TGT = new THREE.Vector3(0, UH * S * 0.55, UD * S * 0.6);
+  var tgt    = DEF_TGT.clone();   // Drehpunkt: verschiebbar (rechts ziehen, 2 Finger) und per Doppelklick setzbar
 
   function updCam() {
     camera.position.set(
@@ -573,17 +609,34 @@
   }
   updCam();
 
-  // Mouse drag
+  // Drehpunkt parallel zur Bildebene verschieben: Pixel → Szeneneinheiten im Abstand des Drehpunkts
+  var rechts = new THREE.Vector3(), hoch = new THREE.Vector3();
+  function verschieben(dx, dy) {
+    var proPixel = 2 * radius * Math.tan(camera.fov * Math.PI / 360) / canvas.clientHeight;
+    camera.updateMatrixWorld();
+    rechts.setFromMatrixColumn(camera.matrixWorld, 0);
+    hoch.setFromMatrixColumn(camera.matrixWorld, 1);
+    tgt.addScaledVector(rechts, -dx * proPixel).addScaledVector(hoch, dy * proPixel);
+    updCam();
+  }
+
+  // Maus: links ziehen = drehen, rechts ziehen oder Shift + links = verschieben
+  var dragArt = null;
+  canvas.addEventListener('contextmenu', function (e) { e.preventDefault(); });
   canvas.addEventListener('mousedown', function (e) {
     drag = true; mx = e.clientX; my = e.clientY;
+    dragArt = (e.button === 2 || (e.button === 0 && e.shiftKey)) ? 'schieben' : 'drehen';
   });
   window.addEventListener('mouseup', function () { drag = false; });
   window.addEventListener('mousemove', function (e) {
     if (!drag) return;
-    theta -= (e.clientX - mx) * 0.007;
-    phi = Math.max(0.1, Math.min(1.48, phi - (e.clientY - my) * 0.007));
+    if (dragArt === 'schieben') verschieben(e.clientX - mx, e.clientY - my);
+    else {
+      theta -= (e.clientX - mx) * 0.007;
+      phi = Math.max(0.1, Math.min(1.48, phi - (e.clientY - my) * 0.007));
+      updCam();
+    }
     mx = e.clientX; my = e.clientY;
-    updCam();
   });
 
   // Scroll zoom
@@ -593,20 +646,25 @@
     updCam();
   }, { passive: false });
 
-  // Touch: 1 Finger = drehen, 2 Finger = Pinch-Zoom
-  var tp = null, pinchDist = 0;
+  // Touch: 1 Finger = drehen, 2 Finger = Pinch-Zoom + verschieben (Mittelpunkt der Finger)
+  var tp = null, pinchDist = 0, pinchMitte = null;
   function touchDist(t) {
     return Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY);
   }
+  function touchMitte(t) {
+    return { x: (t[0].clientX + t[1].clientX) / 2, y: (t[0].clientY + t[1].clientY) / 2 };
+  }
   canvas.addEventListener('touchstart', function (e) {
-    if (e.touches.length === 2) { pinchDist = touchDist(e.touches); tp = null; }
+    if (e.touches.length === 2) { pinchDist = touchDist(e.touches); pinchMitte = touchMitte(e.touches); tp = null; }
     else if (e.touches.length === 1) { tp = { x: e.touches[0].clientX, y: e.touches[0].clientY }; pinchDist = 0; }
   }, { passive: true });
   canvas.addEventListener('touchmove', function (e) {
     if (e.touches.length === 2 && pinchDist) {
-      var d = touchDist(e.touches);
+      var d = touchDist(e.touches), m = touchMitte(e.touches);
       radius = Math.max(8, Math.min(70, radius * pinchDist / d));
       pinchDist = d;
+      verschieben(m.x - pinchMitte.x, m.y - pinchMitte.y);
+      pinchMitte = m;
     } else if (e.touches.length === 1 && tp) {
       theta -= (e.touches[0].clientX - tp.x) * 0.007;
       phi = Math.max(0.1, Math.min(1.48, phi - (e.touches[0].clientY - tp.y) * 0.007));
@@ -625,8 +683,8 @@
   var infoEl = document.getElementById('info');
   var modeLabels = {
     schlafen: 'Schlafmodus — alles eingeklappt',
-    bank:     'Bankmodus — Bretter ' + AUSZUG + ' mm ausgefahren',
-    pack:     'Packmodus — Schubladen ' + AUSZUG + ' mm ausgefahren',
+    bank:     'Bankmodus — Bretter ' + AUSZUG_BRETT + ' mm ausgefahren',
+    pack:     'Packmodus — Schubladen ' + AUSZUG_KASTEN + ' mm ausgefahren',
     fahren1:  'Fahrmodus 1 — Klappbretter (F1 Rücksitz, F2 Kopfende) auf die Deckplatte geklappt, Matratze verstaut',
     fahren2:  'Fahrmodus 2 — Bretter auf der Box, Rücksitze hochgeklappt: 5 Sitzplätze'
   };
@@ -641,13 +699,82 @@
     document.getElementById('btnSeats').textContent = 'Rücksitze: ' + z;
   }
 
+  // Ausgefahrene Elemente (C1…C3, D1…D3). Der Modus setzt die Grundstellung, ein Klick auf ein
+  // Element fährt es danach einzeln aus/ein (nicht in den Fahrmodi: dort liegen F1/F2 auf der Box).
+  var modus = 'schlafen', ausgefahren = {};
+  var ELEMENT_NAME = {};
+  MODELL.teile.forEach(function (t) { if (/^[CD]\d$/.test(t.id)) ELEMENT_NAME[t.id] = t.name; });
+  function positionieren() {
+    beweglich.forEach(function (b) {   // ausgefahren = um die volle Schienenlänge in −z
+      b.mesh.position.z = (b.z - (ausgefahren[b.element] ? b.auszug : 0)) * S;
+    });
+    var offen = Object.keys(ausgefahren).filter(function (k) { return ausgefahren[k]; }).sort();
+    infoEl.textContent = (modeLabels[modus] || '') +
+      (umschaltbar() ? ' · Klick auf Schublade/Brett: einzeln aus- oder einfahren' +
+                       (offen.length ? ' · ausgefahren: ' + offen.join(', ') : '') : '');
+  }
+  function umschaltbar() { return modus === 'schlafen' || modus === 'bank' || modus === 'pack'; }
+  function umschalten(element) {
+    ausgefahren[element] = !ausgefahren[element];
+    positionieren();
+  }
+
+  // Klick/Tipp ohne Ziehen → Element unter dem Zeiger umschalten
+  var strahl = new THREE.Raycaster(), zeiger = new THREE.Vector2();
+  var klickbar = beweglich.map(function (b) { return b.mesh; });
+  function elementUnter(x, y) {
+    var r = canvas.getBoundingClientRect();
+    zeiger.set((x - r.left) / r.width * 2 - 1, -(y - r.top) / r.height * 2 + 1);
+    scene.updateMatrixWorld(); camera.updateMatrixWorld();   // auch ohne gerenderten Frame seit dem Umschalten
+    strahl.setFromCamera(zeiger, camera);
+    var treffer = strahl.intersectObjects(klickbar, false)[0];
+    if (!treffer) return null;
+    var b = beweglich.filter(function (b) { return b.mesh === treffer.object; })[0];
+    return b ? b.element : null;
+  }
+  var start = null, klickTimer = null;
+  function druck(x, y) { start = { x: x, y: y }; }
+  function loslassen(x, y) {
+    if (!start || Math.abs(x - start.x) + Math.abs(y - start.y) > 6 || !umschaltbar()) { start = null; return; }
+    start = null;
+    var el = elementUnter(x, y);
+    if (!el) return;
+    clearTimeout(klickTimer);                       // erst nach kurzer Pause: ein Doppelklick setzt den Drehpunkt
+    klickTimer = setTimeout(function () { umschalten(el); }, 260);
+  }
+  // Doppelklick/-tipp auf ein Teil: getroffene Stelle wird neuer Drehpunkt (Reset stellt ihn zurück)
+  canvas.addEventListener('dblclick', function (e) {
+    clearTimeout(klickTimer);
+    var r = canvas.getBoundingClientRect();
+    zeiger.set((e.clientX - r.left) / r.width * 2 - 1, -(e.clientY - r.top) / r.height * 2 + 1);
+    scene.updateMatrixWorld(); camera.updateMatrixWorld();
+    strahl.setFromCamera(zeiger, camera);
+    var treffer = strahl.intersectObject(sg, true).filter(function (t) {
+      return t.object.isMesh && t.object.visible;
+    })[0];
+    if (treffer) { tgt.copy(treffer.point); updCam(); }
+  });
+  canvas.addEventListener('mousedown', function (e) { if (e.button === 0 && !e.shiftKey) druck(e.clientX, e.clientY); });
+  canvas.addEventListener('mouseup', function (e) { if (e.button === 0) loslassen(e.clientX, e.clientY); });
+  canvas.addEventListener('touchstart', function (e) {
+    if (e.touches.length === 1) druck(e.touches[0].clientX, e.touches[0].clientY); else start = null;
+  }, { passive: true });
+  canvas.addEventListener('touchend', function (e) {
+    if (e.changedTouches.length === 1 && e.touches.length === 0) loslassen(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
+  }, { passive: true });
+  canvas.addEventListener('mousemove', function (e) {   // Zeiger als Hand über einem schaltbaren Element
+    if (e.buttons) return;
+    var el = umschaltbar() && elementUnter(e.clientX, e.clientY);
+    canvas.style.cursor = el ? 'pointer' : '';
+    canvas.title = el ? (ELEMENT_NAME[el] || el) + ' (' + el + ') — ' + (ausgefahren[el] ? 'einfahren' : 'ausfahren') : '';
+  });
+
   window.setMode = function (m) {
     bankG.visible = (m === 'bank');
     packG.visible = (m === 'pack');
-    var aus = { schubladen: m === 'pack', bretter: m === 'bank' };
-    beweglich.forEach(function (b) {   // ausgefahren = um die volle Schienenlänge in −z
-      b.mesh.position.z = (b.z - (aus[b.faehrt] ? AUSZUG : 0)) * S;
-    });
+    modus = m;
+    beweglich.forEach(function (b) { ausgefahren[b.element] = (b.faehrt === 'schubladen' && m === 'pack') ||
+                                                              (b.faehrt === 'bretter' && m === 'bank'); });
     // Fahrmodi: F1 über die obere Achse auf T1, F2 über die untere Achse auf F1 (je 180°)
     var geklappt = m === 'fahren1' || m === 'fahren2';
     klappF1.rotation.x = geklappt ? KA.F1.winkel * Math.PI / 180 : 0;
@@ -655,7 +782,7 @@
     meshById.G1.visible = !geklappt;
     if (m === 'fahren2') setRuecksitze('hochgeklappt');
     else if (rsZustand === 'hochgeklappt') setRuecksitze('umgeklappt');   // Liegefläche braucht die Lehnen
-    infoEl.textContent = modeLabels[m] || '';
+    positionieren();
     ['btnSchlafen','btnBank','btnPack','btnFahr1','btnFahr2'].forEach(function(id) {
       document.getElementById(id).classList.remove('active');
     });
@@ -689,7 +816,7 @@
   toggleLegende(!window.matchMedia('(max-width: 700px)').matches);
 
   window.resetCam = function () {
-    theta = DEF_THETA; phi = DEF_PHI; radius = DEF_RADIUS; updCam();
+    theta = DEF_THETA; phi = DEF_PHI; radius = DEF_RADIUS; tgt.copy(DEF_TGT); updCam();
   };
 
   // ── Render loop ───────────────────────────────────────────────────────────
@@ -799,7 +926,7 @@
              '<div class="klein">' + t.stk + ' Stk. · ' + esc(t.mass) + ' mm' +
              (t.material ? ' · ' + esc(t.material) : '') +
              (t.schlitze ? ' · ' + t.schlitze + ' Schlitze innen' : '') +
-             (t.fenster ? ' · ' + t.fenster + ' Fenster' : '') + '</div>' +
+             (t.fenster ? ' · ' + t.fenster + ' ' + esc(t.fenster_art || 'Fenster') : '') + '</div>' +
              '<a href="' + t.datei + '" download>' + esc(t.datei.split('/').pop()) + ' herunterladen</a></div>';
     }).join('') + '</div>';
     v.abschnitte.forEach(function (a) {

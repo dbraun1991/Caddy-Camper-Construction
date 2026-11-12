@@ -101,6 +101,10 @@ down.
   their rail inner-members), and in the two driving modes rotates the pivot
   groups of the hinged boards `F1`/`F2` by 180° around the axes in
   `MODELL.klappachsen` ([ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md)).
+  Extension is tracked per element (`ausgefahren[C1…D3]`, each moving part
+  mapped by `elementVon()` / `kasten`): the mode sets the defaults, then a click
+  or tap on an element (raycast, not while dragging) toggles just that one in
+  Schlaf-/Bank-/Packmodus — not in the driving modes.
   See [docs/adrs/0004-static-scene-graph-with-z-position-toggle.md](docs/adrs/0004-static-scene-graph-with-z-position-toggle.md)
   before changing how modes are represented.
 - When a change reflects a real architectural or build decision (not just a tweak),
@@ -111,11 +115,16 @@ down.
 
 ### Implemented
 
-- 3D viewer with orbit (drag), zoom (scroll), and camera reset, mouse + touch.
+- 3D viewer with orbit (drag), pan (right-drag / Shift-drag / two fingers),
+  zoom (scroll/pinch), double-click on a part to make that point the orbit
+  centre, and camera reset (also resets the centre), mouse + touch. A single
+  click on an element toggles it after ~260 ms so a double-click does not.
 - Five modes — Schlafmodus / Bankmodus / Packmodus, plus Fahrmodus 1/2 (hinged
   boards `F1`/`F2` folded onto the box; in 2 also rear seats upright, 5 seats,
   ADR 0019) — toggling the extension of
-  3 drawers and 2 seat boards + 1 table board along the rails.
+  3 drawers and 2 seat boards + 1 table board along the rails; in Schlaf-,
+  Bank- and Packmodus a click/tap on a drawer or board extends/retracts it
+  individually.
 - Full corpus geometry (side walls, back wall, floor, two dividers) at real
   dimensions, plus the three-piece sleeping platform and a mattress outline.
 - Rail visualization (inner/moving member only, see
@@ -148,8 +157,15 @@ down.
   generated from one list in `cnc.abschnitte()`); the drawer boxes are a second
   CNC job (`docs/cnc/schubladen/`, [ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md):
   finger-jointed corners, 12 mm bottom with tabs through slots in all four walls,
-  lightening windows in the side walls that keep the runner band solid; board
-  geometry from `modell.schubladen_bretter()`, parts `D*-S`/`-E`/`-B`), plus an overlap
+  lightening windows in the side walls of `D1/D2` (reach in while seated) and a
+  Ø 25 mm hole grid in `D3` so nothing falls out (ADR 0026), both keeping the
+  runner band solid; board
+  geometry from `modell.schubladen_bretter()`, parts `D*-S`/`-E1`/`-E2`/`-B`; no front
+  panels, the box front `-E1` is the visible front with a milled grip cut-out and
+  every end wall gets the hole grid ([ADR 0027](docs/adrs/0027-no-drawer-front-panels-box-front-with-grip-cut-out.md),
+  `D1-F`…`D3-F` retired); the 3D tab
+  draws the drawers from these boards via `modell.schubladen_3d()` → `MODELL.schubladen_3d`,
+  extruded `THREE.Shape`s, instead of the `D1`–`D3` blocks), plus an overlap
   report in the "Statisch" tab and a collision toggle in the 3D tab
   ([ADR 0015](docs/adrs/0015-shared-model-data-for-viewer-and-drawings.md)).
 - Full bill of materials with cut list, hardware options and links, and a
@@ -175,12 +191,12 @@ down.
 
 ### Open / planned (tracked in README "Weiterführende Planung")
 
-- **[ADR 0013](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md) is
-  Proposed, not Accepted** — the seat/table boards are 32 mm thick but the runner
-  inner members are 76 mm high on all three (ADR 0017, ADR 0021: `C3` must take a person sitting on it), so there is no full-height face to screw them
-  to. Deciding it changes `elemente.brett_hoehe` / the rail bands in `modell/`
-  plus the height tables in `List_of_Materials.md` and `README.md`. Don't cut
-  `C1`–`C3` before it is resolved (the runner itself is no longer blocked).
+- ~~ADR 0013~~ — decided by [ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md) (2026-11-12): seat/table element =
+  18 mm board on top of two 39.5 mm cheeks (ending 20 mm above the runner bottom, ≥ 15 mm wood below the hole line, `rand_lochreihe`) (inverted U), board top 1.5 mm above
+  the 76 mm runner (no edge on the seat), runner screwed to the cheek (holes are
+  on the runner's centre line). Drawer boxes 214.5 mm high in all sections,
+  drawer runners centred on the box. Still open: how board and cheeks are joined,
+  and a CNC job for `C1`–`C3`.
 - **CNC job not placed yet** ([ADR 0023](docs/adrs/0023-cnc-dxf-export-with-dogbones.md)).
   The `cnc` values in `modell/parameter.json` (cutter Ø 6 mm, clearance 0.2 mm)
   are assumptions until a service answers — don't present them as confirmed.
@@ -204,23 +220,26 @@ down.
     [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md): 850 mm
     runners, corpus stays 900 mm. Runners ordered 2026-11-04 (2 × 170 kg + 4 × 80 kg; since ADR 0021 `C3` needs the 170 kg type → 3 + 3, one 170 kg pair still to order). The 170 kg type is
     specified at 19.2 + 0.5 mm per side, which fits the planned 19 mm + 1 mm
-    clearance. Delivered and measured 2026-11-12: both types exactly 19 mm thick (as
-    modelled, drawer box widths unchanged), 80 kg height 53 mm confirmed. The
-    170 kg height measured ~74 mm, but the user is unsure of that reading — the
-    model keeps the datasheet 76 mm until it is re-checked. Still open: screw-hole
-    positions (user will send them; check against the solid runner band in the
-    drawer side walls before ordering `docs/cnc/schubladen/`) and whether the
-    170 kg lock holds when extended.
-    Runner heights ([ADR 0025](docs/adrs/0025-drawer-runners-interleaved-between-seat-and-table-runners.md)):
-    the drawer runners are computed into the free strip between seat and table
-    runners (`D1/D2` 107–160, `D3` 173–226), so no bands overlap across `M1/M2`
-    and the M5 through-bolts (V9, now M5 × 30) land on bare wall.
-  - Full-section-width inset drawer fronts sit in front of the runners.
-  - Drawer fronts (inset vs. overlay, ~2 mm gaps all round, rails set back
-    18 mm if inset — 868 ≤ 882 fits) and the 3 mm `D3-F`/`C3` overlap:
-    **deferred by the user until the corpus is built** — rails will be held
-    against the real box and measured first. The remaining red front-panel
-    overlaps in the drawings are expected until then; don't "fix" them.
+    clearance. Delivered and measured 2026-11-12 ([ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md),
+    datasheet `docs/runner-pdfs/heavy-runners.pdf`): both types 19 mm thick,
+    heights 53 / 76 mm, lengths 850 mm (80 kg) and **870 mm** (170 kg), each
+    plus a ~30 mm lock lever in front on the moving member; 170 kg holes are for
+    **M6**, all holes on the runner's centre line. Hole spacing along the runner
+    doesn't matter for the model (user, 2026-11-12). Runner length is per type
+    (`schienen.typen.*.laenge`), the viewer extends each element by its own.
+    Still open: lock levers (~30 mm proud) vs. the 20–30 mm room to the
+    tailgate — check on the car (flagged in `fahrzeug_pruefung()`); hole size of
+    the 80 kg runner; whether the 170 kg lock holds when extended.
+    Drawer runners (user, 2026-11-12, "narrenkompatibel"): outer `D1/D2` runner
+    as low as possible on the box (106–159, windows above), middle `D3` as high
+    as possible (177–230, hole grid below), whole mm. On `M1/M2` the outer-section
+    face has every runner below 141 mm above `B1`, the middle face every runner
+    above 159 mm; `modell.py` asserts ≥ 10 mm to the opposite face, so the M6
+    through-bolts (V9, M6 × 30) land on bare wall. Mounting table in §H1.
+  - ~~Drawer fronts (inset vs. overlay) and the front-panel overlaps~~ —
+    resolved by [ADR 0027](docs/adrs/0027-no-drawer-front-panels-box-front-with-grip-cut-out.md)
+    (2026-11-12): no front panels at all; full-width panels would have blocked
+    the 76 mm seat/table runners. The model now has 0 open overlaps.
 - **Deliberately left open by the user** (2026-10-17) — don't push for a
   decision or plan them unless asked: mattress spec (1,100 mm is not a stock
   width, options in [Einkaufsliste.md](Einkaufsliste.md) §4), payload check

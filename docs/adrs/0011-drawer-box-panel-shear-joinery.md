@@ -2,8 +2,9 @@
 
 Status: Superseded in part by [ADR 0024](0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md)
 (2026-11-12): the box joinery (corner screws, screwed-on bottom, corner cleats)
-is replaced by CNC-cut finger joints and a tabbed bottom. The front-panel
-mounting and the rail attachment to the side faces described here still apply.
+is replaced by CNC-cut finger joints and a tabbed bottom. The front panels were
+dropped by [ADR 0027](0027-no-drawer-front-panels-box-front-with-grip-cut-out.md).
+Only the rail attachment to the side faces described here still applies.
 
 ## Context
 

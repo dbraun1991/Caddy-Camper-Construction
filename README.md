@@ -46,9 +46,12 @@ Einzige Voraussetzung: Internetverbindung beim ersten Öffnen (Three.js wird per
 | Drehen | Linksklick + Ziehen |
 | Zoomen | Scrollrad · Touch: Pinch (zwei Finger) |
 | Drehen (Touch) | Ein Finger ziehen |
+| Verschieben | Rechte Maustaste ziehen oder Shift + linke Maustaste ziehen · Touch: zwei Finger ziehen (gleichzeitig Pinch-Zoom) |
+| Drehpunkt setzen | Doppelklick auf ein Teil — die getroffene Stelle wird zum Drehpunkt; Reset stellt den Standard-Drehpunkt wieder her |
 | Caddy-Hülle ein-/ausblenden | Button „Caddy-Hülle“ (transparente Fahrzeugkarosserie, Heckklappe hochgeklappt) |
 | Rücksitze umgeklappt / hochgeklappt / ausgebaut | Button „Rücksitze“ (Fahrmodus 2 klappt sie automatisch hoch) |
-| Ansicht zurücksetzen | Reset-Button (Standardansicht: von hinten rechts, Caddy-Hülle sichtbar) |
+| Schublade / Brett einzeln aus- oder einfahren | Klick bzw. Tipp auf das Element (Schlaf-, Bank- und Packmodus; nicht in den Fahrmodi). Der Modus-Button stellt die Grundstellung wieder her |
+| Ansicht zurücksetzen | Reset-Button (Standardansicht: von hinten rechts, Caddy-Hülle sichtbar, Standard-Drehpunkt) |
 | Überschneidungen anzeigen | Button „Überschneidungen“ — rot, bezogen auf den eingefahrenen Zustand |
 | Legende ein-/ausblenden | Button „Legende“ — am Handy (≤ 700 px Breite) standardmäßig ausgeblendet, weil sie sonst die Szene verdeckt |
 | Werkzeichnungen | Reiter „Statisch · Werkzeichnungen“ (oben rechts), direkt verlinkbar mit `index.html#statisch` |
@@ -56,12 +59,12 @@ Einzige Voraussetzung: Internetverbindung beim ersten Öffnen (Three.js wird per
 
 ### Modi
 
-Alle 6 beweglichen Elemente (3 Schubladen + 2 Sitzbretter + 1 Tischbrett) sind in jedem Modus als vollständige 3D-Körper sichtbar. Der Modus bestimmt ihre Position — eingeklappt (im Korpus) oder ausgefahren (in −z-Richtung vor dem Fahrzeugheck).
+Alle 6 beweglichen Elemente (3 Schubladen + 2 Sitzbretter + 1 Tischbrett) sind in jedem Modus als vollständige 3D-Körper sichtbar. Der Modus bestimmt ihre Grundstellung — eingeklappt (im Korpus) oder ausgefahren (in −z-Richtung vor dem Fahrzeugheck). Danach lässt sich jedes Element per Klick einzeln umschalten, z. B. im Bankmodus eine Schublade über dem Sitzbrett öffnen.
 
 | Modus | Schubladen | Sitzbretter L/R + Tischbrett M |
 |---|---|---|
 | **Schlafmodus** | eingeklappt | eingeklappt |
-| **Bankmodus** | eingeklappt | 850 mm ausgefahren |
+| **Bankmodus** | eingeklappt | 870 mm ausgefahren |
 | **Packmodus** | 850 mm ausgefahren | eingeklappt |
 | **Fahrmodus 1** | eingeklappt | eingeklappt — Klappbretter (F1, F2) auf die Deckplatte geklappt, Matratze verstaut |
 | **Fahrmodus 2** | eingeklappt | wie Fahrmodus 1, Rücksitze hochgeklappt → 5 Sitzplätze |
@@ -119,7 +122,7 @@ Für einen CNC-Fräs-Dienstleister liegen alle Bretter der Box und der Liegeflä
 - im Viewer im Reiter „DXF · CNC“: Vorschau, Download und dieselben Hinweise wie in `AUFTRAG.md` (Daten aus `docs/cnc/cnc.js` und `vorschau/*.svg`, beides von `modell/cnc.py` erzeugt)
 - [`AUFTRAG.md`](docs/cnc/gezapft/AUFTRAG.md): Stückliste und **alle Annahmen** zum Mitschicken — Fräser Ø 6 mm (bestimmt die Dogbones in den Innenecken), 0,2 mm Passungsluft in Schlitzen und Aussparungen
 
-**Schubladenkästen D1–D3** sind ein eigener Auftrag in [`docs/cnc/schubladen/`](docs/cnc/schubladen/) (im Viewer: Auswahl „Schubladenkästen“): Seitenwände, Kastenfront/-rückwand und Böden mit Fingerzinken, Bodenzapfen und Fenstern in den Seitenwänden, berechnet aus `modell/parameter.json` → `schubladen` und den Kastenmaßen im Modell ([ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md)). Die Kastenbreiten hängen an der Schienenstärke — gemessen 19 mm wie geplant (2026-11-12).
+**Schubladenkästen D1–D3** sind ein eigener Auftrag in [`docs/cnc/schubladen/`](docs/cnc/schubladen/) (im Viewer: Auswahl „Schubladenkästen“): Seitenwände, Kastenfront mit Griffausschnitt, Kastenrückwand und Böden mit Fingerzinken, Bodenzapfen, Fenstern in den Seitenwänden der äußeren Schubladen und einem Lochraster in allen übrigen Wänden ([ADR 0027](docs/adrs/0027-no-drawer-front-panels-box-front-with-grip-cut-out.md)) ([ADR 0026](docs/adrs/0026-windows-for-outer-drawers-hole-grid-for-middle-drawer.md)), berechnet aus `modell/parameter.json` → `schubladen` und den Kastenmaßen im Modell ([ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md)). Die Kastenbreiten hängen an der Schienenstärke — gemessen 19 mm wie geplant (2026-11-12).
 
 Die Annahmen stehen in `modell/parameter.json` → `cnc`. Nach der Rückmeldung des Dienstleisters dort anpassen und neu erzeugen:
 
@@ -156,12 +159,12 @@ Sektionsbreiten nach Abzug der Seitenwände S1/S2 (18 mm innen): **312 mm** L/R 
 
 | Sektion | Innenbreite | Element oben | Element unten |
 |---|---|---|---|
-| Links | 312 mm | Schublade 268 mm hoch · 272 mm breit | Sitzbrett 32 mm hoch · 272 mm breit |
-| Mitte | 424 mm | Tischbrett 32 mm hoch · 384 mm breit | Schublade 268 mm hoch · 384 mm breit |
-| Rechts | 312 mm | Schublade 268 mm hoch · 272 mm breit | Sitzbrett 32 mm hoch · 272 mm breit |
+| Links | 312 mm | Schublade 214,5 mm hoch · 272 mm breit | Sitzbrett-Element 57,5 mm hoch (Brett auf Wangen) · 272 mm breit |
+| Mitte | 424 mm | Tischbrett-Element 57,5 mm hoch (Brett auf Wangen) · 384 mm breit | Schublade 214,5 mm hoch · 384 mm breit |
+| Rechts | 312 mm | Schublade 214,5 mm hoch · 272 mm breit | Sitzbrett-Element 57,5 mm hoch (Brett auf Wangen) · 272 mm breit |
 
 Breitenformel: Innenbreite − 2 × 19 mm Schiene − 2 mm Spalt = Elementbreite.  
-Schienen: AOLISHENG 850 mm — 170 kg / 76 mm für die Sitzbretter C1/C2 und das Tischbrett C3 (auch dort darf jemand sitzen, [ADR 0021](docs/adrs/0021-table-board-on-170-kg-runners.md)), 80 kg / 53 mm für die Schubladen. Stärke je Seite: 19 mm, an beiden Typen gemessen (2026-11-12). Im Render dunkelgrau dargestellt.
+Schienen: AOLISHENG — 170 kg / 76 mm / 870 mm lang für die Sitzbretter C1/C2 und das Tischbrett C3 (auch dort darf jemand sitzen, [ADR 0021](docs/adrs/0021-table-board-on-170-kg-runners.md)), 80 kg / 53 mm / 850 mm für die Schubladen. Stärke je Seite: 19 mm, an beiden Typen gemessen (2026-11-12); Höhenplan und Datenblatt: [ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md). Im Render dunkelgrau dargestellt.
 
 Alle Elemente fahren auf **Vollauszug-Schienen 850 mm Schwerlast** aus ([ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)): Korpus 900 mm − Rückwand 18 mm = 882 mm lichte Tiefe → 32 mm Luft hinter Schienen, Kästen (830 mm) und Brettern (850 mm).
 
@@ -223,7 +226,7 @@ Der Korpus besteht aus Einzelbrettern (keine Vollbox): S1/S2 Seitenwände links/
 ## Weiterführende Planung
 
 - [x] Verbindungstechnik Korpus — [List_of_Materials.md §H](./List_of_Materials.md#h--verbindungstechnik) · [ADR 0007](docs/adrs/0007-dowel-screw-bracket-joinery.md)
-- [x] Schubladendetails (Kastenbau, Frontblende, Griffe) — [§H2/§H3](./List_of_Materials.md#h2--schubladenkästen-d1d3) · [ADR 0011](docs/adrs/0011-drawer-box-panel-shear-joinery.md) · Kastenbau als CNC-Teile mit Fingerzinken, Bodenzapfen und Fenstern: [ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md)
+- [x] Schubladendetails (Kastenbau, Front, Griff) — [§H2/§H3](./List_of_Materials.md#h2--schubladenkästen-d1d3) · [ADR 0011](docs/adrs/0011-drawer-box-panel-shear-joinery.md) · Kastenbau als CNC-Teile mit Fingerzinken, Bodenzapfen und Fenstern: [ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md) · ohne Frontblenden, Griffausschnitt in der Kastenfront: [ADR 0027](docs/adrs/0027-no-drawer-front-panels-box-front-with-grip-cut-out.md)
 - [x] Schienenbefestigung an Wänden und Trennwänden — [§H1](./List_of_Materials.md#h1--schienenbefestigung-an-wänden-und-trennwänden)
 - [x] Befestigung Unterbau im Fahrzeug — Rücksitz-Ösen neben dem Korpus, Winkel außen an S1/S2 — [§H5](./List_of_Materials.md#h5--befestigung-des-korpus-im-fahrzeug) · [ADR 0012](docs/adrs/0012-non-destructive-vehicle-tie-down.md) · [ADR 0016](docs/adrs/0016-rear-lashing-eyes-carry-the-hold-down.md)
 - [x] Klappbare Liegefläche: F1/F2 per Scharnier an der Box, zum Fahren zurückklappbar (Fahrmodus 1/2) — [ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md)
@@ -234,14 +237,17 @@ Der Korpus besteht aus Einzelbrettern (keine Vollbox): S1/S2 Seitenwände links/
 
 Offen:
 
-- [ ] **Entscheidung ADR 0013** — Schienenhöhe (76 mm bei C1–C3) vs. Brettstärke (32 mm) bei C1–C3: [docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md). Blockiert den Zuschnitt von C1–C3, nicht mehr den Schienenkauf.
+- [x] ADR 0013 entschieden: Sitz-/Tischbrett als Brett oben auf zwei Wangen, 1,5 mm über der Schiene, Kästen 214,5 mm hoch — [ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md)
+- [ ] **Arretierungshebel vs. Heckklappe am Auto prüfen**: die Hebel ragen ~30 mm vor die Korpusfront, Luft laut Messung 20–30 mm ([ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md))
+- [ ] Lochgröße der 80-kg-Schiene prüfen (V2 3,5 mm passt nur zu kleinen Löchern)
+- [ ] Verbindung Brett ↔ Wangen bei C1–C3 festlegen (Leim + Schrauben oder CNC-Zapfen)
 - [x] Eckausbildung Korpus — Boden B1 und Deckel T1 durchgehend, Wände mit Zapfen 18 × 50 mm durch B1 und T1, Wandzuschnitt 340 mm hoch — [ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md), [ADR 0020](docs/adrs/0020-through-tenons-instead-of-routed-grooves.md)
 - [x] Lichte Tiefe 882 mm vs. Schienenlänge — gelöst mit 850-mm-Schienen, Korpus bleibt 900 mm (20–30 mm Luft zu den Rücksitzen, 32 mm hinter den Schienen) — [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)
 - [ ] **CNC-Anbieter anfragen** (Privatkunde, Abholung, Dateiformat, Fräserdurchmesser, Passung, Probestück) und danach `cnc` in `modell/parameter.json` anpassen + `modell/cnc.py` neu erzeugen — Kandidaten im Raum Duisburg: [Einkaufsliste.md §1](./Einkaufsliste.md#option-cnc-fräsen-statt-zuschnitt), erster Kandidat Brockmann Holz (Krefeld)
 - [ ] 1 Paar 170-kg-Schienen für das Tischbrett C3 nachbestellen (bestellt sind 2 × 170 kg + 4 × 80 kg, nötig 3 + 3) — [ADR 0021](docs/adrs/0021-table-board-on-170-kg-runners.md)
 - [x] Schienenstärke gemessen (2026-11-12): beide Typen 19 mm wie geplant, Höhe 53 mm bestätigt
 - [ ] Schienen weiter prüfen: Arretierung im ausgezogenen Zustand (170 kg), Höhe der 170-kg-Schiene (gemessen ~74 mm, Modell 76 mm laut Datenblatt), Lage der Schraublöcher (gegen das Schienenband der Schubladen-Seitenwände)
-- [ ] **Frontblenden** (einliegend mit Luft oder aufliegend, Höhen mit ~2 mm Spalt, Lage der Schienen) — **wird nach dem Korpusbau entschieden:** Schienen am fertigen Korpus anhalten, messen, dann festlegen. Bis dahin bleiben die roten Stellen an den Blenden in den Zeichnungen bewusst stehen.
+- [x] Frontblenden — entfallen: die Kastenfront ist die sichtbare Front, die Blenden hätten die Schienen der Sitz-/Tischbretter blockiert. Seitdem keine Überschneidungen mehr im Modell — [ADR 0027](docs/adrs/0027-no-drawer-front-panels-box-front-with-grip-cut-out.md)
 - [x] Bezeichnung links/rechts: immer aus Sicht des Fahrers — Sektion L (C1, D1) = Fahrerseite, R (C2, D2) = Beifahrerseite
 
 Bewusst offen gelassen (keine Entscheidung nötig, um weiterzubauen):

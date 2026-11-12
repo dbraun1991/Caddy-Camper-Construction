@@ -14,6 +14,7 @@ Aufruf ohne Zusatzpakete:  python3 modell/modell.py
 """
 
 import json
+import math
 from pathlib import Path
 
 ORDNER = Path(__file__).resolve().parent
@@ -127,36 +128,34 @@ def _sektionen(p):
 
 
 def _einbauten(p):
+    """Sitz-/Tischbretter, Schubladenkästen und Schienen (Höhenplan ADR 0028).
+
+    Sektion L/R von unten: Sitzbrett-Element (Wangen + Brett oben), Spalt, Kasten, Spalt zu T1.
+    Sektion M von unten: Kasten, Spalt, Tischbrett-Element, Spalt zu T1. Das Element ist so hoch
+    wie seine Schiene + Überstand − Bodenluft, die Brettoberkante steht `ueberstand_brett` über
+    der Schiene. Alle Kästen werden dadurch gleich hoch, die Schubladenschiene sitzt mittig.
+    """
     k, s, e = p["korpus"], p["schienen"], p["elemente"]
-    D, H, T = k["tiefe"], k["hoehe"], k["plattenstaerke"]
-    rl = s["laenge"]
+    H, T = k["hoehe"], k["plattenstaerke"]
 
     def typ(element_id):                # Schienentyp je Element (C1–C3 schwer, Schubladen leicht)
         return s["typen"][s["zuordnung"][element_id]]
-    bh, sp, spiel = e["brett_hoehe"], e["spalt_hoehe"], e["spiel_seitlich"]
-    vor, bs = e["vorstand_front"], e["blende_staerke"]
-    yB = T                              # Oberkante Bodenplatte
-    hK = H - T - bh - 2 * sp            # Schubladenkasten-Höhe (320−18−32−10 = 260)
-    zF = (-vor, -vor + bs)              # Frontblende, 1,5 mm vor der Korpusfront
-    zK = (zF[1], zF[1] + e["kasten_tiefe"])
-    zB = (-vor, -vor + e["brett_tiefe"])  # Sitz-/Tisch-Brett, so lang wie die Schiene
+    sp, spiel, vor = e["spalt_hoehe"], e["spiel_seitlich"], e["vorstand_front"]
+    ue, luft, wl = e["ueberstand_brett"], e["boden_luft"], e["wange_luft"]
+    bs, ws = e["brett_staerke"], e["wange_staerke"]
+    yB = T                                          # Oberkante Bodenplatte
+    rhC = typ("C1")["hoehe"]
+    assert typ("C3")["hoehe"] == rhC, "C1 und C3 brauchen dieselbe Schienenhöhe"
+    hE = rhC + ue - wl                              # Element: Schiene steht auf B1, Wangen enden `wange_luft` darüber
+    assert rhC / 2 - wl >= e["rand_lochreihe"], \
+        f"Wange zu kurz: unter der Lochreihe blieben nur {rhC / 2 - wl} mm Holz (mind. {e['rand_lochreihe']})"
+    assert luft <= wl, "D3 braucht mindestens so viel Luft zum Tischbrett-Element wie die Wangen zu B1"
+    hK = H - yB - (rhC + ue) - 2 * sp               # Kastenhöhe, in allen drei Sektionen gleich
+    zK = (-vor, -vor + e["kasten_tiefe"])           # ohne Blende (ADR 0027): bündig mit den Brettern
+    zB = (-vor, -vor + e["brett_tiefe"])
 
     sek = _sektionen(p)
     out = []
-
-    # Schubladenschienen (ADR 0025): An M1/M2 liegen Schienen beider Nachbarsektionen gegenüber. Die
-    # M5-Durchsteckschrauben (V9) stehen auf der Gegenseite über — dort darf keine Schiene sitzen. Darum
-    # liegen beide Schubladenbänder im freien Streifen zwischen Sitzbrett-Schiene (unten, L/R) und
-    # Tischbrett-Schiene (oben, Mitte), mit gleich großer Luft dazwischen: L/R unten, Mitte oben
-    # (so bleibt in allen Seitenwänden Platz für die Fenster, ADR 0024).
-    frei_u = yB + typ("C1")["hoehe"]
-    frei_o = yB + hK + sp + bh - typ("C3")["hoehe"]
-    hLR, hM = typ("D1")["hoehe"], typ("D3")["hoehe"]
-    luft = (frei_o - frei_u - hLR - hM) / 3
-    assert luft >= 5, f"Schubladenschienen passen nicht zwischen Sitz- und Tischbrett-Schiene ({luft:.1f} mm Luft)"
-    y_schiene = {"LR": frei_u + luft, "M": frei_u + 2 * luft + hLR}
-    assert yB + bh + sp <= y_schiene["LR"] and y_schiene["LR"] + hLR <= yB + bh + sp + hK, "Schiene D1/D2 außerhalb des Kastens"
-    assert y_schiene["M"] + hM <= yB + hK, "Schiene D3 außerhalb des Kastens"
 
     def element(sx, id):                # Breite: Innen − 2 × Schiene − 2 × Spiel
         rs = typ(id)["staerke"]
@@ -164,35 +163,64 @@ def _einbauten(p):
 
     def schienenpaar(sek_id, y0, faehrt, zu):
         x0, x1 = sek[sek_id]
-        rs, rh = typ(zu)["staerke"], typ(zu)["hoehe"]
-        y = (round(y0, 2), round(y0 + rh, 2))
+        t = typ(zu)
+        y = (round(y0, 2), round(y0 + t["hoehe"], 2))
         wand_a, wand_b = SEKTIONSWAENDE[sek_id]
-        out.append(_teil(f"E-{zu}-a", f"Schiene {ELEMENTE[zu]}, an {wand_a} · {typ(zu)['name']}", "schiene",
-                         "schiene", (x0, x0 + rs), y, (0, rl), faehrt, richtung=1))
-        out.append(_teil(f"E-{zu}-b", f"Schiene {ELEMENTE[zu]}, an {wand_b} · {typ(zu)['name']}", "schiene",
-                         "schiene", (x1 - rs, x1), y, (0, rl), faehrt, richtung=-1))
+        for seite, xs, wand, r in (("a", (x0, x0 + t["staerke"]), wand_a, 1), ("b", (x1 - t["staerke"], x1), wand_b, -1)):
+            out.append(_teil(f"E-{zu}-{seite}", f"Schiene {ELEMENTE[zu]}, an {wand} · {t['name']}", "schiene",
+                             "schiene", xs, y, (0, t["laenge"]), faehrt, richtung=r, auszug=t["laenge"]))
+        return y
 
-    # Seiten L/R: unten Sitz-Brett, darüber Schublade
+    def brett_element(id, sx, y0, material):
+        """Brett oben über die ganze Breite, darunter je eine Wange an den Schienenseiten."""
+        x0, x1 = element(sx, id)
+        y1 = y0 + hE
+        auszug = typ(id)["laenge"]
+        out.append(_teil(id, ELEMENTE[id], "brett", material, (x0, x1), (y1 - bs, y1), zB, "bretter", auszug=auszug))
+        for seite, xs in (("a", (x0, x0 + ws)), ("b", (x1 - ws, x1))):
+            out.append(_teil(f"{id}-W{seite}", f"{ELEMENTE[id]}, Wange", "brett", material, xs, (y0, y1 - bs), zB,
+                             "bretter", auszug=auszug))
+
+    def kasten(id, sx, y0):
+        lage = ELEMENTE[id].split()[-1]
+        out.append(_teil(id, f"Schubladenkasten {lage}", "schublade", "schublade", element(sx, id),
+                         (y0, y0 + hK), zK, "schubladen", auszug=typ(id)["laenge"]))
+        return schienenpaar_mittig(id, y0)
+
+    def schienenpaar_mittig(id, y0):    # Schubladenschiene am Kasten: außen unten, Mitte oben (ADR 0028)
+        sid = {"D1": "L", "D2": "R", "D3": "M"}[id]
+        lage = e["schubladenschiene"]["mitte" if sid == "M" else "aussen"]
+        ab, rh = e["schubladenschiene"]["abstand_kasten"], typ(id)["hoehe"]
+        if lage == "unten":
+            y = math.ceil(y0 + ab)                      # ganze mm, nach innen gerundet
+        elif lage == "oben":
+            y = math.floor(y0 + hK - ab - rh)
+        else:
+            y = y0 + (hK - rh) / 2
+        return schienenpaar(sid, y, "schubladen", id)
+
+    baender = {}
+    # Seiten L/R: unten Sitzbrett-Element, darüber Schublade
     for nr, sid in ((1, "L"), (2, "R")):
-        out.append(_teil(f"C{nr}", ELEMENTE[f"C{nr}"], "brett", "sitz", element(sek[sid], f"C{nr}"),
-                         (yB, yB + bh), zB, "bretter"))
-        y0 = yB + bh + sp
-        out.append(_teil(f"D{nr}", f"Schubladenkasten {ELEMENTE[f'D{nr}'].split()[-1]}", "schublade", "schublade", element(sek[sid], f"D{nr}"),
-                         (y0, y0 + hK), zK, "schubladen"))
-        out.append(_teil(f"D{nr}-F", f"Schubladenfront {ELEMENTE[f'D{nr}'].split()[-1]}", "schublade", "blende",
-                         sek[sid], (yB + bh, yB + bh + e["blende_hoehe"]), zF, "schubladen"))
-        schienenpaar(sid, yB, "bretter", f"C{nr}")
-        schienenpaar(sid, y_schiene["LR"], "schubladen", f"D{nr}")
+        baender[f"C{nr}"] = schienenpaar(sid, yB, "bretter", f"C{nr}")
+        brett_element(f"C{nr}", sek[sid], yB + wl, "sitz")
+        baender[f"D{nr}"] = kasten(f"D{nr}", sek[sid], yB + rhC + ue + sp)
+    # Mitte: unten Schublade, oben Tischbrett-Element
+    baender["D3"] = kasten("D3", sek["M"], yB + luft)
+    y_c3 = H - sp - hE                              # Tischbrett-Element hängt von oben (5 mm unter T1)
+    assert yB + luft + hK + sp <= y_c3 + 1e-6, "Kasten D3 stößt an das Tischbrett-Element"
+    baender["C3"] = schienenpaar("M", y_c3 + hE - ue - typ("C3")["hoehe"], "bretter", "C3")
+    brett_element("C3", sek["M"], y_c3, "tisch")
+    assert y_c3 + hE + sp <= H + 1e-6, "Tischbrett stößt an die Deckplatte"
 
-    # Mitte: unten Schublade, oben Tisch-Brett
-    out.append(_teil("D3", "Schubladenkasten Mitte", "schublade", "schublade", element(sek["M"], "D3"),
-                     (yB, yB + hK), zK, "schubladen"))
-    out.append(_teil("D3-F", "Schubladenfront Mitte", "schublade", "blende",
-                     sek["M"], (yB, yB + e["blende_hoehe"]), zF, "schubladen"))
-    yT = yB + hK + sp
-    out.append(_teil("C3", ELEMENTE["C3"], "brett", "tisch", element(sek["M"], "C3"), (yT, yT + bh), zB, "bretter"))
-    schienenpaar("M", y_schiene["M"], "schubladen", "D3")
-    schienenpaar("M", yT + bh - typ("C3")["hoehe"], "bretter", "C3")
+    # An M1/M2 liegen die Schienen der Nachbarsektionen gegenüber (ADR 0025): Bänder dürfen sich nicht
+    # überlappen, sonst landen die Muttern der M6-Durchsteckschrauben unter einer Schiene der Gegenseite.
+    mind = e["schubladenschiene"]["mindestabstand_gegenseite"]
+    for links in ("C1", "D1"):
+        for mitte in ("D3", "C3"):
+            (a0, a1), (b0, b1) = baender[links], baender[mitte]
+            assert a1 + mind <= b0 or b1 + mind <= a0, \
+                f"Schienen {links} und {mitte} liegen an der Trennwand weniger als {mind} mm auseinander"
     return out
 
 
@@ -247,7 +275,7 @@ def _verteilt(spanne, anzahl, laenge, rand):
     return [rand + (spanne - 2 * rand - laenge) * i / (anzahl - 1) for i in range(anzahl)]
 
 
-def schubladen_bretter(p=None, alle=None):
+def schubladen_bretter(p=None, alle=None, zusammenfassen=True):
     """Die Bretter der Schubladenkästen D1–D3 als ebene Frässkonturen (ADR 0024).
 
     Außenmaße jedes Kastens kommen aus dem Quader D1/D2/D3 in `teile()`, die Höhe des
@@ -258,14 +286,31 @@ def schubladen_bretter(p=None, alle=None):
 
     Seitenwand -S: u = Kastentiefe (z), v = Höhe · Stirnwand -E (Kastenfront und
     -rückwand): u = Kastenbreite (x), v = Höhe · Boden -B: u = Breite (x), v = Tiefe (z).
+    zusammenfassen=False: je Kasten eigene Einträge, mit `kasten` (Quader) — für schubladen_3d().
     """
     p = p or lade_parameter()
     alle = alle or teile(p)
     s, zug = p["schubladen"], p["zapfen"]["schleifzugabe"]
     T, Tb, h0 = s["wandstaerke"], s["bodenstaerke"], s["boden_abstand_unten"]
-    n, bz, f = s["zinken_anzahl"], s["bodenzapfen"], s["fenster"]
+    n, bz, f, g = s["zinken_anzahl"], s["bodenzapfen"], s["fenster"], s["griff"]
     nach_id = {t["id"]: t for t in alle}
     rand = T + zug                              # Zinkenlänge inkl. Schleifzugabe
+
+    def lochraster(u_a, u_b, baender):
+        """Runde Löcher im Quadratraster, mittig in [u_a, u_b] × jedes Band (ADR 0026).
+        Als Fenster mit Radius = halbe Seite, damit cnc.py und der Viewer sie als Kreise zeichnen."""
+        dm, ab = s["lochraster"]["durchmesser"], s["lochraster"]["abstand"]
+        nu = int((u_b - u_a - dm) // ab) + 1
+        if nu < 1:
+            return []
+        u_mitten = [u_a + (u_b - u_a - (nu - 1) * ab) / 2 + i * ab for i in range(nu)]
+        out = []
+        for a, b in baender:
+            nv = int((b - a - dm) // ab) + 1
+            for j in range(max(nv, 0)):
+                vm = a + (b - a - (nv - 1) * ab) / 2 + j * ab
+                out += [(um - dm / 2, vm - dm / 2, um + dm / 2, vm + dm / 2, dm / 2) for um in u_mitten]
+        return out
 
     def zinken(lang, hoehe, gerade_aussen):
         """Ausfräsungen an beiden Enden: Lücken dort, wo das Gegenstück seinen Zinken hat."""
@@ -293,10 +338,31 @@ def schubladen_bretter(p=None, alle=None):
         for a, b in ((unten, band[0]), (band[1], H - f["rand_oben"])):
             if b - a >= f["min_hoehe"]:
                 frei.append((a, b))
-        bf = (Li - 2 * f["rand_ende"] - (f["anzahl"] - 1) * f["steg"]) / f["anzahl"]
-        fenster = [(rand + f["rand_ende"] + i * (bf + f["steg"]), a,
-                    rand + f["rand_ende"] + i * (bf + f["steg"]) + bf, b, f["radius"])
-                   for a, b in frei for i in range(f["anzahl"])]
+        art = s["aussparung"].get(d, "keine")
+        u_a, u_b = rand + f["rand_ende"], rand + Li - f["rand_ende"]
+        if art == "fenster":
+            bf = (Li - 2 * f["rand_ende"] - (f["anzahl"] - 1) * f["steg"]) / f["anzahl"]
+            fenster = [(u_a + i * (bf + f["steg"]), a, u_a + i * (bf + f["steg"]) + bf, b, f["radius"])
+                       for a, b in frei for i in range(f["anzahl"])]
+        elif art == "lochraster":
+            fenster = lochraster(u_a, u_b, frei)
+        else:
+            fenster = []
+
+        # Kastenfront (-E1) und -rückwand (-E2): Lochraster über die ganze freie Höhe, vorn dazu der Griff
+        stirn_frei = [(unten, H - f["rand_oben"])]
+        mitte = B / 2 + zug
+        if g["art"] == "ausschnitt":
+            griff = (mitte - g["breite"] / 2, H - g["tiefe"], mitte + g["breite"] / 2, H + g["radius"] + 1, g["radius"])
+        else:
+            griff = (mitte - g["breite"] / 2, H - g["abstand_oben"] - g["tiefe"],
+                     mitte + g["breite"] / 2, H - g["abstand_oben"], min(g["radius"], g["tiefe"] / 2))
+        steg = s["lochraster"]["abstand"] - s["lochraster"]["durchmesser"]
+        frei_griff = (griff[0] - steg, griff[1] - steg, griff[2] + steg, griff[3] + steg)
+        e_a, e_b = rand + f["rand_ende"], rand + Bi - f["rand_ende"]
+        loecher_hinten = lochraster(e_a, e_b, stirn_frei)
+        loecher_vorn = [l for l in loecher_hinten if not (l[2] > frei_griff[0] and l[0] < frei_griff[2]
+                                                          and l[3] > frei_griff[1] and l[1] < frei_griff[3])]
 
         boden_zapfen = [(0, rand + a, rand, rand + a + bz["laenge"]) for a in
                         _verteilt(Li, bz["anzahl_lang"], bz["laenge"], bz["abstand_rand"])]
@@ -307,24 +373,33 @@ def schubladen_bretter(p=None, alle=None):
 
         lage = ELEMENTE[d].split()[-1]
         bretter += [
-            {"id": f"{d}-S", "teil": "Seitenwand", "lagen": [lage], "stk": 2, "staerke": T,
+            {"id": f"{d}-S", "teil": "Seitenwand", "lagen": [lage], "stk": 2, "staerke": T, "kasten": d,
              "breite": L + 2 * zug, "hoehe": H, "behalten": [(0, 0, L + 2 * zug, H)],
              "loecher": zinken(L, H, True) + bodenschlitze(Li, bz["anzahl_lang"]), "fenster": fenster},
-            {"id": f"{d}-E", "teil": "Kastenfront und -rückwand", "lagen": [lage], "stk": 2, "staerke": T,
+            {"id": f"{d}-E1", "teil": "Kastenfront mit Griff", "lagen": [lage], "stk": 1, "staerke": T, "kasten": d,
              "breite": B + 2 * zug, "hoehe": H, "behalten": [(0, 0, B + 2 * zug, H)],
-             "loecher": zinken(B, H, False) + bodenschlitze(Bi, bz["anzahl_kurz"]), "fenster": []},
-            {"id": f"{d}-B", "teil": "Boden", "lagen": [lage], "stk": 1, "staerke": Tb,
+             "loecher": zinken(B, H, False) + bodenschlitze(Bi, bz["anzahl_kurz"]), "fenster": loecher_vorn,
+             "griff": [griff]},
+            {"id": f"{d}-E2", "teil": "Kastenrückwand", "lagen": [lage], "stk": 1, "staerke": T, "kasten": d,
+             "breite": B + 2 * zug, "hoehe": H, "behalten": [(0, 0, B + 2 * zug, H)],
+             "loecher": zinken(B, H, False) + bodenschlitze(Bi, bz["anzahl_kurz"]), "fenster": loecher_hinten},
+            {"id": f"{d}-B", "teil": "Boden", "lagen": [lage], "stk": 1, "staerke": Tb, "kasten": d,
              "breite": B + 2 * zug, "hoehe": L + 2 * zug, "behalten": [(rand, rand, rand + Bi, rand + Li)] + boden_zapfen,
              "loecher": [], "fenster": []},
         ]
 
+    if not zusammenfassen:
+        for b in bretter:
+            b["name"] = f"Schublade {b['lagen'][0]}, {b['teil']}"
+        return bretter
+
     def gleich(a, b):
-        schluessel = ("staerke", "breite", "hoehe", "behalten", "loecher", "fenster")
-        return all(_runde(a[k]) == _runde(b[k]) for k in schluessel)
+        schluessel = ("staerke", "breite", "hoehe", "behalten", "loecher", "fenster", "griff")
+        return all(_runde(a.get(k)) == _runde(b.get(k)) for k in schluessel)
 
     out = []
     for b in bretter:
-        vorhanden = next((o for o in out if o["id"][-1] == b["id"][-1] and gleich(o, b)), None)
+        vorhanden = next((o for o in out if o["id"].split("-")[1] == b["id"].split("-")[1] and gleich(o, b)), None)
         if vorhanden:
             vorhanden["ids"].append(b["id"])
             vorhanden["lagen"] = vorhanden["lagen"] + b["lagen"]
@@ -333,6 +408,86 @@ def schubladen_bretter(p=None, alle=None):
             out.append(dict(b, ids=[b["id"]]))
     for b in out:
         b["name"] = f"Schublade {' / '.join(b['lagen'])}, {b['teil']}"
+    return out
+
+
+def _umriss(behalten, loecher):
+    """Rechteck-Vereinigung minus Löcher → geschlossene Polygone [(u, v), …].
+
+    Koordinaten-Raster aus allen Rechteckkanten, Zellen füllen, Randkanten verketten. Außen-
+    konturen laufen gegen den Uhrzeigersinn, Löcher im Uhrzeigersinn (Material immer links)."""
+    xs = sorted({r[i] for r in behalten + loecher for i in (0, 2)})
+    ys = sorted({r[i] for r in behalten + loecher for i in (1, 3)})
+
+    def drin(u, v, rechtecke):
+        return any(r[0] < u < r[2] and r[1] < v < r[3] for r in rechtecke)
+
+    voll = {(i, j) for i in range(len(xs) - 1) for j in range(len(ys) - 1)
+            if drin((xs[i] + xs[i + 1]) / 2, (ys[j] + ys[j + 1]) / 2, behalten)
+            and not drin((xs[i] + xs[i + 1]) / 2, (ys[j] + ys[j + 1]) / 2, loecher)}
+    kanten = {}
+    for i, j in voll:
+        a, b, c, d = (xs[i], ys[j]), (xs[i + 1], ys[j]), (xs[i + 1], ys[j + 1]), (xs[i], ys[j + 1])
+        for nb, k in (((i, j - 1), (a, b)), ((i + 1, j), (b, c)), ((i, j + 1), (c, d)), ((i - 1, j), (d, a))):
+            if nb not in voll:
+                kanten[k[0]] = k[1]
+    schleifen = []
+    while kanten:
+        start, punkt = next(iter(kanten.items()))
+        del kanten[start]
+        zug = [start]
+        while punkt != start:
+            zug.append(punkt)
+            punkt = kanten.pop(punkt)
+        # kollineare Zwischenpunkte entfernen
+        n = len(zug)
+        eck = [zug[k] for k in range(n)
+               if (zug[k][0] - zug[k - 1][0]) * (zug[(k + 1) % n][1] - zug[k][1])
+               != (zug[k][1] - zug[k - 1][1]) * (zug[(k + 1) % n][0] - zug[k][0])]
+        schleifen.append([[round(u, 2), round(v, 2)] for u, v in eck])
+    return schleifen
+
+
+def schubladen_3d(p=None, alle=None):
+    """Bretter der Schubladenkästen für den 3D-Viewer: Umriss + Löcher + Fenster in (u, v) und
+    die Lage im Raum (Ursprung und Achsen u, v, w in Welt-mm; w = u × v, Brett von 0 bis Stärke).
+    Zinken und Zapfen mit Schleifzugabe (Rohteil), ohne Passungsluft und Dogbones."""
+    p = p or lade_parameter()
+    alle = alle or teile(p)
+    s, zug = p["schubladen"], p["zapfen"]["schleifzugabe"]
+    T, Tb, h0 = s["wandstaerke"], s["bodenstaerke"], s["boden_abstand_unten"]
+    nach_id = {t["id"]: t for t in alle}
+    out = []
+    for b in schubladen_bretter(p, alle, zusammenfassen=False):
+        (x0, x1), (y0, y1), (z0, z1) = nach_id[b["kasten"]]["box"]
+        ex, ey, ez = [1, 0, 0], [0, 1, 0], [0, 0, 1]
+        art = b["id"].split("-")[1]
+        if art == "S":      # u = z, v = y, w = −x
+            lagen = [("a", [x0 + T, y0, z0 - zug]), ("b", [x1, y0, z0 - zug])]
+            achsen = (ez, ey)
+        elif art == "E1":   # u = x, v = y, w = +z — Kastenfront
+            lagen = [("", [x0 - zug, y0, z0])]
+            achsen = (ex, ey)
+        elif art == "E2":   # Kastenrückwand
+            lagen = [("", [x0 - zug, y0, z1 - T])]
+            achsen = (ex, ey)
+        else:               # u = x, v = z, w = −y
+            lagen = [("", [x0 - zug, y0 + h0 + Tb, z0 - zug])]
+            achsen = (ex, ez)
+        # Griffausschnitt im Viewer als eckige Aussparung (in der DXF mit Radius)
+        schleifen = _umriss(b["behalten"], b["loecher"] + [r[:4] for r in b.get("griff", [])
+                                                           if r[3] > b["hoehe"]])
+        flaeche = lambda pts: sum(u0 * v1 - u1 * v0 for (u0, v0), (u1, v1) in zip(pts, pts[1:] + pts[:1]))
+        aussen = [l for l in schleifen if flaeche(l) > 0]
+        assert len(aussen) == 1, f"{b['id']}: {len(aussen)} Außenkonturen"
+        for suffix, ursprung in lagen:
+            out.append({"id": b["id"] + suffix, "name": b["name"], "kasten": b["kasten"], "faehrt": "schubladen",
+                        "auszug": nach_id[b["kasten"]]["auszug"],
+                        "staerke": b["staerke"], "ursprung": [round(c, 2) for c in ursprung],
+                        "u": achsen[0], "v": achsen[1], "aussen": aussen[0],
+                        "loecher": [l for l in schleifen if flaeche(l) < 0],
+                        "fenster": [[round(c, 2) for c in f] for f in b["fenster"] +
+                                    [r for r in b.get("griff", []) if r[3] <= b["hoehe"]]]})
     return out
 
 
@@ -346,7 +501,6 @@ KATEGORIEN = {
     "zapfen": "Zapfen steckt in Schlitz/Aussparung (gewollt)",
     "eckverbindung": "Eckausbildung Korpus — welche Platte läuft durch?",
     "rueckwand": "Rückwand R1 ragt in Schienen/Elemente (lichte Tiefe < Schienenlänge)",
-    "frontblende": "Schubladenfront überdeckt Schienen bzw. Nachbarelement",
     "auflage": "Matratze liegt auf den Scharnieren (weich, unkritisch)",
     "sonstige": "Sonstige Überschneidung",
 }
@@ -363,8 +517,6 @@ def _kategorie(a, b):
         return "eckverbindung"
     if "R1" in ids:
         return "rueckwand"
-    if "blende" in (a["material"], b["material"]):
-        return "frontblende"
     return "sonstige"
 
 
@@ -411,6 +563,13 @@ def fahrzeug_pruefung(p=None):
     out.append(pruefung("Liegefläche T1 + F1 + F2 bis zu den Kopfstützen", lang,
                         f["laenge_heck_bis_kopfstuetzen"], f"{luft} mm Luft",
                         "ok" if luft > 0 else ("knapp" if luft == 0 else "anpassen")))
+    hebel = p["schienen"]["hebel_vorn"]
+    lo, hi = f["ladetiefe_min"] - k["tiefe"], f["ladetiefe_max"] - k["tiefe"]
+    out.append(pruefung("Arretierungshebel der Schienen vor der Korpusfront", hebel,
+                        f"{lo}–{hi} mm Luft (Ladetiefe − Korpus)",
+                        f"Hebel ragen {hebel} mm vor — am Auto prüfen, ob die Heckklappe schließt; sonst Korpus "
+                        "ganz an die Rücksitze schieben oder die Schienen bis 12 mm zurücksetzen (ADR 0028)",
+                        "ok" if hebel < lo else ("knapp" if hebel <= hi else "anpassen")))
     spalt = k["hoehe"] - f["ruecksitzlehne_hoehe"]
     out.append(pruefung("Unterkante F1 über umgeklappten Rücksitzlehnen", k["hoehe"], f["ruecksitzlehne_hoehe"],
                         f"{spalt} mm Spalt — unter F1 ausgleichen (§H4)" if spalt else "liegt bündig auf",
@@ -427,6 +586,7 @@ def main():
     daten["kollisionen"] = daten["varianten"][p["eckausbildung"]]
     daten["fahrzeug_pruefung"] = fahrzeug_pruefung(p)
     daten["klappachsen"] = _scharniere(p)[1]
+    daten["schubladen_3d"] = schubladen_3d(p, teile(p))   # Kastenbretter statt Quader im 3D-Reiter (ADR 0024)
     ziel = ORDNER / "modell.js"
     ziel.write_text(
         "// GENERIERT von modell/modell.py aus modell/parameter.json — nicht von Hand bearbeiten.\n"

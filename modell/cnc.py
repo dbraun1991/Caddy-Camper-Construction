@@ -117,8 +117,9 @@ def kontur(p, behalten, loecher, fenster=()):
             flaeche = (flaeche - bd.Pos(x + dx * r, y + dy * r) * bd.Circle(r)).faces()[0]
     for u0, v0, u1, v1, radius in fenster:
         assert radius >= c["fraeser_durchmesser"] / 2, "Fensterradius kleiner als der Fräserradius"
-        flaeche = (flaeche - bd.Pos((u0 + u1) / 2, (v0 + v1) / 2)
-                   * bd.RectangleRounded(u1 - u0, v1 - v0, radius)).faces()[0]
+        rund = abs(u1 - u0 - 2 * radius) < 1e-6 and abs(v1 - v0 - 2 * radius) < 1e-6   # Loch im Lochraster
+        form = bd.Circle(radius) if rund else bd.RectangleRounded(u1 - u0, v1 - v0, radius)
+        flaeche = (flaeche - bd.Pos((u0 + u1) / 2, (v0 + v1) / 2) * form).faces()[0]
     return flaeche
 
 
@@ -178,7 +179,8 @@ def _schreibe(ordner, pfad, zeilen, flaechen, titel, abschnitte_liste):
     return {
         "teile": [{"datei": f"{pfad}/{zl['datei']}", "vorschau": f"{pfad}/vorschau/{zl['datei'][:-4]}.svg",
                    "kuerzel": zl["kuerzel"], "name": zl["name"], "stk": zl["stk"], "mass": zl["mass"],
-                   "schlitze": zl["schlitze"], "fenster": zl["fenster"], "material": zl["material"]}
+                   "schlitze": zl["schlitze"], "fenster": zl["fenster"], "fenster_art": zl.get("fenster_art", "Fenster"),
+                   "material": zl["material"]}
                   for zl in zeilen],
         "alle_dxf": f"{pfad}/alle-teile.dxf", "alle_vorschau": f"{pfad}/vorschau/alle-teile.svg",
         "auftrag": f"{pfad}/AUFTRAG.md",
@@ -216,13 +218,15 @@ def erzeuge_schubladen():
     p = modell.lade_parameter()
     zeilen, flaechen = [], []
     for b in modell.schubladen_bretter(p):
-        flaeche = kontur(p, b["behalten"], b["loecher"], b["fenster"])
+        flaeche = kontur(p, b["behalten"], b["loecher"], b["fenster"] + b.get("griff", []))
         datei = "-".join(i.lower() for i in b["ids"]) + ".dxf"   # z. B. d1-s-d2-s.dxf
         zeilen.append(_zeile(datei, b["ids"], b["name"], b["stk"], flaeche, b["breite"], b["hoehe"],
                              f"Birke-Multiplex {zeichnungen.fmt(b['staerke'])} mm", len(b["fenster"])))
         flaechen.append((flaeche, b["breite"], b["hoehe"]))
-        fenster = sum((u1 - u0) * (v1 - v0) - (4 - math.pi) * r * r for u0, v0, u1, v1, r in b["fenster"])
-        zeilen[-1].update(_staerke=b["staerke"], _flaeche=flaeche.area, _voll=flaeche.area + fenster)
+        voll = kontur(p, b["behalten"], b["loecher"]).area           # ohne Fenster, Löcher und Griff
+        rund = b["fenster"] and b["fenster"][0][4] * 2 == b["fenster"][0][2] - b["fenster"][0][0]
+        zeilen[-1].update(_staerke=b["staerke"], _flaeche=flaeche.area, _voll=voll,
+                          fenster_art=("Löcher" if rund else "Fenster") + (" + Griff" if b.get("griff") else ""))
     return ZIEL / "schubladen", zeilen, _schreibe(ZIEL / "schubladen", "docs/cnc/schubladen", zeilen, flaechen,
                                                   "Schubladenkästen D1–D3", abschnitte_schubladen(p, zeilen))
 
@@ -319,12 +323,12 @@ def abschnitte_schubladen(p, zeilen):
             f"Material: **Birke-Multiplex {f(T)} mm** (Wände) und **{f(Tb)} mm** (Böden), {stk} Teile in "
             f"{len(zeilen)} unterschiedlichen Formen — die Wände und Böden der drei Schubladenkästen "
             f"(Außenmaß B × T × H: {', '.join(kaesten)} mm).",
-            f"Gewicht aller Kästen ohne Blenden ca. **{f(round(gewicht, 1))} kg** (ohne Fenster in den Seitenwänden "
+            f"Gewicht aller drei Kästen ca. **{f(round(gewicht, 1))} kg** (ohne Fenster, Löcher und Griffe "
             f"wären es {f(round(ohne, 1))} kg, Dichte {s['dichte_kg_m3']} kg/m³ angenommen)."]),
-        _dateien(c, "geschlossene Schlitze und die Fenster der Seitenwände"),
+        _dateien(c, "geschlossene Schlitze, Fenster und Löcher der Seitenwände"),
         ("Verbindungen", "liste", [
             f"**Ecken: Fingerzinken**, {s['zinken_anzahl']} Felder über die Kastenhöhe. Die Seitenwände (`-S`) "
-            "haben oben und unten einen Zinken, Kastenfront und -rückwand (`-E`) die Lücken dazwischen.",
+            "haben oben und unten einen Zinken, Kastenfront (`-E1`) und -rückwand (`-E2`) die Lücken dazwischen.",
             f"**Boden** (`-B`, {f(Tb)} mm): Zapfen {f(bz['laenge'])} mm breit, je {bz['anzahl_lang']} an den langen "
             f"und {bz['anzahl_kurz']} an den kurzen Kanten, durch Schlitze {f(bz['laenge'])} × {f(Tb)} mm in allen "
             f"vier Wänden, {f(s['boden_abstand_unten'])} mm über der Wandunterkante.",
@@ -334,9 +338,18 @@ def abschnitte_schubladen(p, zeilen):
             f"{f(z['schleifzugabe'])} mm Schleifzugabe): Sie stehen nach dem Verleimen 1 mm über und werden bündig "
             "geschliffen, bevor die Schienen angeschraubt werden. Gewollt, nicht korrigieren.",
             _ecken(c),
-            f"**Fenster** in den Seitenwänden: Ecken mit Radius {f(fe['radius'])} mm, ohne Dogbone. Das Band der "
-            f"Schubladenschiene (± {f(fe['abstand_schiene'])} mm) bleibt voll stehen — dort wird die Schiene "
-            "angeschraubt.",
+            f"**Fenster** in den Seitenwänden der äußeren Schubladen "
+            f"({', '.join(d for d, art in s['aussparung'].items() if art == 'fenster')}): Ecken mit Radius "
+            f"{f(fe['radius'])} mm, ohne Dogbone. **Lochraster** (runde Löcher Ø {f(s['lochraster']['durchmesser'])} mm "
+            f"im Abstand {f(s['lochraster']['abstand'])} mm) in den Seitenwänden der mittleren Schublade "
+            f"({', '.join(d for d, art in s['aussparung'].items() if art == 'lochraster')}) und in allen "
+            "Kastenfronten und -rückwänden (ADR 0026, ADR 0027). Das Band der Schubladenschiene "
+            f"(± {f(fe['abstand_schiene'])} mm) bleibt immer voll stehen — dort wird die Schiene angeschraubt.",
+            (f"**Griff** in der Kastenfront (`-E1`): Ausschnitt von der Oberkante, {f(s['griff']['breite'])} mm breit, "
+             f"{f(s['griff']['tiefe'])} mm tief, unten Radius {f(s['griff']['radius'])} mm (ADR 0027)."
+             if s["griff"]["art"] == "ausschnitt" else
+             f"**Griff** in der Kastenfront (`-E1`): Griffloch {f(s['griff']['breite'])} × {f(s['griff']['tiefe'])} mm "
+             f"mit runden Enden, {f(s['griff']['abstand_oben'])} mm unter der Oberkante (ADR 0027)."),
         ]),
         ("Annahmen (vor dem Auftrag klären)", "nummeriert", [
             f"**Kastenbreite** = Sektionsbreite − 2 × Schienenstärke − 2 mm Spiel. Die Stärke der gelieferten "
@@ -348,10 +361,10 @@ def abschnitte_schubladen(p, zeilen):
             "etwas dünner oder dicker — die Schlitzhöhe an der gelieferten Platte prüfen.",
             "**Haltestege** (Tabs) und Fräsreihenfolge legt der Dienstleister fest; danach nur Stegreste verschleifen.",
             f"**Faserrichtung egal**: Die Teile dürfen beim Nesting beliebig gedreht werden. {_wenden(zeilen)}",
-            "**Keine Bohrungen**: Schienen, Frontblende und Griffe werden beim Zusammenbau angerissen und gebohrt.",
-            "**Nicht enthalten**: Frontblenden D1-F–D3-F (einliegend oder aufliegend wird erst am fertigen Korpus "
-            "entschieden) und die Sitz- und Tischbretter C1–C3 (ADR 0013).",
-            "**Kanten**: keine Fase, kein Radius an den Außenkanten.",
+            "**Keine Bohrungen**: Die Schienen werden beim Zusammenbau angerissen und gebohrt.",
+            "**Keine Frontblenden** (ADR 0027): Die Kastenfront `-E1` ist die sichtbare Front, mit gefrästem Griff. "
+            "Sitz- und Tischbretter C1–C3 sind nicht enthalten (ADR 0013).",
+            "**Kanten**: keine Fase, kein Radius an den Außenkanten. Die Kanten am Griff werden von Hand gebrochen.",
         ]),
     ]
 
@@ -402,7 +415,7 @@ def main():
         ordner, zeilen, daten["varianten"][name] = erzeuger()
         print(f"{ordner.relative_to(ZIEL.parent.parent)}/: "
               + ", ".join(f"{zl['datei']} ({zl['stk']}×, {zl['schlitze']} Schlitze"
-                          + (f", {zl['fenster']} Fenster" if zl["fenster"] else "")
+                          + (f", {zl['fenster']} {zl['fenster_art']}" if zl["fenster"] else "")
                           + f", symmetrisch {'/'.join(zl['symmetrie']) or '–'})" for zl in zeilen))
     viewer_daten(daten)
     print(f"{(ZIEL / 'cnc.js').relative_to(ZIEL.parent.parent)}  (Daten für den Reiter „DXF · CNC“)")

@@ -1,6 +1,7 @@
 # 0017: 850 mm runners in the 900 mm corpus
 
-Status: Accepted — amends [ADR 0008](0008-heavy-duty-full-extension-runners.md) (runner length only); amended by [ADR 0021](0021-table-board-on-170-kg-runners.md) (`C3` moves to the 170 kg runner)
+Status: Accepted — amends [ADR 0008](0008-heavy-duty-full-extension-runners.md) (runner length only); amended by [ADR 0021](0021-table-board-on-170-kg-runners.md) (`C3` moves to the 170 kg runner) — **amended by [ADR 0028](0028-height-plan-board-on-cheeks-foolproof-runner-layout.md)**: the delivered 170 kg runners measure 870 mm
+(+ 30 mm lock lever in front), the 80 kg runners 850 mm; both still fit the 882 mm clear depth.
 
 ## Context
 
