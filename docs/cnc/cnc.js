@@ -1,6 +1,6 @@
 // Generiert von modell/cnc.py — nicht von Hand ändern (ADR 0023)
 window.CNC = {
- "stand": "2026-11-12",
+ "stand": "2026-11-13",
  "varianten": {
   "gezapft": {
    "teile": [
@@ -251,7 +251,7 @@ window.CNC = {
      "kuerzel": "D1-S / D2-S",
      "name": "Schublade links / rechts, Seitenwand",
      "stk": 4,
-     "mass": "850 × 216",
+     "mass": "850 × 226,5",
      "schlitze": 5,
      "fenster": 4,
      "fenster_art": "Fenster",
@@ -263,7 +263,7 @@ window.CNC = {
      "kuerzel": "D1-E1 / D2-E1",
      "name": "Schublade links / rechts, Kastenfront mit Griff",
      "stk": 2,
-     "mass": "274 × 216",
+     "mass": "274 × 226,5",
      "schlitze": 2,
      "fenster": 6,
      "fenster_art": "Löcher + Griff",
@@ -275,7 +275,7 @@ window.CNC = {
      "kuerzel": "D1-E2 / D2-E2",
      "name": "Schublade links / rechts, Kastenrückwand",
      "stk": 2,
-     "mass": "274 × 216",
+     "mass": "274 × 226,5",
      "schlitze": 2,
      "fenster": 9,
      "fenster_art": "Löcher",
@@ -299,7 +299,7 @@ window.CNC = {
      "kuerzel": "D3-S",
      "name": "Schublade Mitte, Seitenwand",
      "stk": 2,
-     "mass": "850 × 227,5",
+     "mass": "850 × 229,5",
      "schlitze": 5,
      "fenster": 36,
      "fenster_art": "Löcher",
@@ -311,7 +311,7 @@ window.CNC = {
      "kuerzel": "D3-E1",
      "name": "Schublade Mitte, Kastenfront mit Griff",
      "stk": 1,
-     "mass": "386 × 227,5",
+     "mass": "386 × 229,5",
      "schlitze": 2,
      "fenster": 20,
      "fenster_art": "Löcher + Griff",
@@ -323,7 +323,7 @@ window.CNC = {
      "kuerzel": "D3-E2",
      "name": "Schublade Mitte, Kastenrückwand",
      "stk": 1,
-     "mass": "386 × 227,5",
+     "mass": "386 × 229,5",
      "schlitze": 2,
      "fenster": 24,
      "fenster_art": "Löcher",
@@ -350,8 +350,8 @@ window.CNC = {
      "titel": "Teile",
      "art": "absatz",
      "texte": [
-      "Material: **Birke-Multiplex 18 mm** (Wände) und **12 mm** (Böden), 15 Teile in 8 unterschiedlichen Formen — die Wände und Böden der drei Schubladenkästen (Außenmaß B × T × H: D1 272 × 848 × 216, D2 272 × 848 × 216, D3 384 × 848 × 227,5 mm).",
-      "Gewicht aller drei Kästen ca. **19,3 kg** (ohne Fenster, Löcher und Griffe wären es 23,6 kg, Dichte 680 kg/m³ angenommen)."
+      "Material: **Birke-Multiplex 18 mm** (Wände) und **12 mm** (Böden), 15 Teile in 8 unterschiedlichen Formen — die Wände und Böden der drei Schubladenkästen (Außenmaß B × T × H: D1 272 × 848 × 226,5, D2 272 × 848 × 226,5, D3 384 × 848 × 229,5 mm).",
+      "Gewicht aller drei Kästen ca. **19,8 kg** (ohne Fenster, Löcher und Griffe wären es 24,2 kg, Dichte 680 kg/m³ angenommen)."
      ]
     },
     {

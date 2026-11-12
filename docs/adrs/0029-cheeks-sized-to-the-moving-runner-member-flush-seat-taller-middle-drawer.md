@@ -1,6 +1,8 @@
 # 0029: Cheeks sized to the moving runner member, flush seat, through-tenoned cheeks, taller middle drawer
 
-Status: Accepted (2026-11-12). Amends the element heights and the cheek rule of
+Status: Accepted (2026-11-12). Heights amended by [ADR 0031](0031-boards-flush-with-the-middle-runner-member-minimal-cheeks.md)
+(2026-11-13): boards flush with the 55 mm member, cheeks only 15 mm below the
+hole line, `D3` 229.5 mm; the through-tenon joinery stays. Amends the element heights and the cheek rule of
 [ADR 0028](0028-height-plan-board-on-cheeks-foolproof-runner-layout.md) (board
 1.5 mm proud, cheeks ending 20 mm above the runner bottom, equal drawer boxes)
 and decides its open "how are board and cheeks joined" question.

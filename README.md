@@ -159,9 +159,9 @@ Sektionsbreiten nach Abzug der Seitenwände S1/S2 (18 mm innen): **312 mm** L/R 
 
 | Sektion | Innenbreite | Element oben | Element unten |
 |---|---|---|---|
-| Links | 312 mm | Schublade 216 mm hoch · 272 mm breit | Sitzbrett-Element 63,5 mm hoch (Brett auf gezapften Wangen, bündig mit der Schiene) · 272 mm breit |
-| Mitte | 424 mm | Tischbrett-Element 63,5 mm hoch (Brett auf gezapften Wangen) · 384 mm breit | Schublade 227,5 mm hoch · 384 mm breit |
-| Rechts | 312 mm | Schublade 216 mm hoch · 272 mm breit | Sitzbrett-Element 63,5 mm hoch (Brett auf gezapften Wangen, bündig mit der Schiene) · 272 mm breit |
+| Links | 312 mm | Schublade 226,5 mm hoch · 272 mm breit | Sitzbrett-Element 42,5 mm hoch (Brett auf gezapften Wangen, bündig mit dem 55-mm-Schienenteil) · 272 mm breit |
+| Mitte | 424 mm | Tischbrett-Element 42,5 mm hoch (Brett auf gezapften Wangen, bündig mit dem 55-mm-Schienenteil) · 384 mm breit | Schublade 229,5 mm hoch · 384 mm breit |
+| Rechts | 312 mm | Schublade 226,5 mm hoch · 272 mm breit | Sitzbrett-Element 42,5 mm hoch (Brett auf gezapften Wangen, bündig mit dem 55-mm-Schienenteil) · 272 mm breit |
 
 Breitenformel: Innenbreite − 2 × 19 mm Schiene − 2 mm Spalt = Elementbreite.  
 Schienen: AOLISHENG — 170 kg / 76 mm / 870 mm lang für die Sitzbretter C1/C2 und das Tischbrett C3 (auch dort darf jemand sitzen, [ADR 0021](docs/adrs/0021-table-board-on-170-kg-runners.md)), 80 kg / 53 mm / 850 mm für die Schubladen. Stärke je Seite: 19 mm, an beiden Typen gemessen (2026-11-12); Höhenplan und Datenblatt: [ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md). Im Render dunkelgrau dargestellt.
@@ -240,7 +240,7 @@ Offen:
 - [x] ADR 0013 entschieden: Sitz-/Tischbrett als Brett oben auf zwei Wangen, Höhenplan — [ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md)
 - [ ] **Arretierungshebel vs. Heckklappe am Auto prüfen**: die Hebel ragen ~30 mm vor die Korpusfront, Luft laut Messung 20–30 mm; hinten ist 1 cm Reserve, sollte passen — beim Testaufbau prüfen, **bevor die Schubladenhölzer bestellt werden** (Notlösung: Schienen nach hinten durch R1) ([ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md))
 - [ ] Lochgröße der 80-kg-Schiene prüfen (V2 3,5 mm passt nur zu kleinen Löchern)
-- [x] Verbindung Brett ↔ Wangen bei C1–C3: Wangen mit 5 Durchzapfen je Wange durch das Brett, verleimt; Wangen am 55-mm-Teleskopteil ausgerichtet, Sitzfläche bündig, D3 13 mm höher — [ADR 0029](docs/adrs/0029-cheeks-sized-to-the-moving-runner-member-flush-seat-taller-middle-drawer.md)
+- [x] Verbindung Brett ↔ Wangen bei C1–C3: Wangen mit 5 Durchzapfen je Wange durch das Brett, verleimt — [ADR 0029](docs/adrs/0029-cheeks-sized-to-the-moving-runner-member-flush-seat-taller-middle-drawer.md); Sitz- und Tischfläche bündig mit dem 55-mm-Schienenteil, Wangen nur 24,5 mm (15 mm Holz unter der Lochreihe), D3 +15 mm — [ADR 0031](docs/adrs/0031-boards-flush-with-the-middle-runner-member-minimal-cheeks.md)
 - [ ] Fertigung C1–C3 (CNC oder Zuschnitt) — bewusst noch offen
 - [x] Eckausbildung Korpus — Boden B1 und Deckel T1 durchgehend, Wände mit Zapfen 18 × 50 mm durch B1 und T1, Wandzuschnitt 340 mm hoch — [ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md), [ADR 0020](docs/adrs/0020-through-tenons-instead-of-routed-grooves.md)
 - [x] Lichte Tiefe 882 mm vs. Schienenlänge — gelöst mit 850-mm-Schienen, Korpus bleibt 900 mm (20–30 mm Luft zu den Rücksitzen, 32 mm hinter den Schienen) — [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)

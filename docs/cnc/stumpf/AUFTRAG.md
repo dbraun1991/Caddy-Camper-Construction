@@ -1,6 +1,6 @@
 # CNC-Auftrag — VW Caddy Mk3 Camper, Box + Liegefläche (stumpf)
 
-Erzeugt am 2026-11-12 von `modell/cnc.py` aus `modell/parameter.json` — nicht von Hand ändern, sondern Parameter anpassen und neu erzeugen. Entscheidung und Hintergrund: ADR 0023.
+Erzeugt am 2026-11-13 von `modell/cnc.py` aus `modell/parameter.json` — nicht von Hand ändern, sondern Parameter anpassen und neu erzeugen. Entscheidung und Hintergrund: ADR 0023.
 
 ## Teile
 

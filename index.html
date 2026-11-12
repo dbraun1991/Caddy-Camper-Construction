@@ -229,11 +229,11 @@
 
   <div id="legend">
     <span style="background:#8B6520;"></span>Holz / Korpus + Liegefläche (Birke-Multiplex)<br>
-    <span style="background:#5DCAA5;"></span>Sitzbrett L/R &nbsp;(Brett 18 mm auf zwei gezapften Wangen, 63,5 mm hoch, bündig mit der Schiene · 870 mm Auszug)<br>
-    <span style="background:#EF9F27;"></span>Tischbrett Mitte (Brett 18 mm auf zwei gezapften Wangen, 63,5 mm hoch · 870 mm Auszug)<br>
-    <span style="background:#378ADD;"></span>Schubladen × 3 &nbsp;(Kasten L/R 216 mm, Mitte 227,5 mm hoch, ohne Blende · 850 mm Auszug)<br>
+    <span style="background:#5DCAA5;"></span>Sitzbrett L/R &nbsp;(Brett 18 mm auf zwei gezapften Wangen, 42,5 mm hoch, bündig mit dem 55-mm-Schienenteil · 870 mm Auszug)<br>
+    <span style="background:#EF9F27;"></span>Tischbrett Mitte (Brett 18 mm auf zwei gezapften Wangen, 42,5 mm hoch, bündig mit dem 55-mm-Schienenteil · 870 mm Auszug)<br>
+    <span style="background:#378ADD;"></span>Schubladen × 3 &nbsp;(Kasten L/R 226,5 mm, Mitte 229,5 mm hoch, ohne Blende · 850 mm Auszug)<br>
     <span style="background:#E62929;"></span>Rechnerische Überschneidung (Button „Überschneidungen“)<br>
-    <span style="background:#2F0D1B;"></span>Caddy-Hülle, Heckklappe offen (60 % · teils nachgemessen)<br>
+    <span style="background:#220913;"></span>Caddy-Hülle, Heckklappe offen (60 % · teils nachgemessen)<br>
     <span style="background:#B5E48C;"></span>Lade-Referenzebene Kofferraum (y = 0, Annahme 580 mm über der Straße · Räder/Unterbau Platzhalter)<br>
     <span style="background:#5F6B7A;"></span>Rücksitzbank (umgeklappt / hochgeklappt / ausgebaut)<br>
     <span style="background:#B8BEC6;"></span>Scharniere Deckplatte ↔ Klappbrett (oben) · zwischen den Klappbrettern (unten)<br>
@@ -354,7 +354,7 @@
   var mBlue    = new THREE.MeshLambertMaterial({ color: 0x378ADD, transparent: true, opacity: 0.88 });
   var mMat     = new THREE.MeshLambertMaterial({ color: 0xDDDDDD, transparent: true, opacity: 0.40 });
   // Caddy-Hülle: 60 % deckend, kein Tiefenschreiben, damit der Aufbau dahinter sichtbar bleibt
-  var mCaddy   = new THREE.MeshLambertMaterial({ color: 0x2F0D1B, transparent: true, opacity: 0.60, depthWrite: false, side: THREE.DoubleSide });
+  var mCaddy   = new THREE.MeshLambertMaterial({ color: 0x220913, transparent: true, opacity: 0.60, depthWrite: false, side: THREE.DoubleSide });
   var mRailRed = new THREE.MeshLambertMaterial({ color: 0xFF1111, transparent: true, opacity: 0.90 });
   // Schienen silbergrau, je weiter innen desto dunkler: Gehäuse · Mittelteil · Innenteil · Hebel (ADR 0030)
   var mSchiene = [0xC9CED3, 0xA2A9B0, 0x7B838B, 0x4A5056].map(function (c) {
@@ -553,7 +553,7 @@
     { z0: 1900, z1: 2850, y0: 350, y1: 1150 }   // Fronttür
   ];
 
-  function shell(w, h, d, x, y, z, g) { wireframe(box(w, h, d, mCaddy, x, y, z, g || caddyG), 0x4D2536); }
+  function shell(w, h, d, x, y, z, g) { wireframe(box(w, h, d, mCaddy, x, y, z, g || caddyG), 0x3D1C2A); }
 
   // Seitenwand aus Feldern rund um die Türöffnungen (Wand-Innenkante bei xc, Stärke CT)
   function sideWall(xc) {
