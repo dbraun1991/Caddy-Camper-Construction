@@ -276,6 +276,13 @@ down.
 
 ### TODOs
 
+- Record the size of the hinges already bought (`V17`): leaf width, open
+  length, axis height above the board. `scharniere` in `modell/parameter.json`
+  is still assumed (60 / 60 / 3 mm). Builder asked 2026-11-13.
+- Re-check ADR 0032 for `F1/F2`: the builder points out they carry almost no
+  load and asks why they shouldn't be lightened, especially `F1`, which rests
+  on the folded rear seat backs (shim `V16`, §H4); `F2` only carries the head
+  end and hangs from the headrests on loops `V15`.
 - The load-floor height above the ground (`fahrzeug.ladekante_hoehe` = 350) is
   not measured: first the Caddy 2K datasheet value 580, then set to 350 by the
   builder (2026-11-13). Front seats in the shell are placeholders, lowered by
