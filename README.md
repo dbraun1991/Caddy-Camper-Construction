@@ -71,7 +71,7 @@ Alle 6 beweglichen Elemente (3 Schubladen + 2 Sitzbretter + 1 Tischbrett) sind i
 
 Die Klappbretter hängen an Klappscharnieren: Deckplatte ↔ Klappbrett Rücksitz oben, Klappbrett Rücksitz ↔ Klappbrett Kopfende unten. So klappen beide als Stapel auf die Box (Klappbrett Rücksitz umgedreht auf der Deckplatte, Klappbrett Kopfende darauf, Stapelhöhe 386 mm) — [ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md). Beim Fahren den Stapel mit einem Spanngurt sichern.
 
-Die Führungsschienen-Innenmember (rot) sind immer Teil der 3D-Geometrie und fahren mit ihrem Element mit — im eingeklappten Zustand liegen sie verdeckt im Korpus, im ausgefahrenen Zustand werden sie sichtbar.
+Die Führungsschienen sind als Teleskop dargestellt ([ADR 0030](docs/adrs/0030-telescopic-rail-visualization.md)), silbergrau, nach innen dunkler: das Gehäuse an der Wand bleibt stehen, das Mittelteil (55 mm hoch) fährt 430 mm aus, das Innenteil (30 mm hoch) mit Arretierungshebel fährt mit dem Element die volle Länge — so wie es am Auto aussieht.
 
 ---
 
@@ -188,7 +188,7 @@ Matratzenbreite: **1.100 mm** (passt in 1.120 mm Innenbreite).
 | Türkis (transparent) | Sitzbrett L/R (C1, C2) |
 | Orange (transparent) | Tischbrett Mitte (C3) |
 | Blau (transparent) | Schubladen × 3 |
-| Rot (transparent) | Führungsschienen-Innenmember — fahren mit Element aus |
+| Silbergrau, nach innen dunkler | Führungsschienen: Gehäuse (hell, fest) · Mittelteil · Innenteil + Hebel (dunkel, fahren aus) |
 | Weiß (transparent) | Matratzenumriss |
 | Hellblau-grau (60 % deckend) | Caddy-Hülle mit Türöffnungen und offener Heckklappe (Ladebreite, Lehnenhöhe und Länge nachgemessen, übrige Maße Platzhalter) |
 | Hellgrün (transparent) | Lade-Referenzebene im Kofferraum (y = 0) |
@@ -209,14 +209,14 @@ Matratzenbreite: **1.100 mm** (passt in 1.120 mm Innenbreite).
 
 Alle Bauteile kommen aus `MODELL.teile` (`modell/modell.js`) — jeweils ein Quader in mm, im eingefahrenen Zustand. Der Viewer enthält keine eigenen Bauteilmaße mehr; nur die Caddy-Hülle ist weiterhin direkt in `index.html` definiert.
 
-Alle Elemente — Korpusbretter, Liegefläche, Schubladen, Sitz-/Tischbretter und Führungsschienen — leben permanent in der statischen Szenengruppe `sg`. Beim Moduswechsel wird nur die Z-Position der 6 Elemente plus ihrer jeweils zugehörigen Schienen-Innenmember verschoben.
+Alle Elemente — Korpusbretter, Liegefläche, Schubladen, Sitz-/Tischbretter und Führungsschienen — leben permanent in der statischen Szenengruppe `sg`. Beim Moduswechsel wird nur die Z-Position der 6 Elemente plus ihrer jeweils zugehörigen Schienen-Innenmember verschoben — Mittelteile der Schienen nur um ihren eigenen Auszug.
 
 ```
 sg    — Korpus (R1, S1/S2, M1/M2, B1), Liegefläche (T1, F1, F2), Matratze,
-        alle 6 Elemente + 12 Führungsschienen-Innenmember (immer sichtbar)
+        alle 6 Elemente + 12 Führungsschienen als Teleskop (immer sichtbar)
 bankG — (leer, reserviert)
 packG — (leer, reserviert)
-caddyG — transparente Caddy-Hülle (Wände mit Türöffnungen, Dach, Radkästen, Vordersitze, Lade-Referenzebene, Rücksitzbank), per Button ausblendbar
+caddyG — transparente Caddy-Hülle (Wände mit Türöffnungen, Dach, Radkästen, Vordersitze, Lade-Referenzebene, Rücksitzbank, Unterbau und Räder auf 580 mm Ladekante), per Button ausblendbar
 ```
 
 Der Korpus besteht aus Einzelbrettern (keine Vollbox): S1/S2 Seitenwände links/rechts, R1 Rückwand, B1 Boden, M1/M2 Trennwände. Die Vorderseite ist offen.

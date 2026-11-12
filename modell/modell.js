@@ -49,6 +49,8 @@ window.MODELL = {
      "staerke": 19,
      "hoehe": 76,
      "hoehe_auszug": 55,
+     "hoehe_innen": 30,
+     "auszug_mitte": 430,
      "laenge": 870,
      "traglast": 170
     },
@@ -56,6 +58,9 @@ window.MODELL = {
      "name": "AOLISHENG 850 mm · 80 kg",
      "staerke": 19,
      "hoehe": 53,
+     "hoehe_auszug": 38,
+     "hoehe_innen": 21,
+     "auszug_mitte": 425,
      "laenge": 850,
      "traglast": 80
     }
@@ -63,6 +68,7 @@ window.MODELL = {
    "_staerke": "Gemessen 2026-11-12: Stärke je Seite bei beiden Typen 19 mm, Höhe 53 mm (80 kg) und 76 mm (170 kg, nachgemessen). Datenblatt 170 kg (docs/runner-pdfs/heavy-runners.pdf): Stärke 19,2 ± 0,3, Höhe 76,2 ± 0,5, Schrauben M6. Mit 19 mm + 1 mm Spiel je Seite ist bis 20 mm Schienenstärke Platz",
    "_laenge": "Gemessen 2026-11-12: 80 kg 850 mm, 170 kg 870 mm Schienenkörper, jeweils + Arretierungshebel vorn (bis 880 bzw. 900 mm)",
    "_hoehe_auszug": "Gemessen 2026-11-12 (170 kg): ausgefahren ragen nur der Arretierungshebel (30 mm), das äußerste Teleskopteil (430 mm lang, 30 mm hoch) und das mittlere (430 mm lang, 55 mm hoch) aus dem Korpus, der Rest bleibt im Gehäuse. Sitzt mittig in der Schiene (bestätigt 2026-11-12). Die Wangen richten sich nach diesen 55 mm (ADR 0029)",
+   "_teleskop": "Für den Viewer (ADR 0030): Gehäuse (fest, `hoehe`), Mittelteil (`hoehe_auszug`, fährt `auszug_mitte` aus), Innenteil (`hoehe_innen`, fährt mit dem Element die volle `laenge` aus, Hebel vorn). 170 kg gemessen 2026-11-12; 80 kg-Werte nur geschätzt (Verhältnis der 170-kg-Schiene, halber Auszug)",
    "hebel_vorn": 30,
    "_hebel_vorn": "Arretierungshebel am beweglichen Teil, ragt eingefahren so weit vor das vordere Schienenende (= Korpusfront) — gegen die Luft zur Heckklappe prüfen (fahrzeug_pruefung)",
    "zuordnung": {

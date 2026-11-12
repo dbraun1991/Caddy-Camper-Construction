@@ -1,6 +1,6 @@
 # 0005: Simplified rail visualization — inner member only
 
-Status: Accepted
+Status: Superseded by [ADR 0030](0030-telescopic-rail-visualization.md) (2026-11-12)
 
 ## Context
 

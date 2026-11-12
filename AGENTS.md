@@ -127,8 +127,11 @@ down.
   individually.
 - Full corpus geometry (side walls, back wall, floor, two dividers) at real
   dimensions, plus the three-piece sleeping platform and a mattress outline.
-- Rail visualization (inner/moving member only, see
-  [ADR 0005](docs/adrs/0005-simplified-rail-visualization.md)).
+- Rail visualization as a telescope ([ADR 0030](docs/adrs/0030-telescopic-rail-visualization.md),
+  replacing ADR 0005): wall housing stays, middle member travels
+  `auszug_mitte`, inner member + lock lever travel with the element; silver
+  grey, darker further in; dimensions from `schienen.typen.*` (80 kg values
+  estimated). The model still has one box per runner side.
 - Mobile support: pinch-zoom, controls clear of the phone's system navigation
   (`100dvh` + safe-area inset), legend toggle button ("Legende", hidden by
   default at ≤ 700 px width, on a dark backing when shown).

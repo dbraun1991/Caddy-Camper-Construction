@@ -22,7 +22,7 @@ Decision, Consequences.
 | [0002](0002-pinned-threejs-r128-via-cdn.md) | Pinned Three.js r128 via CDN | Accepted |
 | [0003](0003-real-world-mm-scale-factor.md) | Model in real-world millimeters with a single scale constant | Accepted |
 | [0004](0004-static-scene-graph-with-z-position-toggle.md) | Static scene graph with Z-position toggling instead of per-mode subtrees | Accepted, amended by 0019 |
-| [0005](0005-simplified-rail-visualization.md) | Simplified rail visualization: inner member only | Accepted |
+| [0005](0005-simplified-rail-visualization.md) | Simplified rail visualization: inner member only | Superseded by 0030 |
 | [0006](0006-three-section-corpus-layout.md) | Three-section corpus layout (312 / 424 / 312 mm) | Accepted |
 | [0007](0007-dowel-screw-bracket-joinery.md) | Dowel + screw + corner-bracket joinery over glue-only or biscuits | Accepted, amended by 0018 |
 | [0008](0008-heavy-duty-full-extension-runners.md) | Heavy-duty 900 mm full-extension runners over shorter soft-close runners | Accepted, length amended by 0017 |
@@ -47,3 +47,4 @@ Decision, Consequences.
 | [0027](0027-no-drawer-front-panels-box-front-with-grip-cut-out.md) | No drawer front panels; the box front is the visible front, with a milled grip cut-out | Accepted |
 | [0028](0028-height-plan-board-on-cheeks-foolproof-runner-layout.md) | Height plan: seat/table board on cheeks, equal drawer boxes, foolproof runner layout (outer low, middle high), runner lengths 870/850 | Accepted |
 | [0029](0029-cheeks-sized-to-the-moving-runner-member-flush-seat-taller-middle-drawer.md) | Cheeks sized to the 55 mm moving runner member, flush seat, through-tenoned cheeks, taller middle drawer | Accepted |
+| [0030](0030-telescopic-rail-visualization.md) | Telescopic rail visualization: housing, middle and inner member, silver grey | Accepted |

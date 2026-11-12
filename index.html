@@ -237,7 +237,7 @@
     <span style="background:#B5E48C;"></span>Lade-Referenzebene Kofferraum (y = 0, Annahme 580 mm über der Straße · Räder/Unterbau Platzhalter)<br>
     <span style="background:#5F6B7A;"></span>Rücksitzbank (umgeklappt / hochgeklappt / ausgebaut)<br>
     <span style="background:#B8BEC6;"></span>Scharniere Deckplatte ↔ Klappbrett (oben) · zwischen den Klappbrettern (unten)<br>
-    <span style="background:#FF1111;"></span>Schienen × 12 &nbsp;(AOLISHENG · 870 mm / 76 mm Sitz/Tisch · 850 mm / 53 mm Schubladen · fährt mit Element)
+    <span style="background:linear-gradient(90deg,#C9CED3,#A2A9B0,#7B838B,#4A5056);"></span>Schienen × 12 &nbsp;(AOLISHENG · 870 mm / 76 mm Sitz/Tisch · 850 mm / 53 mm Schubladen · Gehäuse hell, Mittelteil 55 mm, Innenteil 30 mm + Hebel dunkler)
   </div>
 
   <div id="info">Schlafmodus — alles eingeklappt</div>
@@ -356,6 +356,11 @@
   // Caddy-Hülle: 60 % deckend, kein Tiefenschreiben, damit der Aufbau dahinter sichtbar bleibt
   var mCaddy   = new THREE.MeshLambertMaterial({ color: 0x9DB4C8, transparent: true, opacity: 0.60, depthWrite: false, side: THREE.DoubleSide });
   var mRailRed = new THREE.MeshLambertMaterial({ color: 0xFF1111, transparent: true, opacity: 0.90 });
+  // Schienen silbergrau, je weiter innen desto dunkler: Gehäuse · Mittelteil · Innenteil · Hebel (ADR 0030)
+  var mSchiene = [0xC9CED3, 0xA2A9B0, 0x7B838B, 0x4A5056].map(function (c) {
+    return new THREE.MeshLambertMaterial({ color: c });
+  });
+  var KANTE_SCHIENE = 0x3C4248;
   // Überschneidungen: kräftig, ohne Tiefentest, damit sie auch innerhalb von Platten sichtbar sind
   var mKoll    = new THREE.MeshBasicMaterial({ color: 0xE62929, transparent: true, opacity: 0.75, depthTest: false });
 
@@ -424,18 +429,35 @@
   function elementVon(id) { var m = /^(?:E-)?([CD]\d)/.exec(id); return m ? m[1] : id; }
   var meshById = {};
 
+  // Schiene als Teleskop (ADR 0030, ersetzt ADR 0005): Gehäuse an der Wand bleibt stehen, das Mittelteil
+  // fährt `auszug_mitte` aus, das Innenteil mit Hebel fährt mit dem Element die volle Länge. Maße aus
+  // MODELL.parameter.schienen; die Stärke (19 mm) ist für die Darstellung auf die drei Teile aufgeteilt.
+  function schieneTeleskop(t) {
+    var el = elementVon(t.id), ty = TYP[ZU[el]], r = t.richtung;
+    var b = t.box, yc = (b[1][0] + b[1][1]) / 2, z0 = b[2][0], z1 = b[2][1];
+    var wand = r > 0 ? b[0][0] : b[0][1], st = ty.staerke;
+    var lagen = [   // [Anteil der Stärke von der Wand aus, Höhe, Weg beim Ausfahren, z-Bereich]
+      [0.00, 0.38, ty.hoehe,        0,                  z0, z1],
+      [0.38, 0.69, ty.hoehe_auszug, ty.auszug_mitte,    z0, z1],
+      [0.69, 0.97, ty.hoehe_innen,  t.auszug,           z0, z1],
+      [0.69, 0.97, ty.hoehe_innen,  t.auszug,           z0 - P.schienen.hebel_vorn, z0]   // Arretierungshebel
+    ];
+    lagen.forEach(function (l, i) {
+      var xa = wand + r * l[0] * st, xb = wand + r * l[1] * st;
+      var m = box(Math.abs(xb - xa), l[2], l[5] - l[4], mSchiene[i], (xa + xb) / 2, yc, (l[4] + l[5]) / 2, sg);
+      wireframe(m, KANTE_SCHIENE);
+      if (l[3]) beweglich.push({ mesh: m, z: (l[4] + l[5]) / 2, faehrt: t.faehrt, element: el, auszug: l[3] });
+      if (i === 2) meshById[t.id] = m;
+    });
+  }
+
   var kastenBretter = MODELL.schubladen_3d && MODELL.schubladen_3d.length;
   MODELL.teile.forEach(function (t) {
     var mesh;
     if (t.material === 'schublade' && kastenBretter) return;   // Kästen D1–D3 kommen als Bretter (unten)
-    if (t.material === 'schiene') {
-      // Nur Innenmember darstellen, 0,5 mm zum Element hin versetzt, 1 mm niedriger:
-      // kein visueller Overlap mit den Spaltmaßen — docs/adrs/0005-simplified-rail-visualization.md
-      mesh = teilBox(t, mRailRed, sg, [0.5, 1], t.richtung * 0.5);
-    } else {
-      mesh = teilBox(t, MAT[t.material]);
-      if (t.gruppe !== 'korpus') wireframe(mesh, KANTE[t.material]);
-    }
+    if (t.material === 'schiene') { schieneTeleskop(t); return; }   // Teleskop statt Quader (ADR 0030)
+    mesh = teilBox(t, MAT[t.material]);
+    if (t.gruppe !== 'korpus') wireframe(mesh, KANTE[t.material]);
     if (t.faehrt) beweglich.push({ mesh: mesh, z: (t.box[2][0] + t.box[2][1]) / 2, faehrt: t.faehrt,
                                    element: elementVon(t.id), auszug: t.auszug });
     meshById[t.id] = mesh;
