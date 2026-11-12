@@ -198,6 +198,13 @@ down.
 
 ### Open / planned (tracked in README "Weiterführende Planung")
 
+- **Lightening the corpus — open, [ADR 0032](docs/adrs/0032-lightening-the-corpus-boards-hole-grid-or-windows.md)** (2026-11-13): boards are
+  already cut to size on site. Options: hole grid (builder's preference) or
+  windows in `S1/S2`, `R1` (hole grid only: sole wall against lateral racking,
+  open front), optionally `B1`; `T1`, `F1/F2`, `M1/M2` stay solid. Saves
+  ~1.5–6.5 kg; only worth it if the tenon reliefs/slots get CNC-milled on the
+  existing blanks anyway. Don't change the model until the builder decides.
+
 - ~~ADR 0013~~ — decided by [ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md) (2026-11-12): seat/table element =
   18 mm board on top of two cheeks (inverted U), runner screwed to the cheek
   (holes are on the runner's centre line). Amended by [ADR 0029](docs/adrs/0029-cheeks-sized-to-the-moving-runner-member-flush-seat-taller-middle-drawer.md)

@@ -49,3 +49,4 @@ Decision, Consequences.
 | [0029](0029-cheeks-sized-to-the-moving-runner-member-flush-seat-taller-middle-drawer.md) | Cheeks sized to the 55 mm moving runner member, flush seat, through-tenoned cheeks, taller middle drawer | Accepted, heights amended by 0031 |
 | [0030](0030-telescopic-rail-visualization.md) | Telescopic rail visualization: housing, middle and inner member, silver grey | Accepted |
 | [0031](0031-boards-flush-with-the-middle-runner-member-minimal-cheeks.md) | Seat/table boards flush with the 55 mm middle runner member, cheeks only to 15 mm below the hole line, D3 229.5 mm | Accepted |
+| [0032](0032-lightening-the-corpus-boards-hole-grid-or-windows.md) | Lightening the corpus boards: hole grid or windows (T1, F1/F2, M1/M2 stay solid; R1 hole grid at most) | **Proposed — open** |

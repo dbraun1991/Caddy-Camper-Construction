@@ -239,6 +239,7 @@ Der Korpus besteht aus Einzelbrettern (keine Vollbox): S1/S2 Seitenwände links/
 
 Offen:
 
+- [ ] **Korpus nachträglich erleichtern?** Bretter sind schon zugeschnitten; Lochmuster (Wunsch) oder Fenster in S1/S2, R1 (nur Lochmuster), optional B1 — T1, F1/F2, M1/M2 bleiben massiv. Ersparnis 1,5–6,5 kg, nur sinnvoll, wenn Zapfen/Schlitze ohnehin CNC-gefräst werden — [ADR 0032](docs/adrs/0032-lightening-the-corpus-boards-hole-grid-or-windows.md)
 - [x] ADR 0013 entschieden: Sitz-/Tischbrett als Brett oben auf zwei Wangen, Höhenplan — [ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md)
 - [ ] **Arretierungshebel vs. Heckklappe am Auto prüfen**: die Hebel ragen ~30 mm vor die Korpusfront, Luft laut Messung 20–30 mm; hinten ist 1 cm Reserve, sollte passen — beim Testaufbau prüfen, **bevor die Schubladenhölzer bestellt werden** (Notlösung: Schienen nach hinten durch R1) ([ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md))
 - [ ] Lochgröße der 80-kg-Schiene prüfen (V2 3,5 mm passt nur zu kleinen Löchern)
