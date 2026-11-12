@@ -15,6 +15,7 @@ zeichnungen.brett_geometrie() — dieselbe wie auf den Einzelbrett-Blättern.
 """
 
 import json
+import math
 import sys
 from datetime import date
 from pathlib import Path
@@ -91,18 +92,21 @@ def _innenecken(punkte, aussen):
     return ecken
 
 
-def brett_kontur(alle, p, id, ansicht):
-    """Fertige Frässkontur eines Bretts als Face in (u, v), Ursprung links unten."""
+def kontur(p, behalten, loecher, fenster=()):
+    """Fertige Frässkontur aus Rechtecken (u0, v0, u1, v1) in (u, v), Ursprung links unten.
+
+    behalten: vereinigt · loecher: Schlitze/Aussparungen, je Seite um die halbe Passungsluft
+    größer, Innenecken mit Dogbone · fenster: (u0, v0, u1, v1, radius) mit runden Ecken, erst
+    nach den Dogbones abgezogen (runde Ecken brauchen keinen Freischnitt)."""
     c = p["cnc"]
-    breite, hoehe, behalten, loecher, _ = zeichnungen.brett_geometrie(alle, p, id, ansicht)
     form = _rechteck(*behalten[0])
     for r in behalten[1:]:
         form = form + _rechteck(*r)
     luft = c["passungsluft"] / 2
-    for u0, v0, u1, v1 in loecher:                         # Schlitze/Aussparungen je Seite um die halbe Luft größer
+    for u0, v0, u1, v1 in loecher:
         form = form - _rechteck(u0 - luft, v0 - luft, u1 + luft, v1 + luft)
     flaechen = form.faces()
-    assert len(flaechen) == 1, f"{id}: Kontur zerfällt in {len(flaechen)} Teile"
+    assert len(flaechen) == 1, f"Kontur zerfällt in {len(flaechen)} Teile"
     flaeche = flaechen[0]
     if c["innenecken"] == "dogbone":
         r = c["fraeser_durchmesser"] / 2
@@ -111,7 +115,17 @@ def brett_kontur(alle, p, id, ansicht):
             ecken += _innenecken(_eckpunkte(w), False)
         for (x, y), (dx, dy) in ecken:                      # Kreis durch die Ecke, Mittelpunkt im Abfall
             flaeche = (flaeche - bd.Pos(x + dx * r, y + dy * r) * bd.Circle(r)).faces()[0]
-    return flaeche, breite, hoehe, len(loecher)
+    for u0, v0, u1, v1, radius in fenster:
+        assert radius >= c["fraeser_durchmesser"] / 2, "Fensterradius kleiner als der Fräserradius"
+        flaeche = (flaeche - bd.Pos((u0 + u1) / 2, (v0 + v1) / 2)
+                   * bd.RectangleRounded(u1 - u0, v1 - v0, radius)).faces()[0]
+    return flaeche
+
+
+def brett_kontur(alle, p, id, ansicht):
+    """Box- und Liegeflächenbrett aus zeichnungen.brett_geometrie (dieselbe Geometrie wie die Einzelbrett-Blätter)."""
+    breite, hoehe, behalten, loecher, _ = zeichnungen.brett_geometrie(alle, p, id, ansicht)
+    return kontur(p, behalten, loecher), breite, hoehe, len(loecher)
 
 
 def _symmetrie(flaeche, breite, hoehe):
@@ -144,41 +158,104 @@ def _dxf(teile, pfad):
     dxf.write(str(pfad))
 
 
+def _schreibe(ordner, pfad, zeilen, flaechen, titel, abschnitte_liste):
+    """DXF je Brett + alle-teile.dxf + Vorschau-SVGs + AUFTRAG.md; liefert die Viewer-Daten.
+
+    zeilen: je Brett ein dict (datei, kuerzel, name, stk, mass, schlitze, fenster, symmetrie, material),
+    flaechen: dieselbe Reihenfolge, je (Face, breite, hoehe)."""
+    ordner.mkdir(parents=True, exist_ok=True)
+    (ordner / "vorschau").mkdir(exist_ok=True)
+    abstand = modell.lade_parameter()["cnc"]["teileabstand"]
+    sammlung, v = [], 0
+    for zl, (flaeche, breite, hoehe) in zip(zeilen, flaechen):
+        _dxf([(flaeche, 0, 0)], ordner / zl["datei"])
+        _vorschau([(flaeche, 0, 0)], ordner / "vorschau" / f"{zl['datei'][:-4]}.svg", 5)
+        sammlung += [(flaeche, i * (breite + abstand), v) for i in range(zl["stk"])]
+        v += hoehe + abstand
+    _dxf(sammlung, ordner / "alle-teile.dxf")
+    _vorschau(sammlung, ordner / "vorschau" / "alle-teile.svg", 6)
+    (ordner / "AUFTRAG.md").write_text(auftrag(titel, zeilen, abschnitte_liste), encoding="utf-8")
+    return {
+        "teile": [{"datei": f"{pfad}/{zl['datei']}", "vorschau": f"{pfad}/vorschau/{zl['datei'][:-4]}.svg",
+                   "kuerzel": zl["kuerzel"], "name": zl["name"], "stk": zl["stk"], "mass": zl["mass"],
+                   "schlitze": zl["schlitze"], "fenster": zl["fenster"], "material": zl["material"]}
+                  for zl in zeilen],
+        "alle_dxf": f"{pfad}/alle-teile.dxf", "alle_vorschau": f"{pfad}/vorschau/alle-teile.svg",
+        "auftrag": f"{pfad}/AUFTRAG.md",
+        "abschnitte": [{"titel": t, "art": a, "texte": x} for t, a, x in abschnitte_liste],
+    }
+
+
+def _zeile(datei, ids, name, stk, flaeche, breite, hoehe, material, fenster=0):
+    return {"datei": datei, "kuerzel": " / ".join(ids), "name": name, "stk": stk,
+            "mass": f"{zeichnungen.fmt(breite)} × {zeichnungen.fmt(hoehe)}",
+            "schlitze": len(flaeche.inner_wires()) - fenster, "fenster": fenster,
+            "symmetrie": _symmetrie(flaeche, breite, hoehe), "material": material}
+
+
 def erzeuge(variante):
     p = modell.lade_parameter()
-    c = p["cnc"]
     alle = modell.teile(p, variante)
-    ordner = ZIEL / variante
-    ordner.mkdir(parents=True, exist_ok=True)
-
-    zeilen, sammlung, v = [], [], 0
+    zeilen, flaechen = [], []
     for datei, ids, ansicht, bezeichnung in BRETTER:
         flaeche, breite, hoehe, _ = brett_kontur(alle, p, ids[0], ansicht)
         for weitere in ids[1:]:                            # gleiche Bretter müssen wirklich gleich sein
             andere = brett_kontur(alle, p, weitere, ansicht)[0]
             assert _signatur(andere) == _signatur(flaeche), f"{weitere} weicht von {ids[0]} ab"
-        _dxf([(flaeche, 0, 0)], ordner / f"{datei}.dxf")
-        (ordner / "vorschau").mkdir(exist_ok=True)
-        _vorschau([(flaeche, 0, 0)], ordner / "vorschau" / f"{datei}.svg", 5)
-        sammlung += [(flaeche, i * (breite + c["teileabstand"]), v) for i in range(len(ids))]
-        v += hoehe + c["teileabstand"]
         namen = bezeichnung.format(**{i: eselsbruecke(i) for i in ids})
-        zeilen.append((f"{datei}.dxf", " / ".join(ids), namen, len(ids),
-                       f"{zeichnungen.fmt(breite)} × {zeichnungen.fmt(hoehe)}",
-                       len(flaeche.inner_wires()), _symmetrie(flaeche, breite, hoehe)))
-    _dxf(sammlung, ordner / "alle-teile.dxf")
-    (ordner / "vorschau").mkdir(exist_ok=True)
-    _vorschau(sammlung, ordner / "vorschau" / "alle-teile.svg", 6)
-    (ordner / "AUFTRAG.md").write_text(auftrag(variante, p, zeilen), encoding="utf-8")
+        zeilen.append(_zeile(f"{datei}.dxf", ids, namen, len(ids), flaeche, breite, hoehe, p["cnc"]["material"]))
+        flaechen.append((flaeche, breite, hoehe))
+    titel = f"Box + Liegefläche ({variante})"
     pfad = f"docs/cnc/{variante}"
-    viewer = {
-        "teile": [{"datei": f"{pfad}/{d}", "vorschau": f"{pfad}/vorschau/{d[:-4]}.svg", "kuerzel": k, "name": n,
-                   "stk": s, "mass": m, "schlitze": i} for d, k, n, s, m, i, _ in zeilen],
-        "alle_dxf": f"{pfad}/alle-teile.dxf", "alle_vorschau": f"{pfad}/vorschau/alle-teile.svg",
-        "auftrag": f"{pfad}/AUFTRAG.md",
-        "abschnitte": [{"titel": t, "art": a, "texte": x} for t, a, x in abschnitte(variante, p, zeilen)],
-    }
-    return ordner, zeilen, viewer
+    return ZIEL / variante, zeilen, _schreibe(ZIEL / variante, pfad, zeilen, flaechen, titel,
+                                              abschnitte(variante, p, zeilen))
+
+
+def erzeuge_schubladen():
+    """Zweiter Auftrag: Wände und Böden der Schubladenkästen D1–D3 (ADR 0024)."""
+    p = modell.lade_parameter()
+    zeilen, flaechen = [], []
+    for b in modell.schubladen_bretter(p):
+        flaeche = kontur(p, b["behalten"], b["loecher"], b["fenster"])
+        datei = "-".join(i.lower() for i in b["ids"]) + ".dxf"   # z. B. d1-s-d2-s.dxf
+        zeilen.append(_zeile(datei, b["ids"], b["name"], b["stk"], flaeche, b["breite"], b["hoehe"],
+                             f"Birke-Multiplex {zeichnungen.fmt(b['staerke'])} mm", len(b["fenster"])))
+        flaechen.append((flaeche, b["breite"], b["hoehe"]))
+        fenster = sum((u1 - u0) * (v1 - v0) - (4 - math.pi) * r * r for u0, v0, u1, v1, r in b["fenster"])
+        zeilen[-1].update(_staerke=b["staerke"], _flaeche=flaeche.area, _voll=flaeche.area + fenster)
+    return ZIEL / "schubladen", zeilen, _schreibe(ZIEL / "schubladen", "docs/cnc/schubladen", zeilen, flaechen,
+                                                  "Schubladenkästen D1–D3", abschnitte_schubladen(p, zeilen))
+
+
+def _wenden(zeilen):
+    ohne_achse = [zl["kuerzel"] for zl in zeilen if not zl["symmetrie"]]
+    if ohne_achse:
+        return f"**Nicht wenden:** {', '.join(ohne_achse)} sind nicht spiegelsymmetrisch und nur so richtig, wie gezeichnet."
+    return ("Wenden (Rückseite nach oben) ist ebenfalls erlaubt: Jedes Teil ist spiegelsymmetrisch ("
+            + ", ".join(f"{zl['kuerzel']} {' + '.join(zl['symmetrie'])}" for zl in zeilen)
+            + "), gewendet entsteht dasselbe Teil.")
+
+
+def _ecken(c):
+    f = zeichnungen.fmt
+    return (f"Jede Innenecke hat einen **Dogbone**: Freischnitt Ø {f(c['fraeser_durchmesser'])} mm über die Ecke "
+            "hinaus, Kreis durch den Eckpunkt. Ohne ihn bliebe in jeder Ecke ein Radius stehen, und die eckigen "
+            "Zapfen passten nicht in Schlitze und Aussparungen."
+            if c["innenecken"] == "dogbone" else
+            "Innenecken sind **scharfkantig** gezeichnet — der Dienstleister setzt die Freischnitte (Dogbones) selbst.")
+
+
+def _dateien(c, innen="geschlossene Schlitze"):
+    f = zeichnungen.fmt
+    return ("Dateien", "liste", [
+        "DXF (AutoCAD 2013, `AC1027`), Maßstab 1:1, Einheit **mm**, Ursprung links unten am Teil.",
+        f"Layer `{LAYER_AUSSEN}` (rot): Außenkontur, durchfräsen, Fräser außen an der Linie.",
+        f"Layer `{LAYER_INNEN}` (blau): {innen}, durchfräsen, Fräser innen an der Linie.",
+        "Alle Konturen geschlossen. Nur Linien und Kreisbögen, keine Beschriftung, keine Bohrungen, "
+        "keine Taschen — alles ist ein 2D-Durchschnitt.",
+        f"`alle-teile.dxf` enthält jedes Teil in Auftragsstückzahl nebeneinander, mit {f(c['teileabstand'])} mm "
+        "Abstand — nur zur Übersicht, **kein Nesting**. Die Verteilung auf die Platten macht der Dienstleister.",
+    ])
 
 
 def abschnitte(variante, p, zeilen):
@@ -187,28 +264,10 @@ def abschnitte(variante, p, zeilen):
     Art: "absatz" | "liste" | "nummeriert". Texte dürfen **fett** und `code` enthalten."""
     c, z = p["cnc"], p["zapfen"]
     f = zeichnungen.fmt
-    ohne_achse = [zl[1] for zl in zeilen if not zl[6]]
-    wenden = ("Wenden (Rückseite nach oben) ist ebenfalls erlaubt: Jedes Teil ist spiegelsymmetrisch ("
-              + ", ".join(f"{zl[1]} {' + '.join(zl[6])}" for zl in zeilen) + "), gewendet entsteht dasselbe Teil."
-              if not ohne_achse else
-              f"**Nicht wenden:** {', '.join(ohne_achse)} sind nicht spiegelsymmetrisch und nur so richtig, wie gezeichnet.")
-    stk = sum(zl[3] for zl in zeilen)
-    ecken = (f"Jede Innenecke hat einen **Dogbone**: Freischnitt Ø {f(c['fraeser_durchmesser'])} mm über die Ecke "
-             "hinaus, Kreis durch den Eckpunkt. Ohne ihn bliebe in jeder Ecke ein Radius stehen, und die eckigen "
-             "Zapfen passten nicht in Schlitze und Aussparungen."
-             if c["innenecken"] == "dogbone" else
-             "Innenecken sind **scharfkantig** gezeichnet — der Dienstleister setzt die Freischnitte (Dogbones) selbst.")
+    stk = sum(zl["stk"] for zl in zeilen)
     out = [
         ("Teile", "absatz", [f"Material: **{c['material']}**, {stk} Teile in {len(zeilen)} unterschiedlichen Formen."]),
-        ("Dateien", "liste", [
-            "DXF (AutoCAD 2013, `AC1027`), Maßstab 1:1, Einheit **mm**, Ursprung links unten am Teil.",
-            f"Layer `{LAYER_AUSSEN}` (rot): Außenkontur, durchfräsen, Fräser außen an der Linie.",
-            f"Layer `{LAYER_INNEN}` (blau): geschlossene Schlitze, durchfräsen, Fräser innen an der Linie.",
-            "Alle Konturen geschlossen. Nur Linien und Kreisbögen, keine Beschriftung, keine Bohrungen, "
-            "keine Taschen — alles ist ein 2D-Durchschnitt.",
-            f"`alle-teile.dxf` enthält jedes Teil in Auftragsstückzahl nebeneinander, mit {f(c['teileabstand'])} mm "
-            "Abstand — nur zur Übersicht, **kein Nesting**. Die Verteilung auf die Platten macht der Dienstleister.",
-        ]),
+        _dateien(c),
     ]
     if variante == "gezapft":
         out.append(("Passung Zapfen ↔ Schlitz", "liste", [
@@ -218,7 +277,7 @@ def abschnitte(variante, p, zeilen):
             "(Zapfen bleiben auf Nennmaß).",
             f"Zapfen sind **19 mm lang** (18 mm Plattenstärke + {f(z['schleifzugabe'])} mm Schleifzugabe): Sie stehen "
             "nach dem Zusammenbau 1 mm über und werden bündig geschliffen. Gewollt, nicht korrigieren.",
-            ecken,
+            _ecken(c),
         ]))
     else:
         out.append(("Eckausbildung „stumpf“", "absatz", [
@@ -232,29 +291,86 @@ def abschnitte(variante, p, zeilen):
         "ist real oft 17,6–18,3 mm. Ist die Platte dicker als 18,0, die Luft um die Differenz erhöhen. Ein "
         "Probestück (ein Schlitz + ein Zapfen) vor dem ganzen Auftrag ist sinnvoll.",
         "**Haltestege** (Tabs) und Fräsreihenfolge legt der Dienstleister fest; danach nur Stegreste verschleifen.",
-        f"**Faserrichtung egal**: Die Teile dürfen beim Nesting beliebig gedreht werden. {wenden}",
+        f"**Faserrichtung egal**: Die Teile dürfen beim Nesting beliebig gedreht werden. {_wenden(zeilen)}",
         "**Keine Bohrungen**: Scharniere (V17), Gurtschlaufen (F2) und Schrauben werden beim Zusammenbau "
         "angerissen und gebohrt.",
-        "**Nicht enthalten**: Schubladen, Sitz- und Tischbretter (C1–C3, D1–D3) — deren Maße werden erst am "
-        "fertigen Korpus festgelegt (zweiter Auftrag).",
+        "**Nicht enthalten**: Sitz- und Tischbretter (C1–C3) — deren Aufbau hängt an ADR 0013. Die "
+        "Schubladenkästen D1–D3 sind ein eigener Auftrag (`docs/cnc/schubladen/`, ADR 0024).",
         "**Kanten**: keine Fase, kein Radius an den Außenkanten.",
     ]))
     return out
 
 
-def auftrag(variante, p, zeilen):
-    teile = ["| Datei | Kürzel | Langname | Stk. | Außenmaß (mm) |", "|---|---|---|---|---|"]
-    teile += [f"| `{d}` | {k} | {n} | {s} | {m} |" for d, k, n, s, m, *_ in zeilen]
-    md = [f"# CNC-Auftrag — VW Caddy Mk3 Camper, Box + Liegefläche ({variante})", "",
+def abschnitte_schubladen(p, zeilen):
+    """Hinweise zum Schubladen-Auftrag (ADR 0024), Form wie abschnitte()."""
+    c, s, z = p["cnc"], p["schubladen"], p["zapfen"]
+    f = zeichnungen.fmt
+    T, Tb, bz, fe = s["wandstaerke"], s["bodenstaerke"], s["bodenzapfen"], s["fenster"]
+    stk = sum(zl["stk"] for zl in zeilen)
+    alle = modell.teile(p)
+    kaesten = []
+    for d in ("D1", "D2", "D3"):
+        (x0, x1), (y0, y1), (z0, z1) = next(t for t in alle if t["id"] == d)["box"]
+        kaesten.append(f"{d} {f(x1 - x0)} × {f(z1 - z0)} × {f(y1 - y0)}")
+    gewicht, ohne = (sum(zl["stk"] * zl[k] * zl["_staerke"] for zl in zeilen) * 1e-9 * s["dichte_kg_m3"]
+                     for k in ("_flaeche", "_voll"))
+    return [
+        ("Teile", "absatz", [
+            f"Material: **Birke-Multiplex {f(T)} mm** (Wände) und **{f(Tb)} mm** (Böden), {stk} Teile in "
+            f"{len(zeilen)} unterschiedlichen Formen — die Wände und Böden der drei Schubladenkästen "
+            f"(Außenmaß B × T × H: {', '.join(kaesten)} mm).",
+            f"Gewicht aller Kästen ohne Blenden ca. **{f(round(gewicht, 1))} kg** (ohne Fenster in den Seitenwänden "
+            f"wären es {f(round(ohne, 1))} kg, Dichte {s['dichte_kg_m3']} kg/m³ angenommen)."]),
+        _dateien(c, "geschlossene Schlitze und die Fenster der Seitenwände"),
+        ("Verbindungen", "liste", [
+            f"**Ecken: Fingerzinken**, {s['zinken_anzahl']} Felder über die Kastenhöhe. Die Seitenwände (`-S`) "
+            "haben oben und unten einen Zinken, Kastenfront und -rückwand (`-E`) die Lücken dazwischen.",
+            f"**Boden** (`-B`, {f(Tb)} mm): Zapfen {f(bz['laenge'])} mm breit, je {bz['anzahl_lang']} an den langen "
+            f"und {bz['anzahl_kurz']} an den kurzen Kanten, durch Schlitze {f(bz['laenge'])} × {f(Tb)} mm in allen "
+            f"vier Wänden, {f(s['boden_abstand_unten'])} mm über der Wandunterkante.",
+            f"Lücken und Schlitze sind je Richtung **{f(c['passungsluft'])} mm größer** als Zinken und Zapfen "
+            "(die bleiben auf Nennmaß).",
+            f"Zinken und Bodenzapfen sind **{f(T + z['schleifzugabe'])} mm lang** ({f(T)} mm Wandstärke + "
+            f"{f(z['schleifzugabe'])} mm Schleifzugabe): Sie stehen nach dem Verleimen 1 mm über und werden bündig "
+            "geschliffen, bevor die Schienen angeschraubt werden. Gewollt, nicht korrigieren.",
+            _ecken(c),
+            f"**Fenster** in den Seitenwänden: Ecken mit Radius {f(fe['radius'])} mm, ohne Dogbone. Das Band der "
+            f"Schubladenschiene (± {f(fe['abstand_schiene'])} mm) bleibt voll stehen — dort wird die Schiene "
+            "angeschraubt.",
+        ]),
+        ("Annahmen (vor dem Auftrag klären)", "nummeriert", [
+            f"**Kastenbreite** = Sektionsbreite − 2 × Schienenstärke − 2 mm Spiel. Die Stärke der gelieferten "
+            f"80-kg-Schiene ist **gemessen** ({f(p['schienen']['typen']['leicht']['staerke'])} mm je Seite, "
+            "2026-11-12). Die Lage der Schraublöcher steht noch aus — die Fenster lassen das Schienenband "
+            "± 15 mm frei, das sollte reichen; vor der Bestellung trotzdem gegen die Lochreihe prüfen.",
+            f"**Fräserdurchmesser {f(c['fraeser_durchmesser'])} mm** und **Passungsluft {f(c['passungsluft'])} mm** "
+            f"wie beim Korpus-Auftrag. Gilt auch für die {f(Tb)}-mm-Böden: „{f(Tb)} mm“-Multiplex ist real oft "
+            "etwas dünner oder dicker — die Schlitzhöhe an der gelieferten Platte prüfen.",
+            "**Haltestege** (Tabs) und Fräsreihenfolge legt der Dienstleister fest; danach nur Stegreste verschleifen.",
+            f"**Faserrichtung egal**: Die Teile dürfen beim Nesting beliebig gedreht werden. {_wenden(zeilen)}",
+            "**Keine Bohrungen**: Schienen, Frontblende und Griffe werden beim Zusammenbau angerissen und gebohrt.",
+            "**Nicht enthalten**: Frontblenden D1-F–D3-F (einliegend oder aufliegend wird erst am fertigen Korpus "
+            "entschieden) und die Sitz- und Tischbretter C1–C3 (ADR 0013).",
+            "**Kanten**: keine Fase, kein Radius an den Außenkanten.",
+        ]),
+    ]
+
+
+def auftrag(titel, zeilen, abschnitte_liste):
+    teile = ["| Datei | Kürzel | Langname | Material | Stk. | Außenmaß (mm) |", "|---|---|---|---|---|---|"]
+    teile += [f"| `{zl['datei']}` | {zl['kuerzel']} | {zl['name']} | {zl['material']} | {zl['stk']} | {zl['mass']} |"
+              for zl in zeilen]
+    md = [f"# CNC-Auftrag — VW Caddy Mk3 Camper, {titel}", "",
           f"Erzeugt am {date.today().isoformat()} von `modell/cnc.py` aus `modell/parameter.json` — nicht von Hand "
-          "ändern, sondern Parameter anpassen und neu erzeugen. Entscheidung und Hintergrund: ADR 0023."]
-    for titel, art, texte in abschnitte(variante, p, zeilen):
-        md += ["", f"## {titel}", ""]
+          "ändern, sondern Parameter anpassen und neu erzeugen. Entscheidung und Hintergrund: ADR 0023"
+          + (", ADR 0024." if "Schublade" in titel else ".")]
+    for t, art, texte in abschnitte_liste:
+        md += ["", f"## {t}", ""]
         if art == "absatz":
-            md += texte
+            md += [x for x in texte for x in (x, "")][:-1]
         else:
-            md += [(f"{i}. " if art == "nummeriert" else "- ") + t for i, t in enumerate(texte, 1)]
-        if titel == "Teile":
+            md += [(f"{i}. " if art == "nummeriert" else "- ") + x for i, x in enumerate(texte, 1)]
+        if t == "Teile":
             md += [""] + teile
     return "\n".join(md) + "\n"
 
@@ -281,11 +397,13 @@ def viewer_daten(daten):
 
 def main():
     daten = {"stand": date.today().isoformat(), "varianten": {}}
-    for variante in zeichnungen.VARIANTEN:
-        ordner, zeilen, daten["varianten"][variante] = erzeuge(variante)
+    auftraege = [(v, lambda v=v: erzeuge(v)) for v in zeichnungen.VARIANTEN] + [("schubladen", erzeuge_schubladen)]
+    for name, erzeuger in auftraege:
+        ordner, zeilen, daten["varianten"][name] = erzeuger()
         print(f"{ordner.relative_to(ZIEL.parent.parent)}/: "
-              + ", ".join(f"{d} ({s}×, {i} Schlitze innen, symmetrisch {'/'.join(a) or '–'})"
-                          for d, _, _, s, _, i, a in zeilen))
+              + ", ".join(f"{zl['datei']} ({zl['stk']}×, {zl['schlitze']} Schlitze"
+                          + (f", {zl['fenster']} Fenster" if zl["fenster"] else "")
+                          + f", symmetrisch {'/'.join(zl['symmetrie']) or '–'})" for zl in zeilen))
     viewer_daten(daten)
     print(f"{(ZIEL / 'cnc.js').relative_to(ZIEL.parent.parent)}  (Daten für den Reiter „DXF · CNC“)")
 

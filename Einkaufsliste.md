@@ -13,9 +13,8 @@ Teilenummern beziehen sich auf [List_of_Materials.md](./List_of_Materials.md).
 |---|---|---|---|---|
 | — | Multiplex Birke 18 mm, 2.500 × 1.250 mm | 3 Platten | 105 – 147 € | **315 – 441 €** |
 | — | Multiplex Birke 12 mm, 2.500 × 1.250 mm | 1 Platte | 50 – 105 € | **50 – 105 €** |
-| V12 | Eckleiste Weichholz 20 × 20 mm | 3 m | ~2 €/m | **~6 €** |
 | V16 | Ausgleichsleisten 10 × 40 mm unter dem Klappbrett Rücksitz (F1) | 2 m | ~2,5 €/m ¹ | **~5 €** |
-| | | | **Teilsumme** | **~376 – 557 €** |
+| | | | **Teilsumme** | **~370 – 551 €** |
 
 Spanne erklärt sich über die Qualitätsklasse (BB/BB vs. S/BB) und den Händler: Baumarkt (toom, Hornbach) am unteren Ende, Holzfachhandel (Holzland, Holzzentrum) am oberen.
 
@@ -24,6 +23,8 @@ Spanne erklärt sich über die Qualitätsklasse (BB/BB vs. S/BB) und den Händle
 ### Option: CNC-Fräsen statt Zuschnitt
 
 Statt Zuschnitt + Stich-/Kreissäge können die 9 Bretter der ersten Bestellung fertig gefräst werden — mit Zapfen, Schlitzen und Aussparungen. Die Dateien liegen bereit: [`docs/cnc/gezapft/`](docs/cnc/gezapft/) (DXF je Brett + [`AUFTRAG.md`](docs/cnc/gezapft/AUFTRAG.md) zum Mitschicken, im Viewer Reiter „DXF · CNC“, [ADR 0023](docs/adrs/0023-cnc-dxf-export-with-dogbones.md)). **Preis: auf Anfrage**, noch kein Angebot. Fräserdurchmesser (angenommen 6 mm) und Passungsluft (0,2 mm) erst nach Rückmeldung des Anbieters in `modell/parameter.json` → `cnc` festlegen und neu erzeugen.
+
+**Zweiter Auftrag: Schubladenkästen D1–D3** ([`docs/cnc/schubladen/`](docs/cnc/schubladen/), [ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md)): 12 Wände in 18 mm mit Fingerzinken und Fenstern, 3 Böden in 12 mm mit Zapfen — Material dafür ist die 3. Platte 18 mm und die 12-mm-Platte aus der Tabelle oben. Preis ebenfalls auf Anfrage. Die Schienenstärke (bestimmt die Kastenbreite) ist gemessen: 19 mm wie geplant (2026-11-12). Vor der Bestellung nur noch die Schraublöcher der Schiene gegen das volle Schienenband prüfen. Schrauben V8 und Eckleisten V12 entfallen dadurch.
 
 Anbietersuche (**Recherche 2026-11-07**, nur Webseiten gelesen, niemand angefragt). Ziel: Abholung selbst, Raum Duisburg.
 
@@ -56,7 +57,7 @@ Holz Leineweber in Duisburg hat 2019 geschlossen. Daneben lohnt die direkte Frag
 | E2 | Schiene AOLISHENG 850 mm · 80 kg · 53 mm hoch · Arretierung — Schubladen (D1–D3) | 3 Paare | 61,99 € | **~186 €** |
 | | | | **Teilsumme** | **~501 €** |
 
-Gut **ein Drittel des Gesamtbudgets**. Beide aus derselben 850-mm-Serie ([ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)); Schwerlast überall, wo eine Person sitzen kann — auch auf dem Tischbrett C3 ([ADR 0021](docs/adrs/0021-table-board-on-170-kg-runners.md)). Bestellt sind 2 × E1 + 4 × E2 (2026-11-04): **1 Paar E1 nachbestellen, 1 Paar E2 ist übrig.** 170-kg-Schiene: Einbaumaß laut Hersteller 19,2 + 0,5 mm je Seite, passt. 80-kg-Schiene: **Stärke nach der Lieferung messen** (geplant 19 mm).
+Gut **ein Drittel des Gesamtbudgets**. Beide aus derselben 850-mm-Serie ([ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)); Schwerlast überall, wo eine Person sitzen kann — auch auf dem Tischbrett C3 ([ADR 0021](docs/adrs/0021-table-board-on-170-kg-runners.md)). Bestellt sind 2 × E1 + 4 × E2 (2026-11-04): **1 Paar E1 nachbestellen, 1 Paar E2 ist übrig.** 170-kg-Schiene: Einbaumaß laut Hersteller 19,2 + 0,5 mm je Seite, passt. Geliefert, gemessen 2026-11-12: beide Typen **19 mm** stark wie geplant, Höhen 53 mm und ~74 mm (170 kg, Datenblatt 76 mm).
 
 - Bei den Sitz- und Tischbrettern **nicht** sparen: dort sitzt eine Person bei 850 mm Auszug, und ADR 0008 macht die Arretierung zur harten Anforderung.
 - Preisvergleich: Nicht-Amazon-Quellen (teleskopschienen-shop.de, teleskopschienen24.de) lagen bei 900 mm/120 kg um ~84 €/Paar — 850 mm dort prüfen.
@@ -74,13 +75,12 @@ Gut **ein Drittel des Gesamtbudgets**. Beide aus derselben 850-mm-Serie ([ADR 00
 | V5 | Holzleim D3 wasserfest, 750 ml | 1 Flasche | ~12 € |
 | V6 | Schubladengriffe | 3 Stk. | 15 – 45 € |
 | V7 | Schrauben 4 × 30 / 4 × 40 mm | je 1 Pack 100 | ~20 € |
-| V8 | Schrauben 3,5 × 30 mm | ~120 Stk. (1 Pack 200) | ~10 € |
 | V9 | M5 × 40 Durchsteckschrauben + U-Scheibe + Stoppmutter | 24 Sätze | ~14 € |
 | V10 | M8 × 30/40 + U-Scheibe + Stoppmutter | 4 Sätze | ~6 € |
 | V11 | Spanngurt mit Ratsche | 2 Stk. | ~20 € |
 | V15 | Gurtschlaufe verstellbar (Gurtband ~25 mm + Klemmschnalle), Klappbrett Kopfende (F2) ↔ Kopfstütze | 2 Stk. | ~10 € ¹ |
 | V17 | Klappscharniere Standard ~60 mm (3 × Deckplatte ↔ Klappbrett Rücksitz oben, 3 × zwischen den Klappbrettern unten) | 6 Stk. | ~15 € ¹ |
-| | | **Teilsumme** | **~168 – 198 €** |
+| | | **Teilsumme** | **~158 – 188 €** |
 
 ¹ V15/V16/V17 am 2026-10-17 ergänzt — grobe Schätzung, Quellen noch nicht geprüft.
 
@@ -111,13 +111,13 @@ Gut **ein Drittel des Gesamtbudgets**. Beide aus derselben 850-mm-Serie ([ADR 00
 
 | Block | Günstig | Mittel (realistisch) | Komfort |
 |---|---|---|---|
-| Holz + Zuschnitt | 396 € | 473 € | 577 € |
+| Holz + Zuschnitt | 390 € | 467 € | 571 € |
 | Schienen | 501 € | 501 € | 501 € |
-| Befestigungsmaterial | 168 € | 183 € | 198 € |
+| Befestigungsmaterial | 158 € | 173 € | 188 € |
 | Ausbau / Sonstiges | 135 € | 230 € | 680 € |
-| **Summe** | **~1.200 €** | **~1.385 €** | **~1.955 €** |
-| + Puffer 10 % (Verschnitt, Nachkauf, Versand) | ~120 € | ~140 € | ~195 € |
-| **Gesamt** | **~1.320 €** | **~1.525 €** | **~2.150 €** |
+| **Summe** | **~1.185 €** | **~1.370 €** | **~1.940 €** |
+| + Puffer 10 % (Verschnitt, Nachkauf, Versand) | ~120 € | ~135 € | ~195 € |
+| **Gesamt** | **~1.305 €** | **~1.505 €** | **~2.135 €** |
 
 ### Realistische Planungsgröße: **~1.500 €**
 
@@ -137,7 +137,7 @@ Die kommerzielle Alternative [Moonbox 111](https://www.moonbox.de/products/moonb
 
 Die Montagereihenfolge in [§H](./List_of_Materials.md#montagereihenfolge) gibt die Kaufreihenfolge vor — der fertige Korpus liefert das verbindliche Innenmaß, nicht die Zeichnung:
 
-1. **Jetzt:** Holz 18 mm + 12 mm mit Zuschnitt (oder die 18-mm-Teile CNC-gefräst, §1), Leim, Dübel, Schrauben V1/V2/V7/V8, Winkel V3, Eckleisten V12, Spanngurte V11 → Korpus bauen
+1. **Jetzt:** Holz 18 mm + 12 mm mit Zuschnitt (oder die 18-mm-Teile CNC-gefräst, §1), Leim, Dübel, Schrauben V1/V2/V7, Winkel V3, Spanngurte V11 → Korpus bauen
 2. **Schienen** E1 (3 Paare) + E2 (3 Paare), Durchsteckschrauben V9 → Arretierung und Stärke prüfen, einmessen und montieren (Bretter C1–C3 erst nach ADR 0013 zuschneiden)
 3. **Nach Einbau im Fahrzeug:** M8-Sätze V10 (Gewinde der Zurrösen erst am Auto prüfen; Rücksitz-Ösen liegen neben dem Korpus → Winkel außen an S1/S2, ADR 0016), Griffe V6
 4. **Zuletzt:** Matratze G1 + Bezug G2 — erst messen, wenn die Liegefläche real liegt; Scharniere V17, Gurtschlaufen V15 und Ausgleich V16 beim Anpassen von F1/F2 im Fahrzeug

@@ -1,19 +1,19 @@
 # CNC-Auftrag — VW Caddy Mk3 Camper, Box + Liegefläche (gezapft)
 
-Erzeugt am 2026-11-07 von `modell/cnc.py` aus `modell/parameter.json` — nicht von Hand ändern, sondern Parameter anpassen und neu erzeugen. Entscheidung und Hintergrund: ADR 0023.
+Erzeugt am 2026-11-12 von `modell/cnc.py` aus `modell/parameter.json` — nicht von Hand ändern, sondern Parameter anpassen und neu erzeugen. Entscheidung und Hintergrund: ADR 0023.
 
 ## Teile
 
 Material: **Birke-Multiplex 18 mm**, 9 Teile in 6 unterschiedlichen Formen.
 
-| Datei | Kürzel | Langname | Stk. | Außenmaß (mm) |
-|---|---|---|---|---|
-| `b1-t1.dxf` | B1 / T1 | Bodenplatte (Bottom_1) und Deckplatte (Top_1) | 2 | 1120 × 900 |
-| `s1-s2.dxf` | S1 / S2 | Seitenwände links (Side_1) und rechts (Side_2) | 2 | 900 × 340 |
-| `m1-m2.dxf` | M1 / M2 | Trennwand links (Mid_1) / rechts (Mid_2) | 2 | 900 × 340 |
-| `r1.dxf` | R1 | Rückwand (Rear_1) | 1 | 1084 × 340 |
-| `f1.dxf` | F1 | Klappbrett Rücksitz (Fold_1) | 1 | 1120 × 700 |
-| `f2.dxf` | F2 | Klappbrett Kopfende (Fold_2) | 1 | 1120 × 400 |
+| Datei | Kürzel | Langname | Material | Stk. | Außenmaß (mm) |
+|---|---|---|---|---|---|
+| `b1-t1.dxf` | B1 / T1 | Bodenplatte (Bottom_1) und Deckplatte (Top_1) | Birke-Multiplex 18 mm | 2 | 1120 × 900 |
+| `s1-s2.dxf` | S1 / S2 | Seitenwände links (Side_1) und rechts (Side_2) | Birke-Multiplex 18 mm | 2 | 900 × 340 |
+| `m1-m2.dxf` | M1 / M2 | Trennwand links (Mid_1) / rechts (Mid_2) | Birke-Multiplex 18 mm | 2 | 900 × 340 |
+| `r1.dxf` | R1 | Rückwand (Rear_1) | Birke-Multiplex 18 mm | 1 | 1084 × 340 |
+| `f1.dxf` | F1 | Klappbrett Rücksitz (Fold_1) | Birke-Multiplex 18 mm | 1 | 1120 × 700 |
+| `f2.dxf` | F2 | Klappbrett Kopfende (Fold_2) | Birke-Multiplex 18 mm | 1 | 1120 × 400 |
 
 ## Dateien
 
@@ -37,5 +37,5 @@ Material: **Birke-Multiplex 18 mm**, 9 Teile in 6 unterschiedlichen Formen.
 3. **Haltestege** (Tabs) und Fräsreihenfolge legt der Dienstleister fest; danach nur Stegreste verschleifen.
 4. **Faserrichtung egal**: Die Teile dürfen beim Nesting beliebig gedreht werden. Wenden (Rückseite nach oben) ist ebenfalls erlaubt: Jedes Teil ist spiegelsymmetrisch (B1 / T1 links/rechts, S1 / S2 links/rechts + oben/unten, M1 / M2 oben/unten, R1 links/rechts + oben/unten, F1 links/rechts + oben/unten, F2 links/rechts + oben/unten), gewendet entsteht dasselbe Teil.
 5. **Keine Bohrungen**: Scharniere (V17), Gurtschlaufen (F2) und Schrauben werden beim Zusammenbau angerissen und gebohrt.
-6. **Nicht enthalten**: Schubladen, Sitz- und Tischbretter (C1–C3, D1–D3) — deren Maße werden erst am fertigen Korpus festgelegt (zweiter Auftrag).
+6. **Nicht enthalten**: Sitz- und Tischbretter (C1–C3) — deren Aufbau hängt an ADR 0013. Die Schubladenkästen D1–D3 sind ein eigener Auftrag (`docs/cnc/schubladen/`, ADR 0024).
 7. **Kanten**: keine Fase, kein Radius an den Außenkanten.

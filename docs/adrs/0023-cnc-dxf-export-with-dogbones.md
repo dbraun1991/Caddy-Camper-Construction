@@ -59,5 +59,6 @@ exactly 18 mm wide may be too tight.
   one slot) before the full job is recommended.
 - `F1`/`F2` are plain rectangles and could go to a cheaper panel saw instead.
   They are included so everything can be picked up in one job.
-- Drawers and seat/table boards are not exported yet. Their dimensions are set
-  on the finished corpus (open findings in `AGENTS.md`).
+- The drawer boxes were added as a separate job in `docs/cnc/schubladen/`
+  ([ADR 0024](0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md)).
+  Seat/table boards (ADR 0013) and the drawer front panels are not exported yet.

@@ -42,7 +42,7 @@
       "schwer": { "name": "AOLISHENG 850 mm · 170 kg", "staerke": 19, "hoehe": 76, "traglast": 170 },
       "leicht": { "name": "AOLISHENG 850 mm · 80 kg",  "staerke": 19, "hoehe": 53, "traglast": 80 }
     },
-    "_staerke": "Stärke je Seite bei beiden Typen noch am Produkt prüfen — die Elementbreiten hängen davon ab",
+    "_staerke": "Am 2026-11-12 an den gelieferten Schienen gemessen: Stärke je Seite bei beiden Typen exakt 19 mm (die Elementbreiten hängen davon ab). Höhe 80 kg: 53 mm bestätigt. Höhe 170 kg: gemessen ~74 mm, Messung unsicher — bis zur Kontrolle bleibt der Datenblattwert 76 mm (größeres Band, sichere Seite für die Schraubenbänder an M1/M2 und ADR 0013)",
     "zuordnung": { "C1": "schwer", "C2": "schwer", "C3": "schwer", "D1": "leicht", "D2": "leicht", "D3": "leicht" }
   },
 
@@ -55,6 +55,30 @@
     "brett_tiefe": 850,
     "blende_staerke": 18,
     "blende_hoehe": 268
+  },
+
+  "schubladen": {
+    "_hinweis": "Kastenbau D1–D3 aus CNC-Teilen (ADR 0024): Ecken mit Fingerzinken, Boden mit Zapfen durch Schlitze in allen vier Wänden, Fenster in den Seitenwänden. Außenmaße der Kästen kommen aus dem Modell (Schienenstärke!), hier nur der Aufbau.",
+    "wandstaerke": 18,
+    "bodenstaerke": 12,
+    "boden_abstand_unten": 10,
+    "_boden_abstand_unten": "Unterkante Boden über der Wandunterkante — so viel Holz bleibt unter den Bodenschlitzen stehen",
+    "zinken_anzahl": 7,
+    "_zinken_anzahl": "Ungerade: die Seitenwände haben oben und unten einen Zinken, Kastenfront und -rückwand die Lücken dazwischen",
+    "bodenzapfen": { "laenge": 50, "anzahl_lang": 5, "anzahl_kurz": 2, "abstand_rand": 40 },
+    "fenster": {
+      "_hinweis": "Durchbrüche in den Seitenwänden zur Gewichtsersparnis. Das Schienenband (± abstand_schiene) bleibt immer voll stehen, ebenso ein Rand oben, ein Steg über dem Boden und die Zinkenzone an den Enden",
+      "anzahl": 4,
+      "steg": 40,
+      "rand_ende": 50,
+      "rand_oben": 30,
+      "steg_boden": 30,
+      "abstand_schiene": 15,
+      "radius": 20,
+      "min_hoehe": 60
+    },
+    "dichte_kg_m3": 680,
+    "_dichte": "Birke-Multiplex, nur für die Gewichtsangabe im CNC-Auftrag"
   },
 
   "fahrzeug": {

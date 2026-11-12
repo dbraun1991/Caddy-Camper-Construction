@@ -28,7 +28,7 @@ Decision, Consequences.
 | [0008](0008-heavy-duty-full-extension-runners.md) | Heavy-duty 900 mm full-extension runners over shorter soft-close runners | Accepted, length amended by 0017 |
 | [0009](0009-translucent-caddy-shell-overlay.md) | Translucent Caddy shell as a separate, toggled overlay group | Accepted |
 | [0010](0010-detailed-caddy-shell.md) | More detailed Caddy shell: door openings, rear-seat states, load-floor plane | Accepted |
-| [0011](0011-drawer-box-panel-shear-joinery.md) | Drawer boxes braced by their bottom panel, not by corner joints | Accepted |
+| [0011](0011-drawer-box-panel-shear-joinery.md) | Drawer boxes braced by their bottom panel, not by corner joints | Box joinery superseded by 0024 |
 | [0012](0012-non-destructive-vehicle-tie-down.md) | Non-destructive tie-down via factory lashing eyes, no holes in the body | Accepted, amended by 0016 |
 | [0013](0013-rail-carrier-cheeks-for-seat-and-table-boards.md) | Carrier cheeks to give the seat/table boards a full-height rail face | **Proposed** |
 | [0014](0014-self-contained-corpus-with-own-side-walls.md) | Self-contained corpus with its own side walls, removable as one unit | Accepted |
@@ -41,3 +41,4 @@ Decision, Consequences.
 | [0021](0021-table-board-on-170-kg-runners.md) | Table board C3 on the 170 kg runners (it must take a person sitting on it) | Accepted |
 | [0022](0022-mnemonic-board-codes.md) | Mnemonic part codes for the boards (Bottom, Rear, Side, Mid, Top, Fold) | Accepted |
 | [0023](0023-cnc-dxf-export-with-dogbones.md) | CNC export as 2D DXF with dogbones and slot clearance | Accepted (values are assumptions) |
+| [0024](0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md) | CNC-cut drawer boxes: finger joints, tabbed bottom, lightening windows | Accepted |

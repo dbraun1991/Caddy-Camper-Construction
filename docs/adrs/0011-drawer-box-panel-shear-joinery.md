@@ -1,6 +1,9 @@
 # 0011: Drawer boxes braced by their bottom panel, not by corner joints
 
-Status: Accepted
+Status: Superseded in part by [ADR 0024](0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md)
+(2026-11-12): the box joinery (corner screws, screwed-on bottom, corner cleats)
+is replaced by CNC-cut finger joints and a tabbed bottom. The front-panel
+mounting and the rail attachment to the side faces described here still apply.
 
 ## Context
 

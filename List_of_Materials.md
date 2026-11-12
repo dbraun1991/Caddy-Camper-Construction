@@ -25,7 +25,8 @@ Die Holzplatten von Box und Liegefläche tragen seit 2026-11-07 sprechende Buchs
 | **C — Auszugbretter** | C1 / C2 | Sitzbrett links / Sitzbrett rechts |
 | | C3 | Tischbrett Mitte |
 | **D — Schubladen** | D1 / D2 / D3 | Schubladenkasten links / rechts / Mitte |
-| | D1-F / D2-F / D3-F | Schubladenfront links / rechts / Mitte |
+| | D1-F / D2-F / D3-F | Schubladenfront links / rechts / Mitte (sichtbare Blende) |
+| | D1-S, D1-E, D1-B … | Teile eines Kastens: Seitenwand (Side), Kastenfront/-rückwand (End), Boden (Bottom) — [ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md) |
 | **E — Schienen** | E1 / E2 | Schwerlastschiene 170 kg (Sitz- und Tischbretter) / Schiene 80 kg (Schubladen) |
 | | E-C1-a … | im Modell je Einzelschiene, z. B. „Schiene Sitzbrett links, an Seitenwand links“ |
 | **V — Verbindungsmittel & Beschläge** | V1 … V17 | Schrauben, Winkel, Dübel, Leim, Gurte, Scharniere — Langnamen in §V |
@@ -118,30 +119,36 @@ Alle drei fahren 850 mm auf Vollauszug-Schienen aus — **kein Klappen**, reine 
 
 ## D — Schubladen (3 Stück)
 
-Schubladen-Boxen aus 18 mm Korpus + 12 mm Boden.  
-Innentiefe folgt der Schienen-Länge (850 mm Auszug → Kastentiefe 830 mm; dahinter 32 mm Luft bis zur Rückwand R1, [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)).
+Schubladenkästen als **CNC-Teile** ([ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md)): Wände 18 mm mit **Fingerzinken** an den Ecken, Boden 12 mm mit **Zapfen durch Schlitze** in allen vier Wänden, **Fenster** in den Seitenwänden zur Gewichtsersparnis. DXF und Auftrag: [`docs/cnc/schubladen/`](docs/cnc/schubladen/) (im Viewer Reiter „DXF · CNC“ → „Schubladenkästen“).  
+Kastentiefe 830 mm (850-mm-Auszug, dahinter 32 mm Luft bis zur Rückwand R1, [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)), Kastenhöhe 260 mm, nutzbare Innenhöhe 238 mm (Boden liegt 10 mm über der Wandunterkante).
 
-### D1 + D2 — Schublade Links & Rechts (je 1×)
+> **Kastenbreiten bestätigt** (2026-11-12): Sektionsbreite − 2 × Schienenstärke − 2 mm Spiel, die gelieferte 80-kg-Schiene ist wie geplant **19 mm** stark. Vor der Bestellung noch die Schraublöcher der Schiene gegen das volle Schienenband der Seitenwände prüfen.
 
-y = 50–318 mm = 268 mm hoch; 312 mm Innen − 2 × 19 mm Schiene − 2 mm Spalt = **272 mm** Außenbreite.
+Maße = fertiges Teil. Zinken und Bodenzapfen stehen je 1 mm über (Schleifzugabe), deshalb sind die Rohteile 2 mm länger bzw. breiter (Spalte „Rohteil“ = Maß in der DXF).
 
-| Bauteil | Maß (B × T × H) | Stärke | Menge |
-|---|---|---|---|
-| Boden | 272 × 830 | 12 mm | 2 |
-| Seitenwand lang | 12 × 830 × 248 | 18 mm | 4 |
-| Front + Rück | 272 × 18 × 248 | 18 mm | 4 |
-| Frontblende (sichtbar) | 312 × 18 × 268 | 18 mm | 2 |
+### D1 + D2 — Schublade links & rechts (je 1×, identische Teile)
+
+y = 50–318 mm (Blende 268 mm hoch); 312 mm Sektion − 2 × 19 mm Schiene − 2 mm Spalt = **272 mm** Außenbreite.
+
+| Kürzel | Bauteil | Fertig (mm) | Rohteil (mm) | Stärke | Menge |
+|---|---|---|---|---|---|
+| D1-S / D2-S | Seitenwand, 4 Fenster unter dem Schienenband | 830 × 260 | 832 × 260 | 18 mm | 4 |
+| D1-E / D2-E | Kastenfront und -rückwand | 272 × 260 | 274 × 260 | 18 mm | 4 |
+| D1-B / D2-B | Boden, 14 Zapfen | 236 × 794 (+ Zapfen) | 274 × 832 | 12 mm | 2 |
+| D1-F / D2-F | Frontblende (sichtbar, nicht im CNC-Auftrag, → §H3) | 312 × 268 | — | 18 mm | 2 |
 
 ### D3 — Schublade Mitte (1×)
 
-y = 18–286 mm = 268 mm hoch; 424 mm Innen − 2 × 19 mm Schiene − 2 mm Spalt = **384 mm** Außenbreite.
+y = 18–286 mm (Blende 268 mm hoch); 424 mm Sektion − 2 × 19 mm Schiene − 2 mm Spalt = **384 mm** Außenbreite.
 
-| Bauteil | Maß (B × T × H) | Stärke | Menge |
-|---|---|---|---|
-| Boden | 384 × 830 | 12 mm | 1 |
-| Seitenwand lang | 12 × 830 × 248 | 18 mm | 2 |
-| Front + Rück | 384 × 18 × 248 | 18 mm | 2 |
-| Frontblende (sichtbar) | 424 × 18 × 268 | 18 mm | 1 |
+| Kürzel | Bauteil | Fertig (mm) | Rohteil (mm) | Stärke | Menge |
+|---|---|---|---|---|---|
+| D3-S | Seitenwand, 4 Fenster über dem Schienenband | 830 × 260 | 832 × 260 | 18 mm | 2 |
+| D3-E | Kastenfront und -rückwand | 384 × 260 | 386 × 260 | 18 mm | 2 |
+| D3-B | Boden, 14 Zapfen | 348 × 794 (+ Zapfen) | 386 × 832 | 12 mm | 1 |
+| D3-F | Frontblende (sichtbar, nicht im CNC-Auftrag, → §H3) | 424 × 268 | — | 18 mm | 1 |
+
+Gewicht der drei Kästen ohne Blenden ca. **22,8 kg** — ohne Fenster wären es 26,4 kg (Dichte 680 kg/m³ angenommen, berechnet in `modell/cnc.py`).
 
 ---
 
@@ -172,8 +179,8 @@ Zuordnung und Maße stehen in [`modell/parameter.json`](modell/parameter.json) (
 
 #### Option 1 — AOLISHENG 850 mm · 170 kg ⭐ Gewählt für die Sitzbretter C1/C2 und das Tischbrett C3 (3 Paare) — dort sitzt eine Person
 **170 kg Traglast** · 76 mm Höhe · mit Arretierung · 104,99 €/Paar · 2 Paare bestellt 2026-11-04, **1 Paar nachbestellen** (C3, ADR 0021) · [Amazon.de — B086JQXRR5](https://www.amazon.de/dp/B086JQXRR5)  
-Einbaumaß laut Hersteller 19,2 + 0,5 mm je Seite: passt in die eingeplanten 20 mm (19 mm Schiene + 1 mm Spiel).  
-⚠ **Nach der Lieferung prüfen:** Rastet die Arretierung im ausgezogenen Zustand ein? Für die Sitz- und Tischbretter Pflicht, sonst zurückschicken.
+Einbaumaß laut Hersteller 19,2 + 0,5 mm je Seite: passt in die eingeplanten 20 mm (19 mm Schiene + 1 mm Spiel). **Gemessen 2026-11-12: 19 mm Stärke**, Höhe ~74 mm (Messung unsicher; im Modell bleibt bis zur Kontrolle der Datenblattwert 76 mm). Verarbeitung sehr gut.  
+⚠ **Noch prüfen:** Rastet die Arretierung im ausgezogenen Zustand ein? Für die Sitz- und Tischbretter Pflicht, sonst zurückschicken.
 
 ```
 Vollauszug 850 mm · Höhe 76 mm · Einbaumaß 19,2 + 0,5 mm je Seite · Stahl 2,5 mm · Traglast 170 kg · Arretierung: Ja · nicht trennbar
@@ -185,10 +192,10 @@ Hinter der Schiene: 882 mm lichte Tiefe − 850 mm = 32 mm Luft
 
 #### Option 2 — AOLISHENG 850 mm · 80 kg ⭐ Gewählt für die Schubladen D1–D3 (3 Paare)
 **80 kg Traglast** · 53 mm Höhe · mit Arretierung · 61,99 €/Paar · 4 Paare bestellt 2026-11-04, **1 Paar zu viel** (C3 jetzt auf Option 1) · Link/ASIN noch nachtragen  
-⚠ **Nach der Lieferung messen:** Stärke je Seite, geplant sind 19 mm; ist sie anders, ändern sich die Breiten von D1–D3. Außerdem prüfen, ob die Schiene trennbar ist und ob die Befestigungslöcher am 830 mm langen Kasten sitzen.
+**Gemessen 2026-11-12: 19 mm Stärke, 53 mm Höhe** — wie geplant, die Breiten von D1–D3 bleiben. Noch offen: Lage der Befestigungslöcher (am 830 mm langen Kasten, im vollen Schienenband der Seitenwände) und ob die Schiene trennbar ist.
 
 ```
-Vollauszug 850 mm · Höhe 53 mm · Stärke 19 mm je Seite (zu prüfen) · Traglast 80 kg · Arretierung: Ja
+Vollauszug 850 mm · Höhe 53 mm · Stärke 19 mm je Seite (gemessen) · Traglast 80 kg · Arretierung: Ja
 Geeignet für: Gepäck in den Schubladen — nicht zum Draufsetzen
 ```
 
@@ -229,12 +236,12 @@ Vollauszug 550 mm · 3-teilig · SoftClose · Traglast 105 kg
 | V4 | Holzdübel (nur für die Rückfallvariante „stumpf“ nötig) | Ø 8 × 40 mm | ~30 Stk. |
 | V5 | Holzleim D3 (wasserfest) | 750 ml | 1 Flasche |
 | V6 | Schubladengriff | nach Wahl, mind. 64 mm Bohrung | 3 Stk. |
-| V7 | Spanplattenschrauben (Schubladen-Ecken, Blenden, Winkel) | Torx Senkkopf 4 × 30/40 mm | je ~100 Stk. |
-| V8 | Spanplattenschrauben (Schubladenböden) | Torx Senkkopf 3,5 × 30 mm | ~120 Stk. |
+| V7 | Spanplattenschrauben (Blenden, Winkel) | Torx Senkkopf 4 × 30/40 mm | je ~100 Stk. |
+| V8 | ~~Spanplattenschrauben Schubladenböden~~ — entfällt, Boden mit Zapfen ([ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md)) | — | — |
 | V9 | Durchsteckschrauben Schienen-Vorderkante (→ §H1) | M5 × 40 mm + U-Scheibe + Stoppmutter | 24 Sätze |
 | V10 | Schrauben Zurrösen-Anbindung (→ §H5) | M8 × 30/40 mm + U-Scheibe + Stoppmutter | 4 Sätze |
 | V11 | Spanngurt (Ratsche) | ≥ 1,5 m, 2-teilig | 2 Stk. |
-| V12 | Eckleiste Weichholz (Schubladen-Innenecken, → §H2) | 20 × 20 mm, Länge ~3,0 m gesamt | 12 Stk. à 240 mm |
+| V12 | ~~Eckleiste Weichholz Schubladen-Innenecken~~ — entfällt, Fingerzinken ([ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md)) | — | — |
 | V13 | ~~Überlappungsleisten Liegefläche~~ — entfällt, ersetzt durch Scharniere V17 ([ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md)) | — | — |
 | V14 | Trägerwangen Sitz-/Tischbretter (→ §H1 / ADR 0013) | 18 mm × Schienenhöhe × 850 mm | 6 Stk. ⚠ erst nach ADR 0013 |
 | V15 | Gurtschlaufe F2 ↔ Kopfstütze, verstellbar (→ §H4) | Gurtband ~25 mm mit Klemmschnalle | 2 Stk. |
@@ -257,7 +264,7 @@ Vollauszug 550 mm · 3-teilig · SoftClose · Traglast 105 kg
 
 ## H — Verbindungstechnik
 
-> Entscheidungsprotokolle: [ADR 0007 Korpus](docs/adrs/0007-dowel-screw-bracket-joinery.md) · [ADR 0011 Schubladen](docs/adrs/0011-drawer-box-panel-shear-joinery.md) · [ADR 0012 Fahrzeugbefestigung](docs/adrs/0012-non-destructive-vehicle-tie-down.md) · [ADR 0013 Trägerwangen (offen)](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md)
+> Entscheidungsprotokolle: [ADR 0007 Korpus](docs/adrs/0007-dowel-screw-bracket-joinery.md) · [ADR 0011](docs/adrs/0011-drawer-box-panel-shear-joinery.md) + [ADR 0024 Schubladen](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md) · [ADR 0012 Fahrzeugbefestigung](docs/adrs/0012-non-destructive-vehicle-tie-down.md) · [ADR 0013 Trägerwangen (offen)](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md)
 
 Abschnitte: Korpus (unten) · [H1 Schienen](#h1--schienenbefestigung-an-wänden-und-trennwänden) · [H2 Schubladenkästen](#h2--schubladenkästen-d1d3) · [H3 Frontblenden](#h3--frontblenden) · [H4 Liegefläche](#h4--liegefläche-stöße-t1--f1--f2) · [H5 Fahrzeug](#h5--befestigung-des-korpus-im-fahrzeug)
 
@@ -310,17 +317,25 @@ Die Außenmember der Schienen werden auf die **Flächen** von Seitenwänden (S1/
 
 ### H2 — Schubladenkästen (D1–D3)
 
-> Entscheidungsprotokoll: [docs/adrs/0011-drawer-box-panel-shear-joinery.md](docs/adrs/0011-drawer-box-panel-shear-joinery.md)
+> Entscheidungsprotokoll: [ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md) (ersetzt den Kastenbau aus [ADR 0011](docs/adrs/0011-drawer-box-panel-shear-joinery.md); Blende und Schienenbefestigung bleiben wie dort)
 
-Tragendes Element ist **nicht** die Eckverbindung, sondern der **12 mm Boden** — analog zur Rückwand R1 beim Korpus.
+Alle Teile kommen fertig gefräst; verbunden wird nur mit **Leim**, ohne Schrauben und ohne Eckleisten.
 
-| Reihenfolge | Mittel | Zweck |
+| Verbindung | Ausführung | Zweck |
 |---|---|---|
-| 1 | Leim D3 + 2 × Schrauben 4 × 40 mm je Ecke, durch Front-/Rückwand in die Stirnkante der Seitenwand | Montage und Ausrichtung (nicht der Lastpfad) |
-| 2 | Boden 12 mm vollflächig verleimt, Schrauben 3,5 × 30 mm alle ~150 mm in alle vier Wandunterkanten | **Aussteifungsscheibe** gegen Verwindung |
-| 3 | Eckleiste Weichholz 20 × 20 × 240 mm in alle 4 Innenecken, verleimt + verschraubt | Vibrationsreserve |
+| Ecken | **Fingerzinken**, 7 Felder über 260 mm Höhe; Seitenwände (-S) haben oben und unten einen Zinken | trägt Zug an der Blende und Verwindung, große Leimfläche in Langholz |
+| Boden ↔ Wände | Boden 12 mm mit **Zapfen 50 mm** (5 je lange, 2 je kurze Kante) durch **Schlitze 50 × 12 mm** in allen vier Wänden, 10 mm über der Wandunterkante | trägt die Ladung, legt den Kasten rechtwinklig fest |
+| Fenster | 4 Durchbrüche je Seitenwand, Radius 20 mm; das **Schienenband ± 15 mm bleibt voll stehen** | Gewicht sparen, ohne die Schienenbefestigung zu schwächen |
 
-Nach dem Verschrauben des Bodens und **vor** dem Abbinden des Leims die Diagonalen messen — der Boden legt den Kasten rechtwinklig fest.
+**Zusammenbau** (ein Leimgang, vorher trocken zusammenstecken):
+
+1. Boden auf die Werkbank, Leim in die Schlitze und auf die Zinken
+2. Seitenwände (-S) seitlich auf die Bodenzapfen schieben
+3. Kastenfront und -rückwand (-E) von vorn bzw. hinten aufschieben — dabei greifen Zinken und Bodenzapfen gleichzeitig
+4. Zwingen, **Diagonalen messen**, bevor der Leim anzieht
+5. Nach dem Trocknen überstehende Zinken und Zapfen (1 mm) **bündig schleifen**, dann erst die Schienen anschrauben (V2, 3,5 × 16 mm, nur im vollen Schienenband)
+
+Durch die Fenster können Kleinteile in den Korpus fallen — bei Bedarf eine Einlage oder Tasche in die Schublade.
 
 ### H3 — Frontblenden
 
@@ -409,6 +424,6 @@ Sinnvoll als Referenz für Maße, Verarbeitung und Preiseinschätzung auch wenn 
 
 Standardformat Multiplex-Platte: 2.500 × 1.250 mm → **ca. 3 Platten à 18 mm** + **1 Platte à 12 mm**.
 
-Zusätzlich Leisten (Weichholz/Multiplex-Reste): ca. 3,0 m Eckleiste 20 × 20 mm (V12), Leisten V13 entfallen (Scharniere V17). Die Trägerwangen (V14) lassen sich aus dem 18-mm-Verschnitt schneiden.
+Zusätzliche Leisten entfallen: Eckleisten V12 (Fingerzinken, ADR 0024) und Leisten V13 (Scharniere V17). Die Trägerwangen (V14) lassen sich aus dem 18-mm-Verschnitt schneiden.
 
 → Preise und Gesamtbudget: **[Einkaufsliste.md](./Einkaufsliste.md)**

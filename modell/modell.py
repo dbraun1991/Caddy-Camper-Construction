@@ -227,6 +227,108 @@ def teile(p=None, eckausbildung=None):
     return _korpus(p, eck) + _einbauten(p) + _liegeflaeche(p)
 
 
+def _verteilt(spanne, anzahl, laenge, rand):
+    """Startpunkte von `anzahl` gleich langen Stücken, gleichmäßig in [rand, spanne − rand]."""
+    if anzahl == 1:
+        return [(spanne - laenge) / 2]
+    return [rand + (spanne - 2 * rand - laenge) * i / (anzahl - 1) for i in range(anzahl)]
+
+
+def schubladen_bretter(p=None, alle=None):
+    """Die Bretter der Schubladenkästen D1–D3 als ebene Frässkonturen (ADR 0024).
+
+    Außenmaße jedes Kastens kommen aus dem Quader D1/D2/D3 in `teile()`, die Höhe des
+    Schienenbands aus den Schienen E-D*-a — es gibt keine zweite Stelle für diese Maße.
+    Je Brett: Rechtecke (u0, v0, u1, v1) zum Behalten bzw. Ausfräsen, dazu Fenster
+    (u0, v0, u1, v1, radius). Ursprung links unten am Rohteil, Zinken und Bodenzapfen
+    stehen um die Schleifzugabe über. Gleiche Bretter (D1/D2) werden zusammengefasst.
+
+    Seitenwand -S: u = Kastentiefe (z), v = Höhe · Stirnwand -E (Kastenfront und
+    -rückwand): u = Kastenbreite (x), v = Höhe · Boden -B: u = Breite (x), v = Tiefe (z).
+    """
+    p = p or lade_parameter()
+    alle = alle or teile(p)
+    s, zug = p["schubladen"], p["zapfen"]["schleifzugabe"]
+    T, Tb, h0 = s["wandstaerke"], s["bodenstaerke"], s["boden_abstand_unten"]
+    n, bz, f = s["zinken_anzahl"], s["bodenzapfen"], s["fenster"]
+    nach_id = {t["id"]: t for t in alle}
+    rand = T + zug                              # Zinkenlänge inkl. Schleifzugabe
+
+    def zinken(lang, hoehe, gerade_aussen):
+        """Ausfräsungen an beiden Enden: Lücken dort, wo das Gegenstück seinen Zinken hat."""
+        out = []
+        for k in range(n):
+            if (k % 2 == 0) == gerade_aussen:
+                continue
+            v0 = -1 if k == 0 else hoehe * k / n
+            v1 = hoehe + 1 if k == n - 1 else hoehe * (k + 1) / n
+            out += [(-1, v0, rand, v1), (lang + 2 * zug - rand, v0, lang + 2 * zug + 1, v1)]
+        return out
+
+    def bodenschlitze(innen, anzahl):
+        return [(rand + a, h0, rand + a + bz["laenge"], h0 + Tb)
+                for a in _verteilt(innen, anzahl, bz["laenge"], bz["abstand_rand"])]
+
+    bretter = []
+    for d in ("D1", "D2", "D3"):
+        (x0, x1), (y0, y1), (z0, z1) = nach_id[d]["box"]
+        B, H, L = x1 - x0, y1 - y0, z1 - z0
+        Bi, Li = B - 2 * T, L - 2 * T
+        _, (s0, s1), _ = nach_id[f"E-{d}-a"]["box"]
+        band = (s0 - y0 - f["abstand_schiene"], s1 - y0 + f["abstand_schiene"])
+        frei, unten = [], h0 + Tb + f["steg_boden"]
+        for a, b in ((unten, band[0]), (band[1], H - f["rand_oben"])):
+            if b - a >= f["min_hoehe"]:
+                frei.append((a, b))
+        bf = (Li - 2 * f["rand_ende"] - (f["anzahl"] - 1) * f["steg"]) / f["anzahl"]
+        fenster = [(rand + f["rand_ende"] + i * (bf + f["steg"]), a,
+                    rand + f["rand_ende"] + i * (bf + f["steg"]) + bf, b, f["radius"])
+                   for a, b in frei for i in range(f["anzahl"])]
+
+        boden_zapfen = [(0, rand + a, rand, rand + a + bz["laenge"]) for a in
+                        _verteilt(Li, bz["anzahl_lang"], bz["laenge"], bz["abstand_rand"])]
+        boden_zapfen += [(B + 2 * zug - u1, v0, B + 2 * zug - u0, v1) for u0, v0, u1, v1 in boden_zapfen]
+        quer = [(rand + a, 0, rand + a + bz["laenge"], rand) for a in
+                _verteilt(Bi, bz["anzahl_kurz"], bz["laenge"], bz["abstand_rand"])]
+        boden_zapfen += quer + [(u0, L + 2 * zug - v1, u1, L + 2 * zug - v0) for u0, v0, u1, v1 in quer]
+
+        lage = ELEMENTE[d].split()[-1]
+        bretter += [
+            {"id": f"{d}-S", "teil": "Seitenwand", "lagen": [lage], "stk": 2, "staerke": T,
+             "breite": L + 2 * zug, "hoehe": H, "behalten": [(0, 0, L + 2 * zug, H)],
+             "loecher": zinken(L, H, True) + bodenschlitze(Li, bz["anzahl_lang"]), "fenster": fenster},
+            {"id": f"{d}-E", "teil": "Kastenfront und -rückwand", "lagen": [lage], "stk": 2, "staerke": T,
+             "breite": B + 2 * zug, "hoehe": H, "behalten": [(0, 0, B + 2 * zug, H)],
+             "loecher": zinken(B, H, False) + bodenschlitze(Bi, bz["anzahl_kurz"]), "fenster": []},
+            {"id": f"{d}-B", "teil": "Boden", "lagen": [lage], "stk": 1, "staerke": Tb,
+             "breite": B + 2 * zug, "hoehe": L + 2 * zug, "behalten": [(rand, rand, rand + Bi, rand + Li)] + boden_zapfen,
+             "loecher": [], "fenster": []},
+        ]
+
+    def gleich(a, b):
+        schluessel = ("staerke", "breite", "hoehe", "behalten", "loecher", "fenster")
+        return all(_runde(a[k]) == _runde(b[k]) for k in schluessel)
+
+    out = []
+    for b in bretter:
+        vorhanden = next((o for o in out if o["id"][-1] == b["id"][-1] and gleich(o, b)), None)
+        if vorhanden:
+            vorhanden["ids"].append(b["id"])
+            vorhanden["lagen"] = vorhanden["lagen"] + b["lagen"]
+            vorhanden["stk"] += b["stk"]
+        else:
+            out.append(dict(b, ids=[b["id"]]))
+    for b in out:
+        b["name"] = f"Schublade {' / '.join(b['lagen'])}, {b['teil']}"
+    return out
+
+
+def _runde(wert):
+    if isinstance(wert, (list, tuple)):
+        return [_runde(w) for w in wert]
+    return round(wert, 3) if isinstance(wert, float) else wert
+
+
 KATEGORIEN = {
     "zapfen": "Zapfen steckt in Schlitz/Aussparung (gewollt)",
     "eckverbindung": "Eckausbildung Korpus — welche Platte läuft durch?",

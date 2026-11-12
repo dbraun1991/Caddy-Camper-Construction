@@ -39,7 +39,8 @@ Hinweise-Sommernutzung.md  — legal (rasten vs. campen), payload, ventilation, 
 README.md                  — usage, controls, dimensions overview, render architecture notes
 docs/adrs/                 — architecture decision records (see below)
 docs/zeichnungen/          — generated drawings, one folder per `eckausbildung` variant
-docs/cnc/                  — generated DXF + AUFTRAG.md + vorschau/*.svg per variant,
+docs/cnc/                  — generated DXF + AUFTRAG.md + vorschau/*.svg per variant and for the
+                              drawer boxes (docs/cnc/schubladen/, ADR 0024),
                               cnc.js (parts + notes for the viewer tab, via <script src>)
 ```
 
@@ -144,13 +145,18 @@ down.
   dogbones and slot clearance from the `cnc` parameters, which are still
   assumptions until a service confirms cutter Ø and fit; shown in the viewer tab
   "DXF · CNC" with previews, downloads and the same notes as `AUFTRAG.md`,
-  generated from one list in `cnc.abschnitte()`), plus an overlap
+  generated from one list in `cnc.abschnitte()`); the drawer boxes are a second
+  CNC job (`docs/cnc/schubladen/`, [ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md):
+  finger-jointed corners, 12 mm bottom with tabs through slots in all four walls,
+  lightening windows in the side walls that keep the runner band solid; board
+  geometry from `modell.schubladen_bretter()`, parts `D*-S`/`-E`/`-B`), plus an overlap
   report in the "Statisch" tab and a collision toggle in the 3D tab
   ([ADR 0015](docs/adrs/0015-shared-model-data-for-viewer-and-drawings.md)).
 - Full bill of materials with cut list, hardware options and links, and a
   documented joinery method for every junction in the build
   ([List_of_Materials.md](List_of_Materials.md) §H): corpus shell (ADR 0007),
-  rail-to-wall attachment (§H1), drawer boxes and front panels (ADR 0011),
+  rail-to-wall attachment (§H1), drawer boxes (ADR 0024, replacing ADR 0011's
+  box joinery) and front panels (ADR 0011),
   sleeping-platform board joints (§H4), and vehicle tie-down (ADR 0012, amended by ADR 0016:
   rear lashing eyes beside the corpus, brackets on the outside of `S1/S2`).
 - Shopping list with dated price estimates, a three-tier total budget, and a
@@ -198,8 +204,13 @@ down.
     [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md): 850 mm
     runners, corpus stays 900 mm. Runners ordered 2026-11-04 (2 × 170 kg + 4 × 80 kg; since ADR 0021 `C3` needs the 170 kg type → 3 + 3, one 170 kg pair still to order). The 170 kg type is
     specified at 19.2 + 0.5 mm per side, which fits the planned 19 mm + 1 mm
-    clearance. Open on delivery: measure the 80 kg type (19 mm assumed in
-    `schienen.typen.*.staerke`) and check the 170 kg lock holds when extended.
+    clearance. Delivered and measured 2026-11-12: both types exactly 19 mm thick (as
+    modelled, drawer box widths unchanged), 80 kg height 53 mm confirmed. The
+    170 kg height measured ~74 mm, but the user is unsure of that reading — the
+    model keeps the datasheet 76 mm until it is re-checked. Still open: screw-hole
+    positions (user will send them; check against the solid runner band in the
+    drawer side walls before ordering `docs/cnc/schubladen/`) and whether the
+    170 kg lock holds when extended.
   - Full-section-width inset drawer fronts sit in front of the runners.
   - Drawer fronts (inset vs. overlay, ~2 mm gaps all round, rails set back
     18 mm if inset — 868 ≤ 882 fits) and the 3 mm `D3-F`/`C3` overlap:

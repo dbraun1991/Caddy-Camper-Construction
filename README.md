@@ -119,13 +119,15 @@ Für einen CNC-Fräs-Dienstleister liegen alle Bretter der Box und der Liegeflä
 - im Viewer im Reiter „DXF · CNC“: Vorschau, Download und dieselben Hinweise wie in `AUFTRAG.md` (Daten aus `docs/cnc/cnc.js` und `vorschau/*.svg`, beides von `modell/cnc.py` erzeugt)
 - [`AUFTRAG.md`](docs/cnc/gezapft/AUFTRAG.md): Stückliste und **alle Annahmen** zum Mitschicken — Fräser Ø 6 mm (bestimmt die Dogbones in den Innenecken), 0,2 mm Passungsluft in Schlitzen und Aussparungen
 
+**Schubladenkästen D1–D3** sind ein eigener Auftrag in [`docs/cnc/schubladen/`](docs/cnc/schubladen/) (im Viewer: Auswahl „Schubladenkästen“): Seitenwände, Kastenfront/-rückwand und Böden mit Fingerzinken, Bodenzapfen und Fenstern in den Seitenwänden, berechnet aus `modell/parameter.json` → `schubladen` und den Kastenmaßen im Modell ([ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md)). Die Kastenbreiten hängen an der Schienenstärke — gemessen 19 mm wie geplant (2026-11-12).
+
 Die Annahmen stehen in `modell/parameter.json` → `cnc`. Nach der Rückmeldung des Dienstleisters dort anpassen und neu erzeugen:
 
 ```bash
 .venv/bin/python modell/cnc.py
 ```
 
-> Entscheidungsprotokoll: [ADR 0023](docs/adrs/0023-cnc-dxf-export-with-dogbones.md)
+> Entscheidungsprotokoll: [ADR 0023](docs/adrs/0023-cnc-dxf-export-with-dogbones.md) · Schubladen: [ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md)
 
 ---
 
@@ -159,7 +161,7 @@ Sektionsbreiten nach Abzug der Seitenwände S1/S2 (18 mm innen): **312 mm** L/R 
 | Rechts | 312 mm | Schublade 268 mm hoch · 272 mm breit | Sitzbrett 32 mm hoch · 272 mm breit |
 
 Breitenformel: Innenbreite − 2 × 19 mm Schiene − 2 mm Spalt = Elementbreite.  
-Schienen: AOLISHENG 850 mm — 170 kg / 76 mm für die Sitzbretter C1/C2 und das Tischbrett C3 (auch dort darf jemand sitzen, [ADR 0021](docs/adrs/0021-table-board-on-170-kg-runners.md)), 80 kg / 53 mm für die Schubladen. Stärke je Seite: 19 mm angenommen, vor der Bestellung am Produkt prüfen. Im Render dunkelgrau dargestellt.
+Schienen: AOLISHENG 850 mm — 170 kg / 76 mm für die Sitzbretter C1/C2 und das Tischbrett C3 (auch dort darf jemand sitzen, [ADR 0021](docs/adrs/0021-table-board-on-170-kg-runners.md)), 80 kg / 53 mm für die Schubladen. Stärke je Seite: 19 mm, an beiden Typen gemessen (2026-11-12). Im Render dunkelgrau dargestellt.
 
 Alle Elemente fahren auf **Vollauszug-Schienen 850 mm Schwerlast** aus ([ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)): Korpus 900 mm − Rückwand 18 mm = 882 mm lichte Tiefe → 32 mm Luft hinter Schienen, Kästen (830 mm) und Brettern (850 mm).
 
@@ -221,7 +223,7 @@ Der Korpus besteht aus Einzelbrettern (keine Vollbox): S1/S2 Seitenwände links/
 ## Weiterführende Planung
 
 - [x] Verbindungstechnik Korpus — [List_of_Materials.md §H](./List_of_Materials.md#h--verbindungstechnik) · [ADR 0007](docs/adrs/0007-dowel-screw-bracket-joinery.md)
-- [x] Schubladendetails (Kastenbau, Frontblende, Griffe) — [§H2/§H3](./List_of_Materials.md#h2--schubladenkästen-d1d3) · [ADR 0011](docs/adrs/0011-drawer-box-panel-shear-joinery.md)
+- [x] Schubladendetails (Kastenbau, Frontblende, Griffe) — [§H2/§H3](./List_of_Materials.md#h2--schubladenkästen-d1d3) · [ADR 0011](docs/adrs/0011-drawer-box-panel-shear-joinery.md) · Kastenbau als CNC-Teile mit Fingerzinken, Bodenzapfen und Fenstern: [ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md)
 - [x] Schienenbefestigung an Wänden und Trennwänden — [§H1](./List_of_Materials.md#h1--schienenbefestigung-an-wänden-und-trennwänden)
 - [x] Befestigung Unterbau im Fahrzeug — Rücksitz-Ösen neben dem Korpus, Winkel außen an S1/S2 — [§H5](./List_of_Materials.md#h5--befestigung-des-korpus-im-fahrzeug) · [ADR 0012](docs/adrs/0012-non-destructive-vehicle-tie-down.md) · [ADR 0016](docs/adrs/0016-rear-lashing-eyes-carry-the-hold-down.md)
 - [x] Klappbare Liegefläche: F1/F2 per Scharnier an der Box, zum Fahren zurückklappbar (Fahrmodus 1/2) — [ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md)
@@ -237,7 +239,8 @@ Offen:
 - [x] Lichte Tiefe 882 mm vs. Schienenlänge — gelöst mit 850-mm-Schienen, Korpus bleibt 900 mm (20–30 mm Luft zu den Rücksitzen, 32 mm hinter den Schienen) — [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)
 - [ ] **CNC-Anbieter anfragen** (Privatkunde, Abholung, Dateiformat, Fräserdurchmesser, Passung, Probestück) und danach `cnc` in `modell/parameter.json` anpassen + `modell/cnc.py` neu erzeugen — Kandidaten im Raum Duisburg: [Einkaufsliste.md §1](./Einkaufsliste.md#option-cnc-fräsen-statt-zuschnitt), erster Kandidat Brockmann Holz (Krefeld)
 - [ ] 1 Paar 170-kg-Schienen für das Tischbrett C3 nachbestellen (bestellt sind 2 × 170 kg + 4 × 80 kg, nötig 3 + 3) — [ADR 0021](docs/adrs/0021-table-board-on-170-kg-runners.md)
-- [ ] Schienen nach der Lieferung prüfen: Arretierung im ausgezogenen Zustand (170 kg), Stärke der 80-kg-Schiene (geplant 19 mm); die 170-kg-Schiene passt laut Hersteller mit 19,2 + 0,5 mm je Seite
+- [x] Schienenstärke gemessen (2026-11-12): beide Typen 19 mm wie geplant, Höhe 53 mm bestätigt
+- [ ] Schienen weiter prüfen: Arretierung im ausgezogenen Zustand (170 kg), Höhe der 170-kg-Schiene (gemessen ~74 mm, Modell 76 mm laut Datenblatt), Lage der Schraublöcher (gegen das Schienenband der Schubladen-Seitenwände)
 - [ ] **Frontblenden** (einliegend mit Luft oder aufliegend, Höhen mit ~2 mm Spalt, Lage der Schienen) — **wird nach dem Korpusbau entschieden:** Schienen am fertigen Korpus anhalten, messen, dann festlegen. Bis dahin bleiben die roten Stellen an den Blenden in den Zeichnungen bewusst stehen.
 - [x] Bezeichnung links/rechts: immer aus Sicht des Fahrers — Sektion L (C1, D1) = Fahrerseite, R (C2, D2) = Beifahrerseite
 

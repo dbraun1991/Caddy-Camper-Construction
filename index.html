@@ -284,8 +284,9 @@
     <select id="selCncVariante" onchange="zeigeCnc()">
       <option value="gezapft">Wände gezapft in Boden- + Deckplatte</option>
       <option value="stumpf">Wände stumpf zwischen Boden- + Deckplatte</option>
+      <option value="schubladen">Schubladenkästen D1–D3 (eigener Auftrag)</option>
     </select>
-    <span class="legende klein"><span style="background:#d91a1a"></span>Außenkontur<span style="background:#1a40d9"></span>Schlitze (Innenkontur)</span>
+    <span class="legende klein"><span style="background:#d91a1a"></span>Außenkontur<span style="background:#1a40d9"></span>Schlitze und Fenster (Innenkontur)</span>
   </div>
   <div class="inhalt" id="cncInhalt"></div>
 </div>
@@ -796,7 +797,9 @@
       return '<div class="karte"><img src="' + t.vorschau + '" alt="' + esc(t.kuerzel) + '" loading="lazy">' +
              '<div style="margin-top:8px"><b>' + esc(t.kuerzel) + '</b> · ' + esc(t.name) + '</div>' +
              '<div class="klein">' + t.stk + ' Stk. · ' + esc(t.mass) + ' mm' +
-             (t.schlitze ? ' · ' + t.schlitze + ' Schlitze innen' : '') + '</div>' +
+             (t.material ? ' · ' + esc(t.material) : '') +
+             (t.schlitze ? ' · ' + t.schlitze + ' Schlitze innen' : '') +
+             (t.fenster ? ' · ' + t.fenster + ' Fenster' : '') + '</div>' +
              '<a href="' + t.datei + '" download>' + esc(t.datei.split('/').pop()) + ' herunterladen</a></div>';
     }).join('') + '</div>';
     v.abschnitte.forEach(function (a) {
