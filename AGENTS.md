@@ -23,7 +23,7 @@ index.html                 — viewer: tab "Dynamisch" (Three.js r128 via CDN), 
 modell/parameter.json      — single source of all build dimensions (mm)
 modell/modell.py           — derives every part as a box + overlap check → modell/modell.js
                               (stdlib only; generated file is committed)
-modell/zeichnungen.py      — build123d: 8 A3 sheets as SVG per corner variant plus
+modell/zeichnungen.py      — build123d: 10 A3 sheets as SVG per corner variant plus
                               werkzeichnungen.pdf (all sheets, for printing)
                               → docs/zeichnungen/ (committed)
 modell/cnc.py              — 2D DXF per board for a CNC routing service, dogbones +
@@ -149,7 +149,11 @@ down.
   "Box-Bretter" (every corpus/platform board flat at 1:10 with tenons, slots and a
   cut list, `zeichne_bretter()`), three single-board sheets at 1:5 (`brett-b1-t1`,
   `brett-s-m`, `brett-r1`, `zeichne_detail()`) with every tenon, slot and
-  notch dimensioned from the board edge and the waste shaded, an overview sheet
+  notch dimensioned from the board edge and the waste shaded, two drawer sheets
+  at 1:5 (`schublade-d1-d2`, `schublade-d3`, `zeichne_schublade()`: every box
+  board flat with the CNC contour from `modell.schubladen_bretter()` minus
+  dogbones/clearance, dimensioned: fingers, bottom slots/tabs, windows/holes,
+  grip, runner band), an overview sheet
   "Bezeichnungen" (sheet 1: isometric view with board codes + table of every
   code and long name, `zeichne_uebersicht()`), all sheets merged into
   `werkzeichnungen.pdf` per variant for printing on A3, DXF files for a CNC
@@ -265,9 +269,10 @@ down.
 
 ### TODOs
 
-- The load-floor height above the ground (`fahrzeug.ladekante_hoehe` = 580) is
-  the Caddy 2K standard value, not measured; the builder said ±10 cm doesn't
-  matter. The viewer uses it for the ground grid and placeholder underbody and
+- The load-floor height above the ground (`fahrzeug.ladekante_hoehe` = 350) is
+  not measured: first the Caddy 2K datasheet value 580, then set to 350 by the
+  builder (2026-11-13). Front seats in the shell are placeholders, lowered by
+  200 mm (seat cushion at 150 above the load floor) on the same day. The viewer uses it for the ground grid and placeholder underbody and
   wheels only.
 - Vehicle measurements (2026-10-17) live in `modell/parameter.json` → `fahrzeug`
   and are checked by `modell.fahrzeug_pruefung()` (shown in the "Statisch" tab).

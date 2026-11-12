@@ -92,3 +92,9 @@ thickness and section widths automatically.
   windows as holes, extruded by the board thickness and placed by origin + axes).
   The `D1`–`D3` blocks stay in the model for the drawings and the overlap check,
   but are not drawn in the 3D tab.
+- Workshop drawings (added 2026-11-13): `zeichnungen.py` draws two A3 sheets
+  at 1:5 (`schublade-d1-d2`, `schublade-d3`) from the same
+  `modell.schubladen_bretter()` geometry, without dogbones and clearance, with
+  the fingers, bottom slots and tabs, windows/holes, grip and runner band
+  dimensioned. They are in the viewer's "Statisch" tab and in
+  `werkzeichnungen.pdf`.

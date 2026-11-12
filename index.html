@@ -234,7 +234,7 @@
     <span style="background:#378ADD;"></span>Schubladen × 3 &nbsp;(Kasten L/R 226,5 mm, Mitte 229,5 mm hoch, ohne Blende · 850 mm Auszug)<br>
     <span style="background:#E62929;"></span>Rechnerische Überschneidung (Button „Überschneidungen“)<br>
     <span style="background:#220913;"></span>Caddy-Hülle, Heckklappe offen (60 % · teils nachgemessen)<br>
-    <span style="background:#B5E48C;"></span>Lade-Referenzebene Kofferraum (y = 0, Annahme 580 mm über der Straße · Räder/Unterbau Platzhalter)<br>
+    <span style="background:#B5E48C;"></span>Lade-Referenzebene Kofferraum (y = 0, Annahme 350 mm über der Straße · Räder/Unterbau Platzhalter)<br>
     <span style="background:#5F6B7A;"></span>Rücksitzbank (umgeklappt / hochgeklappt / ausgebaut)<br>
     <span style="background:#B8BEC6;"></span>Scharniere Deckplatte ↔ Klappbrett (oben) · zwischen den Klappbrettern (unten)<br>
     <span style="background:linear-gradient(90deg,#C9CED3,#A2A9B0,#7B838B,#4A5056);"></span>Schienen × 12 &nbsp;(AOLISHENG · 870 mm / 76 mm Sitz/Tisch · 850 mm / 53 mm Schubladen · Gehäuse hell, Mittelteil 55 mm, Innenteil 30 mm + Hebel dunkler)
@@ -267,6 +267,8 @@
       <option value="brett-b1-t1">Bodenplatte (B1) / Deckplatte (T1) — Schlitze + Aussparungen bemaßt</option>
       <option value="brett-s-m">Seitenwände (S1/S2) + Trennwände (M1/M2) — Zapfen bemaßt</option>
       <option value="brett-r1">Rückwand (R1) — Zapfen + Schlitze bemaßt</option>
+      <option value="schublade-d1-d2">Schublade links / rechts (D1 / D2) — Kastenbretter bemaßt</option>
+      <option value="schublade-d3">Schublade Mitte (D3) — Kastenbretter bemaßt</option>
     </select>
     <select id="selVariante" onchange="zeigeBlatt()">
       <option value="gezapft">Wände gezapft in Boden- + Deckplatte</option>
@@ -543,7 +545,7 @@
   var CL   = 3000;  // Länge ab Heck bis Vorderwand/Armaturenbrett (Vordersitz-Lehne bei z = 2000)
   var CT   = 10;    // Darstellungsstärke der Hüllenpaneele
   var carLen = 400, carH = 350, carZ = 300; // Radkasten: Länge, Höhe, Start-z
-  var seatW = 450, seatD = 120, seatH = 700, seatY = 350; // Vordersitz-Rückenlehne inkl. Kopfstütze
+  var seatW = 450, seatD = 120, seatH = 700, seatY = 150; // Vordersitz-Rückenlehne inkl. Kopfstütze (Platzhalter; 2026-11-13 um 2 Sitzflächenhöhen = 200 mm gesenkt)
   var cushD = 440, cushH = 100;                            // Vordersitz-Sitzfläche (nach vorn)
   var zFront = UD + LF1 + LF2;                               // Vordersitz-Lehne (Kopfstützen, Ende von F2 Klappbrett Kopfende)
 

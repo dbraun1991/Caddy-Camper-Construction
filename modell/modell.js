@@ -177,8 +177,8 @@ window.MODELL = {
    "laenge_heck_bis_kopfstuetzen": 2000,
    "heckklappe_passt": true,
    "ladekante": 0,
-   "ladekante_hoehe": 580,
-   "_ladekante_hoehe": "Ladeboden über der Straße, NICHT gemessen: Standardwert Caddy 2K (580 mm, cars-data.com für den Kastenwagen), ±10 cm reichen laut Bauherr. Nur für den Viewer (Boden, Räder)"
+   "ladekante_hoehe": 350,
+   "_ladekante_hoehe": "Ladeboden über der Straße, NICHT gemessen: vom Bauherrn auf 350 mm gesetzt (2026-11-13; vorher Datenblattwert 580 mm Caddy 2K Kastenwagen, cars-data.com). Nur für den Viewer (Boden, Räder)"
   },
   "cnc": {
    "_hinweis": "DXF-Export für den CNC-Dienstleister (modell/cnc.py, ADR 0023). Alle Werte sind ANNAHMEN, bis der Dienstleister geantwortet hat — dann hier anpassen und neu erzeugen.",

@@ -5,7 +5,8 @@ orthogonal mit getrennten sichtbaren und verdeckten Kanten und schreibt je
 Eckausbildung nach docs/zeichnungen/<variante>/: ein Übersichtsblatt „Bezeichnungen“
 (alle Kürzel mit Langnamen und Isometrie), drei DIN-A3-Blätter im Maßstab 1:5, das
 Zuschnittblatt „Box-Bretter“ (1:10) und drei Einzelbrett-Blätter (1:5), auf denen jeder
-Zapfen, Schlitz und jede Aussparung zum Sägen bemaßt ist. Alle Blätter zusammen als
+Zapfen, Schlitz und jede Aussparung zum Sägen bemaßt ist, dazu zwei Schubladenblätter (1:5,
+Kastenbretter D1/D2 und D3 mit der Kontur der CNC-Dateien, bemaßt). Alle Blätter zusammen als
 werkzeichnungen.pdf zum Drucken auf A3 (braucht cairosvg + pypdf).
 Rechnerische Überschneidungen (modell.kollisionen) werden rot hinterlegt, gewollte
 Überdeckungen (Zapfen steckt in Schlitz/Aussparung) grün.
@@ -459,7 +460,12 @@ DETAILBLAETTER = [  # (Dateiname, Titel, [(Kürzel, gleiche Kürzel, Ansicht, Pa
     ("brett-s-m", "Seitenwände S1/S2 + Trennwände M1/M2", [("S1", ["S2"], "z", 50, 178), ("M1", ["M2"], "z", 50, 70)]),
     ("brett-r1", "Rückwand R1", [("R1", [], "x", 50, 150)]),
 ]
-BLATT_GESAMT = 1 + len(ANSICHTEN) + 1 + len(DETAILBLAETTER)   # Blatt 1 = Übersicht „Bezeichnungen“
+# Schubladenkästen (ADR 0024): je Kastentyp ein Blatt mit allen vier Brettern, Geometrie = CNC-DXF
+SCHUBLADENBLAETTER = [  # (Dateiname, Titel, Kasten)
+    ("schublade-d1-d2", "Schublade links / rechts (D1 / D2)", "D1"),
+    ("schublade-d3", "Schublade Mitte (D3)", "D3"),
+]
+BLATT_GESAMT = 1 + len(ANSICHTEN) + 1 + len(DETAILBLAETTER) + len(SCHUBLADENBLAETTER)   # Blatt 1 = „Bezeichnungen“
 
 
 def brett_geometrie(alle, p, id, ansicht):
@@ -664,6 +670,173 @@ def zeichne_detail(variante, datei, titel, bretter, nr, png=False):
     return pfad
 
 
+# ── Schubladenblätter: Bretter der Kästen D1–D3 flach, 1:5 ─────────────────────
+def _schubladen_flaeche(blatt, b, tauschen=False):
+    """Fertige Kontur eines Kastenbretts — wie die DXF, aber ohne Dogbones und Passungsluft — direkt in
+    Papier-Koordinaten (blatt.p; Skalieren verschiebt Lagen sonst nicht mit).
+    tauschen: u und v vertauschen (Boden liegend statt stehend gezeichnet)."""
+    m = blatt.m
+
+    def t(r):
+        return (r[1], r[0], r[3], r[2]) + tuple(r[4:]) if tauschen else tuple(r)
+
+    def rechteck(u0, v0, u1, v1):
+        return _rechteck(blatt, u0, v0, u1, v1)
+
+    def pos(u, v):
+        return bd.Pos(*blatt.p(u, v)[:2])
+    form = None
+    for r in b["behalten"]:
+        form = rechteck(*t(r)) if form is None else form + rechteck(*t(r))
+    for r in b["loecher"]:
+        form = form - rechteck(*t(r))
+    for r in b["fenster"] + b.get("griff", []):
+        u0, v0, u1, v1, rad = t(r)
+        rund = abs(u1 - u0 - 2 * rad) < 1e-6 and abs(v1 - v0 - 2 * rad) < 1e-6
+        ausschnitt = bd.Circle(rad * m) if rund else bd.RectangleRounded((u1 - u0) * m, (v1 - v0) * m, rad * m)
+        form = form - pos((u0 + u1) / 2, (v0 + v1) / 2) * ausschnitt
+    for u, v, rad, seite in b.get("griff_ecken", []):      # obere Außenecken des Griffausschnitts
+        ecke = pos(u + seite * rad / 2, v - rad / 2) * bd.Rectangle(rad * m, rad * m) - \
+            pos(u + seite * rad, v - rad) * bd.Circle(rad * m)
+        form = form - ecke
+    return form
+
+
+def zeichne_schublade(variante, datei, titel, kasten, nr, png=False):
+    p = modell.lade_parameter()
+    alle = modell.teile(p, variante)
+    s = p["schubladen"]
+    T, Tb, h0 = s["wandstaerke"], s["bodenstaerke"], s["boden_abstand_unten"]
+    zug = p["zapfen"]["schleifzugabe"]
+    bretter = {b["id"].split("-")[1]: b for b in modell.schubladen_bretter(p, alle) if f"{kasten}-S" in b["ids"] or any(i.startswith(kasten + "-") for i in b["ids"])}
+    box = teil(alle, kasten)["box"]
+    schiene = teil(alle, f"E-{kasten}-a")["box"][1]
+    s0, s1 = schiene[0] - box[1][0], schiene[1] - box[1][0]       # Schienenband über Kastenunterkante
+    loch = (s0 + s1) / 2
+    blatt = Blatt((0, 0))
+    links = (bd.TextAlign.LEFT, bd.TextAlign.CENTER)
+    breit = bretter["E1"]["breite"] > 300                          # D3: Stirnwände übereinander
+
+    def kontur(b, x, y, tauschen=False):
+        blatt.mitte = (x, y)
+        blatt.ebenen["kontur"] += list(_schubladen_flaeche(blatt, b, tauschen).edges())
+
+    def kopf(b, x, y, zusatz=""):
+        ids = " / ".join(b["ids"])
+        blatt.text(f"{ids} — {b['teil']} · {fmt(b['staerke'])} mm · {b['stk']} Stk.{zusatz}", x, y, 2.8,
+                   papier=True, ausrichtung=links)
+
+    def schlitz_kette(b, abstand):                                # Bodenschlitze entlang der Unterkante
+        us = sorted({0, b["breite"]} | {v for r in b["loecher"] if abs(r[1] - h0) < 1e-6 for v in (r[0], r[2])})
+        blatt.kette([(u, 0) for u in us], abstand)
+
+    # ── Seitenwand ──
+    S = bretter["S"]
+    xs, ys = 40, 185
+    kontur(S, xs, ys)
+    kopf(S, 25, ys + S["hoehe"] * M + 26)
+    blatt.mass((0, 0), (S["breite"], 0), 16, f"{fmt(S['breite'])} (Rohteil, fertig {fmt(S['breite'] - 2 * zug)})")
+    schlitz_kette(S, 8)
+    blatt.mass((0, S["hoehe"]), (0, 0), 8)
+    for v, art in ((s0, "verdeckt"), (s1, "verdeckt"), (loch, "verdeckt")):
+        blatt.linie(blatt.p(0, v)[:2], blatt.p(S["breite"], v)[:2], ebene=art)
+    blatt.text(f"Schienenband {fmt(s0)}–{fmt(s1)}, Lochreihe {fmt(loch)} (gestrichelt) — bleibt voll stehen",
+               S["breite"] / 2, loch + 6, 2.3)
+    fen = S["fenster"]
+    rund = fen and abs(fen[0][2] - fen[0][0] - 2 * fen[0][4]) < 1e-6
+    vs = {0, s0, s1, S["hoehe"]}                                   # Bodenschlitz: Hinweistext
+    if fen:
+        vs |= {fen[0][1], fen[0][3]} if not rund else {min(r[1] for r in fen) + fen[0][4], max(r[3] for r in fen) - fen[0][4]}
+    blatt.kette([(S["breite"], v) for v in sorted(vs)], 8)
+    if fen and not rund:
+        us = sorted({0, S["breite"]} | {v for r in fen for v in (r[0], r[2])})
+        blatt.kette([(u, S["hoehe"]) for u in reversed(us)], 8)
+        blatt.text(f"{len(fen)} Fenster {fmt(round(fen[0][2] - fen[0][0], 1))} × {fmt(round(fen[0][3] - fen[0][1], 1))}, "
+                   f"Ecken R {fmt(fen[0][4])}", S["breite"] / 2, S["hoehe"] + 14 / M, 2.4)
+    elif fen:
+        um = sorted({(r[0] + r[2]) / 2 for r in fen})
+        blatt.kette([(u, S["hoehe"]) for u in (S["breite"], um[-1], um[0], 0)], 8)
+        blatt.text(f"{len(fen)} Löcher Ø {fmt(2 * fen[0][4])} im Raster {fmt(s['lochraster']['abstand'])} "
+                   f"(Maße auf Lochmitte)", S["breite"] / 2, S["hoehe"] + 14 / M, 2.4)
+
+    # ── Boden, liegend: u = Kastentiefe, v = Breite ──
+    Bo = bretter["B"]
+    xb, yb = 40, 72
+    kontur(Bo, xb, yb, tauschen=True)
+    kopf(Bo, 25, yb + Bo["breite"] * M + 14)
+    lang = sorted({0, Bo["hoehe"]} | {v for r in Bo["behalten"][1:] if r[0] < 1e-6 for v in (r[1], r[3])})
+    blatt.kette([(u, 0) for u in lang], 8)
+    blatt.mass((0, 0), (Bo["hoehe"], 0), 16, f"{fmt(Bo['hoehe'])} (Rohteil)")
+    kurz = sorted({0, Bo["breite"]} | {v for r in Bo["behalten"][1:] if r[1] < 1e-6 for v in (r[0], r[2])})
+    blatt.kette([(Bo["hoehe"], v) for v in kurz], 8)
+    blatt.mass((0, Bo["breite"]), (0, 0), 8)
+
+    # ── Kastenfront (mit Griff) und -rückwand ──
+    E1, E2 = bretter["E1"], bretter["E2"]
+    xe = 245 if breit else 262
+    lagen = [(E1, xe, 185), (E2, xe, 100)]
+    for b, x, y in lagen:
+        kontur(b, x, y)
+        kopf(b, x - 8, y + b["hoehe"] * M + (22 if b.get("griff") else 8))
+        blatt.mass((0, 0), (b["breite"], 0), 16, f"{fmt(b['breite'])} (Rohteil)")
+        schlitz_kette(b, 8)
+        blatt.mass((0, b["hoehe"]), (0, 0), 8)
+        um = sorted({(r[0] + r[2]) / 2 for r in b["fenster"]})
+        vm = sorted({(r[1] + r[3]) / 2 for r in b["fenster"]})
+        vs = sorted({0, h0, h0 + Tb, vm[0], b["hoehe"]} | ({b["griff"][0][1]} if b.get("griff") else set()))
+        blatt.kette([(b["breite"], v) for v in vs], 8)
+        if b.get("griff"):
+            g = b["griff"][0]
+            blatt.kette([(u, b["hoehe"]) for u in (b["breite"], g[2], g[0], 0)], 8)
+    g = s["griff"]
+
+    hinweise = [
+        "Alle Teile kommen gefräst (CNC-Auftrag",
+        "docs/cnc/schubladen/, gleiche Geometrie).",
+        "Maße = Rohteil wie in der DXF; Zinken und",
+        f"Bodenzapfen stehen {fmt(zug)} mm über und werden",
+        "nach dem Verleimen bündig geschliffen.",
+        "",
+        f"Ecken: Fingerzinken, {s['zinken_anzahl']} Felder à "
+        f"{fmt(round(S['hoehe'] / s['zinken_anzahl'], 2))}.",
+        "Seitenwände: Zinken oben und unten,",
+        "Stirnwände: die Lücken dazwischen.",
+        "",
+        f"Boden {fmt(Tb)} mm: Zapfen {fmt(s['bodenzapfen']['laenge'])} × {fmt(Tb)} durch",
+        f"die Schlitze aller vier Wände, {fmt(h0)} mm über",
+        "der Wandunterkante.",
+        "",
+        f"Griff: Ausschnitt {fmt(g['breite'])} × {fmt(g['tiefe'])}, unten",
+        f"R {fmt(g['radius'])}, oben außen R {fmt(g.get('radius_oben', 0))}.",
+        "",
+        f"Schiene ({fmt(s1 - s0)} mm): an der Seitenwand",
+        f"{fmt(s0)} über Kastenunterkante, Lochreihe {fmt(loch)}.",
+        "Innenmaß: Boden liegt "
+        f"{fmt(h0 + Tb)} über der Unterkante,",
+        f"nutzbare Höhe {fmt(round(S['hoehe'] - h0 - Tb, 1))} mm.",
+    ]
+    hx = xe + E1["breite"] * M + 22
+    for i, zeile in enumerate(hinweise):
+        blatt.text(zeile, hx, 262 - i * 4.4, 2.2, papier=True, ausrichtung=links)
+
+    blatt.rahmen(titel, "Kastenbretter flach: Kontur wie die CNC-Datei, bemaßt (ADR 0024, 0026, 0027)", nr,
+                 "gleich in beiden Varianten")
+    blatt.linie((25, 46), (37, 46), ebene="kontur")
+    blatt.text("fertige Kontur (Fräslinie)", 40, 46, 2.6, papier=True, ausrichtung=links)
+    blatt.linie((25, 41), (37, 41), ebene="verdeckt")
+    blatt.text("Schienenband und Lochreihe", 40, 41, 2.6, papier=True, ausrichtung=links)
+
+    ordner = ZIEL / variante
+    ordner.mkdir(parents=True, exist_ok=True)
+    pfad = ordner / f"{datei}.svg"
+    blatt.schreiben(pfad)
+    if png:
+        import cairosvg
+        cairosvg.svg2png(url=str(pfad), write_to=str(pfad.with_suffix(".png")),
+                         output_width=2400, background_color="white")
+    return pfad
+
+
 # ── Blatt 1: Übersicht „Bezeichnungen“ ──────────────────────────────────────
 # Isometrie der Box mit Liegefläche (Schlafmodus, ohne Einbauten) und Tabelle aller Kürzel.
 ISO_KAMERA, ISO_ZIEL = (10000, 9000, -13000), (0, 160, 1000)   # von vorn-oben, Fahrerseite (+x)
@@ -817,6 +990,8 @@ def main():
         blaetter.append(zeichne_bretter(variante, png))
         for nr, (datei, titel, bretter) in enumerate(DETAILBLAETTER, len(ANSICHTEN) + 3):
             blaetter.append(zeichne_detail(variante, datei, titel, bretter, nr, png))
+        for nr, (datei, titel, kasten) in enumerate(SCHUBLADENBLAETTER, len(ANSICHTEN) + 3 + len(DETAILBLAETTER)):
+            blaetter.append(zeichne_schublade(variante, datei, titel, kasten, nr, png))
         print("\n".join(str(b.relative_to(ZIEL.parent.parent)) for b in blaetter if b.parent.name == variante
                         and b.stem not in ANSICHTEN))
         try:

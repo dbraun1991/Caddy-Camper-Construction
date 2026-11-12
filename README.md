@@ -86,7 +86,7 @@ Die Führungsschienen sind als Teleskop dargestellt ([ADR 0030](docs/adrs/0030-t
 
 ## Werkzeichnungen
 
-Ein Übersichtsblatt „Bezeichnungen“, drei Ansichten nach Dreitafelprojektion (DIN A3 quer, Maßstab 1:5), ein Zuschnittblatt „Box-Bretter“ (1:10) und drei Einzelbrett-Blätter (1:5) zum Sägen, erzeugt mit [build123d](https://github.com/gumyr/build123d) aus derselben Datenbasis wie der 3D-Viewer:
+Ein Übersichtsblatt „Bezeichnungen“, drei Ansichten nach Dreitafelprojektion (DIN A3 quer, Maßstab 1:5), ein Zuschnittblatt „Box-Bretter“ (1:10) drei Einzelbrett-Blätter (1:5) zum Sägen und zwei Schubladenblätter (1:5: alle Kastenbretter von D1/D2 bzw. D3 flach, Kontur wie die CNC-Dateien, bemaßt), erzeugt mit [build123d](https://github.com/gumyr/build123d) aus derselben Datenbasis wie der 3D-Viewer:
 
 | Ansicht | Blickrichtung | Wände gezapft |
 |---|---|---|
@@ -98,10 +98,12 @@ Ein Übersichtsblatt „Bezeichnungen“, drei Ansichten nach Dreitafelprojektio
 | **Bodenplatte B1 / Deckplatte T1** (1:5) | Boden- und Deckplatte zum Sägen: jeder Schlitz und jede Aussparung bemaßt, Abfall grau | [SVG](docs/zeichnungen/gezapft/brett-b1-t1.svg) |
 | **Seitenwände S1/S2 + Trennwände M1/M2** (1:5) | Seiten- und Trennwände: Zapfen oben/unten, Absatz und hinterer Zapfen an M1/M2 bemaßt | [SVG](docs/zeichnungen/gezapft/brett-s-m.svg) |
 | **Rückwand R1** (1:5) | Rückwand: Zapfen und die zwei Schlitze für M1/M2 bemaßt | [SVG](docs/zeichnungen/gezapft/brett-r1.svg) |
+| **Schublade D1 / D2** (1:5) | Seitenwand, Kastenfront mit Griff, Kastenrückwand, Boden: Zinken, Bodenschlitze/-zapfen, Fenster, Löcher, Griff und Schienenband bemaßt | [SVG](docs/zeichnungen/gezapft/schublade-d1-d2.svg) |
+| **Schublade D3** (1:5) | dieselben vier Bretter für die Mittelschublade (Lochraster statt Fenster) | [SVG](docs/zeichnungen/gezapft/schublade-d3.svg) |
 
 Sichtbare Kanten durchgezogen, verdeckte Kanten gestrichelt. **Rot hinterlegt** sind rechnerische Überschneidungen zweier Bauteile — Stellen, an denen der Plan so nicht baubar ist. **Grün** hinterlegt sind gewollte Überdeckungen: Die Zapfen der Wände stecken in Schlitzen und Aussparungen. Dieselben Blätter gibt es für die Rückfallvariante ohne Zapfen (`stumpf`, Ordner nebenan, im Viewer per Auswahlfeld).
 
-**Zum Drucken:** alle 8 Blätter einer Variante in Blattreihenfolge als ein PDF, DIN A3 quer — [gezapft](docs/zeichnungen/gezapft/werkzeichnungen.pdf) · [stumpf](docs/zeichnungen/stumpf/werkzeichnungen.pdf). Beim Drucken „Tatsächliche Größe“ (100 %) wählen, sonst stimmen die Maßstäbe nicht.
+**Zum Drucken:** alle 10 Blätter einer Variante in Blattreihenfolge als ein PDF, DIN A3 quer — [gezapft](docs/zeichnungen/gezapft/werkzeichnungen.pdf) · [stumpf](docs/zeichnungen/stumpf/werkzeichnungen.pdf). Beim Drucken „Tatsächliche Größe“ (100 %) wählen, sonst stimmen die Maßstäbe nicht.
 
 Neu erzeugen nach einer Maßänderung in `modell/parameter.json`:
 
@@ -216,7 +218,7 @@ sg    — Korpus (R1, S1/S2, M1/M2, B1), Liegefläche (T1, F1, F2), Matratze,
         alle 6 Elemente + 12 Führungsschienen als Teleskop (immer sichtbar)
 bankG — (leer, reserviert)
 packG — (leer, reserviert)
-caddyG — transparente Caddy-Hülle (Wände mit Türöffnungen, Dach, Radkästen, Vordersitze, Lade-Referenzebene, Rücksitzbank, Unterbau und Räder auf 580 mm Ladekante), per Button ausblendbar
+caddyG — transparente Caddy-Hülle (Wände mit Türöffnungen, Dach, Radkästen, Vordersitze, Lade-Referenzebene, Rücksitzbank, Unterbau und Räder auf 350 mm Ladekante (Annahme)), per Button ausblendbar
 ```
 
 Der Korpus besteht aus Einzelbrettern (keine Vollbox): S1/S2 Seitenwände links/rechts, R1 Rückwand, B1 Boden, M1/M2 Trennwände. Die Vorderseite ist offen.
