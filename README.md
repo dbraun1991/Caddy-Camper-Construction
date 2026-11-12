@@ -190,7 +190,7 @@ Matratzenbreite: **1.100 mm** (passt in 1.120 mm Innenbreite).
 | Blau (transparent) | Schubladen × 3 |
 | Silbergrau, nach innen dunkler | Führungsschienen: Gehäuse (hell, fest) · Mittelteil · Innenteil + Hebel (dunkel, fahren aus) |
 | Weiß (transparent) | Matratzenumriss |
-| Hellblau-grau (60 % deckend) | Caddy-Hülle mit Türöffnungen und offener Heckklappe (Ladebreite, Lehnenhöhe und Länge nachgemessen, übrige Maße Platzhalter) |
+| Dunkles Traubenrot (60 % deckend) | Caddy-Hülle mit Türöffnungen und offener Heckklappe (Ladebreite, Lehnenhöhe und Länge nachgemessen, übrige Maße Platzhalter) |
 | Hellgrün (transparent) | Lade-Referenzebene im Kofferraum (y = 0) |
 | Schiefergrau (transparent) | Rücksitzbank (umgeklappt oder ausgebaut) |
 

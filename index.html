@@ -233,7 +233,7 @@
     <span style="background:#EF9F27;"></span>Tischbrett Mitte (Brett 18 mm auf zwei gezapften Wangen, 63,5 mm hoch · 870 mm Auszug)<br>
     <span style="background:#378ADD;"></span>Schubladen × 3 &nbsp;(Kasten L/R 216 mm, Mitte 227,5 mm hoch, ohne Blende · 850 mm Auszug)<br>
     <span style="background:#E62929;"></span>Rechnerische Überschneidung (Button „Überschneidungen“)<br>
-    <span style="background:#9DB4C8;"></span>Caddy-Hülle, Heckklappe offen (60 % · teils nachgemessen)<br>
+    <span style="background:#5E1A36;"></span>Caddy-Hülle, Heckklappe offen (60 % · teils nachgemessen)<br>
     <span style="background:#B5E48C;"></span>Lade-Referenzebene Kofferraum (y = 0, Annahme 580 mm über der Straße · Räder/Unterbau Platzhalter)<br>
     <span style="background:#5F6B7A;"></span>Rücksitzbank (umgeklappt / hochgeklappt / ausgebaut)<br>
     <span style="background:#B8BEC6;"></span>Scharniere Deckplatte ↔ Klappbrett (oben) · zwischen den Klappbrettern (unten)<br>
@@ -354,7 +354,7 @@
   var mBlue    = new THREE.MeshLambertMaterial({ color: 0x378ADD, transparent: true, opacity: 0.88 });
   var mMat     = new THREE.MeshLambertMaterial({ color: 0xDDDDDD, transparent: true, opacity: 0.40 });
   // Caddy-Hülle: 60 % deckend, kein Tiefenschreiben, damit der Aufbau dahinter sichtbar bleibt
-  var mCaddy   = new THREE.MeshLambertMaterial({ color: 0x9DB4C8, transparent: true, opacity: 0.60, depthWrite: false, side: THREE.DoubleSide });
+  var mCaddy   = new THREE.MeshLambertMaterial({ color: 0x5E1A36, transparent: true, opacity: 0.60, depthWrite: false, side: THREE.DoubleSide });
   var mRailRed = new THREE.MeshLambertMaterial({ color: 0xFF1111, transparent: true, opacity: 0.90 });
   // Schienen silbergrau, je weiter innen desto dunkler: Gehäuse · Mittelteil · Innenteil · Hebel (ADR 0030)
   var mSchiene = [0xC9CED3, 0xA2A9B0, 0x7B838B, 0x4A5056].map(function (c) {
@@ -553,7 +553,7 @@
     { z0: 1900, z1: 2850, y0: 350, y1: 1150 }   // Fronttür
   ];
 
-  function shell(w, h, d, x, y, z, g) { wireframe(box(w, h, d, mCaddy, x, y, z, g || caddyG), 0x6A8299); }
+  function shell(w, h, d, x, y, z, g) { wireframe(box(w, h, d, mCaddy, x, y, z, g || caddyG), 0x9A4A6C); }
 
   // Seitenwand aus Feldern rund um die Türöffnungen (Wand-Innenkante bei xc, Stärke CT)
   function sideWall(xc) {
