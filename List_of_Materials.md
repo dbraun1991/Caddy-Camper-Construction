@@ -194,9 +194,9 @@ Zuordnung und Maße stehen in [`modell/parameter.json`](modell/parameter.json) (
 ---
 
 #### Option 1 — AOLISHENG 850 mm · 170 kg ⭐ Gewählt für die Sitzbretter C1/C2 und das Tischbrett C3 (3 Paare) — dort sitzt eine Person
-**170 kg Traglast** · 76 mm Höhe · mit Arretierung · 104,99 €/Paar · 2 Paare bestellt 2026-11-04, **1 Paar nachbestellen** (C3, ADR 0021) · [Amazon.de — B086JQXRR5](https://www.amazon.de/dp/B086JQXRR5)  
+**170 kg Traglast** · 76 mm Höhe · mit Arretierung · 104,99 €/Paar · 2 Paare bestellt 2026-11-04, das 3. Paar (C3, ADR 0021) ist nachbestellt (2026-11-12) · [Amazon.de — B086JQXRR5](https://www.amazon.de/dp/B086JQXRR5)  
 Einbaumaß laut Hersteller 19,2 + 0,5 mm je Seite: passt in die eingeplanten 20 mm (19 mm Schiene + 1 mm Spiel). **Gemessen 2026-11-12: 19 mm Stärke, 76 mm Höhe (nachgemessen), 870 mm Länge + Hebel.** Verarbeitung sehr gut.  
-⚠ **Noch prüfen:** Rastet die Arretierung im ausgezogenen Zustand ein? Für die Sitz- und Tischbretter Pflicht, sonst zurückschicken.
+✓ **Arretierung** rastet auch im ausgezogenen Zustand ein (geprüft 2026-11-12).
 
 ```
 Vollauszug 870 mm (Angebot: 850 mm) · Höhe 76 mm · Einbaumaß 19,2 + 0,5 mm je Seite · Stahl 2,5 mm · Schrauben M6 · Traglast 170 kg · Arretierung: Ja · nicht trennbar

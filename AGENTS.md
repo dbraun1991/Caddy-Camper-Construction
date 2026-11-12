@@ -227,7 +227,7 @@ down.
     order is forced: `M1/M2`, then `R1` from behind, then `S1/S2`, then `T1`.
   - ~~Clear depth 882 mm < 900 mm rail length~~ — resolved by
     [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md): 850 mm
-    runners, corpus stays 900 mm. Runners ordered 2026-11-04 (2 × 170 kg + 4 × 80 kg; since ADR 0021 `C3` needs the 170 kg type → 3 + 3, one 170 kg pair still to order). The 170 kg type is
+    runners, corpus stays 900 mm. Runners ordered 2026-11-04 (2 × 170 kg + 4 × 80 kg; since ADR 0021 `C3` needs the 170 kg type → 3 + 3; the third 170 kg pair is ordered too, builder 2026-11-12). The 170 kg type is
     specified at 19.2 + 0.5 mm per side, which fits the planned 19 mm + 1 mm
     clearance. Delivered and measured 2026-11-12 ([ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md),
     datasheet `docs/runner-pdfs/heavy-runners.pdf`): both types 19 mm thick,

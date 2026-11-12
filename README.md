@@ -245,7 +245,7 @@ Offen:
 - [x] Eckausbildung Korpus — Boden B1 und Deckel T1 durchgehend, Wände mit Zapfen 18 × 50 mm durch B1 und T1, Wandzuschnitt 340 mm hoch — [ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md), [ADR 0020](docs/adrs/0020-through-tenons-instead-of-routed-grooves.md)
 - [x] Lichte Tiefe 882 mm vs. Schienenlänge — gelöst mit 850-mm-Schienen, Korpus bleibt 900 mm (20–30 mm Luft zu den Rücksitzen, 32 mm hinter den Schienen) — [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)
 - [ ] **CNC-Anbieter anfragen** (Privatkunde, Abholung, Dateiformat, Fräserdurchmesser, Passung, Probestück) und danach `cnc` in `modell/parameter.json` anpassen + `modell/cnc.py` neu erzeugen — Kandidaten im Raum Duisburg: [Einkaufsliste.md §1](./Einkaufsliste.md#option-cnc-fräsen-statt-zuschnitt), erster Kandidat Brockmann Holz (Krefeld)
-- [ ] 1 Paar 170-kg-Schienen für das Tischbrett C3 nachbestellen (bestellt sind 2 × 170 kg + 4 × 80 kg, nötig 3 + 3) — [ADR 0021](docs/adrs/0021-table-board-on-170-kg-runners.md)
+- [x] Schienen vollständig bestellt: 3 Paare 170 kg + 3 Paare 80 kg (2026-11-12) — [ADR 0021](docs/adrs/0021-table-board-on-170-kg-runners.md)
 - [x] Schienenstärke gemessen (2026-11-12): beide Typen 19 mm wie geplant, Höhe 53 mm bestätigt
 - [ ] Schienen weiter prüfen: Arretierung im ausgezogenen Zustand (170 kg), Höhe der 170-kg-Schiene (gemessen ~74 mm, Modell 76 mm laut Datenblatt), Lage der Schraublöcher (gegen das Schienenband der Schubladen-Seitenwände)
 - [x] Frontblenden — entfallen: die Kastenfront ist die sichtbare Front, die Blenden hätten die Schienen der Sitz-/Tischbretter blockiert. Seitdem keine Überschneidungen mehr im Modell — [ADR 0027](docs/adrs/0027-no-drawer-front-panels-box-front-with-grip-cut-out.md)
