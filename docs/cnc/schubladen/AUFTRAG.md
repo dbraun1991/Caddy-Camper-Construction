@@ -6,7 +6,7 @@ Erzeugt am 2026-11-12 von `modell/cnc.py` aus `modell/parameter.json` — nicht 
 
 Material: **Birke-Multiplex 18 mm** (Wände) und **12 mm** (Böden), 15 Teile in 6 unterschiedlichen Formen — die Wände und Böden der drei Schubladenkästen (Außenmaß B × T × H: D1 272 × 830 × 260, D2 272 × 830 × 260, D3 384 × 830 × 260 mm).
 
-Gewicht aller Kästen ohne Blenden ca. **22,8 kg** (ohne Fenster in den Seitenwänden wären es 26,4 kg, Dichte 680 kg/m³ angenommen).
+Gewicht aller Kästen ohne Blenden ca. **22,2 kg** (ohne Fenster in den Seitenwänden wären es 26,4 kg, Dichte 680 kg/m³ angenommen).
 
 | Datei | Kürzel | Langname | Material | Stk. | Außenmaß (mm) |
 |---|---|---|---|---|---|

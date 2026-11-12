@@ -132,7 +132,7 @@ y = 50–318 mm (Blende 268 mm hoch); 312 mm Sektion − 2 × 19 mm Schiene − 
 
 | Kürzel | Bauteil | Fertig (mm) | Rohteil (mm) | Stärke | Menge |
 |---|---|---|---|---|---|
-| D1-S / D2-S | Seitenwand, 4 Fenster unter dem Schienenband | 830 × 260 | 832 × 260 | 18 mm | 4 |
+| D1-S / D2-S | Seitenwand, 4 Fenster über dem Schienenband | 830 × 260 | 832 × 260 | 18 mm | 4 |
 | D1-E / D2-E | Kastenfront und -rückwand | 272 × 260 | 274 × 260 | 18 mm | 4 |
 | D1-B / D2-B | Boden, 14 Zapfen | 236 × 794 (+ Zapfen) | 274 × 832 | 12 mm | 2 |
 | D1-F / D2-F | Frontblende (sichtbar, nicht im CNC-Auftrag, → §H3) | 312 × 268 | — | 18 mm | 2 |
@@ -143,12 +143,12 @@ y = 18–286 mm (Blende 268 mm hoch); 424 mm Sektion − 2 × 19 mm Schiene − 
 
 | Kürzel | Bauteil | Fertig (mm) | Rohteil (mm) | Stärke | Menge |
 |---|---|---|---|---|---|
-| D3-S | Seitenwand, 4 Fenster über dem Schienenband | 830 × 260 | 832 × 260 | 18 mm | 2 |
+| D3-S | Seitenwand, 4 Fenster unter dem Schienenband | 830 × 260 | 832 × 260 | 18 mm | 2 |
 | D3-E | Kastenfront und -rückwand | 384 × 260 | 386 × 260 | 18 mm | 2 |
 | D3-B | Boden, 14 Zapfen | 348 × 794 (+ Zapfen) | 386 × 832 | 12 mm | 1 |
 | D3-F | Frontblende (sichtbar, nicht im CNC-Auftrag, → §H3) | 424 × 268 | — | 18 mm | 1 |
 
-Gewicht der drei Kästen ohne Blenden ca. **22,8 kg** — ohne Fenster wären es 26,4 kg (Dichte 680 kg/m³ angenommen, berechnet in `modell/cnc.py`).
+Gewicht der drei Kästen ohne Blenden ca. **22,2 kg** — ohne Fenster wären es 26,4 kg (Dichte 680 kg/m³ angenommen, berechnet in `modell/cnc.py`).
 
 ---
 
@@ -238,7 +238,7 @@ Vollauszug 550 mm · 3-teilig · SoftClose · Traglast 105 kg
 | V6 | Schubladengriff | nach Wahl, mind. 64 mm Bohrung | 3 Stk. |
 | V7 | Spanplattenschrauben (Blenden, Winkel) | Torx Senkkopf 4 × 30/40 mm | je ~100 Stk. |
 | V8 | ~~Spanplattenschrauben Schubladenböden~~ — entfällt, Boden mit Zapfen ([ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md)) | — | — |
-| V9 | Durchsteckschrauben Schienen-Vorderkante (→ §H1) | M5 × 40 mm + U-Scheibe + Stoppmutter | 24 Sätze |
+| V9 | Durchsteckschrauben Schienen-Vorderkante (→ §H1) | M5 × 30 mm + U-Scheibe + Stoppmutter (nicht länger, [ADR 0025](docs/adrs/0025-drawer-runners-interleaved-between-seat-and-table-runners.md)) | 24 Sätze |
 | V10 | Schrauben Zurrösen-Anbindung (→ §H5) | M8 × 30/40 mm + U-Scheibe + Stoppmutter | 4 Sätze |
 | V11 | Spanngurt (Ratsche) | ≥ 1,5 m, 2-teilig | 2 Stk. |
 | V12 | ~~Eckleiste Weichholz Schubladen-Innenecken~~ — entfällt, Fingerzinken ([ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md)) | — | — |
@@ -308,8 +308,8 @@ Die Außenmember der Schienen werden auf die **Flächen** von Seitenwänden (S1/
 | Punkt | Vorgabe | Grund |
 |---|---|---|
 | Schraubenlänge in M1/M2 | max. **3,5 × 16 mm** | Trennwände tragen Schienen auf **beiden** Seiten; längere Schrauben durchstoßen die 18 mm Platte |
-| Höhenversatz der Schienenbänder | aus `modell/modell.py`: Sektion L/R Sitzbrett 18–94 (76 mm), Schublade ≈ 202–255 (53 mm); Mitte Schublade ≈ 78–131 (53 mm), Tisch 239–315 (76 mm). An M1/M2 überlappen sich je 16 mm: Sitz L/R ↔ Schublade M (78–94) und Schublade L/R ↔ Tisch M (239–255) | 16-mm-Schrauben von beiden Seiten in 18 mm Trennwand dürfen sich nicht gegenüberstehen → Lochreihen der gelieferten Schienen prüfen, in diesen Bändern ggf. in z versetzt schrauben |
-| Vorderste 2 Bohrungen je Schiene | **M5 Durchsteckschraube** mit U-Scheibe + Stoppmutter statt Holzschraube | Am Korpusvorderkant ist das Kippmoment bei 850 mm Auszug maximal — hier reißen Holzschrauben zuerst aus |
+| Höhen der Schienenbänder | aus `modell/modell.py` ([ADR 0025](docs/adrs/0025-drawer-runners-interleaved-between-seat-and-table-runners.md)): Sektion L/R Sitzbrett **18–94**, Schublade **107–160**; Mitte Schublade **173–226**, Tisch **239–315**. Die Schubladenschienen liegen im freien Streifen zwischen Sitz- und Tischbrett-Schiene, je 13 mm Luft — an M1/M2 überlappt sich **kein** Band mit dem der Gegenseite | Durchsteckschrauben und Muttern landen auf der Gegenseite immer auf freier Wandfläche; 16-mm-Schrauben von beiden Seiten stehen sich nie gegenüber |
+| Vorderste 2 Bohrungen je Schiene | **M5 × 30 Durchsteckschraube** mit U-Scheibe + Stoppmutter statt Holzschraube. Höchstens ~10 mm Überstand auf der Gegenseite: das Element der Nachbarsektion läuft 20 mm vor der Wand (19 mm Schiene + 1 mm Spiel) | Am Korpusvorderkant ist das Kippmoment bei 850 mm Auszug maximal — hier reißen Holzschrauben zuerst aus |
 | Nicht trennbare Schiene (170 kg, „not separable“) | wird als Ganzes montiert, durch die Löcher der ausgezogenen Schiene; hinten nur mit langer Bit-Verlängerung oder Winkelaufsatz erreichbar. **Vor dem Verleimen an einer Wand trocken ausprobieren**, ggf. Schienen vor dem Aufsetzen von T1 montieren | Der Korpus ist sonst bei der Montage schon geschlossen |
 | Verschrauben | von innen nach außen anreißen, Schienen **paarweise** auf gleiche Höhe lehren (Reststück Multiplex als Abstandslehre) | 1 mm Höhenversatz im Paar blockiert den Vollauszug |
 

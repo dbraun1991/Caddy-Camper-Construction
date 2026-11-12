@@ -75,7 +75,7 @@ Gut **ein Drittel des Gesamtbudgets**. Beide aus derselben 850-mm-Serie ([ADR 00
 | V5 | Holzleim D3 wasserfest, 750 ml | 1 Flasche | ~12 € |
 | V6 | Schubladengriffe | 3 Stk. | 15 – 45 € |
 | V7 | Schrauben 4 × 30 / 4 × 40 mm | je 1 Pack 100 | ~20 € |
-| V9 | M5 × 40 Durchsteckschrauben + U-Scheibe + Stoppmutter | 24 Sätze | ~14 € |
+| V9 | M5 × 30 Durchsteckschrauben + U-Scheibe + Stoppmutter | 24 Sätze | ~14 € |
 | V10 | M8 × 30/40 + U-Scheibe + Stoppmutter | 4 Sätze | ~6 € |
 | V11 | Spanngurt mit Ratsche | 2 Stk. | ~20 € |
 | V15 | Gurtschlaufe verstellbar (Gurtband ~25 mm + Klemmschnalle), Klappbrett Kopfende (F2) ↔ Kopfstütze | 2 Stk. | ~10 € ¹ |

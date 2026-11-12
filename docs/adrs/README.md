@@ -42,3 +42,4 @@ Decision, Consequences.
 | [0022](0022-mnemonic-board-codes.md) | Mnemonic part codes for the boards (Bottom, Rear, Side, Mid, Top, Fold) | Accepted |
 | [0023](0023-cnc-dxf-export-with-dogbones.md) | CNC export as 2D DXF with dogbones and slot clearance | Accepted (values are assumptions) |
 | [0024](0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md) | CNC-cut drawer boxes: finger joints, tabbed bottom, lightening windows | Accepted |
+| [0025](0025-drawer-runners-interleaved-between-seat-and-table-runners.md) | Drawer runners interleaved between the seat and table runners (no overlap on M1/M2) | Accepted |

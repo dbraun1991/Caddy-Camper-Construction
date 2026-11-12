@@ -32,6 +32,8 @@ The runners were ordered on 2026-11-04 as 2 pairs of 170 kg and 4 pairs of
   already overlapped the middle drawer band 78–131 by 16 mm.) With 16 mm screws
   in an 18 mm divider, screws in these bands must not sit opposite each other:
   check the hole rows on delivery and stagger them along z if needed (§H1).
+  *Superseded by [ADR 0025](0025-drawer-runners-interleaved-between-seat-and-table-runners.md):
+  the drawer runners now sit between the seat and table runners, nothing overlaps.*
 - Rails: ~501 € instead of ~458 € (+~43 €).
 - ADR 0013 (still Proposed) now faces a 76 mm runner on all three boards. For
   `C3`, a 76 mm carrier cheek would hang down into the drawer `D3` zone (D3 box

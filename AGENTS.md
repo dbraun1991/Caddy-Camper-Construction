@@ -211,6 +211,10 @@ down.
     positions (user will send them; check against the solid runner band in the
     drawer side walls before ordering `docs/cnc/schubladen/`) and whether the
     170 kg lock holds when extended.
+    Runner heights ([ADR 0025](docs/adrs/0025-drawer-runners-interleaved-between-seat-and-table-runners.md)):
+    the drawer runners are computed into the free strip between seat and table
+    runners (`D1/D2` 107–160, `D3` 173–226), so no bands overlap across `M1/M2`
+    and the M5 through-bolts (V9, now M5 × 30) land on bare wall.
   - Full-section-width inset drawer fronts sit in front of the runners.
   - Drawer fronts (inset vs. overlay, ~2 mm gaps all round, rails set back
     18 mm if inset — 868 ≤ 882 fits) and the 3 mm `D3-F`/`C3` overlap:

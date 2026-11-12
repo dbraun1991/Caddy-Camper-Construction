@@ -55,11 +55,11 @@ thickness and section widths automatically.
   usable inner height drops from 248 to 238 mm.
 - **Lightening windows** in the side walls only: 4 windows per free band, corner
   radius 20 mm (≥ cutter radius, so no dogbones). Solid zones that always stay:
-  the runner band ± 15 mm (taken from the model's rail position, so it differs
-  between `D1/D2`, rail at 2/3 height, and `D3`, rail at 1/3 height), 30 mm top
+  the runner band ± 15 mm (taken from the model's rail position, [ADR 0025](0025-drawer-runners-interleaved-between-seat-and-table-runners.md):
+  `D1/D2` runner 52–105 mm, `D3` runner 155–208 mm above the box bottom), 30 mm top
   rim, 30 mm web above the bottom slots, 50 mm next to the finger zone, 40 mm
   webs between windows. A band shorter than 60 mm gets no windows. Result:
-  `D1/D2` have one row below the runner, `D3` one row above it.
+  `D1/D2` have one row above the runner, `D3` one row below it.
 - ADR 0011 still applies to: rail inner members screwed to the side faces with
   3.5 × 16 mm screws (now into the solid band), and the front panel mounted
   last from inside the box.
@@ -69,7 +69,7 @@ thickness and section widths automatically.
 - No corner screws, no bottom screws and no corner cleats: `V8` and `V12` are no
   longer needed, `V7` only for the front panels. The corners now carry load
   through glued finger joints instead of the bottom panel alone.
-- Weight: about 22.8 kg for the three boxes without front panels, 3.6 kg less
+- Weight: about 22.2 kg for the three boxes without front panels, 4.2 kg less
   than without windows (680 kg/m³ assumed). The windows are a modest saving;
   most of the mass is the 18 mm walls.
 - Small items can fall through the windows into the corpus. Accepted by the

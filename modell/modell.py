@@ -144,6 +144,20 @@ def _einbauten(p):
     sek = _sektionen(p)
     out = []
 
+    # Schubladenschienen (ADR 0025): An M1/M2 liegen Schienen beider Nachbarsektionen gegenüber. Die
+    # M5-Durchsteckschrauben (V9) stehen auf der Gegenseite über — dort darf keine Schiene sitzen. Darum
+    # liegen beide Schubladenbänder im freien Streifen zwischen Sitzbrett-Schiene (unten, L/R) und
+    # Tischbrett-Schiene (oben, Mitte), mit gleich großer Luft dazwischen: L/R unten, Mitte oben
+    # (so bleibt in allen Seitenwänden Platz für die Fenster, ADR 0024).
+    frei_u = yB + typ("C1")["hoehe"]
+    frei_o = yB + hK + sp + bh - typ("C3")["hoehe"]
+    hLR, hM = typ("D1")["hoehe"], typ("D3")["hoehe"]
+    luft = (frei_o - frei_u - hLR - hM) / 3
+    assert luft >= 5, f"Schubladenschienen passen nicht zwischen Sitz- und Tischbrett-Schiene ({luft:.1f} mm Luft)"
+    y_schiene = {"LR": frei_u + luft, "M": frei_u + 2 * luft + hLR}
+    assert yB + bh + sp <= y_schiene["LR"] and y_schiene["LR"] + hLR <= yB + bh + sp + hK, "Schiene D1/D2 außerhalb des Kastens"
+    assert y_schiene["M"] + hM <= yB + hK, "Schiene D3 außerhalb des Kastens"
+
     def element(sx, id):                # Breite: Innen − 2 × Schiene − 2 × Spiel
         rs = typ(id)["staerke"]
         return (sx[0] + rs + spiel, sx[1] - rs - spiel)
@@ -168,8 +182,7 @@ def _einbauten(p):
         out.append(_teil(f"D{nr}-F", f"Schubladenfront {ELEMENTE[f'D{nr}'].split()[-1]}", "schublade", "blende",
                          sek[sid], (yB + bh, yB + bh + e["blende_hoehe"]), zF, "schubladen"))
         schienenpaar(sid, yB, "bretter", f"C{nr}")
-        # Schubladenschiene mittig auf 2/3 Kastenhöhe — Bänder dürfen sich an M1/M2 nicht überlappen (§H1)
-        schienenpaar(sid, yB + bh + sp + hK * 2 / 3 - typ(f"D{nr}")["hoehe"] / 2, "schubladen", f"D{nr}")
+        schienenpaar(sid, y_schiene["LR"], "schubladen", f"D{nr}")
 
     # Mitte: unten Schublade, oben Tisch-Brett
     out.append(_teil("D3", "Schubladenkasten Mitte", "schublade", "schublade", element(sek["M"], "D3"),
@@ -178,7 +191,7 @@ def _einbauten(p):
                      sek["M"], (yB, yB + e["blende_hoehe"]), zF, "schubladen"))
     yT = yB + hK + sp
     out.append(_teil("C3", ELEMENTE["C3"], "brett", "tisch", element(sek["M"], "C3"), (yT, yT + bh), zB, "bretter"))
-    schienenpaar("M", yB + hK / 3 - typ("D3")["hoehe"] / 2, "schubladen", "D3")
+    schienenpaar("M", y_schiene["M"], "schubladen", "D3")
     schienenpaar("M", yT + bh - typ("C3")["hoehe"], "bretter", "C3")
     return out
 
