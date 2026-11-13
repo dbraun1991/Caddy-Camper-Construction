@@ -37,5 +37,5 @@ Material: **Birke-Multiplex 18 mm**, 9 Teile in 6 unterschiedlichen Formen.
 3. **Haltestege** (Tabs) und Fräsreihenfolge legt der Dienstleister fest; danach nur Stegreste verschleifen.
 4. **Faserrichtung egal**: Die Teile dürfen beim Nesting beliebig gedreht werden. Wenden (Rückseite nach oben) ist ebenfalls erlaubt: Jedes Teil ist spiegelsymmetrisch (B1 / T1 links/rechts, S1 / S2 links/rechts + oben/unten, M1 / M2 oben/unten, R1 links/rechts + oben/unten, F1 links/rechts + oben/unten, F2 links/rechts + oben/unten), gewendet entsteht dasselbe Teil.
 5. **Keine Bohrungen**: Scharniere (V17), Gurtschlaufen (F2) und Schrauben werden beim Zusammenbau angerissen und gebohrt.
-6. **Nicht enthalten**: Sitz- und Tischbretter (C1–C3) — deren Aufbau hängt an ADR 0013. Die Schubladenkästen D1–D3 sind ein eigener Auftrag (`docs/cnc/schubladen/`, ADR 0024).
+6. **Nicht enthalten**: Schubladenkästen D1–D3 und Sitz-/Tischbretter C1–C3 sind ein eigener Auftrag (`docs/cnc/schubladen/`, ADR 0024, ADR 0031).
 7. **Kanten**: keine Fase, kein Radius an den Außenkanten.

@@ -231,8 +231,56 @@ def erzeuge_schubladen():
         rund = b["fenster"] and b["fenster"][0][4] * 2 == b["fenster"][0][2] - b["fenster"][0][0]
         zeilen[-1].update(_staerke=b["staerke"], _flaeche=flaeche.area, _voll=voll,
                           fenster_art=("Löcher" if rund else "Fenster") + (" + Griff" if b.get("griff") else ""))
+    zeilen_c, flaechen_c = brettelemente(p)
+    zeilen += zeilen_c
+    flaechen += flaechen_c
     return ZIEL / "schubladen", zeilen, _schreibe(ZIEL / "schubladen", "docs/cnc/schubladen", zeilen, flaechen,
-                                                  "Schubladenkästen D1–D3", abschnitte_schubladen(p, zeilen))
+                                                  TITEL_SCHUBLADEN, abschnitte_schubladen(p, zeilen))
+
+
+TITEL_SCHUBLADEN = "Schubladenkästen D1–D3 + Sitz-/Tischbretter C1–C3"
+
+
+def brettelemente(p):
+    """Sitz-/Tischbretter C1–C3: Brett mit Schlitzen + zwei Wangen mit Durchzapfen (ADR 0029, ADR 0031).
+
+    Im selben Auftrag wie die Schubladenkästen (Bauherr, 2026-11-13). Gleiche Teile (C1 = C2, alle
+    Wangen gleich lang) werden zusammengefasst, wenn ihre Kontur wirklich übereinstimmt."""
+    alle = modell.teile(p)
+    zug = p["elemente"]["wangenzapfen"]["schleifzugabe"]
+    teile = []                                          # (id, Fläche, breite, hoehe, Anzahl Schlitze)
+    for c in ("C1", "C2", "C3"):
+        breite, hoehe, behalten, loecher, _ = zeichnungen.brett_geometrie(alle, p, c, "oben")
+        teile.append((c, kontur(p, behalten, loecher), breite, hoehe, len(loecher)))
+        for seite in ("a", "b"):
+            wid = f"{c}-W{seite}"
+            breite, hoehe, behalten, loecher, zapfen = zeichnungen.brett_geometrie(alle, p, wid, "z")
+            # Zapfen oben um die Schleifzugabe länger: stehen nach dem Verleimen über, bündig schleifen
+            behalten = behalten[:1] + [(u0, v0, u1, v1 + zug) for u0, v0, u1, v1 in zapfen]
+            teile.append((wid, kontur(p, behalten, loecher), breite, max(r[3] for r in behalten), 0))
+    gruppen = []                                        # [[ids], Fläche, breite, hoehe, schlitze]
+    for id, flaeche, breite, hoehe, schlitze in teile:
+        gleich = next((g for g in gruppen if _signatur(g[1]) == _signatur(flaeche)), None)
+        if gleich:
+            gleich[0].append(id)
+        else:
+            gruppen.append([[id], flaeche, breite, hoehe, schlitze])
+    zeilen, flaechen = [], []
+    staerke = p["elemente"]["brett_staerke"]
+    for ids, flaeche, breite, hoehe, _ in gruppen:
+        elemente = list(dict.fromkeys(i[:2] for i in ids))          # C1, C2, C3
+        if "-W" in ids[0]:                                          # Wangen: je Element a + b
+            kuerzel = [f"{c}-Wa/b" for c in elemente]
+            name = "Wange " + " / ".join(f"{modell.ELEMENTE[c]} ({c})" for c in elemente)
+            datei = "-".join(c.lower() for c in elemente) + "-wangen.dxf"
+        else:
+            kuerzel = ids
+            name = " / ".join(f"{modell.ELEMENTE[c]} ({c})" for c in ids)
+            datei = "-".join(c.lower() for c in ids) + ".dxf"
+        zeilen.append(_zeile(datei, kuerzel, name, len(ids), flaeche, breite, hoehe, p["cnc"]["material"]))
+        zeilen[-1].update(_staerke=staerke, _flaeche=flaeche.area, _voll=flaeche.area)
+        flaechen.append((flaeche, breite, hoehe))
+    return zeilen, flaechen
 
 
 def _wenden(zeilen):
@@ -302,8 +350,8 @@ def abschnitte(variante, p, zeilen):
         f"**Faserrichtung egal**: Die Teile dürfen beim Nesting beliebig gedreht werden. {_wenden(zeilen)}",
         "**Keine Bohrungen**: Scharniere (V17), Gurtschlaufen (F2) und Schrauben werden beim Zusammenbau "
         "angerissen und gebohrt.",
-        "**Nicht enthalten**: Sitz- und Tischbretter (C1–C3) — deren Aufbau hängt an ADR 0013. Die "
-        "Schubladenkästen D1–D3 sind ein eigener Auftrag (`docs/cnc/schubladen/`, ADR 0024).",
+        "**Nicht enthalten**: Schubladenkästen D1–D3 und Sitz-/Tischbretter C1–C3 sind ein eigener Auftrag "
+        "(`docs/cnc/schubladen/`, ADR 0024, ADR 0031).",
         "**Kanten**: keine Fase, kein Radius an den Außenkanten.",
     ]))
     return out
@@ -315,6 +363,7 @@ def abschnitte_schubladen(p, zeilen):
     f = zeichnungen.fmt
     T, Tb, bz, fe = s["wandstaerke"], s["bodenstaerke"], s["bodenzapfen"], s["fenster"]
     stk = sum(zl["stk"] for zl in zeilen)
+    e, wz = p["elemente"], p["elemente"]["wangenzapfen"]
     alle = modell.teile(p)
     kaesten = []
     for d in ("D1", "D2", "D3"):
@@ -326,8 +375,9 @@ def abschnitte_schubladen(p, zeilen):
         ("Teile", "absatz", [
             f"Material: **Birke-Multiplex {f(T)} mm** (Wände) und **{f(Tb)} mm** (Böden), {stk} Teile in "
             f"{len(zeilen)} unterschiedlichen Formen — die Wände und Böden der drei Schubladenkästen "
-            f"(Außenmaß B × T × H: {', '.join(kaesten)} mm).",
-            f"Gewicht aller drei Kästen ca. **{f(round(gewicht, 1))} kg** (ohne Fenster, Löcher und Griffe "
+            f"(Außenmaß B × T × H: {', '.join(kaesten)} mm) und die Sitz-/Tischbretter C1–C3 mit ihren Wangen "
+            f"(alles {f(e['brett_staerke'])} mm).",
+            f"Gewicht aller Teile ca. **{f(round(gewicht, 1))} kg** (ohne Fenster, Löcher und Griffe "
             f"wären es {f(round(ohne, 1))} kg, Dichte {s['dichte_kg_m3']} kg/m³ angenommen)."]),
         _dateien(c, "geschlossene Schlitze, Fenster und Löcher der Seitenwände"),
         ("Verbindungen", "liste", [
@@ -341,6 +391,12 @@ def abschnitte_schubladen(p, zeilen):
             f"Zinken und Bodenzapfen sind **{f(T + z['schleifzugabe'])} mm lang** ({f(T)} mm Wandstärke + "
             f"{f(z['schleifzugabe'])} mm Schleifzugabe): Sie stehen nach dem Verleimen 1 mm über und werden bündig "
             "geschliffen, bevor die Schienen angeschraubt werden. Gewollt, nicht korrigieren.",
+            f"**Sitz-/Tischbretter C1–C3**: Brett oben, darunter zwei Wangen (`-Wa`/`-Wb`, umgedrehtes U). "
+            f"Jede Wange greift mit {wz['anzahl']} Zapfen {f(wz['laenge'])} mm breit durch das Brett; die Wangen "
+            "sitzen bündig mit den Brettkanten, deshalb sind es **offene Aussparungen am Brettrand**, keine "
+            f"geschlossenen Schlitze. Die Zapfen sind {f(e['brett_staerke'] + wz['schleifzugabe'])} mm lang "
+            f"({f(wz['schleifzugabe'])} mm Schleifzugabe), werden verleimt und bündig geschliffen (ADR 0029, ADR 0031). "
+            "Alle sechs Wangen sind gleich.",
             _ecken(c),
             f"**Fenster** in den Seitenwänden der äußeren Schubladen "
             f"({', '.join(d for d, art in s['aussparung'].items() if art == 'fenster')}): Ecken mit Radius "
@@ -367,9 +423,9 @@ def abschnitte_schubladen(p, zeilen):
             "etwas dünner oder dicker — die Schlitzhöhe an der gelieferten Platte prüfen.",
             "**Haltestege** (Tabs) und Fräsreihenfolge legt der Dienstleister fest; danach nur Stegreste verschleifen.",
             f"**Faserrichtung egal**: Die Teile dürfen beim Nesting beliebig gedreht werden. {_wenden(zeilen)}",
-            "**Keine Bohrungen**: Die Schienen werden beim Zusammenbau angerissen und gebohrt.",
-            "**Keine Frontblenden** (ADR 0027): Die Kastenfront `-E1` ist die sichtbare Front, mit gefrästem Griff. "
-            "Sitz- und Tischbretter C1–C3 sind nicht enthalten (ADR 0013).",
+            "**Keine Bohrungen**: Die Schienen (auch die M6-Löcher der 170-kg-Schienen in den Wangen) werden beim "
+            "Zusammenbau angerissen und gebohrt.",
+            "**Keine Frontblenden** (ADR 0027): Die Kastenfront `-E1` ist die sichtbare Front, mit gefrästem Griff.",
             "**Kanten**: keine Fase, kein Radius an den Außenkanten. Die Kanten am Griff werden von Hand gebrochen.",
         ]),
     ]
@@ -382,7 +438,7 @@ def auftrag(titel, zeilen, abschnitte_liste):
     md = [f"# CNC-Auftrag — VW Caddy Mk3 Camper, {titel}", "",
           f"Erzeugt am {date.today().isoformat()} von `modell/cnc.py` aus `modell/parameter.json` — nicht von Hand "
           "ändern, sondern Parameter anpassen und neu erzeugen. Entscheidung und Hintergrund: ADR 0023"
-          + (", ADR 0024." if "Schublade" in titel else ".")]
+          + (", ADR 0024, ADR 0031." if "Schublade" in titel else ".")]
     for t, art, texte in abschnitte_liste:
         md += ["", f"## {t}", ""]
         if art == "absatz":

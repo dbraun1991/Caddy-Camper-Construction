@@ -204,6 +204,8 @@ down.
   open front), optionally `B1`; `T1`, `F1/F2`, `M1/M2` stay solid. Saves
   ~1.5–6.5 kg; only worth it if the tenon reliefs/slots get CNC-milled on the
   existing blanks anyway. Don't change the model until the builder decides.
+  `F1/F2` stay solid — decided by the builder 2026-11-13, don't propose
+  lightening them again.
 
 - ~~ADR 0013~~ — decided by [ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md) (2026-11-12): seat/table element =
   18 mm board on top of two cheeks (inverted U), runner screwed to the cheek
@@ -220,8 +222,11 @@ down.
   30 mm member were eliminated (tenons/screws collide, less bearing).
   `D1/D2` 226.5 mm, `D3` 229.5 mm (`kasten_mitte_hoehe`, capped 3 mm under the
   `C3` cheeks, max 238). Table runner 5 mm under `T1`, table board 15.5 mm
-  under `T1`. Still open: who makes `C1`–`C3`
-  (CNC job or plain cutting, deliberately left open).
+  under `T1`. `C1`–`C3` (board + 2 cheeks each) are CNC-milled in the same job
+  as the drawer boxes (builder, 2026-11-13): `modell/cnc.py` `brettelemente()`
+  adds `c1-c2.dxf`, `c3.dxf`, `c1-c2-c3-wangen.dxf` to `docs/cnc/schubladen/`;
+  the cheeks sit flush with the board edges, so the tenons go through open
+  edge notches, not closed slots.
 - **CNC job not placed yet** ([ADR 0023](docs/adrs/0023-cnc-dxf-export-with-dogbones.md)).
   The `cnc` values in `modell/parameter.json` (cutter Ø 6 mm, clearance 0.2 mm)
   are assumptions until a service answers — don't present them as confirmed.
@@ -252,10 +257,10 @@ down.
     **M6**, all holes on the runner's centre line. Hole spacing along the runner
     doesn't matter for the model (user, 2026-11-12). Runner length is per type
     (`schienen.typen.*.laenge`), the viewer extends each element by its own.
-    Still open: lock levers (~30 mm proud) vs. the 20–30 mm room to the
-    tailgate — the builder left ~10 mm behind the box, expects it to fit and
-    will test it on the car before ordering the drawer wood (flagged in
-    `fahrzeug_pruefung()`); hole size of the 80 kg runner. The 170 kg lock does
+    Lock levers (~30 mm proud) vs. the tailgate: tested on the car
+    2026-11-13, the tailgate closes, a perfect fit
+    (`fahrzeug.hebel_heckklappe_geprueft`, `fahrzeug_pruefung()` → ok).
+    Still open: hole size of the 80 kg runner. The 170 kg lock does
     hold when extended (builder, 2026-11-12).
     Drawer runners (user, 2026-11-12, "narrenkompatibel"): outer `D1/D2` runner
     as low as possible but ≥ 5 mm above the seat runner (99–152, windows
@@ -279,10 +284,6 @@ down.
 - Record the size of the hinges already bought (`V17`): leaf width, open
   length, axis height above the board. `scharniere` in `modell/parameter.json`
   is still assumed (60 / 60 / 3 mm). Builder asked 2026-11-13.
-- Re-check ADR 0032 for `F1/F2`: the builder points out they carry almost no
-  load and asks why they shouldn't be lightened, especially `F1`, which rests
-  on the folded rear seat backs (shim `V16`, §H4); `F2` only carries the head
-  end and hangs from the headrests on loops `V15`.
 - The load-floor height above the ground (`fahrzeug.ladekante_hoehe` = 350) is
   not measured: first the Caddy 2K datasheet value 580, then set to 350 by the
   builder (2026-11-13). Front seats in the shell are placeholders, lowered by

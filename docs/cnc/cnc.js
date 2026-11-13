@@ -118,7 +118,7 @@ window.CNC = {
       "**Haltestege** (Tabs) und Fräsreihenfolge legt der Dienstleister fest; danach nur Stegreste verschleifen.",
       "**Faserrichtung egal**: Die Teile dürfen beim Nesting beliebig gedreht werden. Wenden (Rückseite nach oben) ist ebenfalls erlaubt: Jedes Teil ist spiegelsymmetrisch (B1 / T1 links/rechts, S1 / S2 links/rechts + oben/unten, M1 / M2 oben/unten, R1 links/rechts + oben/unten, F1 links/rechts + oben/unten, F2 links/rechts + oben/unten), gewendet entsteht dasselbe Teil.",
       "**Keine Bohrungen**: Scharniere (V17), Gurtschlaufen (F2) und Schrauben werden beim Zusammenbau angerissen und gebohrt.",
-      "**Nicht enthalten**: Sitz- und Tischbretter (C1–C3) — deren Aufbau hängt an ADR 0013. Die Schubladenkästen D1–D3 sind ein eigener Auftrag (`docs/cnc/schubladen/`, ADR 0024).",
+      "**Nicht enthalten**: Schubladenkästen D1–D3 und Sitz-/Tischbretter C1–C3 sind ein eigener Auftrag (`docs/cnc/schubladen/`, ADR 0024, ADR 0031).",
       "**Kanten**: keine Fase, kein Radius an den Außenkanten."
      ]
     }
@@ -237,7 +237,7 @@ window.CNC = {
       "**Haltestege** (Tabs) und Fräsreihenfolge legt der Dienstleister fest; danach nur Stegreste verschleifen.",
       "**Faserrichtung egal**: Die Teile dürfen beim Nesting beliebig gedreht werden. Wenden (Rückseite nach oben) ist ebenfalls erlaubt: Jedes Teil ist spiegelsymmetrisch (B1 / T1 links/rechts + oben/unten, S1 / S2 links/rechts + oben/unten, M1 / M2 links/rechts + oben/unten, R1 links/rechts + oben/unten, F1 links/rechts + oben/unten, F2 links/rechts + oben/unten), gewendet entsteht dasselbe Teil.",
       "**Keine Bohrungen**: Scharniere (V17), Gurtschlaufen (F2) und Schrauben werden beim Zusammenbau angerissen und gebohrt.",
-      "**Nicht enthalten**: Sitz- und Tischbretter (C1–C3) — deren Aufbau hängt an ADR 0013. Die Schubladenkästen D1–D3 sind ein eigener Auftrag (`docs/cnc/schubladen/`, ADR 0024).",
+      "**Nicht enthalten**: Schubladenkästen D1–D3 und Sitz-/Tischbretter C1–C3 sind ein eigener Auftrag (`docs/cnc/schubladen/`, ADR 0024, ADR 0031).",
       "**Kanten**: keine Fase, kein Radius an den Außenkanten."
      ]
     }
@@ -340,6 +340,42 @@ window.CNC = {
      "fenster": 0,
      "fenster_art": "Fenster",
      "material": "Birke-Multiplex 12 mm"
+    },
+    {
+     "datei": "docs/cnc/schubladen/c1-c2.dxf",
+     "vorschau": "docs/cnc/schubladen/vorschau/c1-c2.svg",
+     "kuerzel": "C1 / C2",
+     "name": "Sitzbrett links (C1) / Sitzbrett rechts (C2)",
+     "stk": 2,
+     "mass": "272 × 870",
+     "schlitze": 0,
+     "fenster": 0,
+     "fenster_art": "Fenster",
+     "material": "Birke-Multiplex 18 mm"
+    },
+    {
+     "datei": "docs/cnc/schubladen/c1-c2-c3-wangen.dxf",
+     "vorschau": "docs/cnc/schubladen/vorschau/c1-c2-c3-wangen.svg",
+     "kuerzel": "C1-Wa/b / C2-Wa/b / C3-Wa/b",
+     "name": "Wange Sitzbrett links (C1) / Sitzbrett rechts (C2) / Tischbrett Mitte (C3)",
+     "stk": 6,
+     "mass": "870 × 43,5",
+     "schlitze": 0,
+     "fenster": 0,
+     "fenster_art": "Fenster",
+     "material": "Birke-Multiplex 18 mm"
+    },
+    {
+     "datei": "docs/cnc/schubladen/c3.dxf",
+     "vorschau": "docs/cnc/schubladen/vorschau/c3.svg",
+     "kuerzel": "C3",
+     "name": "Tischbrett Mitte (C3)",
+     "stk": 1,
+     "mass": "384 × 870",
+     "schlitze": 0,
+     "fenster": 0,
+     "fenster_art": "Fenster",
+     "material": "Birke-Multiplex 18 mm"
     }
    ],
    "alle_dxf": "docs/cnc/schubladen/alle-teile.dxf",
@@ -350,8 +386,8 @@ window.CNC = {
      "titel": "Teile",
      "art": "absatz",
      "texte": [
-      "Material: **Birke-Multiplex 18 mm** (Wände) und **12 mm** (Böden), 15 Teile in 8 unterschiedlichen Formen — die Wände und Böden der drei Schubladenkästen (Außenmaß B × T × H: D1 272 × 848 × 226,5, D2 272 × 848 × 226,5, D3 384 × 848 × 229,5 mm).",
-      "Gewicht aller drei Kästen ca. **19,8 kg** (ohne Fenster, Löcher und Griffe wären es 24,2 kg, Dichte 680 kg/m³ angenommen)."
+      "Material: **Birke-Multiplex 18 mm** (Wände) und **12 mm** (Böden), 24 Teile in 11 unterschiedlichen Formen — die Wände und Böden der drei Schubladenkästen (Außenmaß B × T × H: D1 272 × 848 × 226,5, D2 272 × 848 × 226,5, D3 384 × 848 × 229,5 mm) und die Sitz-/Tischbretter C1–C3 mit ihren Wangen (alles 18 mm).",
+      "Gewicht aller Teile ca. **31,3 kg** (ohne Fenster, Löcher und Griffe wären es 35,6 kg, Dichte 680 kg/m³ angenommen)."
      ]
     },
     {
@@ -373,6 +409,7 @@ window.CNC = {
       "**Boden** (`-B`, 12 mm): Zapfen 50 mm breit, je 5 an den langen und 2 an den kurzen Kanten, durch Schlitze 50 × 12 mm in allen vier Wänden, 10 mm über der Wandunterkante.",
       "Lücken und Schlitze sind je Richtung **0,2 mm größer** als Zinken und Zapfen (die bleiben auf Nennmaß).",
       "Zinken und Bodenzapfen sind **19 mm lang** (18 mm Wandstärke + 1 mm Schleifzugabe): Sie stehen nach dem Verleimen 1 mm über und werden bündig geschliffen, bevor die Schienen angeschraubt werden. Gewollt, nicht korrigieren.",
+      "**Sitz-/Tischbretter C1–C3**: Brett oben, darunter zwei Wangen (`-Wa`/`-Wb`, umgedrehtes U). Jede Wange greift mit 5 Zapfen 50 mm breit durch das Brett; die Wangen sitzen bündig mit den Brettkanten, deshalb sind es **offene Aussparungen am Brettrand**, keine geschlossenen Schlitze. Die Zapfen sind 19 mm lang (1 mm Schleifzugabe), werden verleimt und bündig geschliffen (ADR 0029, ADR 0031). Alle sechs Wangen sind gleich.",
       "Jede Innenecke hat einen **Dogbone**: Freischnitt Ø 6 mm über die Ecke hinaus, Kreis durch den Eckpunkt. Ohne ihn bliebe in jeder Ecke ein Radius stehen, und die eckigen Zapfen passten nicht in Schlitze und Aussparungen.",
       "**Fenster** in den Seitenwänden der äußeren Schubladen (D1, D2): Ecken mit Radius 20 mm, ohne Dogbone. **Lochraster** (runde Löcher Ø 25 mm im Abstand 40 mm) in den Seitenwänden der mittleren Schublade (D3) und in allen Kastenfronten und -rückwänden (ADR 0026, ADR 0027). Das Band der Schubladenschiene (± 15 mm) bleibt immer voll stehen — dort wird die Schiene angeschraubt.",
       "**Griff** in der Kastenfront (`-E1`): Ausschnitt von der Oberkante, 120 mm breit, 35 mm tief, unten Radius 15 mm, die beiden oberen Außenecken Radius 10 mm (ADR 0027)."
@@ -385,9 +422,9 @@ window.CNC = {
       "**Kastenbreite** = Sektionsbreite − 2 × Schienenstärke − 2 mm Spiel. Die Stärke der gelieferten 80-kg-Schiene ist **gemessen** (19 mm je Seite, 2026-11-12). Die Lage der Schraublöcher steht noch aus — die Fenster lassen das Schienenband ± 15 mm frei, das sollte reichen; vor der Bestellung trotzdem gegen die Lochreihe prüfen.",
       "**Fräserdurchmesser 6 mm** und **Passungsluft 0,2 mm** wie beim Korpus-Auftrag. Gilt auch für die 12-mm-Böden: „12 mm“-Multiplex ist real oft etwas dünner oder dicker — die Schlitzhöhe an der gelieferten Platte prüfen.",
       "**Haltestege** (Tabs) und Fräsreihenfolge legt der Dienstleister fest; danach nur Stegreste verschleifen.",
-      "**Faserrichtung egal**: Die Teile dürfen beim Nesting beliebig gedreht werden. Wenden (Rückseite nach oben) ist ebenfalls erlaubt: Jedes Teil ist spiegelsymmetrisch (D1-S / D2-S links/rechts, D1-E1 / D2-E1 links/rechts, D1-E2 / D2-E2 links/rechts, D1-B / D2-B links/rechts + oben/unten, D3-S links/rechts, D3-E1 links/rechts, D3-E2 links/rechts, D3-B links/rechts + oben/unten), gewendet entsteht dasselbe Teil.",
-      "**Keine Bohrungen**: Die Schienen werden beim Zusammenbau angerissen und gebohrt.",
-      "**Keine Frontblenden** (ADR 0027): Die Kastenfront `-E1` ist die sichtbare Front, mit gefrästem Griff. Sitz- und Tischbretter C1–C3 sind nicht enthalten (ADR 0013).",
+      "**Faserrichtung egal**: Die Teile dürfen beim Nesting beliebig gedreht werden. Wenden (Rückseite nach oben) ist ebenfalls erlaubt: Jedes Teil ist spiegelsymmetrisch (D1-S / D2-S links/rechts, D1-E1 / D2-E1 links/rechts, D1-E2 / D2-E2 links/rechts, D1-B / D2-B links/rechts + oben/unten, D3-S links/rechts, D3-E1 links/rechts, D3-E2 links/rechts, D3-B links/rechts + oben/unten, C1 / C2 links/rechts + oben/unten, C1-Wa/b / C2-Wa/b / C3-Wa/b links/rechts, C3 links/rechts + oben/unten), gewendet entsteht dasselbe Teil.",
+      "**Keine Bohrungen**: Die Schienen (auch die M6-Löcher der 170-kg-Schienen in den Wangen) werden beim Zusammenbau angerissen und gebohrt.",
+      "**Keine Frontblenden** (ADR 0027): Die Kastenfront `-E1` ist die sichtbare Front, mit gefrästem Griff.",
       "**Kanten**: keine Fase, kein Radius an den Außenkanten. Die Kanten am Griff werden von Hand gebrochen."
      ]
     }

@@ -625,11 +625,14 @@ def fahrzeug_pruefung(p=None):
                         "ok" if luft > 0 else ("knapp" if luft == 0 else "anpassen")))
     hebel = p["schienen"]["hebel_vorn"]
     lo, hi = f["ladetiefe_min"] - k["tiefe"], f["ladetiefe_max"] - k["tiefe"]
+    geprueft = f.get("hebel_heckklappe_geprueft")
     out.append(pruefung("Arretierungshebel der Schienen vor der Korpusfront", hebel,
                         f"{lo}–{hi} mm Luft (Ladetiefe − Korpus)",
+                        f"Hebel ragen {hebel} mm vor — am Auto geprüft ({geprueft}): Heckklappe schließt, passt genau"
+                        if geprueft else
                         f"Hebel ragen {hebel} mm vor — am Auto prüfen, ob die Heckklappe schließt; sonst Korpus "
                         "ganz an die Rücksitze schieben oder die Schienen bis 12 mm zurücksetzen (ADR 0028)",
-                        "ok" if hebel < lo else ("knapp" if hebel <= hi else "anpassen")))
+                        "ok" if geprueft or hebel < lo else ("knapp" if hebel <= hi else "anpassen")))
     spalt = k["hoehe"] - f["ruecksitzlehne_hoehe"]
     out.append(pruefung("Unterkante F1 über umgeklappten Rücksitzlehnen", k["hoehe"], f["ruecksitzlehne_hoehe"],
                         f"{spalt} mm Spalt — unter F1 ausgleichen (§H4)" if spalt else "liegt bündig auf",

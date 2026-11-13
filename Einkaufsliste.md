@@ -3,7 +3,7 @@
 Preisstand: **Oktober 2026**, Richtpreise aus deutschen Online-Shops (Brutto, inkl. 19 % MwSt., ohne Versand).
 Teilenummern beziehen sich auf [List_of_Materials.md](./List_of_Materials.md).
 
-> ⚠ **Vor dem Zuschnitt der Sitz-/Tischbretter C1–C3:** [ADR 0013](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md) ist noch offen (Schienenhöhe 76 mm vs. 32 mm Brettstärke). **Nach Lieferung der Schienen:** Arretierung und Stärke prüfen (Details in [List_of_Materials.md](./List_of_Materials.md) §E). Alles andere ist kaufbereit.
+> Sitz-/Tischbretter C1–C3 sind entschieden ([ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md), [ADR 0031](docs/adrs/0031-boards-flush-with-the-middle-runner-member-minimal-cheeks.md)) und gehen mit den Schubladenkästen in den zweiten CNC-Auftrag. Schienen geliefert, geprüft, Arretierungshebel passen vor die Heckklappe (2026-11-13). Alles andere ist kaufbereit.
 
 ---
 
@@ -24,7 +24,7 @@ Spanne erklärt sich über die Qualitätsklasse (BB/BB vs. S/BB) und den Händle
 
 Statt Zuschnitt + Stich-/Kreissäge können die 9 Bretter der ersten Bestellung fertig gefräst werden — mit Zapfen, Schlitzen und Aussparungen. Die Dateien liegen bereit: [`docs/cnc/gezapft/`](docs/cnc/gezapft/) (DXF je Brett + [`AUFTRAG.md`](docs/cnc/gezapft/AUFTRAG.md) zum Mitschicken, im Viewer Reiter „DXF · CNC“, [ADR 0023](docs/adrs/0023-cnc-dxf-export-with-dogbones.md)). **Preis: auf Anfrage**, noch kein Angebot. Fräserdurchmesser (angenommen 6 mm) und Passungsluft (0,2 mm) erst nach Rückmeldung des Anbieters in `modell/parameter.json` → `cnc` festlegen und neu erzeugen.
 
-**Zweiter Auftrag: Schubladenkästen D1–D3** ([`docs/cnc/schubladen/`](docs/cnc/schubladen/), [ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md)): 12 Wände in 18 mm mit Fingerzinken und Fenstern (D1/D2) bzw. Lochraster (D3), 3 Böden in 12 mm mit Zapfen — Material dafür ist die 3. Platte 18 mm und die 12-mm-Platte aus der Tabelle oben. Preis ebenfalls auf Anfrage. Die Schienenstärke (bestimmt die Kastenbreite) ist gemessen: 19 mm wie geplant (2026-11-12). Vor der Bestellung nur noch die Schraublöcher der Schiene gegen das volle Schienenband prüfen. Schrauben V8 und Eckleisten V12 entfallen dadurch, ohne Frontblenden auch die Griffe V6 ([ADR 0027](docs/adrs/0027-no-drawer-front-panels-box-front-with-grip-cut-out.md)).
+**Zweiter Auftrag: Schubladenkästen D1–D3 + Sitz-/Tischbretter C1–C3** ([`docs/cnc/schubladen/`](docs/cnc/schubladen/), [ADR 0024](docs/adrs/0024-cnc-drawer-boxes-finger-joints-and-lightening-windows.md)): 12 Wände in 18 mm mit Fingerzinken und Fenstern (D1/D2) bzw. Lochraster (D3), 3 Böden in 12 mm mit Zapfen, dazu 3 Sitz-/Tischbretter und 6 Wangen in 18 mm (seit 2026-11-13) — Material dafür ist die 3. Platte 18 mm und die 12-mm-Platte aus der Tabelle oben. Die 18-mm-Teile belegen rechnerisch ~2,6 von 3,1 m² der Platte: knapp, das Nesting beim Dienstleister erfragen. Preis ebenfalls auf Anfrage. Die Schienenstärke (bestimmt die Kastenbreite) ist gemessen: 19 mm wie geplant (2026-11-12). Vor der Bestellung nur noch die Schraublöcher der Schiene gegen das volle Schienenband prüfen. Schrauben V8 und Eckleisten V12 entfallen dadurch, ohne Frontblenden auch die Griffe V6 ([ADR 0027](docs/adrs/0027-no-drawer-front-panels-box-front-with-grip-cut-out.md)).
 
 Anbietersuche (**Recherche 2026-11-07**, nur Webseiten gelesen, niemand angefragt). Ziel: Abholung selbst, Raum Duisburg.
 
@@ -139,6 +139,6 @@ Die kommerzielle Alternative [Moonbox 111](https://www.moonbox.de/products/moonb
 Die Montagereihenfolge in [§H](./List_of_Materials.md#montagereihenfolge) gibt die Kaufreihenfolge vor — der fertige Korpus liefert das verbindliche Innenmaß, nicht die Zeichnung:
 
 1. **Jetzt:** Holz 18 mm + 12 mm mit Zuschnitt (oder die 18-mm-Teile CNC-gefräst, §1), Leim, Dübel, Schrauben V1/V2/V7, Winkel V3, Spanngurte V11 → Korpus bauen
-2. **Schienen** E1 (3 Paare) + E2 (3 Paare), Durchsteckschrauben V9 → Arretierung und Stärke prüfen, einmessen und montieren (Bretter C1–C3 erst nach ADR 0013 zuschneiden)
+2. **Schienen** E1 (3 Paare) + E2 (3 Paare), Durchsteckschrauben V9 → Arretierung und Stärke prüfen, einmessen und montieren (Bretter C1–C3 kommen aus dem CNC-Auftrag der Schubladen)
 3. **Nach Einbau im Fahrzeug:** M8-Sätze V10 (Gewinde der Zurrösen erst am Auto prüfen; Rücksitz-Ösen liegen neben dem Korpus → Winkel außen an S1/S2, ADR 0016)
 4. **Zuletzt:** Matratze G1 + Bezug G2 — erst messen, wenn die Liegefläche real liegt; Scharniere V17, Gurtschlaufen V15 und Ausgleich V16 beim Anpassen von F1/F2 im Fahrzeug

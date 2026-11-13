@@ -1,7 +1,7 @@
 # 0032: Lightening the corpus boards: hole grid or windows (open)
 
 Status: **Proposed, not decided** (2026-11-13). Nothing has been changed in the
-model. Related: [ADR 0020](0020-through-tenons-instead-of-routed-grooves.md)
+model. `F1/F2` are settled: they stay solid (builder, 2026-11-13). Related: [ADR 0020](0020-through-tenons-instead-of-routed-grooves.md)
 (through-tenons, cut by hand so far), [ADR 0023](0023-cnc-dxf-export-with-dogbones.md)
 (CNC export), [ADR 0026](0026-windows-for-outer-drawers-hole-grid-for-middle-drawer.md)
 (hole grid in the drawers).
@@ -41,7 +41,7 @@ values.
 | Board | Hole grid Ø 25 / 40 | Windows (as in the drawers) | Assessment |
 |---|---|---|---|
 | `T1` lid (sleeping surface) | no | no | A 37.5 % ligament leaves the plate about 2.5–3 × softer: under 150 kg the front edge would bend about 16–20 mm instead of about 6.5 mm, more than the 15.5 mm gap to the table board, with stress peaks at the hole edges under a knee. **Stays solid.** |
-| `F1/F2` fold boards | ? | ? | **To be re-checked** (builder, 2026-11-13): they carry almost no load: `F1` rests on the folded rear seat backs over its whole area (shim `V16`), `F2` only carries the head end and hangs from the headrests on loops `V15` (§H4). Lightening, at least of `F1`, may well be possible; the first assessment ("sleeping surface, solid") was too quick. |
+| `F1/F2` fold boards | – | – | **Solid, decided** (builder, 2026-11-13). The builder had asked whether they could be lightened since they carry little load (`F1` rests on the folded seat backs, shim `V16`; `F2` hangs from the headrests on loops `V15`, §H4); after re-checking they stay without holes. |
 | `M1/M2` dividers | no | no | runners on both faces; only a ~29 mm strip is free. **Solid.** |
 | `S1/S2` side walls | ~0.35 kg each | ~1 kg each | free band above the runners (~120 × 780 mm). Windows are acceptable if solid frames ≥ 40–50 mm stay at the tenons, the corners and the tie-down brackets (ADR 0016). |
 | `R1` rear wall | ~0.75 kg | ~1.7 kg | the **only** wall against lateral racking (open front). Large windows would weaken it noticeably. **Hole grid at most.** |
@@ -73,7 +73,6 @@ drawer boxes about 20 kg.
 
 ## Open
 
-- `F1/F2`: how much could be lightened? `F1` is supported over its whole area by the seat backs; for `F2` the loop holes (`V15`) and the hinge zones must stay solid.
 - Should the tenon reliefs and slots of the existing blanks be CNC-milled at
   all? Only then is this ADR relevant.
 - Variant A–D, and with or without `B1`.

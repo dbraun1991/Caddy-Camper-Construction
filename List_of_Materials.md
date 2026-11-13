@@ -103,11 +103,13 @@ Rückfallvariante „stumpf“, falls das Sägen am Probestück nicht gelingt: D
 Aufbau ([ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md), entscheidet [ADR 0013](docs/adrs/0013-rail-carrier-cheeks-for-seat-and-table-boards.md)): **Brett oben, zwei Wangen darunter** (umgedrehtes U). Die 170-kg-Schiene ist 76 mm hoch, ihre Schraubenlöcher liegen mittig (38 mm); das Innenteil wird an die Außenseite der Wange geschraubt. Die Brettoberkante ist **bündig mit dem 55-mm-Mittelteil** der Schiene, 10,5 mm unter der Schienenoberkante ([ADR 0031](docs/adrs/0031-boards-flush-with-the-middle-runner-member-minimal-cheeks.md)): ausgefahren steht nichts über Sitz- und Tischfläche, das Gehäuse bleibt im Korpus. Keine seitlichen Wülste.  
 Alle drei fahren **870 mm** auf Vollauszug-Schienen aus — **kein Klappen**, reine Zugbewegung.
 
+**Fertigung: CNC-gefräst im selben Auftrag wie die Schubladenkästen** (Bauherr, 2026-11-13; [`docs/cnc/schubladen/`](docs/cnc/schubladen/)): Brett und Wangen in 18 mm, Zapfen mit 1 mm Schleifzugabe. Die Wangen sitzen bündig unter den Brettkanten, die Zapfen gehen deshalb durch **offene Aussparungen am Brettrand**, nicht durch geschlossene Schlitze.
+
 | Pos | Bezeichnung | Maß (B × T × H) | Menge | Position im Korpus (y) |
 |---|---|---|---|---|
-| C1 / C2 | Sitzbrett links / rechts, je 10 Schlitze 50 × 18 mm | 272 × 870 × 18 | 2 | 65,5–83,5 mm; 312 mm Sektion − 2 × 19 mm Schiene − 2 mm Spiel |
+| C1 / C2 | Sitzbrett links / rechts, je 10 Randaussparungen 50 × 18 mm | 272 × 870 × 18 | 2 | 65,5–83,5 mm; 312 mm Sektion − 2 × 19 mm Schiene − 2 mm Spiel |
 | C1-Wa/Wb, C2-Wa/Wb | Wangen Sitzbrett, 5 Zapfen 50 mm | 18 × 870 × 24,5 (Rohteil 43,5 mit Zapfen) | 4 | 41–65,5 mm, unter den Brettkanten, 23 mm Luft zu B1 |
-| C3 | Tischbrett Mitte, 10 Schlitze 50 × 18 mm | 384 × 870 × 18 | 1 | 286,5–304,5 mm; 424 mm Sektion − 2 × 19 mm Schiene − 2 mm Spiel |
+| C3 | Tischbrett Mitte, 10 Randaussparungen 50 × 18 mm | 384 × 870 × 18 | 1 | 286,5–304,5 mm; 424 mm Sektion − 2 × 19 mm Schiene − 2 mm Spiel |
 | C3-Wa/Wb | Wangen Tischbrett, 5 Zapfen 50 mm | 18 × 870 × 24,5 (Rohteil 43,5 mit Zapfen) | 2 | 262–286,5 mm, 11,5 mm über D3 |
 
 Das Element ist 42,5 mm hoch, Schiene C1/C2 bei 18–94 mm (steht auf B1), C3 bei 239–315 mm. Ausgefahren stehen nur Arretierungshebel (30 mm), äußeres Teleskopteil (430 × 30 mm) und mittleres Teleskopteil (430 × 55 mm) vor, der Rest bleibt im Gehäuse (gemessen 2026-11-12). Das Brett schließt bündig mit dem 55-mm-Teil ab (sitzt mittig in der Schiene, bestätigt); die Lochreihe liegt 9,5 mm unter der Brettunterseite in der Wange. Die Wange endet genau 15 mm unter der Lochmitte ([ADR 0031](docs/adrs/0031-boards-flush-with-the-middle-runner-member-minimal-cheeks.md)) — so viel Holz braucht die 5-mm-Schraube, mehr Wange trägt nichts, weil die Stahlschiene die Länge trägt. **Verbindung Brett ↔ Wangen** (gezapft, ausdrücklich gewünscht für die Stabilität; [ADR 0029](docs/adrs/0029-cheeks-sized-to-the-moving-runner-member-flush-seat-taller-middle-drawer.md)): je Wange **5 Durchzapfen 50 × 18 mm** durch Schlitze im Brett, verleimt, Zapfen 1 mm länger und bündig geschliffen — die Schlitze legen den Wangenabstand fest, damit die Schienen parallel laufen. Fertigung (CNC oder Zuschnitt + Stichsäge) noch offen.
@@ -170,7 +172,7 @@ Gewicht der drei Kästen ca. **19,8 kg** — ohne Fenster, Löcher und Griffe w�
 | Schrauben | Lochgröße noch prüfen | **M6** laut Datenblatt |
 | Löcher | mittig in der Höhe | mittig in der Höhe |
 
-Beide Schienen werden bündig an der Korpusfront ausgerichtet (Datenblatt). Der Arretierungshebel sitzt vorn am beweglichen Teil und ragt eingefahren ~30 mm vor die Korpusfront — **am Auto prüfen, ob die Heckklappe schließt** (Luft laut Messung 20–30 mm); sonst den Korpus ganz an die Rücksitze schieben oder die Schienen bis 12 mm zurücksetzen.
+Beide Schienen werden bündig an der Korpusfront ausgerichtet (Datenblatt). Der Arretierungshebel sitzt vorn am beweglichen Teil und ragt eingefahren ~30 mm vor die Korpusfront. ✓ **Am Auto geprüft (2026-11-13): Die Heckklappe schließt, passt genau.**
 
 **6 Paare** insgesamt: 3× für Schubladen + 3× für Sitz-/Tischbretter.  
 Mindestanforderung: **850 mm Auszug**, **Schwerlast**, mit Arretierung (Lock). 900-mm-Schienen passen nicht: hinter der Rückwand bleiben nur 882 mm lichte Tiefe.

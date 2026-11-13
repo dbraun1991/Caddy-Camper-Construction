@@ -96,7 +96,7 @@ window.MODELL = {
     "abstand_rand": 50,
     "schleifzugabe": 1
    },
-   "_wangenzapfen": "Wangen greifen mit Zapfen durch Schlitze im Brett und werden verleimt (ADR 0029). Zapfen = Brettstärke + Schleifzugabe hoch, bündig geschliffen. Fertigung (CNC oder Zuschnitt) noch offen",
+   "_wangenzapfen": "Wangen greifen mit Zapfen durch Schlitze im Brett und werden verleimt (ADR 0029). Zapfen = Brettstärke + Schleifzugabe hoch, bündig geschliffen. Gefräst im selben CNC-Auftrag wie die Schubladenkästen (docs/cnc/schubladen/, Bauherr 2026-11-13)",
    "rand_lochreihe": 15,
    "_rand_lochreihe": "Holz unter der Lochmitte der 170-kg-Schiene in der Wange: ~3 × Schraubendurchmesser (5 mm, V18), damit die Schraube nicht zum Rand ausbricht. Seit ADR 0031 endet die Wange genau hier (23 mm über der Schienen-Unterkante, Wange 24,5 mm)",
    "spalt_hoehe": 5,
@@ -176,6 +176,8 @@ window.MODELL = {
    "ruecksitzlehne_hoehe": 310,
    "laenge_heck_bis_kopfstuetzen": 2000,
    "heckklappe_passt": true,
+   "hebel_heckklappe_geprueft": "2026-11-13",
+   "_hebel_heckklappe_geprueft": "Am Auto geprüft: Heckklappe schließt mit den ~30 mm Arretierungshebeln vor der Korpusfront, passt genau (Bauherr)",
    "ladekante": 0,
    "ladekante_hoehe": 350,
    "_ladekante_hoehe": "Ladeboden über der Straße, NICHT gemessen: vom Bauherrn auf 350 mm gesetzt (2026-11-13; vorher Datenblattwert 580 mm Caddy 2K Kastenwagen, cars-data.com). Nur für den Viewer (Boden, Räder)"
@@ -6981,8 +6983,8 @@ window.MODELL = {
    "was": "Arretierungshebel der Schienen vor der Korpusfront",
    "plan": 30,
    "fahrzeug": "20–30 mm Luft (Ladetiefe − Korpus)",
-   "ergebnis": "Hebel ragen 30 mm vor — am Auto prüfen, ob die Heckklappe schließt; sonst Korpus ganz an die Rücksitze schieben oder die Schienen bis 12 mm zurücksetzen (ADR 0028)",
-   "status": "knapp"
+   "ergebnis": "Hebel ragen 30 mm vor — am Auto geprüft (2026-11-13): Heckklappe schließt, passt genau",
+   "status": "ok"
   },
   {
    "was": "Unterkante F1 über umgeklappten Rücksitzlehnen",

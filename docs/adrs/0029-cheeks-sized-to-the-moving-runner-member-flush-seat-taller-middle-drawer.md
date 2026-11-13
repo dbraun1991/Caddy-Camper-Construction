@@ -44,7 +44,10 @@ Three related questions were answered in the same conversation:
   + 1 mm high and are sanded flush after gluing; the cheek blank is
   870 × 64.5 mm. The slots fix the cheek spacing, which the runners need to
   run freely. The tenons are model parts flagged as intended overlaps, like the
-  corpus tenons. `C1`–`C3` are still not in a CNC job.
+  corpus tenons. `C1`–`C3` are still not in a CNC job. *(Update 2026-11-13: they
+  are now part of the drawer CNC job `docs/cnc/schubladen/`, builder's decision;
+  since the cheeks sit flush with the board edges, the "slots" are open edge
+  notches in the board.)*
 - **`D3` is taller than `D1/D2`** by `kasten_mitte_plus` = 15 mm, capped at
   `boden_luft` (3 mm) below the `C3` cheeks. The new cheeks reach 6 mm lower
   than before, so the cap applies: `D3` is 227.5 mm high (21–248.5), i.e.
