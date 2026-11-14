@@ -100,10 +100,11 @@ Ein Übersichtsblatt „Bezeichnungen“, drei Ansichten nach Dreitafelprojektio
 | **Rückwand R1** (1:5) | Rückwand: Zapfen und die zwei Schlitze für M1/M2 bemaßt | [SVG](docs/zeichnungen/gezapft/brett-r1.svg) |
 | **Schublade D1 / D2** (1:5) | Seitenwand, Kastenfront mit Griff, Kastenrückwand, Boden: Zinken, Bodenschlitze/-zapfen, Fenster, Löcher, Griff und Schienenband bemaßt | [SVG](docs/zeichnungen/gezapft/schublade-d1-d2.svg) |
 | **Schublade D3** (1:5) | dieselben vier Bretter für die Mittelschublade (Lochraster statt Fenster) | [SVG](docs/zeichnungen/gezapft/schublade-d3.svg) |
+| **Sitz-/Tischbretter C1–C3** (1:5) | Brett und Wange zum Nachmessen der gefrästen Teile: Aussparungen, Zapfen, Gesamtmaße, Querschnitt | [SVG](docs/zeichnungen/gezapft/elemente-c1-c3.svg) |
 
 Sichtbare Kanten durchgezogen, verdeckte Kanten gestrichelt. **Rot hinterlegt** sind rechnerische Überschneidungen zweier Bauteile — Stellen, an denen der Plan so nicht baubar ist. **Grün** hinterlegt sind gewollte Überdeckungen: Die Zapfen der Wände stecken in Schlitzen und Aussparungen. Dieselben Blätter gibt es für die Rückfallvariante ohne Zapfen (`stumpf`, Ordner nebenan, im Viewer per Auswahlfeld).
 
-**Zum Drucken:** alle 10 Blätter einer Variante in Blattreihenfolge als ein PDF, DIN A3 quer — [gezapft](docs/zeichnungen/gezapft/werkzeichnungen.pdf) · [stumpf](docs/zeichnungen/stumpf/werkzeichnungen.pdf). Beim Drucken „Tatsächliche Größe“ (100 %) wählen, sonst stimmen die Maßstäbe nicht.
+**Zum Drucken:** alle 11 Blätter einer Variante in Blattreihenfolge als ein PDF, DIN A3 quer — [gezapft](docs/zeichnungen/gezapft/werkzeichnungen.pdf) · [stumpf](docs/zeichnungen/stumpf/werkzeichnungen.pdf). Beim Drucken „Tatsächliche Größe“ (100 %) wählen, sonst stimmen die Maßstäbe nicht.
 
 Neu erzeugen nach einer Maßänderung in `modell/parameter.json`:
 
@@ -250,6 +251,7 @@ Offen:
 - [x] Eckausbildung Korpus — Boden B1 und Deckel T1 durchgehend, Wände mit Zapfen 18 × 50 mm durch B1 und T1, Wandzuschnitt 340 mm hoch — [ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md), [ADR 0020](docs/adrs/0020-through-tenons-instead-of-routed-grooves.md)
 - [x] Lichte Tiefe 882 mm vs. Schienenlänge — gelöst mit 850-mm-Schienen, Korpus bleibt 900 mm (20–30 mm Luft zu den Rücksitzen, 32 mm hinter den Schienen) — [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)
 - [ ] **CNC-Anbieter anfragen** (Privatkunde, Abholung, Dateiformat, Fräserdurchmesser, Passung, Probestück) und danach `cnc` in `modell/parameter.json` anpassen + `modell/cnc.py` neu erzeugen — Kandidaten im Raum Duisburg: [Einkaufsliste.md §1](./Einkaufsliste.md#option-cnc-fräsen-statt-zuschnitt), erster Kandidat Brockmann Holz (Krefeld)
+- [ ] *Idee, nicht jetzt:* **Teile selbst auf eine 18-mm-Platte verschachteln?** Offene Frage für eine schnelle Fertigung beim CNC-Anbieter: Sollen wir die DXF-Teile vorab auf einem Plattenformat anordnen (Nesting), um Verschnitt zu sparen? Vermutlich nicht nötig, das macht üblicherweise der Anbieter (`alle-teile.dxf` ist bewusst kein Nesting) — beim Anfragen mitklären
 - [x] Schienen vollständig bestellt: 3 Paare 170 kg + 3 Paare 80 kg (2026-11-12) — [ADR 0021](docs/adrs/0021-table-board-on-170-kg-runners.md)
 - [x] Schienenstärke gemessen (2026-11-12): beide Typen 19 mm wie geplant, Höhe 53 mm bestätigt
 - [ ] Schienen weiter prüfen: Arretierung im ausgezogenen Zustand (170 kg), Höhe der 170-kg-Schiene (gemessen ~74 mm, Modell 76 mm laut Datenblatt), Lage der Schraublöcher (gegen das Schienenband der Schubladen-Seitenwände)

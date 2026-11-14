@@ -251,12 +251,23 @@ def bemassen(name, blatt, teile, p):
         uL = -W / 2
         blatt.mass((uL, c2[1][1]), (uL, c2[1][0]), 10, fmt(c2[1][1] - c2[1][0]))
         blatt.mass((uL, d2[1][1]), (uL, d2[1][0]), 10, fmt(d2[1][1] - d2[1][0]))
-        blatt.text(f"Spalt je {fmt(d2[1][0] - c2[1][1])}", uL - 150, (c2[1][0] + c2[1][1]) / 2, 2.4)
+        blatt.text(f"Spalt je {fmt(d2[1][0] - c2[1][1])}", uL - 200, (c2[1][0] + c2[1][1]) / 2, 2.4)
+        wange = teil(teile, "C1-Wa")["box"]
+        blatt.mass((uL, c2[1][1]), (uL, wange[1][0]), 20, " ")       # zu kurz für die Zahl: Text daneben
+        blatt.text(f"C1/C2 mit Wangen {fmt(c2[1][1] - wange[1][0])}", uL - 200, wange[1][0] - 12, 2.4)
         # Mitte im Bild: Kasten D3 / Spalt / Tisch-Brett C3
         d3, c3 = teil(teile, "D3")["box"], teil(teile, "C3")["box"]
         u = -(d3[0][0] + 40)
         blatt.masslinie((u, d3[1][0]), (u, d3[1][1]), f"Schubladenkasten (D3) {fmt(d3[1][1] - d3[1][0])}")
         blatt.masslinie((u, c3[1][0]), (u, c3[1][1]), fmt(c3[1][1] - c3[1][0]))
+        # Gesamtbreiten der Bretter (mit Wangen) und Schubladenkästen, im Bild zwischen den Wangen bzw. oben im Kasten
+        for id in ("C1", "C2", "C3"):
+            (x0, x1), _, _ = teil(teile, id)["box"]
+            w = teil(teile, f"{id}-Wa")["box"][1]
+            blatt.masslinie((-x1, (w[0] + w[1]) / 2), (-x0, (w[0] + w[1]) / 2), f"{id} Breite {fmt(x1 - x0)}")
+        for id in ("D1", "D2", "D3"):
+            (x0, x1), (y0, y1), _ = teil(teile, id)["box"]
+            blatt.masslinie((-x1, y1 - 30), (-x0, y1 - 30), f"{id} Breite {fmt(x1 - x0)}")
 
     elif name == "draufsicht":
         blatt.mass((-W / 2, 0), (W / 2, 0), 16, fmt(W))
@@ -267,6 +278,11 @@ def bemassen(name, blatt, teile, p):
         r = teil(teile, "E-D1-b")["box"]
         u = -(r[0][0] - 25)
         blatt.masslinie((u, r[2][0]), (u, r[2][1]), f"Schiene {fmt(r[2][1] - r[2][0])}")
+        # Gesamtlängen rechts neben der Zeichnung: Schubladenkästen (D1–D3) und Sitz-/Tischbretter (C1–C3)
+        _, _, (z0, z1) = teil(teile, "D1")["box"]
+        blatt.mass((W / 2, z0), (W / 2, z1), 10, f"Schubladen D1–D3 {fmt(z1 - z0)}")
+        _, _, (z0, z1) = teil(teile, "C3")["box"]
+        blatt.mass((W / 2, z0), (W / 2, z1), 20, f"Bretter C1–C3 {fmt(z1 - z0)}")
 
     elif name == "seitenansicht":
         blatt.mass((-D, 0), (0, 0), 14, fmt(D))                          # unten, Korpustiefe
@@ -432,7 +448,8 @@ def zeichne_bretter(variante, png=False):
         blatt.text("Absatz an Trennwand (M1/M2) hinten genau 882 ab Vorderkante.", 25, 30, 2.2, papier=True, ausrichtung=links)
         blatt.text(f"Alle Zapfen, Schlitze und Aussparungen bemaßt: Blätter {len(ANSICHTEN) + 3}–{BLATT_GESAMT} (1:5).",
                    25, 26, 2.2, papier=True, ausrichtung=links)
-    blatt.text("Ohne Schubladen und Sitz-/Tischbretter — deren Maße werden am fertigen Korpus festgelegt.",
+    blatt.text(f"Ohne Schubladen und Sitz-/Tischbretter — die kommen gefräst, bemaßt auf den Blättern "
+               f"{BLATT_GESAMT - len(SCHUBLADENBLAETTER)}–{BLATT_GESAMT}.",
                25, 14, 2.2, papier=True, ausrichtung=links)
     x0, y0 = 120, 46
     for x, kopf in ((x0, "Pos."), (x0 + 22, "Langname"), (x0 + 72, "Maß"), (x0 + 96, "mm"), (x0 + 104, "Stk.")):
@@ -456,8 +473,8 @@ def zeichne_bretter(variante, png=False):
 # ── Blätter 5–7: Einzelbretter mit Bemaßung aller Zapfen, Schlitze, Aussparungen ──
 # Jede Platte in ihrer eigenen Ebene (u, v) in mm, Ursprung links unten an der gelieferten Plattenkante.
 DETAILBLAETTER = [  # (Dateiname, Titel, [(Kürzel, gleiche Kürzel, Ansicht, Papier-x, Papier-y)])
-    ("brett-b1-t1", "Bodenplatte B1 / Deckplatte T1", [("B1", ["T1"], "oben", 55, 58)]),
-    ("brett-s-m", "Seitenwände S1/S2 + Trennwände M1/M2", [("S1", ["S2"], "z", 50, 178), ("M1", ["M2"], "z", 50, 70)]),
+    ("brett-b1-t1", "Bodenplatte B1 / Deckplatte T1", [("B1", ["T1"], "oben", 55, 60)]),
+    ("brett-s-m", "Seitenwände S1/S2 + Trennwände M1/M2", [("S1", ["S2"], "z", 50, 178), ("M1", ["M2"], "z", 50, 66)]),
     ("brett-r1", "Rückwand R1", [("R1", [], "x", 50, 150)]),
 ]
 # Schubladenkästen (ADR 0024): je Kastentyp ein Blatt mit allen vier Brettern, Geometrie = CNC-DXF
@@ -465,7 +482,8 @@ SCHUBLADENBLAETTER = [  # (Dateiname, Titel, Kasten)
     ("schublade-d1-d2", "Schublade links / rechts (D1 / D2)", "D1"),
     ("schublade-d3", "Schublade Mitte (D3)", "D3"),
 ]
-BLATT_GESAMT = 1 + len(ANSICHTEN) + 1 + len(DETAILBLAETTER) + len(SCHUBLADENBLAETTER)   # Blatt 1 = „Bezeichnungen“
+ELEMENTBLATT = ("elemente-c1-c3", "Sitz-/Tischbretter C1–C3")   # Bretter + Wangen zum Nachmessen (ADR 0029/0031)
+BLATT_GESAMT = 1 + len(ANSICHTEN) + 1 + len(DETAILBLAETTER) + len(SCHUBLADENBLAETTER) + 1   # Blatt 1 = „Bezeichnungen“
 
 
 def brett_geometrie(alle, p, id, ansicht):
@@ -541,8 +559,8 @@ def zeichne_brett(blatt, alle, p, id, gleiche, ansicht):
         blatt.text(beschriftung.replace("  ·  Rohmaß", "\nRohmaß"), 312, 264, 3.0, papier=True, ausrichtung=links)
     else:
         oben_kette = loecher or behalten[0][2] < breite             # R1 Schlitze, M1/M2 Absatz: Kette über dem Brett
-        blatt.text(beschriftung, x, y + hoehe * blatt.m + (22 if oben_kette else 6), 3.0, papier=True,
-                   ausrichtung=links)
+        abstand = (28 if oben_kette else 16) if zapfen else 6     # darunter das Gesamtmaß (nur mit Zapfen)
+        blatt.text(beschriftung, x, y + hoehe * blatt.m + abstand, 3.0, papier=True, ausrichtung=links)
 
     unten = sorted({z for r in zapfen if r[1] == 0 for z in (r[0], r[2])})
     if ansicht == "oben" and not loecher:                          # stumpf: nur Rohmaß
@@ -565,6 +583,9 @@ def zeichne_brett(blatt, alle, p, id, gleiche, ansicht):
         lage_s = next(r for r in loecher if r[0] == 0)
         blatt.text(f"Aussparungen {fmt(tiefe)} tief", lage_s[2] + 10, (lage_s[1] + lage_s[3]) / 2, 2.4,
                    ausrichtung=(bd.TextAlign.LEFT, bd.TextAlign.CENTER))
+        # Gesamtmaße der Platte zusätzlich zu den Ketten
+        blatt.mass((0, 0), (breite, 0), 11, f"{fmt(breite)} gesamt")
+        blatt.mass((0, hoehe), (0, 0), 22, f"{fmt(hoehe)} gesamt")
         return
     # Wände: unten Zapfenkette (oben gleich), rechts Höhen
     blatt.kette([(u, 0) for u in [0] + unten + [breite]], 8)
@@ -578,6 +599,10 @@ def zeichne_brett(blatt, alle, p, id, gleiche, ansicht):
         blatt.kette([(u, hoehe) for u in reversed([0] + quer + [breite])], 8)
         hoch = sorted({v for r in loecher for v in (r[1], r[3])})
         blatt.kette([(0, v) for v in reversed([0] + hoch + [hoehe])], 10)
+    if zapfen:                                                     # Gesamtmaße der Platte zusätzlich zu den Ketten
+        oben_kette = loecher or behalten[0][2] < breite
+        blatt.mass((breite, hoehe), (0, hoehe), 20 if oben_kette else 8, f"{fmt(breite)} gesamt")
+        blatt.mass((breite, 0), (breite, hoehe), 24, f"{fmt(hoehe)} gesamt")
 
 
 def zeichne_detail(variante, datei, titel, bretter, nr, png=False):
@@ -837,6 +862,118 @@ def zeichne_schublade(variante, datei, titel, kasten, nr, png=False):
     return pfad
 
 
+# ── Blatt 11: Sitz-/Tischbretter C1–C3 mit Wangen, stehend, 1:5 ─────────────────
+def zeichne_elemente(variante, datei, titel, nr, png=False):
+    """Brett und Wange jedes Elements flach, Länge senkrecht (Vorderkante unten), plus Querschnitt.
+    Geometrie = CNC-DXF (cnc.brettelemente) ohne Dogbones und Passungsluft; Wangenzapfen mit Schleifzugabe."""
+    p = modell.lade_parameter()
+    alle = modell.teile(p, variante)
+    e, wz = p["elemente"], p["elemente"]["wangenzapfen"]
+    zug = wz["schleifzugabe"]
+    blatt = Blatt((0, 0))
+    links = (bd.TextAlign.LEFT, bd.TextAlign.CENTER)
+    y0 = 56                                                         # Papier-y der Vorderkante
+
+    def kopf(x, zeile1, zeile2):
+        blatt.text(zeile1, x, y0 + 870 * M + 31, 3.0, papier=True, ausrichtung=links)
+        blatt.text(zeile2, x, y0 + 870 * M + 26.5, 2.4, papier=True, ausrichtung=links)
+
+    def laengskette(punkte, u, abstand, links_davon):
+        """Kette entlang der Länge (v) bei u; links_davon: Maße links der Kante."""
+        vs = sorted(punkte)
+        blatt.kette([(u, v) for v in (reversed(vs) if links_davon else vs)], abstand)
+
+    # ── Bretter C1/C2 und C3: u = Breite, v = Länge ab Vorderkante ──
+    for ids, x in ((["C1", "C2"], 48), (["C3"], 140)):
+        breite, hoehe, behalten, loecher, _ = brett_geometrie(alle, p, ids[0], "oben")
+        blatt.mitte = (x, y0)
+        form = _rechteck(blatt, *behalten[0])
+        for r in loecher:
+            form = form - _rechteck(blatt, *r)
+        blatt.ebenen["kontur"] += list(form.edges())
+        laengskette({0, hoehe} | {v for r in loecher if r[0] == 0 for v in (r[1], r[3])}, 0, 10, True)
+        blatt.mass((0, hoehe), (0, 0), 22, f"{fmt(hoehe)} gesamt")
+        quer = sorted({0, breite} | {u for r in loecher for u in (r[0], r[2])})
+        blatt.kette([(u, hoehe) for u in reversed(quer)], 8)
+        blatt.mass((breite, hoehe), (0, hoehe), 20, f"{fmt(breite)} gesamt")
+        name = langname(alle, ids[0]) if len(ids) == 1 else "Sitzbrett links / rechts"
+        kopf(x - 22, f"{' / '.join(ids)} — {name}", f"{len(ids)} Stk. · {fmt(e['brett_staerke'])} mm · "
+             f"{fmt(breite)} × {fmt(hoehe)}")
+
+    # ── Wange (alle sechs gleich): gedreht, u = Höhe (Zapfen rechts), v = Länge ──
+    laenge, h_wange, behalten, _, zapfen = brett_geometrie(alle, p, "C1-Wa", "z")
+    h_roh = h_wange + e["brett_staerke"] + zug
+    xw = 262
+    blatt.mitte = (xw, y0)
+    dreh = [(v0, u0, v1 + (zug if i else 0), u1) for i, (u0, v0, u1, v1) in enumerate(behalten)]
+    form = _rechteck(blatt, *dreh[0])
+    for r in dreh[1:]:
+        form = form + _rechteck(blatt, *r)
+    blatt.ebenen["kontur"] += list(form.edges())
+    laengskette({0, laenge} | {u for r in zapfen for u in (r[0], r[2])}, h_roh, 10, False)
+    blatt.mass((h_roh, 0), (h_roh, laenge), 22, f"{fmt(laenge)} gesamt")
+    blatt.kette([(u, laenge) for u in (h_roh, h_wange, 0)], 8)
+    blatt.mass((h_roh, laenge), (0, laenge), 20, " ")              # zu schmal für die Zahl: Text daneben
+    blatt.text(f"{fmt(h_roh)} gesamt", h_roh + 4 / M, laenge + 20 / M, 2.6, ausrichtung=links)
+    kopf(xw - 6, "C1–C3 -Wa / -Wb — Wange", f"6 Stk. · {fmt(e['wange_staerke'])} mm · Zapfen rechts")
+
+    # ── Querschnitt C1/C2 (Blick von der Heckklappe), zusammengebaut ──
+    c1 = teil(alle, "C1")["box"]
+    b = c1[0][1] - c1[0][0]
+    hb, wst = e["brett_staerke"], e["wange_staerke"]
+    blatt.mitte = (318, 66)
+    for r in ((0, h_wange, b, h_wange + hb), (0, 0, wst, h_wange), (b - wst, 0, b, h_wange)):
+        blatt.rechteck(*r, "kontur")
+    blatt.mass((0, 0), (b, 0), 8, f"{fmt(b)} (C3: {fmt(teil(alle, 'C3')['box'][0][1] - teil(alle, 'C3')['box'][0][0])})")
+    blatt.kette([(b, v) for v in (0, h_wange, h_wange + hb)], 8)
+    blatt.mass((b, 0), (b, h_wange + hb), 20, " ")
+    blatt.text(f"{fmt(h_wange + hb)} gesamt", b + 20 / M, -6 / M, 2.4)
+    loch = e["rand_lochreihe"]                                      # Wange endet so weit unter der Lochreihe
+    blatt.linie(blatt.p(-4 / M, loch)[:2], blatt.p(b + 4 / M, loch)[:2], ebene="verdeckt")
+    blatt.text(f"gestrichelt: Lochreihe der Schiene, {fmt(loch)} über Wangenunterkante", 0, -14 / M, 2.2,
+               ausrichtung=links)
+    blatt.text("Querschnitt C1 / C2, zusammengebaut (Blick von der Heckklappe)", 318, 66 + (h_wange + hb) * M + 8, 2.6,
+               papier=True, ausrichtung=links)
+
+    hinweise = [
+        "Zum Nachmessen nach Lieferung: alle Teile",
+        "kommen gefräst (CNC-Auftrag docs/cnc/schubladen/:",
+        "c1-c2.dxf, c3.dxf, c1-c2-c3-wangen.dxf).",
+        "Maße = Rohteil wie in der DXF, ohne Dogbones.",
+        "",
+        "Vorderkante (Heckklappe) unten im Bild,",
+        f"Maße ab Vorderkante. {wz['anzahl']} Zapfen bzw.",
+        f"Aussparungen je {fmt(wz['laenge'])} breit, an denselben Stellen.",
+        "",
+        f"Brett: Aussparungen {fmt(wst)} × {fmt(wz['laenge'])} an beiden",
+        "Längskanten, offen zum Rand, ganz durch.",
+        f"Wange: Zapfen {fmt(hb + zug)} hoch = {fmt(hb)} Brett + {fmt(zug)} mm",
+        "Schleifzugabe; nach dem Verleimen bündig",
+        "schleifen. Wangen bündig mit den Brettkanten.",
+        "Alle sechs Wangen sind gleich.",
+        "",
+        "Die Schiene wird an die Wange geschraubt",
+        "(Löcher beim Montieren bohren, ADR 0031).",
+    ]
+    for i, zeile in enumerate(hinweise):
+        blatt.text(zeile, 318, 262 - i * 4.6, 2.3, papier=True, ausrichtung=links)
+
+    blatt.rahmen(titel, "Brett + zwei Wangen je Element, flach: Kontur wie die CNC-Datei, bemaßt (ADR 0029, 0031)",
+                 nr, "gleich in beiden Varianten")
+    blatt.linie((25, 46), (37, 46), ebene="kontur")
+    blatt.text("fertige Kontur (Fräslinie)", 40, 46, 2.6, papier=True, ausrichtung=links)
+
+    ordner = ZIEL / variante
+    ordner.mkdir(parents=True, exist_ok=True)
+    pfad = ordner / f"{datei}.svg"
+    blatt.schreiben(pfad)
+    if png:
+        import cairosvg
+        cairosvg.svg2png(url=str(pfad), write_to=str(pfad.with_suffix(".png")),
+                         output_width=2400, background_color="white")
+    return pfad
+
+
 # ── Blatt 1: Übersicht „Bezeichnungen“ ──────────────────────────────────────
 # Isometrie der Box mit Liegefläche (Schlafmodus, ohne Einbauten) und Tabelle aller Kürzel.
 ISO_KAMERA, ISO_ZIEL = (10000, 9000, -13000), (0, 160, 1000)   # von vorn-oben, Fahrerseite (+x)
@@ -941,7 +1078,9 @@ def zeichne_uebersicht(variante, png=False):
     blatt.rahmen("Bezeichnungen", "Übersicht aller Kürzel und Langnamen — die Buchstaben sind Eselsbrücken "
                  "(Bottom, Rear, Side, Mid, Top, Fold, Hinge)", 1, VARIANTEN[variante], massstab="ohne (Übersicht)")
     blatt.text("Blätter: 1 Bezeichnungen · 2–4 Ansichten (1:5) · 5 Box-Bretter (1:10) · "
-               f"6–{BLATT_GESAMT} Einzelbretter zum Sägen (1:5)", 25, 14, 2.2, papier=True, ausrichtung=links)
+               f"6–{5 + len(DETAILBLAETTER)} Einzelbretter zum Sägen (1:5) · "
+               f"{6 + len(DETAILBLAETTER)}–{BLATT_GESAMT} Schubladen und Sitz-/Tischbretter, gefräst (1:5)",
+               25, 14, 2.2, papier=True, ausrichtung=links)
 
     ordner = ZIEL / variante
     ordner.mkdir(parents=True, exist_ok=True)
@@ -992,6 +1131,7 @@ def main():
             blaetter.append(zeichne_detail(variante, datei, titel, bretter, nr, png))
         for nr, (datei, titel, kasten) in enumerate(SCHUBLADENBLAETTER, len(ANSICHTEN) + 3 + len(DETAILBLAETTER)):
             blaetter.append(zeichne_schublade(variante, datei, titel, kasten, nr, png))
+        blaetter.append(zeichne_elemente(variante, *ELEMENTBLATT, BLATT_GESAMT, png))
         print("\n".join(str(b.relative_to(ZIEL.parent.parent)) for b in blaetter if b.parent.name == variante
                         and b.stem not in ANSICHTEN))
         try:

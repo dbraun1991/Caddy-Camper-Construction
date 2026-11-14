@@ -23,7 +23,7 @@ index.html                 — viewer: tab "Dynamisch" (Three.js r128 via CDN), 
 modell/parameter.json      — single source of all build dimensions (mm)
 modell/modell.py           — derives every part as a box + overlap check → modell/modell.js
                               (stdlib only; generated file is committed)
-modell/zeichnungen.py      — build123d: 10 A3 sheets as SVG per corner variant plus
+modell/zeichnungen.py      — build123d: 11 A3 sheets as SVG per corner variant plus
                               werkzeichnungen.pdf (all sheets, for printing)
                               → docs/zeichnungen/ (committed)
 modell/cnc.py              — 2D DXF per board for a CNC routing service, dogbones +
@@ -153,7 +153,11 @@ down.
   at 1:5 (`schublade-d1-d2`, `schublade-d3`, `zeichne_schublade()`: every box
   board flat with the CNC contour from `modell.schubladen_bretter()` minus
   dogbones/clearance, dimensioned: fingers, bottom slots/tabs, windows/holes,
-  grip, runner band), an overview sheet
+  grip, runner band), a sheet for the seat/table elements at 1:5
+  (`elemente-c1-c3`, `zeichne_elemente()`: board and cheek flat with notch/tenon
+  positions and overall sizes, plus a cross-section, for checking the milled
+  parts), every board on every sheet with its overall length and height
+  dimensioned in addition to the chains (builder, 2026-11-15), an overview sheet
   "Bezeichnungen" (sheet 1: isometric view with board codes + table of every
   code and long name, `zeichne_uebersicht()`), all sheets merged into
   `werkzeichnungen.pdf` per variant for printing on A3, DXF files for a CNC
@@ -234,6 +238,10 @@ down.
   provider search (2026-11-07, websites only, nobody contacted) is in
   `Einkaufsliste.md` §1 "Option: CNC-Fräsen statt Zuschnitt", first candidate
   Brockmann Holz, Krefeld. Next step the user named: a draft e-mail to providers.
+  Idea, not for now (builder, 2026-11-15): open question whether we should nest
+  the DXF parts onto a new 18 mm sheet ourselves to cut waste and speed up the
+  job at the shop. Builder's guess: not needed (the shop usually nests;
+  `alle-teile.dxf` is deliberately not nested). Ask when contacting providers.
 - **Open findings from the overlap check** (red in the drawings; details in the
   "Statisch" tab report). Don't silently "fix" open ones in the model; each is
   a build decision for the user:
