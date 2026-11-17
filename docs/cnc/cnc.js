@@ -31,7 +31,8 @@ window.CNC = {
      "schlitze": 6,
      "fenster": 0,
      "fenster_art": "Fenster",
-     "material": "Birke-Multiplex 18 mm"
+     "material": "Birke-Multiplex 18 mm",
+     "kanten_r2": 0
     },
     {
      "datei": "docs/cnc/gezapft/s1-s2.dxf",
@@ -43,7 +44,8 @@ window.CNC = {
      "schlitze": 0,
      "fenster": 0,
      "fenster_art": "Fenster",
-     "material": "Birke-Multiplex 18 mm"
+     "material": "Birke-Multiplex 18 mm",
+     "kanten_r2": 0
     },
     {
      "datei": "docs/cnc/gezapft/m1-m2.dxf",
@@ -55,7 +57,8 @@ window.CNC = {
      "schlitze": 0,
      "fenster": 0,
      "fenster_art": "Fenster",
-     "material": "Birke-Multiplex 18 mm"
+     "material": "Birke-Multiplex 18 mm",
+     "kanten_r2": 0
     },
     {
      "datei": "docs/cnc/gezapft/r1.dxf",
@@ -67,7 +70,8 @@ window.CNC = {
      "schlitze": 2,
      "fenster": 0,
      "fenster_art": "Fenster",
-     "material": "Birke-Multiplex 18 mm"
+     "material": "Birke-Multiplex 18 mm",
+     "kanten_r2": 0
     },
     {
      "datei": "docs/cnc/gezapft/f1.dxf",
@@ -79,7 +83,8 @@ window.CNC = {
      "schlitze": 0,
      "fenster": 0,
      "fenster_art": "Fenster",
-     "material": "Birke-Multiplex 18 mm"
+     "material": "Birke-Multiplex 18 mm",
+     "kanten_r2": 0
     },
     {
      "datei": "docs/cnc/gezapft/f2.dxf",
@@ -91,7 +96,8 @@ window.CNC = {
      "schlitze": 0,
      "fenster": 0,
      "fenster_art": "Fenster",
-     "material": "Birke-Multiplex 18 mm"
+     "material": "Birke-Multiplex 18 mm",
+     "kanten_r2": 0
     }
    ],
    "alle_dxf": "docs/cnc/gezapft/alle-teile.dxf",
@@ -170,7 +176,8 @@ window.CNC = {
      "schlitze": 0,
      "fenster": 0,
      "fenster_art": "Fenster",
-     "material": "Birke-Multiplex 18 mm"
+     "material": "Birke-Multiplex 18 mm",
+     "kanten_r2": 0
     },
     {
      "datei": "docs/cnc/stumpf/s1-s2.dxf",
@@ -182,7 +189,8 @@ window.CNC = {
      "schlitze": 0,
      "fenster": 0,
      "fenster_art": "Fenster",
-     "material": "Birke-Multiplex 18 mm"
+     "material": "Birke-Multiplex 18 mm",
+     "kanten_r2": 0
     },
     {
      "datei": "docs/cnc/stumpf/m1-m2.dxf",
@@ -194,7 +202,8 @@ window.CNC = {
      "schlitze": 0,
      "fenster": 0,
      "fenster_art": "Fenster",
-     "material": "Birke-Multiplex 18 mm"
+     "material": "Birke-Multiplex 18 mm",
+     "kanten_r2": 0
     },
     {
      "datei": "docs/cnc/stumpf/r1.dxf",
@@ -206,7 +215,8 @@ window.CNC = {
      "schlitze": 0,
      "fenster": 0,
      "fenster_art": "Fenster",
-     "material": "Birke-Multiplex 18 mm"
+     "material": "Birke-Multiplex 18 mm",
+     "kanten_r2": 0
     },
     {
      "datei": "docs/cnc/stumpf/f1.dxf",
@@ -218,7 +228,8 @@ window.CNC = {
      "schlitze": 0,
      "fenster": 0,
      "fenster_art": "Fenster",
-     "material": "Birke-Multiplex 18 mm"
+     "material": "Birke-Multiplex 18 mm",
+     "kanten_r2": 0
     },
     {
      "datei": "docs/cnc/stumpf/f2.dxf",
@@ -230,7 +241,8 @@ window.CNC = {
      "schlitze": 0,
      "fenster": 0,
      "fenster_art": "Fenster",
-     "material": "Birke-Multiplex 18 mm"
+     "material": "Birke-Multiplex 18 mm",
+     "kanten_r2": 0
     }
    ],
    "alle_dxf": "docs/cnc/stumpf/alle-teile.dxf",
@@ -320,7 +332,8 @@ window.CNC = {
      "schlitze": 5,
      "fenster": 4,
      "fenster_art": "Fenster",
-     "material": "Birke-Multiplex 18 mm"
+     "material": "Birke-Multiplex 18 mm",
+     "kanten_r2": 33
     },
     {
      "datei": "docs/cnc/schubladen/d1-e1-d2-e1.dxf",
@@ -332,7 +345,8 @@ window.CNC = {
      "schlitze": 2,
      "fenster": 6,
      "fenster_art": "Löcher + Griff",
-     "material": "Birke-Multiplex 18 mm"
+     "material": "Birke-Multiplex 18 mm",
+     "kanten_r2": 15
     },
     {
      "datei": "docs/cnc/schubladen/d1-e2-d2-e2.dxf",
@@ -344,7 +358,8 @@ window.CNC = {
      "schlitze": 2,
      "fenster": 9,
      "fenster_art": "Löcher",
-     "material": "Birke-Multiplex 18 mm"
+     "material": "Birke-Multiplex 18 mm",
+     "kanten_r2": 10
     },
     {
      "datei": "docs/cnc/schubladen/d1-b-d2-b.dxf",
@@ -356,7 +371,8 @@ window.CNC = {
      "schlitze": 0,
      "fenster": 0,
      "fenster_art": "Fenster",
-     "material": "Birke-Multiplex 12 mm"
+     "material": "Birke-Multiplex 12 mm",
+     "kanten_r2": 0
     },
     {
      "datei": "docs/cnc/schubladen/d3-s.dxf",
@@ -368,7 +384,8 @@ window.CNC = {
      "schlitze": 5,
      "fenster": 36,
      "fenster_art": "Löcher",
-     "material": "Birke-Multiplex 18 mm"
+     "material": "Birke-Multiplex 18 mm",
+     "kanten_r2": 37
     },
     {
      "datei": "docs/cnc/schubladen/d3-e1.dxf",
@@ -380,7 +397,8 @@ window.CNC = {
      "schlitze": 2,
      "fenster": 20,
      "fenster_art": "Löcher + Griff",
-     "material": "Birke-Multiplex 18 mm"
+     "material": "Birke-Multiplex 18 mm",
+     "kanten_r2": 29
     },
     {
      "datei": "docs/cnc/schubladen/d3-e2.dxf",
@@ -392,7 +410,8 @@ window.CNC = {
      "schlitze": 2,
      "fenster": 24,
      "fenster_art": "Löcher",
-     "material": "Birke-Multiplex 18 mm"
+     "material": "Birke-Multiplex 18 mm",
+     "kanten_r2": 25
     },
     {
      "datei": "docs/cnc/schubladen/d3-b.dxf",
@@ -404,7 +423,8 @@ window.CNC = {
      "schlitze": 0,
      "fenster": 0,
      "fenster_art": "Fenster",
-     "material": "Birke-Multiplex 12 mm"
+     "material": "Birke-Multiplex 12 mm",
+     "kanten_r2": 0
     },
     {
      "datei": "docs/cnc/schubladen/c1-c2.dxf",
@@ -416,7 +436,8 @@ window.CNC = {
      "schlitze": 0,
      "fenster": 0,
      "fenster_art": "Fenster",
-     "material": "Birke-Multiplex 18 mm"
+     "material": "Birke-Multiplex 18 mm",
+     "kanten_r2": 14
     },
     {
      "datei": "docs/cnc/schubladen/c1-c2-c3-wangen.dxf",
@@ -428,7 +449,8 @@ window.CNC = {
      "schlitze": 0,
      "fenster": 0,
      "fenster_art": "Fenster",
-     "material": "Birke-Multiplex 18 mm"
+     "material": "Birke-Multiplex 18 mm",
+     "kanten_r2": 0
     },
     {
      "datei": "docs/cnc/schubladen/c3.dxf",
@@ -440,7 +462,8 @@ window.CNC = {
      "schlitze": 0,
      "fenster": 0,
      "fenster_art": "Fenster",
-     "material": "Birke-Multiplex 18 mm"
+     "material": "Birke-Multiplex 18 mm",
+     "kanten_r2": 14
     }
    ],
    "alle_dxf": "docs/cnc/schubladen/alle-teile.dxf",
@@ -462,7 +485,8 @@ window.CNC = {
       "DXF (AutoCAD 2013, `AC1027`), Maßstab 1:1, Einheit **mm**, Ursprung links unten am Teil.",
       "Layer `AUSSENKONTUR` (rot): Außenkontur, durchfräsen, Fräser außen an der Linie.",
       "Layer `INNENKONTUR` (blau): geschlossene Schlitze, Fenster und Löcher der Seitenwände, durchfräsen, Fräser innen an der Linie.",
-      "Alle Konturen geschlossen. Nur Linien und Kreisbögen, keine Beschriftung, keine Bohrungen, keine Taschen — alles ist ein 2D-Durchschnitt.",
+      "Layer `KANTE_R2` (grün): **Kantenbruch R2** an der Oberseite — dieselben Linien wie die Kontur darunter, dort mit Abrundfräser (Viertelstabfräser) R2 nachfahren. Keine Durchfräsung.",
+      "Alle Konturen geschlossen. Nur Linien und Kreisbögen, keine Beschriftung, keine Bohrungen, keine Taschen — alles ist ein 2D-Durchschnitt außer dem Kantenbruch R2.",
       "`alle-teile.dxf` enthält jedes Teil in Auftragsstückzahl nebeneinander, mit 20 mm Abstand — nur zur Übersicht, **kein Nesting**. Die Verteilung auf die Platten macht der Dienstleister."
      ]
     },
@@ -490,7 +514,7 @@ window.CNC = {
       "**Faserrichtung egal**: Die Teile dürfen beim Nesting beliebig gedreht werden. Wenden (Rückseite nach oben) ist ebenfalls erlaubt: Jedes Teil ist spiegelsymmetrisch (D1-S / D2-S links/rechts, D1-E1 / D2-E1 links/rechts, D1-E2 / D2-E2 links/rechts, D1-B / D2-B links/rechts + oben/unten, D3-S links/rechts, D3-E1 links/rechts, D3-E2 links/rechts, D3-B links/rechts + oben/unten, C1 / C2 links/rechts + oben/unten, C1-Wa/b / C2-Wa/b / C3-Wa/b links/rechts, C3 links/rechts + oben/unten), gewendet entsteht dasselbe Teil.",
       "**Keine Bohrungen**: Die Schienen (auch die M6-Löcher der 170-kg-Schienen in den Wangen) werden beim Zusammenbau angerissen und gebohrt.",
       "**Keine Frontblenden** (ADR 0027): Die Kastenfront `-E1` ist die sichtbare Front, mit gefrästem Griff.",
-      "**Kanten**: keine Fase, kein Radius an den Außenkanten. Die Kanten am Griff werden von Hand gebrochen."
+      "**Kantenbruch R2** (Abrundfräser, nur von oben, eine Aufspannung) an allen Kanten auf Layer `KANTE_R2`: Oberkante der Kastenwände (`-S`, `-E1`, `-E2`), Griffausschnitt, Fenster und Löcher, die Sitz-/Tischbretter C1–C3 ringsum. **Nicht** an Zinken, Zapfen, Schlitzen, Aussparungen und Böden — Fügeflächen bleiben scharfkantig. Die Unterseite bricht der Bauherr von Hand (ADR 0034)."
      ]
     }
    ]

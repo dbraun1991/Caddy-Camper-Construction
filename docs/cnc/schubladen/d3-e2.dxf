@@ -493,7 +493,7 @@ $SKPOLY
   9
 $TDCREATE
  40
-2461362.966099537
+2461362.9685185184
   9
 $TDUCREATE
  40
@@ -501,7 +501,7 @@ $TDUCREATE
   9
 $TDUPDATE
  40
-2461362.966099537
+2461362.9685185184
   9
 $TDUUPDATE
  40
@@ -553,7 +553,7 @@ $SPLINESEGS
   9
 $HANDSEED
   5
-85
+9F
   9
 $SURFTAB1
  70
@@ -933,11 +933,11 @@ $PSTYLEMODE
   9
 $FINGERPRINTGUID
   2
-{EE77B391-BD80-4316-A173-630935372319}
+{1ECEAD92-BC92-4341-A12B-E62029A02EE5}
   9
 $VERSIONGUID
   2
-{6B052B29-76E0-487F-BE3A-7261782E23D3}
+{F164C3F4-A682-41C6-A86C-743DE35DE1CD}
   9
 $EXTNAMES
 290
@@ -1327,9 +1327,9 @@ ISM
   0
 CLASS
   1
-ACDBPLACEHOLDER
+LAYOUT
   2
-AcDbPlaceHolder
+AcDbLayout
   3
 ObjectDBX Classes
  90
@@ -1343,9 +1343,9 @@ ObjectDBX Classes
   0
 CLASS
   1
-LAYOUT
+ACDBPLACEHOLDER
   2
-AcDbLayout
+AcDbPlaceHolder
   3
 ObjectDBX Classes
  90
@@ -1377,7 +1377,7 @@ AcDbSymbolTable
   0
 VPORT
   5
-81
+9B
 330
 8
 100
@@ -1573,7 +1573,7 @@ LAYER
 100
 AcDbSymbolTable
  70
-4
+5
   0
 LAYER
   5
@@ -1664,6 +1664,30 @@ INNENKONTUR
 0
  62
 5
+  6
+Continuous
+370
+-3
+390
+13
+347
+21
+  0
+LAYER
+  5
+31
+330
+1
+100
+AcDbSymbolTableRecord
+100
+AcDbLayerTableRecord
+  2
+KANTE_R2
+ 70
+0
+ 62
+3
   6
 Continuous
 370
@@ -1773,7 +1797,7 @@ ACAD
   0
 APPID
   5
-82
+9C
 330
 3
 100
@@ -1787,7 +1811,7 @@ HATCHBACKGROUNDCOLOR
   0
 APPID
   5
-83
+9D
 330
 3
 100
@@ -2097,7 +2121,7 @@ ENTITIES
   0
 LINE
   5
-31
+32
 330
 17
 100
@@ -2121,7 +2145,7 @@ AcDbLine
   0
 LINE
   5
-32
+33
 330
 17
 100
@@ -2145,7 +2169,7 @@ AcDbLine
   0
 ARC
   5
-33
+34
 330
 17
 100
@@ -2171,7 +2195,7 @@ AcDbArc
   0
 LINE
   5
-34
+35
 330
 17
 100
@@ -2195,7 +2219,7 @@ AcDbLine
   0
 LINE
   5
-35
+36
 330
 17
 100
@@ -2219,7 +2243,7 @@ AcDbLine
   0
 LINE
   5
-36
+37
 330
 17
 100
@@ -2243,7 +2267,7 @@ AcDbLine
   0
 ARC
   5
-37
+38
 330
 17
 100
@@ -2269,7 +2293,7 @@ AcDbArc
   0
 LINE
   5
-38
+39
 330
 17
 100
@@ -2293,7 +2317,7 @@ AcDbLine
   0
 LINE
   5
-39
+3A
 330
 17
 100
@@ -2317,7 +2341,7 @@ AcDbLine
   0
 LINE
   5
-3A
+3B
 330
 17
 100
@@ -2341,7 +2365,7 @@ AcDbLine
   0
 ARC
   5
-3B
+3C
 330
 17
 100
@@ -2367,7 +2391,7 @@ AcDbArc
   0
 LINE
   5
-3C
+3D
 330
 17
 100
@@ -2391,7 +2415,7 @@ AcDbLine
   0
 ARC
   5
-3D
+3E
 330
 17
 100
@@ -2417,7 +2441,7 @@ AcDbArc
   0
 LINE
   5
-3E
+3F
 330
 17
 100
@@ -2441,7 +2465,7 @@ AcDbLine
   0
 LINE
   5
-3F
+40
 330
 17
 100
@@ -2465,7 +2489,7 @@ AcDbLine
   0
 LINE
   5
-40
+41
 330
 17
 100
@@ -2489,7 +2513,7 @@ AcDbLine
   0
 ARC
   5
-41
+42
 330
 17
 100
@@ -2515,7 +2539,7 @@ AcDbArc
   0
 LINE
   5
-42
+43
 330
 17
 100
@@ -2539,7 +2563,7 @@ AcDbLine
   0
 ARC
   5
-43
+44
 330
 17
 100
@@ -2565,7 +2589,7 @@ AcDbArc
   0
 LINE
   5
-44
+45
 330
 17
 100
@@ -2589,7 +2613,7 @@ AcDbLine
   0
 LINE
   5
-45
+46
 330
 17
 100
@@ -2613,7 +2637,7 @@ AcDbLine
   0
 LINE
   5
-46
+47
 330
 17
 100
@@ -2637,7 +2661,7 @@ AcDbLine
   0
 ARC
   5
-47
+48
 330
 17
 100
@@ -2663,7 +2687,7 @@ AcDbArc
   0
 LINE
   5
-48
+49
 330
 17
 100
@@ -2687,7 +2711,7 @@ AcDbLine
   0
 LINE
   5
-49
+4A
 330
 17
 100
@@ -2711,7 +2735,7 @@ AcDbLine
   0
 LINE
   5
-4A
+4B
 330
 17
 100
@@ -2735,7 +2759,7 @@ AcDbLine
   0
 ARC
   5
-4B
+4C
 330
 17
 100
@@ -2761,7 +2785,7 @@ AcDbArc
   0
 LINE
   5
-4C
+4D
 330
 17
 100
@@ -2785,7 +2809,7 @@ AcDbLine
   0
 LINE
   5
-4D
+4E
 330
 17
 100
@@ -2809,7 +2833,7 @@ AcDbLine
   0
 LINE
   5
-4E
+4F
 330
 17
 100
@@ -2833,7 +2857,7 @@ AcDbLine
   0
 ARC
   5
-4F
+50
 330
 17
 100
@@ -2859,7 +2883,7 @@ AcDbArc
   0
 LINE
   5
-50
+51
 330
 17
 100
@@ -2883,7 +2907,7 @@ AcDbLine
   0
 ARC
   5
-51
+52
 330
 17
 100
@@ -2909,7 +2933,7 @@ AcDbArc
   0
 LINE
   5
-52
+53
 330
 17
 100
@@ -2933,7 +2957,7 @@ AcDbLine
   0
 LINE
   5
-53
+54
 330
 17
 100
@@ -2957,7 +2981,7 @@ AcDbLine
   0
 LINE
   5
-54
+55
 330
 17
 100
@@ -2981,7 +3005,7 @@ AcDbLine
   0
 ARC
   5
-55
+56
 330
 17
 100
@@ -3007,7 +3031,7 @@ AcDbArc
   0
 LINE
   5
-56
+57
 330
 17
 100
@@ -3031,7 +3055,7 @@ AcDbLine
   0
 ARC
   5
-57
+58
 330
 17
 100
@@ -3057,7 +3081,7 @@ AcDbArc
   0
 LINE
   5
-58
+59
 330
 17
 100
@@ -3081,7 +3105,7 @@ AcDbLine
   0
 LINE
   5
-59
+5A
 330
 17
 100
@@ -3105,7 +3129,7 @@ AcDbLine
   0
 ARC
   5
-5A
+5B
 330
 17
 100
@@ -3131,7 +3155,7 @@ AcDbArc
   0
 LINE
   5
-5B
+5C
 330
 17
 100
@@ -3155,7 +3179,7 @@ AcDbLine
   0
 ARC
   5
-5C
+5D
 330
 17
 100
@@ -3181,7 +3205,7 @@ AcDbArc
   0
 LINE
   5
-5D
+5E
 330
 17
 100
@@ -3205,7 +3229,7 @@ AcDbLine
   0
 ARC
   5
-5E
+5F
 330
 17
 100
@@ -3231,7 +3255,7 @@ AcDbArc
   0
 LINE
   5
-5F
+60
 330
 17
 100
@@ -3255,7 +3279,7 @@ AcDbLine
   0
 ARC
   5
-60
+61
 330
 17
 100
@@ -3281,7 +3305,7 @@ AcDbArc
   0
 CIRCLE
   5
-61
+62
 330
 17
 100
@@ -3301,7 +3325,7 @@ AcDbCircle
   0
 CIRCLE
   5
-62
+63
 330
 17
 100
@@ -3321,7 +3345,7 @@ AcDbCircle
   0
 CIRCLE
   5
-63
+64
 330
 17
 100
@@ -3341,7 +3365,7 @@ AcDbCircle
   0
 LINE
   5
-64
+65
 330
 17
 100
@@ -3365,7 +3389,7 @@ AcDbLine
   0
 ARC
   5
-65
+66
 330
 17
 100
@@ -3391,7 +3415,7 @@ AcDbArc
   0
 LINE
   5
-66
+67
 330
 17
 100
@@ -3415,7 +3439,7 @@ AcDbLine
   0
 ARC
   5
-67
+68
 330
 17
 100
@@ -3441,7 +3465,7 @@ AcDbArc
   0
 LINE
   5
-68
+69
 330
 17
 100
@@ -3465,7 +3489,7 @@ AcDbLine
   0
 ARC
   5
-69
+6A
 330
 17
 100
@@ -3491,7 +3515,7 @@ AcDbArc
   0
 LINE
   5
-6A
+6B
 330
 17
 100
@@ -3515,7 +3539,7 @@ AcDbLine
   0
 ARC
   5
-6B
+6C
 330
 17
 100
@@ -3541,26 +3565,6 @@ AcDbArc
   0
 CIRCLE
   5
-6C
-330
-17
-100
-AcDbEntity
-  8
-INNENKONTUR
-100
-AcDbCircle
- 10
-213.0
- 20
-65.75
- 30
-0.0
- 40
-12.5
-  0
-CIRCLE
-  5
 6D
 330
 17
@@ -3571,7 +3575,7 @@ INNENKONTUR
 100
 AcDbCircle
  10
-253.0
+213.0
  20
 65.75
  30
@@ -3591,7 +3595,7 @@ INNENKONTUR
 100
 AcDbCircle
  10
-293.0
+253.0
  20
 65.75
  30
@@ -3611,9 +3615,9 @@ INNENKONTUR
 100
 AcDbCircle
  10
-93.0
+293.0
  20
-105.75
+65.75
  30
 0.0
  40
@@ -3633,7 +3637,7 @@ AcDbCircle
  10
 93.0
  20
-145.75
+105.75
  30
 0.0
  40
@@ -3651,9 +3655,9 @@ INNENKONTUR
 100
 AcDbCircle
  10
-133.0
+93.0
  20
-105.75
+145.75
  30
 0.0
  40
@@ -3671,7 +3675,7 @@ INNENKONTUR
 100
 AcDbCircle
  10
-173.0
+133.0
  20
 105.75
  30
@@ -3691,9 +3695,9 @@ INNENKONTUR
 100
 AcDbCircle
  10
-133.0
+173.0
  20
-145.75
+105.75
  30
 0.0
  40
@@ -3711,7 +3715,7 @@ INNENKONTUR
 100
 AcDbCircle
  10
-173.0
+133.0
  20
 145.75
  30
@@ -3731,9 +3735,9 @@ INNENKONTUR
 100
 AcDbCircle
  10
-93.0
+173.0
  20
-185.75
+145.75
  30
 0.0
  40
@@ -3751,7 +3755,7 @@ INNENKONTUR
 100
 AcDbCircle
  10
-133.0
+93.0
  20
 185.75
  30
@@ -3771,7 +3775,7 @@ INNENKONTUR
 100
 AcDbCircle
  10
-173.0
+133.0
  20
 185.75
  30
@@ -3791,9 +3795,9 @@ INNENKONTUR
 100
 AcDbCircle
  10
-213.0
+173.0
  20
-105.75
+185.75
  30
 0.0
  40
@@ -3811,7 +3815,7 @@ INNENKONTUR
 100
 AcDbCircle
  10
-253.0
+213.0
  20
 105.75
  30
@@ -3831,9 +3835,9 @@ INNENKONTUR
 100
 AcDbCircle
  10
-213.0
+253.0
  20
-145.75
+105.75
  30
 0.0
  40
@@ -3851,7 +3855,7 @@ INNENKONTUR
 100
 AcDbCircle
  10
-253.0
+213.0
  20
 145.75
  30
@@ -3871,9 +3875,9 @@ INNENKONTUR
 100
 AcDbCircle
  10
-293.0
+253.0
  20
-105.75
+145.75
  30
 0.0
  40
@@ -3893,7 +3897,7 @@ AcDbCircle
  10
 293.0
  20
-145.75
+105.75
  30
 0.0
  40
@@ -3902,6 +3906,26 @@ AcDbCircle
 CIRCLE
   5
 7E
+330
+17
+100
+AcDbEntity
+  8
+INNENKONTUR
+100
+AcDbCircle
+ 10
+293.0
+ 20
+145.75
+ 30
+0.0
+ 40
+12.5
+  0
+CIRCLE
+  5
+7F
 330
 17
 100
@@ -3921,7 +3945,7 @@ AcDbCircle
   0
 CIRCLE
   5
-7F
+80
 330
 17
 100
@@ -3941,13 +3965,517 @@ AcDbCircle
   0
 CIRCLE
   5
-80
+81
 330
 17
 100
 AcDbEntity
   8
 INNENKONTUR
+100
+AcDbCircle
+ 10
+293.0
+ 20
+185.75
+ 30
+0.0
+ 40
+12.5
+  0
+LINE
+  5
+82
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
+100
+AcDbLine
+ 10
+366.9
+ 20
+229.5
+ 30
+0.0
+ 11
+19.099999999999994
+ 21
+229.5
+ 31
+0.0
+  0
+CIRCLE
+  5
+83
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
+100
+AcDbCircle
+ 10
+93.0
+ 20
+65.75
+ 30
+0.0
+ 40
+12.5
+  0
+CIRCLE
+  5
+84
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
+100
+AcDbCircle
+ 10
+133.0
+ 20
+65.75
+ 30
+0.0
+ 40
+12.5
+  0
+CIRCLE
+  5
+85
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
+100
+AcDbCircle
+ 10
+173.0
+ 20
+65.75
+ 30
+0.0
+ 40
+12.5
+  0
+CIRCLE
+  5
+86
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
+100
+AcDbCircle
+ 10
+213.0
+ 20
+65.75
+ 30
+0.0
+ 40
+12.5
+  0
+CIRCLE
+  5
+87
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
+100
+AcDbCircle
+ 10
+253.0
+ 20
+65.75
+ 30
+0.0
+ 40
+12.5
+  0
+CIRCLE
+  5
+88
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
+100
+AcDbCircle
+ 10
+293.0
+ 20
+65.75
+ 30
+0.0
+ 40
+12.5
+  0
+CIRCLE
+  5
+89
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
+100
+AcDbCircle
+ 10
+93.0
+ 20
+105.75
+ 30
+0.0
+ 40
+12.5
+  0
+CIRCLE
+  5
+8A
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
+100
+AcDbCircle
+ 10
+93.0
+ 20
+145.75
+ 30
+0.0
+ 40
+12.5
+  0
+CIRCLE
+  5
+8B
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
+100
+AcDbCircle
+ 10
+133.0
+ 20
+105.75
+ 30
+0.0
+ 40
+12.5
+  0
+CIRCLE
+  5
+8C
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
+100
+AcDbCircle
+ 10
+173.0
+ 20
+105.75
+ 30
+0.0
+ 40
+12.5
+  0
+CIRCLE
+  5
+8D
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
+100
+AcDbCircle
+ 10
+133.0
+ 20
+145.75
+ 30
+0.0
+ 40
+12.5
+  0
+CIRCLE
+  5
+8E
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
+100
+AcDbCircle
+ 10
+173.0
+ 20
+145.75
+ 30
+0.0
+ 40
+12.5
+  0
+CIRCLE
+  5
+8F
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
+100
+AcDbCircle
+ 10
+93.0
+ 20
+185.75
+ 30
+0.0
+ 40
+12.5
+  0
+CIRCLE
+  5
+90
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
+100
+AcDbCircle
+ 10
+133.0
+ 20
+185.75
+ 30
+0.0
+ 40
+12.5
+  0
+CIRCLE
+  5
+91
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
+100
+AcDbCircle
+ 10
+173.0
+ 20
+185.75
+ 30
+0.0
+ 40
+12.5
+  0
+CIRCLE
+  5
+92
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
+100
+AcDbCircle
+ 10
+213.0
+ 20
+105.75
+ 30
+0.0
+ 40
+12.5
+  0
+CIRCLE
+  5
+93
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
+100
+AcDbCircle
+ 10
+253.0
+ 20
+105.75
+ 30
+0.0
+ 40
+12.5
+  0
+CIRCLE
+  5
+94
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
+100
+AcDbCircle
+ 10
+213.0
+ 20
+145.75
+ 30
+0.0
+ 40
+12.5
+  0
+CIRCLE
+  5
+95
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
+100
+AcDbCircle
+ 10
+253.0
+ 20
+145.75
+ 30
+0.0
+ 40
+12.5
+  0
+CIRCLE
+  5
+96
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
+100
+AcDbCircle
+ 10
+293.0
+ 20
+105.75
+ 30
+0.0
+ 40
+12.5
+  0
+CIRCLE
+  5
+97
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
+100
+AcDbCircle
+ 10
+293.0
+ 20
+145.75
+ 30
+0.0
+ 40
+12.5
+  0
+CIRCLE
+  5
+98
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
+100
+AcDbCircle
+ 10
+213.0
+ 20
+185.75
+ 30
+0.0
+ 40
+12.5
+  0
+CIRCLE
+  5
+99
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
+100
+AcDbCircle
+ 10
+253.0
+ 20
+185.75
+ 30
+0.0
+ 40
+12.5
+  0
+CIRCLE
+  5
+9A
+330
+17
+100
+AcDbEntity
+  8
+KANTE_R2
 100
 AcDbCircle
  10
@@ -4949,7 +5477,7 @@ CREATED_BY_EZDXF
   3
 WRITTEN_BY_EZDXF
 350
-84
+9E
   0
 DICTIONARYVAR
   5
@@ -4961,11 +5489,11 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-17T22:11:11.050280+00:00
+1.4.5 @ 2026-11-17T22:14:40.849252+00:00
   0
 DICTIONARYVAR
   5
-84
+9E
 330
 2D
 100
@@ -4973,7 +5501,7 @@ DictionaryVariables
 280
 0
   1
-1.4.5 @ 2026-11-17T22:11:11.063042+00:00
+1.4.5 @ 2026-11-17T22:14:40.867427+00:00
   0
 ENDSEC
   0

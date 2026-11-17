@@ -154,6 +154,8 @@
     "plattenstaerke": 18,
     "material": "Birke-Multiplex 18 mm",
     "teileabstand": 20,
+    "kantenbruch": { "radius": 2, "auftraege": ["schubladen"] },
+    "_kantenbruch": "Gefräster Kantenbruch (ADR 0034): Abrundfräser R `radius`, nur von oben (eine Aufspannung), nur an den Kanten auf Layer KANTE_R2 — Oberkante der Kastenwände, Griff, Fenster, Löcher, Sitz-/Tischbretter ringsum. Fügeflächen (Zinken, Zapfen, Schlitze, Aussparungen) bleiben scharf. Unterseite von Hand. Korpus-Auftrag ohne (Bretter liegen schon zugeschnitten vor)",
     "platte": { "laenge": 2500, "breite": 1250, "randstreifen": 10 },
     "_platte": "Nur für die Plattenzählung (cnc.py, ADR 0033): Standardformat Birke-Multiplex, Faser der Decklage längs der 2.500-mm-Seite; jedes Teil liegt mit seiner langen Seite längs. Randstreifen = umlaufend unbrauchbarer Plattenrand. Grobe Rechteck-Anordnung (Hüllrechtecke, `teileabstand` dazwischen) — der Dienstleister nestet selbst und kommt eher mit weniger Platten aus"
   },

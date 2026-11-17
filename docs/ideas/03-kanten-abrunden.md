@@ -1,6 +1,6 @@
 # Idee: Gefräste Kanten leicht abrunden
 
-Status: offen · notiert 2026-11-17
+Status: umgesetzt 2026-11-17 → [ADR 0034](../adrs/0034-milled-r2-edge-break-top-side-only.md) · notiert 2026-11-17
 
 ## Frage
 

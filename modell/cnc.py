@@ -38,7 +38,7 @@ BRETTER = [
     ("f1", ["F1"], "oben", "Klappbrett Rücksitz ({F1})"),
     ("f2", ["F2"], "oben", "Klappbrett Kopfende ({F2})"),
 ]
-LAYER_AUSSEN, LAYER_INNEN = "AUSSENKONTUR", "INNENKONTUR"
+LAYER_AUSSEN, LAYER_INNEN, LAYER_KANTE = "AUSSENKONTUR", "INNENKONTUR", "KANTE_R2"
 
 
 def eselsbruecke(id):
@@ -147,15 +147,19 @@ def _signatur(flaeche):
 
 
 def _dxf(teile, pfad):
-    """teile: Liste (Face, Versatz u, Versatz v)."""
+    """teile: Liste (Face, Versatz u, Versatz v[, Kanten mit Kantenbruch])."""
     dxf = bd.ExportDXF(unit=bd.Unit.MM)
     dxf.add_layer(LAYER_AUSSEN, color=bd.ColorIndex.RED)
     dxf.add_layer(LAYER_INNEN, color=bd.ColorIndex.BLUE)
-    for flaeche, du, dv in teile:
+    if any(len(t) > 3 and t[3] for t in teile):
+        dxf.add_layer(LAYER_KANTE, color=bd.ColorIndex.GREEN)
+    for flaeche, du, dv, *kanten in teile:
         verschoben = bd.Pos(du, dv) * flaeche
         dxf.add_shape(verschoben.outer_wire(), layer=LAYER_AUSSEN)
         for w in verschoben.inner_wires():
             dxf.add_shape(w, layer=LAYER_INNEN)
+        for k in (kanten[0] if kanten else []):
+            dxf.add_shape(bd.Pos(du, dv) * k, layer=LAYER_KANTE)
     dxf.write(str(pfad))
 
 
@@ -169,9 +173,10 @@ def _schreibe(ordner, pfad, zeilen, flaechen, titel, abschnitte_liste):
     abstand = modell.lade_parameter()["cnc"]["teileabstand"]
     sammlung, v = [], 0
     for zl, (flaeche, breite, hoehe) in zip(zeilen, flaechen):
-        _dxf([(flaeche, 0, 0)], ordner / zl["datei"])
-        _vorschau([(flaeche, 0, 0)], ordner / "vorschau" / f"{zl['datei'][:-4]}.svg", 5)
-        sammlung += [(flaeche, i * (breite + abstand), v) for i in range(zl["stk"])]
+        kanten = zl.get("_kanten", [])
+        _dxf([(flaeche, 0, 0, kanten)], ordner / zl["datei"])
+        _vorschau([(flaeche, 0, 0, kanten)], ordner / "vorschau" / f"{zl['datei'][:-4]}.svg", 5)
+        sammlung += [(flaeche, i * (breite + abstand), v, kanten) for i in range(zl["stk"])]
         v += hoehe + abstand
     _dxf(sammlung, ordner / "alle-teile.dxf")
     _vorschau(sammlung, ordner / "vorschau" / "alle-teile.svg", 6)
@@ -183,7 +188,7 @@ def _schreibe(ordner, pfad, zeilen, flaechen, titel, abschnitte_liste):
         "teile": [{"datei": f"{pfad}/{zl['datei']}", "vorschau": f"{pfad}/vorschau/{zl['datei'][:-4]}.svg",
                    "kuerzel": zl["kuerzel"], "name": zl["name"], "stk": zl["stk"], "mass": zl["mass"],
                    "schlitze": zl["schlitze"], "fenster": zl["fenster"], "fenster_art": zl.get("fenster_art", "Fenster"),
-                   "material": zl["material"]}
+                   "material": zl["material"], "kanten_r2": len(zl.get("_kanten", []))}
                   for zl in zeilen],
         "alle_dxf": f"{pfad}/alle-teile.dxf", "alle_vorschau": f"{pfad}/vorschau/alle-teile.svg",
         "auftrag": f"{pfad}/AUFTRAG.md",
@@ -216,6 +221,34 @@ def erzeuge(variante):
                                               abschnitte(variante, p, zeilen))
 
 
+def _kanten_r2(flaeche, oben=None, bereich=None, fenster=(), ringsum=False):
+    """Kanten mit gefrästem Kantenbruch (ADR 0034) als Liste von Edges.
+
+    oben: v der Oberkante — die waagerechten Kanten darauf (Rand der Kastenwand) · bereich: (u0, v0, u1, v1),
+    jede Kante der Außenkontur ganz darin (Griffausschnitt) · fenster: (u0, v0, u1, v1, r) — Innenkonturen mit
+    dieser Mitte (Fenster, Löcher; Schlitze nicht) · ringsum: Außenkontur, soweit sie auf dem Hüllrechteck liegt
+    (Sitz-/Tischbrett: ohne die Böden der Aussparungen für die Wangenzapfen)."""
+    e = 1e-3
+    bb = flaeche.bounding_box()
+    out = []
+    for k in flaeche.outer_wire().edges():
+        a, b = k.start_point(), k.end_point()
+        if oben is not None and abs(a.Y - oben) < e and abs(b.Y - oben) < e:
+            out.append(k)
+        elif bereich and all(bereich[0] - e <= q.X <= bereich[2] + e and bereich[1] - e <= q.Y <= bereich[3] + e
+                             for q in (a, b, k.center())):
+            out.append(k)
+        elif ringsum and any(all(abs(getattr(q, ach) - wert) < e for q in (a, b))
+                             for ach, wert in (("X", bb.min.X), ("X", bb.max.X), ("Y", bb.min.Y), ("Y", bb.max.Y))):
+            out.append(k)
+    mitten = [((f[0] + f[2]) / 2, (f[1] + f[3]) / 2) for f in fenster]
+    for w in flaeche.inner_wires():
+        m = w.bounding_box().center()
+        if any(abs(m.X - u) < 0.5 and abs(m.Y - v) < 0.5 for u, v in mitten):
+            out += w.edges()
+    return out
+
+
 def erzeuge_schubladen():
     """Zweiter Auftrag: Wände und Böden der Schubladenkästen D1–D3 (ADR 0024)."""
     p = modell.lade_parameter()
@@ -227,13 +260,21 @@ def erzeuge_schubladen():
             ecke = bd.Pos(u + seite * r / 2, v - r / 2) * bd.Rectangle(r, r) - bd.Pos(mu, v - r) * bd.Circle(r)
             flaeche = (flaeche - ecke).faces()[0]
         datei = "-".join(i.lower() for i in b["ids"]) + ".dxf"   # z. B. d1-s-d2-s.dxf
+        kanten = []
+        if "schubladen" in p["cnc"]["kantenbruch"]["auftraege"] and not b["id"].endswith("-B"):
+            griff = b.get("griff", [])                    # Ausschnitt samt gerundeten oberen Außenecken
+            ro = max([r for _, _, r, _ in b.get("griff_ecken", [])] + [0])
+            bereich = (griff[0][0] - ro, griff[0][1], griff[0][2] + ro, b["hoehe"]) if griff and griff[0][3] > b["hoehe"] else None
+            kanten = _kanten_r2(flaeche, oben=b["hoehe"], bereich=bereich,
+                                fenster=b["fenster"] + [g for g in griff if g[3] <= b["hoehe"]])
         zeilen.append(_zeile(datei, b["ids"], b["name"], b["stk"], flaeche, b["breite"], b["hoehe"],
                              f"Birke-Multiplex {zeichnungen.fmt(b['staerke'])} mm", len(b["fenster"])))
         flaechen.append((flaeche, b["breite"], b["hoehe"]))
         voll = kontur(p, b["behalten"], b["loecher"]).area           # ohne Fenster, Löcher und Griff
         rund = b["fenster"] and b["fenster"][0][4] * 2 == b["fenster"][0][2] - b["fenster"][0][0]
         zeilen[-1].update(_staerke=b["staerke"], _flaeche=flaeche.area, _voll=voll,
-                          fenster_art=("Löcher" if rund else "Fenster") + (" + Griff" if b.get("griff") else ""))
+                          fenster_art=("Löcher" if rund else "Fenster") + (" + Griff" if b.get("griff") else ""),
+                          _kanten=kanten)
     zeilen_c, flaechen_c = brettelemente(p)
     zeilen += zeilen_c
     flaechen += flaechen_c
@@ -281,7 +322,9 @@ def brettelemente(p):
             name = " / ".join(f"{modell.ELEMENTE[c]} ({c})" for c in ids)
             datei = "-".join(c.lower() for c in ids) + ".dxf"
         zeilen.append(_zeile(datei, kuerzel, name, len(ids), flaeche, breite, hoehe, p["cnc"]["material"]))
-        zeilen[-1].update(_staerke=staerke, _flaeche=flaeche.area, _voll=flaeche.area)
+        kanten = (_kanten_r2(flaeche, ringsum=True)
+                  if "-W" not in ids[0] and "schubladen" in p["cnc"]["kantenbruch"]["auftraege"] else [])
+        zeilen[-1].update(_staerke=staerke, _flaeche=flaeche.area, _voll=flaeche.area, _kanten=kanten)
         flaechen.append((flaeche, breite, hoehe))
     return zeilen, flaechen
 
@@ -304,14 +347,17 @@ def _ecken(c):
             "Innenecken sind **scharfkantig** gezeichnet — der Dienstleister setzt die Freischnitte (Dogbones) selbst.")
 
 
-def _dateien(c, innen="geschlossene Schlitze"):
+def _dateien(c, innen="geschlossene Schlitze", kante=False):
     f = zeichnungen.fmt
+    r = f(c["kantenbruch"]["radius"])
     return ("Dateien", "liste", [
         "DXF (AutoCAD 2013, `AC1027`), Maßstab 1:1, Einheit **mm**, Ursprung links unten am Teil.",
         f"Layer `{LAYER_AUSSEN}` (rot): Außenkontur, durchfräsen, Fräser außen an der Linie.",
         f"Layer `{LAYER_INNEN}` (blau): {innen}, durchfräsen, Fräser innen an der Linie.",
+    ] + ([f"Layer `{LAYER_KANTE}` (grün): **Kantenbruch R{r}** an der Oberseite — dieselben Linien wie die Kontur "
+          f"darunter, dort mit Abrundfräser (Viertelstabfräser) R{r} nachfahren. Keine Durchfräsung."] if kante else []) + [
         "Alle Konturen geschlossen. Nur Linien und Kreisbögen, keine Beschriftung, keine Bohrungen, "
-        "keine Taschen — alles ist ein 2D-Durchschnitt.",
+        "keine Taschen — alles ist ein 2D-Durchschnitt" + (f" außer dem Kantenbruch R{r}." if kante else "."),
         f"`alle-teile.dxf` enthält jedes Teil in Auftragsstückzahl nebeneinander, mit {f(c['teileabstand'])} mm "
         "Abstand — nur zur Übersicht, **kein Nesting**. Die Verteilung auf die Platten macht der Dienstleister.",
     ])
@@ -365,6 +411,8 @@ def abschnitte_schubladen(p, zeilen):
     c, s, z = p["cnc"], p["schubladen"], p["zapfen"]
     f = zeichnungen.fmt
     T, Tb, bz, fe = s["wandstaerke"], s["bodenstaerke"], s["bodenzapfen"], s["fenster"]
+    kb = "schubladen" in c["kantenbruch"]["auftraege"]
+    r = f(c["kantenbruch"]["radius"])
     stk = sum(zl["stk"] for zl in zeilen)
     e, wz = p["elemente"], p["elemente"]["wangenzapfen"]
     alle = modell.teile(p)
@@ -382,7 +430,7 @@ def abschnitte_schubladen(p, zeilen):
             f"(alles {f(e['brett_staerke'])} mm).",
             f"Gewicht aller Teile ca. **{f(round(gewicht, 1))} kg** (ohne Fenster, Löcher und Griffe "
             f"wären es {f(round(ohne, 1))} kg, Dichte {s['dichte_kg_m3']} kg/m³ angenommen)."]),
-        _dateien(c, "geschlossene Schlitze, Fenster und Löcher der Seitenwände"),
+        _dateien(c, "geschlossene Schlitze, Fenster und Löcher der Seitenwände", kante=kb),
         ("Verbindungen", "liste", [
             f"**Ecken: Fingerzinken**, {s['zinken_anzahl']} Felder über die Kastenhöhe. Die Seitenwände (`-S`) "
             "haben oben und unten einen Zinken, Kastenfront (`-E1`) und -rückwand (`-E2`) die Lücken dazwischen.",
@@ -429,7 +477,12 @@ def abschnitte_schubladen(p, zeilen):
             "**Keine Bohrungen**: Die Schienen (auch die M6-Löcher der 170-kg-Schienen in den Wangen) werden beim "
             "Zusammenbau angerissen und gebohrt.",
             "**Keine Frontblenden** (ADR 0027): Die Kastenfront `-E1` ist die sichtbare Front, mit gefrästem Griff.",
-            "**Kanten**: keine Fase, kein Radius an den Außenkanten. Die Kanten am Griff werden von Hand gebrochen.",
+            (f"**Kantenbruch R{r}** (Abrundfräser, nur von oben, eine Aufspannung) an allen Kanten auf Layer "
+             f"`{LAYER_KANTE}`: Oberkante der Kastenwände (`-S`, `-E1`, `-E2`), Griffausschnitt, Fenster und Löcher, "
+             "die Sitz-/Tischbretter C1–C3 ringsum. **Nicht** an Zinken, Zapfen, Schlitzen, Aussparungen und Böden — "
+             "Fügeflächen bleiben scharfkantig. Die Unterseite bricht der Bauherr von Hand (ADR 0034)."
+             if kb else
+             "**Kanten**: keine Fase, kein Radius an den Außenkanten. Die Kanten am Griff werden von Hand gebrochen."),
         ]),
     ]
 
@@ -565,9 +618,13 @@ def _platten_daten(ordner, pfad, zeilen, flaechen, p):
 def _vorschau(teile, pfad, strich):
     """SVG-Vorschau wie die DXF: Außenkontur rot, Schlitze blau (für den Reiter „DXF · CNC“)."""
     svg = bd.ExportSVG(unit=bd.Unit.MM, margin=strich * 4)
+    svg.add_layer(LAYER_KANTE, line_weight=strich * 3, line_color=(0.2, 0.7, 0.3))   # grüner Saum unter der Kontur
     svg.add_layer(LAYER_AUSSEN, line_weight=strich, line_color=(0.85, 0.1, 0.1))
     svg.add_layer(LAYER_INNEN, line_weight=strich, line_color=(0.1, 0.25, 0.85))
-    for flaeche, du, dv in teile:
+    for flaeche, du, dv, *kanten in teile:
+        for k in (kanten[0] if kanten else []):
+            svg.add_shape(bd.Pos(du, dv) * k, LAYER_KANTE)
+    for flaeche, du, dv, *_ in teile:
         verschoben = bd.Pos(du, dv) * flaeche
         svg.add_shape(verschoben.outer_wire(), LAYER_AUSSEN)
         for w in verschoben.inner_wires():

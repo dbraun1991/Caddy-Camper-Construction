@@ -375,6 +375,7 @@ Durch die Fenster von D1/D2 können Kleinteile in den Korpus fallen — bei Beda
 **Keine Frontblenden.** Die Kastenfront (-E1) ist die sichtbare Front und schließt bündig mit den Sitz- und Tischbrettern ab. Die Blenden hätten die 76 mm hohen Schienen der Sitz-/Tischbretter verdeckt — und genau dadurch blockiert: bei geschlossener Schublade hätte das Brett nicht ausfahren können.
 
 - **Griff**: Ausschnitt von der Oberkante, 120 × 35 mm, unten Radius 15 mm, die beiden oberen Außenecken Radius 10 mm, alles mitgefräst. Alternativ in `modell/parameter.json` → `schubladen.griff.art: "loch"` ein geschlossenes Griffloch.
+- **Kantenbruch R2** ([ADR 0034](docs/adrs/0034-milled-r2-edge-break-top-side-only.md)): Die CNC rundet von oben (eine Aufspannung) die Oberkante aller Kastenwände, Griff, Fenster und Löcher sowie C1–C3 ringsum, Layer `KANTE_R2` in den DXF. Zinken, Zapfen, Schlitze und Böden bleiben scharfkantig. Beim Verleimen die **gerundete Seite nach innen** (dort greift die Hand hinein), die Unterseite bzw. Außenseite vor dem Verleimen mit Kantenfräse R2 oder Schleifklotz (Körnung 120) von Hand brechen. Bei C1–C3 die gerundete Seite nach oben.
 - Seitlich bleibt je ~20 mm Fuge, in der die Schiene zu sehen ist. Das Spaltmaß ergibt sich aus der Lage der Schienen und ist nicht einstellbar — die Schienen deshalb paarweise genau auf Höhe lehren (→ H1).
 
 ### H4 — Liegefläche: Stöße T1 / F1 / F2

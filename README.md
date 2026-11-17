@@ -122,6 +122,7 @@ Für einen CNC-Fräs-Dienstleister liegen alle Bretter der Box und der Liegeflä
 
 - eine DXF je Brettform (`b1-t1`, `s1-s2`, `m1-m2`, `r1`, `f1`, `f2`), 1:1 in mm, Layer `AUSSENKONTUR` und `INNENKONTUR`, nur Durchfräsungen, keine Bohrungen
 - `alle-teile.dxf`: alle 9 Teile nebeneinander (Übersicht, kein Nesting)
+- Schubladen-Auftrag zusätzlich Layer `KANTE_R2` (grün): Kantenbruch R2 von oben an Oberkanten, Griff, Fenster, Löchern und C1–C3 ringsum, Fügeflächen scharf ([ADR 0034](docs/adrs/0034-milled-r2-edge-break-top-side-only.md))
 - `vorschau/platten-18mm.svg` (und `…-gedreht.svg`): grobe Plattenbelegung auf 2.500 × 1.250 zur Schätzung des Plattenbedarfs, nur für uns ([ADR 0033](docs/adrs/0033-plate-count-estimate-shop-nests.md))
 - im Viewer im Reiter „DXF · CNC“: Vorschau, Download und dieselben Hinweise wie in `AUFTRAG.md` (Daten aus `docs/cnc/cnc.js` und `vorschau/*.svg`, beides von `modell/cnc.py` erzeugt)
 - [`AUFTRAG.md`](docs/cnc/gezapft/AUFTRAG.md): Stückliste und **alle Annahmen** zum Mitschicken — Fräser Ø 6 mm (bestimmt die Dogbones in den Innenecken), 0,2 mm Passungsluft in Schlitzen und Aussparungen
