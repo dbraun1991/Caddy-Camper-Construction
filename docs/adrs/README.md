@@ -50,3 +50,4 @@ Decision, Consequences.
 | [0030](0030-telescopic-rail-visualization.md) | Telescopic rail visualization: housing, middle and inner member, silver grey | Accepted |
 | [0031](0031-boards-flush-with-the-middle-runner-member-minimal-cheeks.md) | Seat/table boards flush with the 55 mm middle runner member, cheeks only to 15 mm below the hole line, D3 229.5 mm | Accepted |
 | [0032](0032-lightening-the-corpus-boards-hole-grid-or-windows.md) | Lightening the corpus boards: hole grid or windows (T1, F1/F2, M1/M2 stay solid; R1 hole grid at most) | **Proposed — open** |
+| [0033](0033-plate-count-estimate-shop-nests.md) | Estimate the plate count ourselves (grain along / rotated), the shop does the nesting | Accepted |

@@ -238,10 +238,11 @@ down.
   provider search (2026-11-07, websites only, nobody contacted) is in
   `Einkaufsliste.md` §1 "Option: CNC-Fräsen statt Zuschnitt", first candidate
   Brockmann Holz, Krefeld. Next step the user named: a draft e-mail to providers.
-  Idea, not for now (builder, 2026-11-15): open question whether we should nest
-  the DXF parts onto a new 18 mm sheet ourselves to cut waste and speed up the
-  job at the shop. Builder's guess: not needed (the shop usually nests;
-  `alle-teile.dxf` is deliberately not nested). Ask when contacting providers.
+  Nesting decided by [ADR 0033](docs/adrs/0033-plate-count-estimate-shop-nests.md)
+  (2026-11-17): the shop nests, `alle-teile.dxf` stays un-nested; `cnc.py`
+  only estimates the plate count (grain along / rotated, `cnc.platte`) for the
+  "DXF · CNC" tab. The drawer job needs 1 × 18 mm except the two `D3-S`
+  (offcut from the corpus sheets) + 1 × 12 mm. Ask providers about offcuts.
 - **Open findings from the overlap check** (red in the drawings; details in the
   "Statisch" tab report). Don't silently "fix" open ones in the model; each is
   a build decision for the user:

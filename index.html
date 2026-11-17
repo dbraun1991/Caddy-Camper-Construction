@@ -985,6 +985,21 @@
         html += '<' + tag + '>' + a.texte.map(function (t) { return '<li>' + text(t) + '</li>'; }).join('') + '</' + tag + '>';
       }
     });
+    // Plattenbedarf: grobe Anordnung von modell/cnc.py (ADR 0033), nur für uns — der Betrieb nestet selbst
+    if (v.platten && v.platten.length) {
+      html += '<h2>Plattenbedarf (Schätzung, Platte ' + esc(v.platte) + ' mm)</h2>' +
+              '<p class="klein">Hüllrechtecke der Teile mit Abstand und Randstreifen, grob angeordnet. ' +
+              'Der Dienstleister nestet selbst und kommt eher mit weniger aus. Prozent = Holzfläche der Teile ' +
+              'an der Plattenfläche.</p><ul>' + v.platten.map(function (x) {
+        return '<li><b>' + esc(String(x.staerke).replace('.', ',')) + ' mm: ' + x.laengs.anzahl + ' Platte' +
+               (x.laengs.anzahl > 1 ? 'n' : '') + '</b> mit Faser längs (' + x.laengs.belegung + ' %), frei gedreht ' +
+               x.gedreht.anzahl + ' (' + x.gedreht.belegung + ' %) · ' + x.teile + ' Teile · ' +
+               '<a href="' + x.laengs.vorschau + '" target="_blank" rel="noopener">Belegung längs</a> · ' +
+               '<a href="' + x.gedreht.vorschau + '" target="_blank" rel="noopener">gedreht</a></li>';
+      }).join('') + '</ul>' + v.platten.map(function (x) {
+        return '<img class="gesamt" src="' + x.laengs.vorschau + '" alt="Plattenbelegung ' + x.staerke + ' mm">';
+      }).join('');
+    }
     html += '<h2>Alle Teile (Übersicht, kein Nesting)</h2><img class="gesamt" src="' + v.alle_vorschau + '" alt="Alle Teile">';
     ziel.innerHTML = html;
   };

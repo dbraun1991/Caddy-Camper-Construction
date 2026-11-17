@@ -153,7 +153,9 @@
     "_passungsluft": "Annahme: Schlitze und Aussparungen je Richtung 0,2 mm größer als der Zapfen (je Seite 0,1). Bei gemessener Plattenstärke über 18,0 mm entsprechend erhöhen.",
     "plattenstaerke": 18,
     "material": "Birke-Multiplex 18 mm",
-    "teileabstand": 20
+    "teileabstand": 20,
+    "platte": { "laenge": 2500, "breite": 1250, "randstreifen": 10 },
+    "_platte": "Nur für die Plattenzählung (cnc.py, ADR 0033): Standardformat Birke-Multiplex, Faser der Decklage längs der 2.500-mm-Seite; jedes Teil liegt mit seiner langen Seite längs. Randstreifen = umlaufend unbrauchbarer Plattenrand. Grobe Rechteck-Anordnung (Hüllrechtecke, `teileabstand` dazwischen) — der Dienstleister nestet selbst und kommt eher mit weniger Platten aus"
   },
 
   "eckausbildung": "gezapft",

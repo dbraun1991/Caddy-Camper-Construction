@@ -1,8 +1,25 @@
 // Generiert von modell/cnc.py — nicht von Hand ändern (ADR 0023)
 window.CNC = {
- "stand": "2026-11-13",
+ "stand": "2026-11-17",
  "varianten": {
   "gezapft": {
+   "platten": [
+    {
+     "staerke": 18,
+     "teile": 9,
+     "laengs": {
+      "anzahl": 3,
+      "vorschau": "docs/cnc/gezapft/vorschau/platten-18mm.svg",
+      "belegung": 50
+     },
+     "gedreht": {
+      "anzahl": 2,
+      "vorschau": "docs/cnc/gezapft/vorschau/platten-18mm-gedreht.svg",
+      "belegung": 74
+     }
+    }
+   ],
+   "platte": "2500 × 1250",
    "teile": [
     {
      "datei": "docs/cnc/gezapft/b1-t1.dxf",
@@ -125,6 +142,23 @@ window.CNC = {
    ]
   },
   "stumpf": {
+   "platten": [
+    {
+     "staerke": 18,
+     "teile": 9,
+     "laengs": {
+      "anzahl": 2,
+      "vorschau": "docs/cnc/stumpf/vorschau/platten-18mm.svg",
+      "belegung": 74
+     },
+     "gedreht": {
+      "anzahl": 2,
+      "vorschau": "docs/cnc/stumpf/vorschau/platten-18mm-gedreht.svg",
+      "belegung": 74
+     }
+    }
+   ],
+   "platte": "2500 × 1250",
    "teile": [
     {
      "datei": "docs/cnc/stumpf/b1-t1.dxf",
@@ -244,6 +278,37 @@ window.CNC = {
    ]
   },
   "schubladen": {
+   "platten": [
+    {
+     "staerke": 18,
+     "teile": 21,
+     "laengs": {
+      "anzahl": 2,
+      "vorschau": "docs/cnc/schubladen/vorschau/platten-18mm.svg",
+      "belegung": 33
+     },
+     "gedreht": {
+      "anzahl": 2,
+      "vorschau": "docs/cnc/schubladen/vorschau/platten-18mm-gedreht.svg",
+      "belegung": 33
+     }
+    },
+    {
+     "staerke": 12,
+     "teile": 3,
+     "laengs": {
+      "anzahl": 1,
+      "vorschau": "docs/cnc/schubladen/vorschau/platten-12mm.svg",
+      "belegung": 23
+     },
+     "gedreht": {
+      "anzahl": 1,
+      "vorschau": "docs/cnc/schubladen/vorschau/platten-12mm-gedreht.svg",
+      "belegung": 23
+     }
+    }
+   ],
+   "platte": "2500 × 1250",
    "teile": [
     {
      "datei": "docs/cnc/schubladen/d1-s-d2-s.dxf",

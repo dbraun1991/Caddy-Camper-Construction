@@ -176,7 +176,10 @@ def _schreibe(ordner, pfad, zeilen, flaechen, titel, abschnitte_liste):
     _dxf(sammlung, ordner / "alle-teile.dxf")
     _vorschau(sammlung, ordner / "vorschau" / "alle-teile.svg", 6)
     (ordner / "AUFTRAG.md").write_text(auftrag(titel, zeilen, abschnitte_liste), encoding="utf-8")
+    p = modell.lade_parameter()
     return {
+        "platten": _platten_daten(ordner, pfad, zeilen, flaechen, p),
+        "platte": f"{zeichnungen.fmt(p['cnc']['platte']['laenge'])} × {zeichnungen.fmt(p['cnc']['platte']['breite'])}",
         "teile": [{"datei": f"{pfad}/{zl['datei']}", "vorschau": f"{pfad}/vorschau/{zl['datei'][:-4]}.svg",
                    "kuerzel": zl["kuerzel"], "name": zl["name"], "stk": zl["stk"], "mass": zl["mass"],
                    "schlitze": zl["schlitze"], "fenster": zl["fenster"], "fenster_art": zl.get("fenster_art", "Fenster"),
@@ -450,6 +453,115 @@ def auftrag(titel, zeilen, abschnitte_liste):
     return "\n".join(md) + "\n"
 
 
+def _maxrects(teile, L, B, drehen=False):
+    """Rechtecke (schluessel, w, h) auf eine Fläche L × B legen (MaxRects, beste kurze Seite).
+
+    drehen=True erlaubt je Teil auch 90°. Liefert (gelegt [(schluessel, x, y, gedreht)], übrig [teile]).
+    Grob, aber für eine Plattenzahl genau genug."""
+    frei, gelegt, uebrig = [(0, 0, L, B)], [], []
+    for sch, w0, h0 in teile:
+        beste = None
+        for fx, fy, fw, fh in frei:
+            for gedreht, (w, h) in enumerate([(w0, h0)] + ([(h0, w0)] if drehen else [])):
+                if w <= fw + 1e-6 and h <= fh + 1e-6:
+                    wert = (min(fw - w, fh - h), max(fw - w, fh - h))
+                    if beste is None or wert < beste[0]:
+                        beste = (wert, fx, fy, bool(gedreht), w, h)
+        if beste is None:
+            uebrig.append((sch, w0, h0))
+            continue
+        _, x, y, gedreht, w, h = beste
+        gelegt.append((sch, x, y, gedreht))
+        neu = []
+        for fx, fy, fw, fh in frei:                  # jedes freie Rechteck um das neue Teil zerlegen
+            if x >= fx + fw or x + w <= fx or y >= fy + fh or y + h <= fy:
+                neu.append((fx, fy, fw, fh))
+                continue
+            if x > fx:
+                neu.append((fx, fy, x - fx, fh))
+            if x + w < fx + fw:
+                neu.append((x + w, fy, fx + fw - x - w, fh))
+            if y > fy:
+                neu.append((fx, fy, fw, y - fy))
+            if y + h < fy + fh:
+                neu.append((fx, y + h, fw, fy + fh - y - h))
+        frei = [a for a in neu if not any(a != b and b[0] <= a[0] and b[1] <= a[1] and a[0] + a[2] <= b[0] + b[2]
+                                          and a[1] + a[3] <= b[1] + b[3] for b in neu)]
+    return gelegt, uebrig
+
+
+def plattenbelegung(zeilen, flaechen, p, drehen=False):
+    """Plattenbedarf je Stärke (ADR 0033): Hüllrechtecke der Teile in Auftragsstückzahl, lange Seite längs der
+    Platte (Faser), `teileabstand` dazwischen, Randstreifen ringsum. drehen=True: Teile dürfen auch quer
+    liegen (Faser egal). Nur eine Schätzung für uns — der Dienstleister nestet selbst (alle-teile.dxf
+    bleibt ungenestet).
+
+    Liefert {stärke: [Platte, …]}, Platte = [(Fläche, gedreht, x, y), …] in Plattenkoordinaten."""
+    c = p["cnc"]
+    pl, a = c["platte"], c["teileabstand"]
+    L = pl["laenge"] - 2 * pl["randstreifen"] + a     # jedes Teil belegt w + a, das letzte braucht kein a
+    B = pl["breite"] - 2 * pl["randstreifen"] + a
+    je_staerke = {}
+    for zl, (flaeche, breite, hoehe) in zip(zeilen, flaechen):
+        st = zl.get("_staerke", c["plattenstaerke"])
+        gedreht = hoehe > breite
+        w, h = (hoehe, breite) if gedreht else (breite, hoehe)
+        assert w <= pl["laenge"] - 2 * pl["randstreifen"] and h <= pl["breite"] - 2 * pl["randstreifen"], \
+            f"{zl['datei']} passt nicht auf eine Platte"
+        je_staerke.setdefault(st, []).extend([((flaeche, gedreht), w + a, h + a)] * zl["stk"])
+    out = {}
+    for st, teile in sorted(je_staerke.items(), reverse=True):
+        beste = None
+        for ordnung in (lambda t: -t[1] * t[2], lambda t: -t[1], lambda t: -t[2], lambda t: -max(t[1], t[2])):
+            rest, platten = sorted(teile, key=ordnung), []
+            while rest:
+                gelegt, rest = _maxrects(rest, L, B, drehen)
+                platten.append(gelegt)
+            if beste is None or len(platten) < len(beste) or (
+                    len(platten) == len(beste) and len(platten[-1]) < len(beste[-1])):
+                beste = platten
+        r = pl["randstreifen"]
+        out[st] = [[(fl, gedreht != quer, x + r, y + r) for (fl, gedreht), x, y, quer in platte] for platte in beste]
+    return out
+
+
+def _platten_vorschau(platten, p, pfad):
+    """Alle Platten einer Stärke untereinander: Plattenrand grau, Teile wie in der DXF-Vorschau."""
+    pl = p["cnc"]["platte"]
+    svg = bd.ExportSVG(unit=bd.Unit.MM, margin=40)
+    svg.add_layer("PLATTE", line_weight=6, line_color=(0.55, 0.55, 0.55))
+    svg.add_layer(LAYER_AUSSEN, line_weight=5, line_color=(0.85, 0.1, 0.1))
+    svg.add_layer(LAYER_INNEN, line_weight=5, line_color=(0.1, 0.25, 0.85))
+    for i, platte in enumerate(platten):
+        dv = -i * (pl["breite"] + 150)
+        svg.add_shape(_rechteck(0, dv, pl["laenge"], dv + pl["breite"]).faces()[0].outer_wire(), "PLATTE")
+        for flaeche, gedreht, x, y in platte:
+            if gedreht:                                 # um 90° drehen und wieder bei (0, 0) beginnen lassen
+                flaeche = bd.Rot(0, 0, 90) * flaeche
+            bb = flaeche.bounding_box()
+            teil = bd.Pos(x - bb.min.X, y + dv - bb.min.Y) * flaeche
+            svg.add_shape(teil.outer_wire(), LAYER_AUSSEN)
+            for w in teil.inner_wires():
+                svg.add_shape(w, LAYER_INNEN)
+    svg.write(str(pfad))
+
+
+def _platten_daten(ordner, pfad, zeilen, flaechen, p):
+    """Plattenbelegung je Stärke schätzen (Faser längs und frei drehbar), Vorschau schreiben; Daten für den Viewer."""
+    pl = p["cnc"]["platte"]
+    out = {}
+    for drehen, zusatz in ((False, ""), (True, "-gedreht")):
+        for st, platten in plattenbelegung(zeilen, flaechen, p, drehen).items():
+            datei = f"platten-{zeichnungen.fmt(st)}mm{zusatz}.svg"
+            _platten_vorschau(platten, p, ordner / "vorschau" / datei)
+            teile = sum(f.area for platte in platten for f, *_ in platte)
+            eintrag = out.setdefault(st, {"staerke": st, "teile": sum(len(x) for x in platten)})
+            eintrag["gedreht" if drehen else "laengs"] = {
+                "anzahl": len(platten), "vorschau": f"{pfad}/vorschau/{datei}",
+                "belegung": round(100 * teile / (len(platten) * pl["laenge"] * pl["breite"]))}
+    return list(out.values())
+
+
 def _vorschau(teile, pfad, strich):
     """SVG-Vorschau wie die DXF: Außenkontur rot, Schlitze blau (für den Reiter „DXF · CNC“)."""
     svg = bd.ExportSVG(unit=bd.Unit.MM, margin=strich * 4)
@@ -479,6 +591,10 @@ def main():
               + ", ".join(f"{zl['datei']} ({zl['stk']}×, {zl['schlitze']} Schlitze"
                           + (f", {zl['fenster']} {zl['fenster_art']}" if zl["fenster"] else "")
                           + f", symmetrisch {'/'.join(zl['symmetrie']) or '–'})" for zl in zeilen))
+        print("  Plattenbedarf (Schätzung, " + daten["varianten"][name]["platte"] + "): "
+              + ", ".join(f"{zeichnungen.fmt(x['staerke'])} mm: {x['laengs']['anzahl']} Platte(n) Faser längs "
+                          f"({x['laengs']['belegung']} %), {x['gedreht']['anzahl']} frei gedreht ({x['gedreht']['belegung']} %)"
+                          for x in daten["varianten"][name]["platten"]))
     viewer_daten(daten)
     print(f"{(ZIEL / 'cnc.js').relative_to(ZIEL.parent.parent)}  (Daten für den Reiter „DXF · CNC“)")
 

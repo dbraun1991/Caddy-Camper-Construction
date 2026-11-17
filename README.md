@@ -122,6 +122,7 @@ Für einen CNC-Fräs-Dienstleister liegen alle Bretter der Box und der Liegeflä
 
 - eine DXF je Brettform (`b1-t1`, `s1-s2`, `m1-m2`, `r1`, `f1`, `f2`), 1:1 in mm, Layer `AUSSENKONTUR` und `INNENKONTUR`, nur Durchfräsungen, keine Bohrungen
 - `alle-teile.dxf`: alle 9 Teile nebeneinander (Übersicht, kein Nesting)
+- `vorschau/platten-18mm.svg` (und `…-gedreht.svg`): grobe Plattenbelegung auf 2.500 × 1.250 zur Schätzung des Plattenbedarfs, nur für uns ([ADR 0033](docs/adrs/0033-plate-count-estimate-shop-nests.md))
 - im Viewer im Reiter „DXF · CNC“: Vorschau, Download und dieselben Hinweise wie in `AUFTRAG.md` (Daten aus `docs/cnc/cnc.js` und `vorschau/*.svg`, beides von `modell/cnc.py` erzeugt)
 - [`AUFTRAG.md`](docs/cnc/gezapft/AUFTRAG.md): Stückliste und **alle Annahmen** zum Mitschicken — Fräser Ø 6 mm (bestimmt die Dogbones in den Innenecken), 0,2 mm Passungsluft in Schlitzen und Aussparungen
 
@@ -251,7 +252,7 @@ Offen:
 - [x] Eckausbildung Korpus — Boden B1 und Deckel T1 durchgehend, Wände mit Zapfen 18 × 50 mm durch B1 und T1, Wandzuschnitt 340 mm hoch — [ADR 0018](docs/adrs/0018-continuous-bottom-and-lid-walls-in-grooves.md), [ADR 0020](docs/adrs/0020-through-tenons-instead-of-routed-grooves.md)
 - [x] Lichte Tiefe 882 mm vs. Schienenlänge — gelöst mit 850-mm-Schienen, Korpus bleibt 900 mm (20–30 mm Luft zu den Rücksitzen, 32 mm hinter den Schienen) — [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)
 - [ ] **CNC-Anbieter anfragen** (Privatkunde, Abholung, Dateiformat, Fräserdurchmesser, Passung, Probestück) und danach `cnc` in `modell/parameter.json` anpassen + `modell/cnc.py` neu erzeugen — Kandidaten im Raum Duisburg: [Einkaufsliste.md §1](./Einkaufsliste.md#option-cnc-fräsen-statt-zuschnitt), erster Kandidat Brockmann Holz (Krefeld)
-- [ ] *Idee, nicht jetzt:* **Teile selbst auf eine 18-mm-Platte verschachteln?** Offene Frage für eine schnelle Fertigung beim CNC-Anbieter: Sollen wir die DXF-Teile vorab auf einem Plattenformat anordnen (Nesting), um Verschnitt zu sparen? Vermutlich nicht nötig, das macht üblicherweise der Anbieter (`alle-teile.dxf` ist bewusst kein Nesting) — beim Anfragen mitklären
+- [x] **Plattenbedarf** ([ADR 0033](docs/adrs/0033-plate-count-estimate-shop-nests.md)): `modell/cnc.py` ordnet die Teile grob auf 2.500 × 1.250 an (Faser längs und frei gedreht) und zeigt die Plattenzahl im Reiter „DXF · CNC“. Das Nesting für den Auftrag macht der Anbieter (`alle-teile.dxf` bleibt ungenestet); beim Anfragen nach Reststücken für die beiden D3-Seitenwände fragen
 - [x] Schienen vollständig bestellt: 3 Paare 170 kg + 3 Paare 80 kg (2026-11-12) — [ADR 0021](docs/adrs/0021-table-board-on-170-kg-runners.md)
 - [x] Schienenstärke gemessen (2026-11-12): beide Typen 19 mm wie geplant, Höhe 53 mm bestätigt
 - [ ] Schienen weiter prüfen: Arretierung im ausgezogenen Zustand (170 kg), Höhe der 170-kg-Schiene (gemessen ~74 mm, Modell 76 mm laut Datenblatt), Lage der Schraublöcher (gegen das Schienenband der Schubladen-Seitenwände)

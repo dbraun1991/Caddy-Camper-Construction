@@ -452,6 +452,8 @@ Sinnvoll als Referenz für Maße, Verarbeitung und Preiseinschätzung auch wenn 
 
 Standardformat Multiplex-Platte: 2.500 × 1.250 mm → **ca. 3 Platten à 18 mm** + **1 Platte à 12 mm**.
 
+Grobe Plattenbelegung aus `modell/cnc.py` ([ADR 0033](docs/adrs/0033-plate-count-estimate-shop-nests.md), Reiter „DXF · CNC“): Korpus + Liegefläche 2 Platten, wenn Teile quer zur Faser liegen dürfen (sonst 3). Schubladen + C1–C3: eine Platte bis auf die beiden Seitenwände von D3 (850 × 229,5) — die aus dem Korpus-Verschnitt nehmen. Böden 12 mm: 1 Platte, nur ~¼ belegt.
+
 Zusätzliche Leisten entfallen: Eckleisten V12 (Fingerzinken, ADR 0024) und Leisten V13 (Scharniere V17). Die Trägerwangen (V14) lassen sich aus dem 18-mm-Verschnitt schneiden.
 
 → Preise und Gesamtbudget: **[Einkaufsliste.md](./Einkaufsliste.md)**

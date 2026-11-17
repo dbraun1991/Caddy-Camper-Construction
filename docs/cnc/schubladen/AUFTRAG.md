@@ -1,6 +1,6 @@
 # CNC-Auftrag — VW Caddy Mk3 Camper, Schubladenkästen D1–D3 + Sitz-/Tischbretter C1–C3
 
-Erzeugt am 2026-11-13 von `modell/cnc.py` aus `modell/parameter.json` — nicht von Hand ändern, sondern Parameter anpassen und neu erzeugen. Entscheidung und Hintergrund: ADR 0023, ADR 0024, ADR 0031.
+Erzeugt am 2026-11-17 von `modell/cnc.py` aus `modell/parameter.json` — nicht von Hand ändern, sondern Parameter anpassen und neu erzeugen. Entscheidung und Hintergrund: ADR 0023, ADR 0024, ADR 0031.
 
 ## Teile
 
