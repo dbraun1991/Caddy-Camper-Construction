@@ -54,7 +54,7 @@ Einzige Voraussetzung: Internetverbindung beim ersten Öffnen (Three.js wird per
 | Ansicht zurücksetzen | Reset-Button (Standardansicht: von hinten rechts, Caddy-Hülle sichtbar, Standard-Drehpunkt) |
 | Überschneidungen anzeigen | Button „Überschneidungen“ — rot, bezogen auf den eingefahrenen Zustand |
 | Legende ein-/ausblenden | Button „Legende“ — am Handy (≤ 700 px Breite) standardmäßig ausgeblendet, weil sie sonst die Szene verdeckt |
-| Explosionsansicht | Reiter „Explosion“: ein Bauteil per Auswahl (Box, D1/D2, D3, C1/C2, C3), Regler „Auseinander“ 0–250 mm, Kürzel als Etiketten (abschaltbar), Langname beim Zeigen/Antippen, Zapfen grün; direkt verlinkbar mit `index.html#explosion` ([ADR 0036](docs/adrs/0036-exploded-view-tab.md)) |
+| Explosionsansicht | Reiter „Explosion“: ein Bauteil per Auswahl (Box, D1/D2, D3, C1/C2, C3), Regler „Auseinander“ 0–250 mm, Kürzel als Etiketten (abschaltbar), Button „Legende“ mit Kürzel → Langname aller Teile des gewählten Objekts (am Handy standardmäßig aus), Langname beim Zeigen/Antippen, Zapfen grün; direkt verlinkbar mit `index.html#explosion` ([ADR 0036](docs/adrs/0036-exploded-view-tab.md)) |
 | Werkzeichnungen | Reiter „Statisch · Werkzeichnungen“ (oben rechts), direkt verlinkbar mit `index.html#statisch` |
 | CNC-Dateien | Reiter „DXF · CNC“: Vorschau jeder DXF, Download und alle Hinweise zum Auftrag, direkt verlinkbar mit `index.html#cnc` |
 

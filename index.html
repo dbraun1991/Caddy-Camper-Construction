@@ -166,6 +166,15 @@
       padding: 2px 4px;
     }
     #etiketten.aus { display: none; }
+    /* Legende der Kürzel im Reiter „Explosion“: per Button, am Handy standardmäßig aus */
+    #expLegende {
+      position: absolute; top: 58px; right: 12px; max-height: calc(100% - 110px); overflow: auto;
+      font-size: 11px; line-height: 1.6; color: #ccc; background: rgba(20,20,20,0.85);
+      border: 1px solid #333; border-radius: 6px; padding: 6px 10px;
+    }
+    #expLegende b { display: inline-block; min-width: 52px; color: #fff; font-weight: 500; }
+    #expLegende.aus { display: none; }
+    @media (max-width: 700px) { #expLegende { left: 12px; top: 96px; } }
     #expTipp {
       position: absolute; display: none; pointer-events: none; font-size: 12px; color: #eee; max-width: 320px;
       background: rgba(10,10,10,0.92); border: 1px solid #555; border-radius: 6px; padding: 5px 8px;
@@ -296,8 +305,10 @@
     <label>Auseinander <input type="range" id="rngExp" min="0" max="250" value="120" oninput="explodiere()">
       <span id="wertExp">120 mm</span></label>
     <label><input type="checkbox" id="chkEtik" checked onchange="document.getElementById('etiketten').classList.toggle('aus', !this.checked)"> Kürzel</label>
+    <button id="btnExpLegende" onclick="expLegende()">Legende</button>
     <button onclick="expKamera()">↺ Reset</button>
   </div>
+  <div id="expLegende"></div>
   <div class="hinweis">Ziehen: drehen · Rechts ziehen / Shift + Ziehen / 2 Finger: verschieben · Scrollen / Pinch: zoom ·
     Zeigen oder Antippen: Langname · grün = Zapfen (wandern mit ihrem Brett)</div>
 </div>
@@ -1019,6 +1030,10 @@
     scene.add(gruppe);
     teile = [];
     etikettenEl.innerHTML = '';
+    // Legende: Kürzel → Langname aller beschrifteten Teile des gewählten Objekts (ohne Zapfen)
+    document.getElementById('expLegende').innerHTML = o.teile.filter(function (e) { return !e.zapfen; })
+      .map(function (e) { return '<div><b>' + e.id + '</b>' + langname(e) + '</div>'; }).join('') +
+      (o.teile.some(function (e) { return e.zapfen; }) ? '<div><b style="color:#3BA55C">grün</b>Zapfen</div>' : '');
     o.teile.forEach(function (e) {
       var obj, t = TEIL[e.id];
       if (e.quelle === 'brett3d') obj = B.kastenBrett(BRETT[e.id], gruppe);
@@ -1046,6 +1061,14 @@
     expKamera();
     explodiere();
   }
+
+  window.expLegende = function (an) {
+    var el = document.getElementById('expLegende');
+    if (typeof an !== 'boolean') an = el.classList.contains('aus');
+    el.classList.toggle('aus', !an);
+    document.getElementById('btnExpLegende').classList.toggle('active', an);
+  };
+  expLegende(!window.matchMedia('(max-width: 700px)').matches);
 
   window.explodiere = function () {
     var v = Number(rng.value);

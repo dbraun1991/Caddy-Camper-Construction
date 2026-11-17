@@ -119,7 +119,8 @@ down.
 
 - Exploded-view tab "Explosion" ([ADR 0036](docs/adrs/0036-exploded-view-tab.md), 2026-11-17):
   dropdown Box / D1/D2 / D3 / C1/C2 / C3, slider "Auseinander" 0–250 mm,
-  code labels + long name on hover/tap, tenons green; own scene/camera,
+  code labels + long name on hover/tap, toggleable legend code → long name,
+  tenons green; own scene/camera,
   geometry via `window.BAUTEILE3D` from the 3D tab, directions from
   `modell.explosion()` → `MODELL.explosion` (add new parts there).
 - Ventilation holes in `T1`/`F1`/`F2` ([ADR 0035](docs/adrs/0035-ventilation-holes-in-the-sleeping-boards.md)):

@@ -65,6 +65,9 @@ dropdown. Decisions by the builder (2026-11-17):
 - The object is centred on the origin and the camera distance follows its
   size. Labels are HTML elements projected from each part's centre and can be
   switched off ("Kürzel"). Tenons get no label, only the hover name.
+- A toggleable legend ("Legende", added 2026-11-17 at the builder's request)
+  lists code → long name for every labelled part of the selected object. Like
+  the 3D tab's legend it starts hidden at ≤ 700 px width.
 - Direct link: `index.html#explosion`.
 
 ## Consequences
