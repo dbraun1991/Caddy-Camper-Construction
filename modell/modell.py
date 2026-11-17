@@ -305,15 +305,20 @@ def _raster(a, b, rand, abstand):
 
 
 def _lueftung(p, alle):
-    """Lüftungslöcher in T1, F1, F2 (ADR 0035): Raster längs (z) × quer (x), Loch an jedem Schnittpunkt.
+    """Lüftungslöcher in T1, F1, F2 (ADR 0035).
 
+    muster "gerade": Raster längs (z) × quer (x) im `abstand`, Loch an jedem Schnittpunkt.
+    muster "diagonal": dasselbe Raster um 45° gedreht — achsparallel ein Hilfsraster von abstand/2, Loch an
+    jeder zweiten Kreuzung (Schachbrett); die Schräglinien treffen die Brettkanten alle `abstand` mm.
     Ein Loch fällt weg, wenn sein Rand näher als `abstand_hindernis` an ein Scharnierblatt oder (bei T1)
-    an eine Wand darunter kommt — dort trüge es nicht und träfe Zapfen oder Schrauben. Ergebnis als
-    `lueftung` = {durchmesser, x: Querlinien, z: Längslinien, mitten: [[x, z], …]} am Brett (Welt-mm)."""
+    an eine Wand darunter kommt. Ergebnis als `lueftung` am Brett (Welt-mm): durchmesser, muster,
+    x/z (Hilfslinien), paritaet (diagonal: Kreuzung i + j ≡ paritaet mod 2 wird gebohrt), mitten [[x, z], …]."""
     lu = p.get("lueftung")
     if not lu:
         return
     r, ab = lu["durchmesser"] / 2, lu["abstand_hindernis"]
+    diagonal = lu.get("muster", "gerade") == "diagonal"
+    schritt = lu["abstand"] / 2 if diagonal else lu["abstand"]
     nach_id = {t["id"]: t for t in alle}
     scharniere = [t["box"] for t in alle if t["gruppe"] == "scharnier"]
 
@@ -332,9 +337,16 @@ def _lueftung(p, alle):
         hindernisse = scharniere + [w["box"] for w in alle
                                     if w["gruppe"] == "korpus" and w["box"][1][1] >= y0 - 1e-6
                                     and w["box"][1][0] < y1 and w["box"][2][0] < z1 and w["box"][2][1] > z0]
-        xs, zs = _raster(x0, x1, lu["rand"], lu["abstand"]), _raster(z0, z1, lu["rand"], lu["abstand"])
-        mitten = [[x, z] for z in zs for x in xs if frei(x, z, hindernisse)]
-        t["lueftung"] = {"durchmesser": lu["durchmesser"], "x": xs, "z": zs, "mitten": mitten}
+        xs, zs = _raster(x0, x1, lu["rand"], schritt), _raster(z0, z1, lu["rand"], schritt)
+        kreuzungen = [(i, j) for j in range(len(zs)) for i in range(len(xs))]
+        if diagonal:     # die Schachbrett-Hälfte mit mehr Kreuzungen, bei Gleichstand die mit der Ecke unten links
+            paritaet = max((0, 1), key=lambda q: (sum((i + j) % 2 == q for i, j in kreuzungen), -q))
+            kreuzungen = [(i, j) for i, j in kreuzungen if (i + j) % 2 == paritaet]
+        mitten = [[xs[i], zs[j]] for i, j in kreuzungen if frei(xs[i], zs[j], hindernisse)]
+        t["lueftung"] = {"durchmesser": lu["durchmesser"], "muster": "diagonal" if diagonal else "gerade",
+                         "abstand": lu["abstand"], "x": xs, "z": zs, "mitten": mitten}
+        if diagonal:
+            t["lueftung"]["paritaet"] = paritaet
 
 
 def _verteilt(spanne, anzahl, laenge, rand):

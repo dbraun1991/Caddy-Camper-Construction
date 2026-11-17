@@ -87,7 +87,7 @@ Die Führungsschienen sind als Teleskop dargestellt ([ADR 0030](docs/adrs/0030-t
 
 ## Werkzeichnungen
 
-Ein Übersichtsblatt „Bezeichnungen“, drei Ansichten nach Dreitafelprojektion (DIN A3 quer, Maßstab 1:5), ein Zuschnittblatt „Box-Bretter“ (1:10), drei Einzelbrett-Blätter (1:5) zum Sägen, zwei Schubladenblätter (1:5: alle Kastenbretter von D1/D2 bzw. D3 flach, Kontur wie die CNC-Dateien, bemaßt), ein Blatt Sitz-/Tischbretter (1:5) und ein Bohrplan für die Lüftungslöcher der Liegefläche (1:10), erzeugt mit [build123d](https://github.com/gumyr/build123d) aus derselben Datenbasis wie der 3D-Viewer:
+Ein Übersichtsblatt „Bezeichnungen“, drei Ansichten nach Dreitafelprojektion (DIN A3 quer, Maßstab 1:5), ein Zuschnittblatt „Box-Bretter“ (1:10), drei Einzelbrett-Blätter (1:5) zum Sägen, zwei Schubladenblätter (1:5: alle Kastenbretter von D1/D2 bzw. D3 flach, Kontur wie die CNC-Dateien, bemaßt), ein Blatt Sitz-/Tischbretter (1:5) und zwei Bohrplan-Blätter für die Lüftungslöcher der Liegefläche (1:10), erzeugt mit [build123d](https://github.com/gumyr/build123d) aus derselben Datenbasis wie der 3D-Viewer:
 
 | Ansicht | Blickrichtung | Wände gezapft |
 |---|---|---|
@@ -102,7 +102,8 @@ Ein Übersichtsblatt „Bezeichnungen“, drei Ansichten nach Dreitafelprojektio
 | **Schublade D1 / D2** (1:5) | Seitenwand, Kastenfront mit Griff, Kastenrückwand, Boden: Zinken, Bodenschlitze/-zapfen, Fenster, Löcher, Griff und Schienenband bemaßt | [SVG](docs/zeichnungen/gezapft/schublade-d1-d2.svg) |
 | **Schublade D3** (1:5) | dieselben vier Bretter für die Mittelschublade (Lochraster statt Fenster) | [SVG](docs/zeichnungen/gezapft/schublade-d3.svg) |
 | **Sitz-/Tischbretter C1–C3** (1:5) | Brett und Wange zum Nachmessen der gefrästen Teile: Aussparungen, Zapfen, Gesamtmaße, Querschnitt | [SVG](docs/zeichnungen/gezapft/elemente-c1-c3.svg) |
-| **Bohrplan Liegefläche T1 / F1 / F2** (1:10) | Lüftungslöcher zum Anreißen und Bohren von Hand: Rasterlinien, Bohrungen, Ketten ab Brettkante (Ø/Raster angenommen, [ADR 0035](docs/adrs/0035-ventilation-holes-in-the-sleeping-boards.md)) | [SVG](docs/zeichnungen/gezapft/bohrplan-liegeflaeche.svg) |
+| **Bohrplan Liegefläche T1 / F1 / F2** (1:10) | Lüftungslöcher im 45°-Muster zum Anreißen mit Hilfsraster 70 mm (gebohrt wird jede zweite Kreuzung), Ketten ab Brettkante (Ø angenommen, [ADR 0035](docs/adrs/0035-ventilation-holes-in-the-sleeping-boards.md)) | [SVG](docs/zeichnungen/gezapft/bohrplan-liegeflaeche.svg) |
+| **Bohrplan Liegefläche — Randmaße** (1:10) | wo jede Schräglinie durch die Bohrungen die Brettkanten trifft, als Maß ab der Ecke unten links — Marken setzen, mit dem Lineal verbinden | [SVG](docs/zeichnungen/gezapft/bohrplan-randmasse.svg) |
 
 Sichtbare Kanten durchgezogen, verdeckte Kanten gestrichelt. **Rot hinterlegt** sind rechnerische Überschneidungen zweier Bauteile — Stellen, an denen der Plan so nicht baubar ist. **Grün** hinterlegt sind gewollte Überdeckungen: Die Zapfen der Wände stecken in Schlitzen und Aussparungen. Dieselben Blätter gibt es für die Rückfallvariante ohne Zapfen (`stumpf`, Ordner nebenan, im Viewer per Auswahlfeld).
 
@@ -185,7 +186,7 @@ Alle Elemente fahren auf **Vollauszug-Schienen 850 mm Schwerlast** aus ([ADR 001
 
 Matratzenbreite: **1.100 mm** (passt in 1.120 mm Innenbreite).
 
-T1, F1 und F2 bekommen Lüftungslöcher unter der Matratze (angenommen Ø 20 im Raster 100 mm, von Hand gebohrt, [ADR 0035](docs/adrs/0035-ventilation-holes-in-the-sleeping-boards.md)).
+T1, F1 und F2 bekommen Lüftungslöcher unter der Matratze (Muster um 45° gedreht, Schräglinien alle 140 mm an der Kante, Löcher 99 mm auseinander, angenommen Ø 20, von Hand gebohrt, [ADR 0035](docs/adrs/0035-ventilation-holes-in-the-sleeping-boards.md)).
 
 ---
 

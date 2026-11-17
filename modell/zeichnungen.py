@@ -449,7 +449,8 @@ def zeichne_bretter(variante, png=False):
         blatt.text(f"Alle Zapfen, Schlitze und Aussparungen bemaßt: Blätter {len(ANSICHTEN) + 3}–{BLATT_ELEMENTE} (1:5).",
                    25, 26, 2.2, papier=True, ausrichtung=links)
     blatt.text(f"Ohne Schubladen und Sitz-/Tischbretter — die kommen gefräst, bemaßt auf den Blättern "
-               f"{BLATT_ELEMENTE - len(SCHUBLADENBLAETTER)}–{BLATT_ELEMENTE}. Lüftungslöcher: Blatt {BLATT_GESAMT}.",
+               f"{BLATT_ELEMENTE - len(SCHUBLADENBLAETTER)}–{BLATT_ELEMENTE}. Lüftungslöcher: Blätter "
+               f"{BLATT_GESAMT - 1}–{BLATT_GESAMT}.",
                25, 14, 2.2, papier=True, ausrichtung=links)
     x0, y0 = 120, 46
     for x, kopf in ((x0, "Pos."), (x0 + 22, "Langname"), (x0 + 72, "Maß"), (x0 + 96, "mm"), (x0 + 104, "Stk.")):
@@ -484,8 +485,9 @@ SCHUBLADENBLAETTER = [  # (Dateiname, Titel, Kasten)
 ]
 ELEMENTBLATT = ("elemente-c1-c3", "Sitz-/Tischbretter C1–C3")   # Bretter + Wangen zum Nachmessen (ADR 0029/0031)
 BOHRPLAN = ("bohrplan-liegeflaeche", "Bohrplan Liegefläche T1 / F1 / F2")   # Lüftungslöcher von Hand (ADR 0035)
-BLATT_GESAMT = 1 + len(ANSICHTEN) + 1 + len(DETAILBLAETTER) + len(SCHUBLADENBLAETTER) + 1 + 1   # Blatt 1 = „Bezeichnungen“
-BLATT_ELEMENTE = BLATT_GESAMT - 1                                    # letztes Blatt = Bohrplan
+BOHRPLAN_RAND = ("bohrplan-randmasse", "Bohrplan Liegefläche — Randmaße")    # Schräglinien ab Brettkante
+BLATT_GESAMT = 1 + len(ANSICHTEN) + 1 + len(DETAILBLAETTER) + len(SCHUBLADENBLAETTER) + 1 + 2   # Blatt 1 = „Bezeichnungen“
+BLATT_ELEMENTE = BLATT_GESAMT - 2                                    # die letzten zwei = Bohrplan
 
 
 def brett_geometrie(alle, p, id, ansicht):
@@ -976,13 +978,72 @@ def zeichne_elemente(variante, datei, titel, nr, png=False):
     return pfad
 
 
-# ── Letztes Blatt: Bohrplan Lüftungslöcher T1 / F1 / F2, 1:10 ───────────────────
+# ── Letzte Blätter: Bohrplan Lüftungslöcher T1 / F1 / F2, 1:10 (ADR 0035) ─────────
 BOHRPLAN_LAGE = {"T1": (40, 128), "F1": (215, 148), "F2": (215, 68)}   # Papier: linke untere Ecke je Brett
+RANDMASS_LAGE = dict(BOHRPLAN_LAGE, F1=(215, 160))                    # Randmaße brauchen mehr Platz zwischen F1/F2
+
+
+def _bohrbrett(alle, id):
+    """Brett in Blattkoordinaten (u = Fahrerseite links, v = ab Vorderkante): Maße, Hilfslinien, Löcher,
+    alle Rasterpunkte (auch ausgelassene) und die Schräglinien (u + v = s bzw. u − v = d) bei Muster diagonal."""
+    t = teil(alle, id)
+    (x0, x1), _, (z0, z1) = t["box"]
+    l = t["lueftung"]
+    us = [round(x1 - x, 2) for x in l["x"]]                     # Index i wie im Modell (x aufsteigend)
+    vs = [round(z - z0, 2) for z in l["z"]]
+    punkte = [(us[i], vs[j]) for j in range(len(vs)) for i in range(len(us))
+              if l["muster"] != "diagonal" or (i + j) % 2 == l["paritaet"]]
+    loecher = [(round(x1 - x, 2), round(z - z0, 2)) for x, z in l["mitten"]]
+    summen = sorted({round(u + v, 2) for u, v in punkte})
+    differenzen = sorted({round(u - v, 2) for u, v in punkte})
+    return {"t": t, "l": l, "breite": x1 - x0, "hoehe": z1 - z0, "us": sorted(us), "vs": vs, "punkte": punkte,
+            "loecher": loecher, "summen": summen, "differenzen": differenzen}
+
+
+def _schraeglinie(art, c, breite, hoehe):
+    """Schnitt der Linie u + v = c (art "s") bzw. u − v = c (art "d") mit dem Brett: (Anfang, Ende) oder None."""
+    pts = []
+    for u in (0, breite):
+        v = c - u if art == "s" else u - c
+        if -1e-6 <= v <= hoehe + 1e-6:
+            pts.append((u, v))
+    for v in (0, hoehe):
+        u = c - v if art == "s" else c + v
+        if -1e-6 <= u <= breite + 1e-6:
+            pts.append((u, v))
+    pts = sorted(set((round(a, 2), round(b, 2)) for a, b in pts))
+    return (pts[0], pts[-1]) if len(pts) >= 2 and pts[0] != pts[-1] else None
+
+
+def _bohrblatt_rahmen(blatt, titel, untertitel, nr, hinweise, legende):
+    links = (bd.TextAlign.LEFT, bd.TextAlign.CENTER)
+    for i, zeile in enumerate(hinweise):
+        blatt.text(zeile, 345, 262 - i * 4.6, 2.3, papier=True, ausrichtung=links)
+    blatt.rahmen(titel, untertitel, nr, "gleich in beiden Varianten", massstab="1:10 (DIN A3)")
+    for i, (ebene, text) in enumerate(legende):
+        y = 46 - 5 * i
+        if ebene == "kreis":
+            blatt.ebenen["sichtbar"].append(bd.Pos(31, y) * bd.Circle(1.5).edges()[0])
+        else:
+            blatt.linie((25, y), (37, y), ebene=ebene)
+        blatt.text(text, 40, y, 2.6, papier=True, ausrichtung=links)
+
+
+def _bohrblatt_schreiben(blatt, variante, datei, png):
+    ordner = ZIEL / variante
+    ordner.mkdir(parents=True, exist_ok=True)
+    pfad = ordner / f"{datei}.svg"
+    blatt.schreiben(pfad)
+    if png:
+        import cairosvg
+        cairosvg.svg2png(url=str(pfad), write_to=str(pfad.with_suffix(".png")),
+                         output_width=2400, background_color="white")
+    return pfad
 
 
 def zeichne_bohrplan(variante, datei, titel, nr, png=False):
-    """Lüftungslöcher (ADR 0035) zum Anreißen: Längs- und Querlinien des Rasters gestrichelt, Bohrungen als
-    Kreis an den Schnittpunkten, ausgelassene Schnittpunkte ohne Kreis. Blick von oben, Fahrerseite links,
+    """Lüftungslöcher (ADR 0035) zum Anreißen mit Hilfsraster: Längs- und Querlinien gestrichelt, Bohrungen als
+    Kreis — bei Muster diagonal nur an jeder zweiten Kreuzung (Schachbrett). Blick von oben, Fahrerseite links,
     Kante zur Heckklappe (T1) bzw. zum Vorgängerbrett (F1, F2) unten — wie Blatt 6."""
     p = modell.lade_parameter()
     alle = modell.teile(p, variante)
@@ -992,24 +1053,20 @@ def zeichne_bohrplan(variante, datei, titel, nr, png=False):
     links = (bd.TextAlign.LEFT, bd.TextAlign.CENTER)
     summe = 0
     for id in lu["bretter"]:
-        t = teil(alle, id)
-        (x0, x1), _, (z0, z1) = t["box"]
-        breite, hoehe = x1 - x0, z1 - z0
-        l = t["lueftung"]
-        us = sorted(round(x1 - x, 2) for x in l["x"])               # Fahrerseite (+x) links
-        vs = [round(z - z0, 2) for z in l["z"]]
+        b = _bohrbrett(alle, id)
+        breite, hoehe, us, vs, l = b["breite"], b["hoehe"], b["us"], b["vs"], b["l"]
         blatt.mitte = BOHRPLAN_LAGE[id]
         blatt.rechteck(0, 0, breite, hoehe, "kontur")
         for u in us:
             blatt.linie(blatt.p(u, 0)[:2], blatt.p(u, hoehe)[:2], ebene="verdeckt")
         for v in vs:
             blatt.linie(blatt.p(0, v)[:2], blatt.p(breite, v)[:2], ebene="verdeckt")
-        for x, z in l["mitten"]:
-            px, py, _ = blatt.p(x1 - x, z - z0)
+        for u, v in b["loecher"]:
+            px, py, _ = blatt.p(u, v)
             blatt.ebenen["sichtbar"].append(bd.Pos(px, py) * bd.Circle(l["durchmesser"] / 2 * m).edges()[0])
-        summe += len(l["mitten"])
-        a = lu["abstand"]
-        # quer: Rand · n × Abstand · Rand (oben), längs: dasselbe links
+        summe += len(b["loecher"])
+        a = us[1] - us[0] if len(us) > 1 else lu["abstand"]
+        # quer: Rand · n × Abstand · Rand (über dem Brett), längs: dasselbe links
         blatt.mass((us[0], hoehe), (0, hoehe), 6)                    # von rechts nach links: Maß über dem Brett
         blatt.mass((us[-1], hoehe), (us[0], hoehe), 6, f"{len(us) - 1} × {fmt(a)} = {fmt(us[-1] - us[0])}")
         blatt.mass((breite, hoehe), (us[-1], hoehe), 6)
@@ -1020,18 +1077,30 @@ def zeichne_bohrplan(variante, datei, titel, nr, png=False):
         blatt.mass((0, hoehe), (0, vs[-1]), 6)
         blatt.mass((0, hoehe), (0, 0), 16, f"{fmt(hoehe)} gesamt")
         kante = "Kante zur Heckklappe" if id == "T1" else f"Kante zu {'T1' if id == 'F1' else 'F1'}"
-        blatt.text(f"{id} — {langname(alle, id)}: {len(l['mitten'])} Löcher Ø {fmt(l['durchmesser'])}",
+        blatt.text(f"{id} — {langname(alle, id)}: {len(b['loecher'])} Löcher Ø {fmt(l['durchmesser'])}",
                    blatt.mitte[0], blatt.mitte[1] + hoehe * m + 22, 3.0, papier=True, ausrichtung=links)
         blatt.text(f"↓ {kante}", blatt.mitte[0] + breite * m / 2, blatt.mitte[1] - 4, 2.4, papier=True)
 
+    diagonal = lu.get("muster") == "diagonal"
+    schritt = lu["abstand"] / 2 if diagonal else lu["abstand"]
+    flaeche = 3.1416 * (lu["durchmesser"] / 2) ** 2 / (2 * schritt ** 2 if diagonal else schritt ** 2)
     hinweise = [
-        f"Ø {fmt(lu['durchmesser'])} mm, Raster {fmt(lu['abstand'])} mm — ANNAHME,",
-        "bis die vorhandenen Bohrer nachgeschaut sind",
-        "(parameter.json → lueftung, neu erzeugen).",
+        f"Ø {fmt(lu['durchmesser'])} mm — ANNAHME, bis die vorhandenen",
+        "Bohrer nachgeschaut sind (parameter.json →",
+        "lueftung, neu erzeugen).",
         "",
+    ] + ([
+        "Muster um 45° gedreht: Löcher auf Schräglinien,",
+        f"{fmt(round(lu['abstand'] / 2 ** 0.5, 1))} mm auseinander. Zum Anreißen hier ein",
+        f"Hilfsraster {fmt(schritt)} mm längs und quer — gebohrt",
+        "wird nur jede zweite Kreuzung (Schachbrett),",
+        "wo ein Kreis gezeichnet ist.",
+        f"Schräglinien direkt anreißen: Blatt {nr + 1}.",
+    ] if diagonal else [
         "Anreißen: Querlinien (gestrichelt, senkrecht im",
         "Bild) und Längslinien ab Brettkante wie bemaßt,",
         "Bohrung nur, wo ein Kreis gezeichnet ist.",
+    ]) + [
         f"Ausgelassen: Lochrand näher als {fmt(lu['abstand_hindernis'])} mm an",
         "Scharnier (H1/H2) oder Wand unter T1",
         "(S1/S2, M1/M2, R1 mit Zapfen).",
@@ -1041,29 +1110,100 @@ def zeichne_bohrplan(variante, datei, titel, nr, png=False):
         "senkrecht (Bohrständer oder Bohrführung).",
         "Danach beide Seiten leicht brechen.",
         "",
-        f"Zusammen {summe} Löcher. Ø {fmt(lu['durchmesser'])} im Raster",
-        f"{fmt(lu['abstand'])} nimmt ca. {fmt(round(100 * 3.1416 * (lu['durchmesser'] / 2) ** 2 / lu['abstand'] ** 2, 1))} % der Fläche weg (ADR 0035).",
+        f"Zusammen {summe} Löcher, sie nehmen ca.",
+        f"{fmt(round(100 * flaeche, 1))} % der Fläche weg (ADR 0035).",
     ]
-    for i, zeile in enumerate(hinweise):
-        blatt.text(zeile, 345, 262 - i * 4.6, 2.3, papier=True, ausrichtung=links)
-    blatt.rahmen(titel, "Lüftungslöcher unter der Matratze, von Hand gebohrt — nicht in der CNC-Datei (ADR 0035)",
-                 nr, "gleich in beiden Varianten", massstab="1:10 (DIN A3)")
-    blatt.linie((25, 46), (37, 46), ebene="kontur")
-    blatt.text("Brettkante", 40, 46, 2.6, papier=True, ausrichtung=links)
-    blatt.linie((25, 41), (37, 41), ebene="verdeckt")
-    blatt.text("Rasterlinie zum Anreißen", 40, 41, 2.6, papier=True, ausrichtung=links)
-    blatt.ebenen["sichtbar"].append(bd.Pos(31, 36) * bd.Circle(1.5).edges()[0])
-    blatt.text("Bohrung", 40, 36, 2.6, papier=True, ausrichtung=links)
+    _bohrblatt_rahmen(blatt, titel, "Lüftungslöcher unter der Matratze, von Hand gebohrt — Hilfsraster zum Anreißen "
+                      "(ADR 0035)", nr, hinweise,
+                      [("kontur", "Brettkante"), ("verdeckt", f"Hilfslinie (alle {fmt(schritt)} mm)"),
+                       ("kreis", "Bohrung")])
+    return _bohrblatt_schreiben(blatt, variante, datei, png)
 
-    ordner = ZIEL / variante
-    ordner.mkdir(parents=True, exist_ok=True)
-    pfad = ordner / f"{datei}.svg"
-    blatt.schreiben(pfad)
-    if png:
-        import cairosvg
-        cairosvg.svg2png(url=str(pfad), write_to=str(pfad.with_suffix(".png")),
-                         output_width=2400, background_color="white")
-    return pfad
+
+def zeichne_bohrplan_rand(variante, datei, titel, nr, png=False):
+    """Randmaße der Schräglinien (ADR 0035, Muster diagonal): wo jede Lochlinie die Brettkanten trifft, als
+    Koordinate ab der Ecke unten links — so lassen sich die Linien mit Lineal von Kante zu Kante ziehen."""
+    p = modell.lade_parameter()
+    alle = modell.teile(p, variante)
+    lu = p["lueftung"]
+    m = 1 / 10
+    blatt = Blatt((0, 0), m)
+    links = (bd.TextAlign.LEFT, bd.TextAlign.CENTER)
+
+    def marke(u, v, kante, lang=False):
+        """Strich nach außen + Zahl (Abstand ab der Ecke unten links entlang der Kante), quer zur Kante gedreht.
+        lang: Strich länger, damit die Zahlen eng liegender Marken nicht übereinander stehen."""
+        wert = u if kante in ("unten", "oben") else v
+        nu, nv = {"unten": (0, -1), "oben": (0, 1), "links": (-1, 0), "rechts": (1, 0)}[kante]
+        weg = 85 if lang else 25
+        a, b = blatt.p(u, v), blatt.p(u + nu * weg, v + nv * weg)
+        blatt.linie(a[:2], b[:2], ebene="sichtbar")
+        x, y = b[0] + nu * 1.2, b[1] + nv * 1.2
+        drehung = 90 if kante in ("unten", "oben") else 0
+        ausr = (bd.TextAlign.RIGHT if (kante in ("unten", "links")) else bd.TextAlign.LEFT, bd.TextAlign.CENTER)
+        blatt.ebenen["text"].append(bd.Pos(x, y) * bd.Rot(0, 0, drehung) *
+                                    bd.Text(fmt(round(wert, 1)), 2.0, font=SCHRIFT, text_align=ausr))
+
+    for id in lu["bretter"]:
+        b = _bohrbrett(alle, id)
+        breite, hoehe, l = b["breite"], b["hoehe"], b["l"]
+        blatt.mitte = RANDMASS_LAGE[id]
+        blatt.rechteck(0, 0, breite, hoehe, "kontur")
+        treffer = set()
+        for art, werte in (("s", b["summen"]), ("d", b["differenzen"])):
+            for c in werte:
+                strecke = _schraeglinie(art, c, breite, hoehe)
+                if not strecke:
+                    continue
+                blatt.linie(blatt.p(*strecke[0])[:2], blatt.p(*strecke[1])[:2], ebene="verdeckt")
+                treffer |= set(strecke)
+        je_kante = {}
+        for u, v in sorted(treffer):
+            kanten = [k for k, ok in (("unten", abs(v) < 1e-6), ("oben", abs(v - hoehe) < 1e-6),
+                                      ("links", abs(u) < 1e-6), ("rechts", abs(u - breite) < 1e-6)) if ok]
+            for k in kanten[:1]:                                      # Ecke: nur einmal beschriften
+                je_kante.setdefault(k, []).append((u, v))
+        for k, marken in je_kante.items():
+            marken.sort(key=lambda q: q[0] if k in ("unten", "oben") else q[1])
+            vorher, lang = None, False
+            for u, v in marken:
+                pos = u if k in ("unten", "oben") else v
+                lang = vorher is not None and pos - vorher < 40 and not lang   # eng: abwechselnd lang
+                marke(u, v, k, lang)
+                vorher = pos
+        for u, v in b["loecher"]:
+            px, py, _ = blatt.p(u, v)
+            blatt.ebenen["sichtbar"].append(bd.Pos(px, py) * bd.Circle(l["durchmesser"] / 2 * m).edges()[0])
+        kante = "Kante zur Heckklappe" if id == "T1" else f"Kante zu {'T1' if id == 'F1' else 'F1'}"
+        blatt.text(f"{id} — {langname(alle, id)}: {fmt(breite)} × {fmt(hoehe)}, {len(b['loecher'])} Löcher",
+                   blatt.mitte[0], blatt.mitte[1] + hoehe * m + 22, 3.0, papier=True, ausrichtung=links)
+        blatt.text(f"↓ {kante}", blatt.mitte[0] + breite * m / 2, blatt.mitte[1] - 18, 2.4, papier=True)
+        blatt.text("0", blatt.mitte[0] - 2.5, blatt.mitte[1] - 2.5, 2.0, papier=True)
+
+    hinweise = [
+        "Randmaße der Schräglinien (Muster 45°).",
+        "",
+        "Jede Zahl = Abstand vom Nullpunkt (Ecke unten",
+        "links, Fahrerseite / Vorderkante) entlang der",
+        "Kante: unten und oben nach rechts gemessen,",
+        "links und rechts nach oben gemessen.",
+        "",
+        "Anreißen: alle Marken an den vier Kanten setzen,",
+        "dann je zwei Marken mit dem Lineal verbinden,",
+        "die auf einer 45°-Linie liegen (gestrichelt). Wo",
+        "sich zwei Linien kreuzen, sitzt eine Bohrung —",
+        "außer dort, wo im Bild kein Kreis ist",
+        "(Scharnier oder Wand darunter).",
+        "",
+        f"Entlang einer Kante liegen die Linien einer",
+        f"Richtung {fmt(lu['abstand'])} mm auseinander; beide Richtungen",
+        "zusammen ergeben die abwechselnden Abstände.",
+        f"Kontrolle mit dem Hilfsraster: Blatt {nr - 1}.",
+    ]
+    _bohrblatt_rahmen(blatt, titel, "Wo jede Lochlinie die Brettkante trifft — Maße ab Ecke unten links (ADR 0035)",
+                      nr, hinweise, [("kontur", "Brettkante"), ("verdeckt", "Schräglinie durch die Bohrungen"),
+                                     ("kreis", "Bohrung")])
+    return _bohrblatt_schreiben(blatt, variante, datei, png)
 
 
 # ── Blatt 1: Übersicht „Bezeichnungen“ ──────────────────────────────────────
@@ -1172,7 +1312,7 @@ def zeichne_uebersicht(variante, png=False):
     blatt.text("Blätter: 1 Bezeichnungen · 2–4 Ansichten (1:5) · 5 Box-Bretter (1:10) · "
                f"6–{5 + len(DETAILBLAETTER)} Einzelbretter zum Sägen (1:5) · "
                f"{6 + len(DETAILBLAETTER)}–{BLATT_ELEMENTE} Schubladen und Sitz-/Tischbretter, gefräst (1:5) · "
-               f"{BLATT_GESAMT} Bohrplan Liegefläche (1:10)",
+               f"{BLATT_GESAMT - 1}–{BLATT_GESAMT} Bohrplan Liegefläche (1:10)",
                25, 14, 2.2, papier=True, ausrichtung=links)
 
     ordner = ZIEL / variante
@@ -1211,6 +1351,10 @@ def sammel_pdf(variante, blaetter):
     return ziel
 
 
+def p_lueftung_diagonal():
+    return modell.lade_parameter()["lueftung"].get("muster") == "diagonal"
+
+
 def main():
     png = "--png" in sys.argv
     for variante in VARIANTEN:
@@ -1225,7 +1369,9 @@ def main():
         for nr, (datei, titel, kasten) in enumerate(SCHUBLADENBLAETTER, len(ANSICHTEN) + 3 + len(DETAILBLAETTER)):
             blaetter.append(zeichne_schublade(variante, datei, titel, kasten, nr, png))
         blaetter.append(zeichne_elemente(variante, *ELEMENTBLATT, BLATT_ELEMENTE, png))
-        blaetter.append(zeichne_bohrplan(variante, *BOHRPLAN, BLATT_GESAMT, png))
+        blaetter.append(zeichne_bohrplan(variante, *BOHRPLAN, BLATT_GESAMT - 1, png))
+        if p_lueftung_diagonal():
+            blaetter.append(zeichne_bohrplan_rand(variante, *BOHRPLAN_RAND, BLATT_GESAMT, png))
         print("\n".join(str(b.relative_to(ZIEL.parent.parent)) for b in blaetter if b.parent.name == variante
                         and b.stem not in ANSICHTEN))
         try:

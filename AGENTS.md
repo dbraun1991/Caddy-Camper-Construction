@@ -124,11 +124,14 @@ down.
   geometry via `window.BAUTEILE3D` from the 3D tab, directions from
   `modell.explosion()` → `MODELL.explosion` (add new parts there).
 - Ventilation holes in `T1`/`F1`/`F2` ([ADR 0035](docs/adrs/0035-ventilation-holes-in-the-sleeping-boards.md)):
-  grid from `lueftung` in `parameter.json` (Ø 20 / 100 mm are ASSUMPTIONS until
-  the builder checks their drill bits), holes skipped near hinges and walls
+  pattern rotated 45° (`lueftung.muster: diagonal`, builder 2026-11-17: diagonal
+  lines every 140 mm along an edge = 70 mm helper grid, every other crossing
+  drilled; Ø 20 is an ASSUMPTION until the builder checks their drill bits), holes skipped near hinges and walls
   under `T1` (`_lueftung()`), drawn with real holes in the viewer
-  (`lochBrett()`), last drawing sheet "Bohrplan Liegefläche" (1:10,
-  `zeichne_bohrplan()`), drilled by hand — not in any DXF.
+  (`lochBrett()`), last two drawing sheets "Bohrplan Liegefläche" (helper grid,
+  `zeichne_bohrplan()`) and "… Randmaße" (where each diagonal meets the board
+  edges, ordinates from the bottom-left corner, `zeichne_bohrplan_rand()`),
+  1:10, drilled by hand — not in any DXF.
 - Drawer CNC job: R2 edge break on the top side as DXF layer `KANTE_R2`
   ([ADR 0034](docs/adrs/0034-milled-r2-edge-break-top-side-only.md), `_kanten_r2()`
   in `cnc.py`): top rims, grip, windows, holes, `C1`–`C3` all round; joint faces,

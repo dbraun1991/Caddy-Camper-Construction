@@ -58,6 +58,30 @@ boards on 2026-11-17.
   (`lochBrett()`). They fold with the boards in the driving modes and appear in
   the explosion view.
 
+## Amendment 2026-11-17: pattern rotated by 45°
+
+The builder prefers the look of holes on diagonal lines and accepts fewer
+holes. `lueftung.muster` is now `diagonal`:
+- Two families of 45° lines cross, with a hole at every crossing.
+- `abstand` = 140 mm is now the spacing of the lines along a board edge, a
+  round number that is easy to mark. Along a line the holes are 140/√2 ≈ 99 mm
+  apart, so the density is about the same as before.
+- Seen along the board edges, this is a 70 mm helper grid with every other
+  crossing drilled (checkerboard). Of the two checkerboard halves, the model
+  takes the one with more crossings.
+- Result: `T1` 78, `F1` 68, `F2` 38 holes, 184 in total instead of 190. About
+  3.2 % of the area is removed.
+
+There are now two drawing sheets, and both marking methods lead to the same
+holes:
+- Sheet 12 shows the helper grid with chains "edge · n × 70 · edge".
+- Sheet 13, "Randmaße" (`zeichne_bohrplan_rand()`), shows where each diagonal
+  meets the four board edges, as ordinates from the bottom-left corner (driver
+  side, front edge). Close marks get alternating tick lengths so their numbers
+  stay readable. The builder sets all marks and joins them with a straightedge.
+
+`muster: gerade` still gives the original along/across grid.
+
 ## Consequences
 
 - Changing `durchmesser`/`abstand` after the builder checks the drill bits
