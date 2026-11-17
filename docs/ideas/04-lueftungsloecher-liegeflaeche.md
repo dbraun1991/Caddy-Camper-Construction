@@ -1,6 +1,6 @@
 # Idee: Lüftungslöcher in F1, F2 und T1 (Matratzenbelüftung)
 
-Status: offen · notiert 2026-11-17
+Status: umgesetzt 2026-11-17 → [ADR 0035](../adrs/0035-ventilation-holes-in-the-sleeping-boards.md) (Ø/Raster noch Annahme) · notiert 2026-11-17
 
 ## Frage
 

@@ -63,6 +63,8 @@ Alle drei Bretter gleich stark (18 mm), bündig auf Plattformhöhe 320 mm.
 | F1 | Klappbrett Rücksitz | 1.120 × 700 × 18 | 1 | Liegt auf umgeklappten Rücksitzlehnen auf (Lehnen bei 310 mm → 10 mm Ausgleich, §H4) |
 | F2 | Klappbrett Kopfende | 1.120 × 400 × 18 | 1 | Wenig Last, mit 2 Gurtschlaufen an den Vordersitz-Kopfstützen (§H4) |
 
+**Lüftungslöcher** ([ADR 0035](docs/adrs/0035-ventilation-holes-in-the-sleeping-boards.md)): Raster aus Längs- und Querlinien, Loch an jedem Schnittpunkt, von Hand mit Forstnerbohrer gebohrt (Opferbrett darunter). Angenommen Ø 20 mm im Raster 100 mm, 50 mm Rand — T1 78, F1 71, F2 41 Löcher, ca. 3 % der Fläche. Ø und Raster sind eine **Annahme**, bis die vorhandenen Bohrer feststehen (`modell/parameter.json` → `lueftung`). Bohrplan: letztes Werkzeichnungsblatt „Bohrplan Liegefläche“. Die Gurtschlaufen-Bohrungen in F2 (V15) mind. 15 mm neben die Lüftungslöcher setzen.
+
 ---
 
 ## Korpus — Unterbau (900 mm tief, 320 mm hoch, 1.120 mm breit)

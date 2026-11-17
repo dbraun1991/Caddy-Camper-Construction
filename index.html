@@ -139,7 +139,37 @@
       padding: 14px 16px calc(16px + env(safe-area-inset-bottom, 0px));
       background: #1a1a1a;
     }
-    body.statisch #viewport, body.cnc #viewport { display: none; }
+    body.statisch #viewport, body.cnc #viewport, body.explosion #viewport { display: none; }
+    body.explosion #explosion { display: block; }
+
+    /* Reiter „Explosion“: ein Bauteil auseinandergezogen, eigene Szene (ADR 0036) */
+    #explosion { position: relative; flex: 1; overflow: hidden; display: none; }
+    #explosion canvas { display: block; width: 100%; height: 100%; }
+    #explosion .leiste {
+      position: absolute; top: 10px; left: 12px; right: 12px; display: flex; flex-wrap: wrap; gap: 8px 14px;
+      align-items: center; font-size: 12px; color: #aaa; pointer-events: none;
+    }
+    #explosion .leiste > * { pointer-events: auto; }
+    #explosion select {
+      background: #222; color: #ddd; border: 1px solid #444; border-radius: 6px; padding: 7px 10px;
+      font-size: 13px; max-width: 100%;
+    }
+    #explosion input[type=range] { width: 180px; max-width: 45vw; vertical-align: middle; }
+    #explosion .hinweis {
+      position: absolute; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+      font-size: 12px; color: #888; pointer-events: none;
+    }
+    #etiketten { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+    #etiketten div {
+      position: absolute; transform: translate(-50%, -50%); font-size: 11px; line-height: 1; white-space: nowrap;
+      color: #fff; background: rgba(20,20,20,0.72); border: 1px solid rgba(255,255,255,0.18); border-radius: 4px;
+      padding: 2px 4px;
+    }
+    #etiketten.aus { display: none; }
+    #expTipp {
+      position: absolute; display: none; pointer-events: none; font-size: 12px; color: #eee; max-width: 320px;
+      background: rgba(10,10,10,0.92); border: 1px solid #555; border-radius: 6px; padding: 5px 8px;
+    }
     body.statisch #statisch { display: block; }
     body.cnc #cnc { display: block; }
 
@@ -217,6 +247,7 @@
   <h1>VW Caddy Mk3 — Camper Aufbau</h1>
   <div id="tabs">
     <button id="tabDyn" class="active" onclick="zeigeReiter('dynamisch')">Dynamisch · 3D</button>
+    <button id="tabExp"                onclick="zeigeReiter('explosion')">Explosion</button>
     <button id="tabStat"               onclick="zeigeReiter('statisch')">Statisch · Werkzeichnungen</button>
     <button id="tabCnc"                onclick="zeigeReiter('cnc')">DXF · CNC</button>
   </div>
@@ -228,7 +259,7 @@
   <div id="hint">Ziehen: drehen &nbsp;·&nbsp; Rechts ziehen / Shift + Ziehen / 2 Finger: verschieben &nbsp;·&nbsp; Scrollen / Pinch: zoom &nbsp;·&nbsp; Doppelklick: Drehpunkt setzen</div>
 
   <div id="legend">
-    <span style="background:#8B6520;"></span>Holz / Korpus + Liegefläche (Birke-Multiplex)<br>
+    <span style="background:#8B6520;"></span>Holz / Korpus + Liegefläche (Birke-Multiplex · T1/F1/F2 mit Lüftungslöchern, Ø und Raster angenommen)<br>
     <span style="background:#5DCAA5;"></span>Sitzbrett L/R &nbsp;(Brett 18 mm auf zwei gezapften Wangen, 42,5 mm hoch, bündig mit dem 55-mm-Schienenteil · 870 mm Auszug)<br>
     <span style="background:#EF9F27;"></span>Tischbrett Mitte (Brett 18 mm auf zwei gezapften Wangen, 42,5 mm hoch, bündig mit dem 55-mm-Schienenteil · 870 mm Auszug)<br>
     <span style="background:#378ADD;"></span>Schubladen × 3 &nbsp;(Kasten L/R 226,5 mm, Mitte 229,5 mm hoch, ohne Blende · 850 mm Auszug)<br>
@@ -256,6 +287,21 @@
   </div>
 </div>
 
+<div id="explosion">
+  <canvas id="cExp"></canvas>
+  <div id="etiketten"></div>
+  <div id="expTipp"></div>
+  <div class="leiste">
+    <select id="selExp" onchange="zeigeExplosion()"></select>
+    <label>Auseinander <input type="range" id="rngExp" min="0" max="250" value="120" oninput="explodiere()">
+      <span id="wertExp">120 mm</span></label>
+    <label><input type="checkbox" id="chkEtik" checked onchange="document.getElementById('etiketten').classList.toggle('aus', !this.checked)"> Kürzel</label>
+    <button onclick="expKamera()">↺ Reset</button>
+  </div>
+  <div class="hinweis">Ziehen: drehen · Rechts ziehen / Shift + Ziehen / 2 Finger: verschieben · Scrollen / Pinch: zoom ·
+    Zeigen oder Antippen: Langname · grün = Zapfen (wandern mit ihrem Brett)</div>
+</div>
+
 <div id="statisch">
   <div class="leiste">
     <select id="selAnsicht" onchange="zeigeBlatt()">
@@ -270,6 +316,7 @@
       <option value="schublade-d1-d2">Schublade links / rechts (D1 / D2) — Kastenbretter bemaßt</option>
       <option value="schublade-d3">Schublade Mitte (D3) — Kastenbretter bemaßt</option>
       <option value="elemente-c1-c3">Sitz-/Tischbretter (C1–C3) — Brett + Wangen bemaßt</option>
+      <option value="bohrplan-liegeflaeche">Bohrplan Liegefläche (T1 / F1 / F2) — Lüftungslöcher</option>
     </select>
     <select id="selVariante" onchange="zeigeBlatt()">
       <option value="gezapft">Wände gezapft in Boden- + Deckplatte</option>
@@ -289,7 +336,7 @@
       <option value="stumpf">Wände stumpf zwischen Boden- + Deckplatte</option>
       <option value="schubladen">Schubladenkästen D1–D3 + Sitz-/Tischbretter C1–C3 (eigener Auftrag)</option>
     </select>
-    <span class="legende klein"><span style="background:#d91a1a"></span>Außenkontur<span style="background:#1a40d9"></span>Schlitze und Fenster (Innenkontur)</span>
+    <span class="legende klein"><span style="background:#d91a1a"></span>Außenkontur<span style="background:#1a40d9"></span>Schlitze und Fenster (Innenkontur)<span style="background:#33b34d"></span>Kantenbruch R2 (Schubladen-Auftrag)</span>
   </div>
   <div class="inhalt" id="cncInhalt"></div>
 </div>
@@ -435,7 +482,8 @@
   // Schiene als Teleskop (ADR 0030, ersetzt ADR 0005): Gehäuse an der Wand bleibt stehen, das Mittelteil
   // fährt `auszug_mitte` aus, das Innenteil mit Hebel fährt mit dem Element die volle Länge. Maße aus
   // MODELL.parameter.schienen; die Stärke (19 mm) ist für die Darstellung auf die drei Teile aufgeteilt.
-  function schieneTeleskop(t) {
+  // g: Zielgruppe (Standard sg); frei = nur zeichnen, nicht für Modi/Klicks registrieren (Explosion, ADR 0036)
+  function schieneTeleskop(t, g, frei) {
     var el = elementVon(t.id), ty = TYP[ZU[el]], r = t.richtung;
     var b = t.box, yc = (b[1][0] + b[1][1]) / 2, z0 = b[2][0], z1 = b[2][1];
     var wand = r > 0 ? b[0][0] : b[0][1], st = ty.staerke;
@@ -447,11 +495,34 @@
     ];
     lagen.forEach(function (l, i) {
       var xa = wand + r * l[0] * st, xb = wand + r * l[1] * st;
-      var m = box(Math.abs(xb - xa), l[2], l[5] - l[4], mSchiene[i], (xa + xb) / 2, yc, (l[4] + l[5]) / 2, sg);
+      var m = box(Math.abs(xb - xa), l[2], l[5] - l[4], mSchiene[i], (xa + xb) / 2, yc, (l[4] + l[5]) / 2, g || sg);
       wireframe(m, KANTE_SCHIENE);
+      if (frei) return;
       if (l[3]) beweglich.push({ mesh: m, z: (l[4] + l[5]) / 2, faehrt: t.faehrt, element: el, auszug: l[3] });
       if (i === 2) meshById[t.id] = m;
     });
+  }
+
+  // Liegebrett mit Lüftungslöchern (ADR 0035): Platte als Umriss mit runden Löchern, um die Stärke
+  // extrudiert. Mittelpunkt wie beim Quader, damit Klappen (anhaengen) und Explosion gleich funktionieren.
+  function lochBrett(t, mat, g) {
+    var b = t.box, xm = (b[0][0] + b[0][1]) / 2, zm = (b[2][0] + b[2][1]) / 2;
+    var w = (b[0][1] - b[0][0]) / 2 * S, d = (b[2][1] - b[2][0]) / 2 * S, h = (b[1][1] - b[1][0]) * S;
+    var form = new THREE.Shape();      // u = x, v = −z (nach der Drehung um −90° um x)
+    form.moveTo(-w, -d); form.lineTo(w, -d); form.lineTo(w, d); form.lineTo(-w, d); form.lineTo(-w, -d);
+    var r = t.lueftung.durchmesser / 2 * S;
+    t.lueftung.mitten.forEach(function (m) {
+      var loch = new THREE.Path();
+      loch.absarc((m[0] - xm) * S, -(m[1] - zm) * S, r, 0, Math.PI * 2, true);
+      form.holes.push(loch);
+    });
+    var geo = new THREE.ExtrudeGeometry(form, { depth: h, bevelEnabled: false, curveSegments: 10 });
+    geo.translate(0, 0, -h / 2);
+    geo.rotateX(-Math.PI / 2);
+    var mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set(xm * S, (b[1][0] + b[1][1]) / 2 * S, zm * S);
+    (g || sg).add(mesh);
+    return mesh;
   }
 
   var kastenBretter = MODELL.schubladen_3d && MODELL.schubladen_3d.length;
@@ -459,7 +530,7 @@
     var mesh;
     if (t.material === 'schublade' && kastenBretter) return;   // Kästen D1–D3 kommen als Bretter (unten)
     if (t.material === 'schiene') { schieneTeleskop(t); return; }   // Teleskop statt Quader (ADR 0030)
-    mesh = teilBox(t, MAT[t.material]);
+    mesh = t.lueftung ? lochBrett(t, MAT[t.material]) : teilBox(t, MAT[t.material]);
     if (t.gruppe !== 'korpus') wireframe(mesh, KANTE[t.material]);
     if (t.faehrt) beweglich.push({ mesh: mesh, z: (t.box[2][0] + t.box[2][1]) / 2, faehrt: t.faehrt,
                                    element: elementVon(t.id), auszug: t.auszug });
@@ -479,7 +550,7 @@
     pfad.lineTo(u0, v0 + r); pfad.absarc(u0 + r, v0 + r, r, Math.PI, Math.PI * 1.5, false);
     return pfad;
   }
-  (MODELL.schubladen_3d || []).forEach(function (b) {
+  function kastenBrett(b, g) {
     var form = new THREE.Shape(b.aussen.map(v2));
     b.loecher.forEach(function (l) { form.holes.push(new THREE.Path(l.map(v2))); });
     b.fenster.forEach(function (f) { form.holes.push(fensterPfad(f)); });
@@ -490,10 +561,18 @@
     mesh.position.set(b.ursprung[0] * S, b.ursprung[1] * S, b.ursprung[2] * S);
     mesh.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo, 20),
                                     new THREE.LineBasicMaterial({ color: KANTE.schublade })));
-    sg.add(mesh);
+    (g || sg).add(mesh);
+    return mesh;
+  }
+  (MODELL.schubladen_3d || []).forEach(function (b) {
+    var mesh = kastenBrett(b);
     beweglich.push({ mesh: mesh, z: b.ursprung[2], faehrt: b.faehrt, element: b.kasten, auszug: b.auszug });
     meshById[b.id] = mesh;
   });
+
+  // Bauteil-Helfer für den Reiter „Explosion“ (ADR 0036): dieselbe Geometrie wie hier, eigene Szene
+  window.BAUTEILE3D = { S: S, MAT: MAT, KANTE: KANTE, teilBox: teilBox, lochBrett: lochBrett, wireframe: wireframe,
+                        kastenBrett: kastenBrett, schieneTeleskop: schieneTeleskop };
 
   // Dünne dunkle Streifen auf den Liegebrettern (Optik) — als Kind des Bretts, damit sie mitklappen
   MODELL.teile.filter(function (t) { return /^A\d$/.test(t.id); }).forEach(function (t) {
@@ -884,6 +963,219 @@
 
 })();
 
+// ── Reiter „Explosion“: ein Bauteil auseinandergezogen (ADR 0036) ──────────────
+// Eigene Szene und Kamera; Geometrie über window.BAUTEILE3D aus dem 3D-Reiter, Teile und Richtungen
+// aus MODELL.explosion (modell.py). Position = Lage im Modell + Richtung × Reglerweg (mm).
+(function () {
+  var B = window.BAUTEILE3D, S = B.S;
+  var wrap = document.getElementById('explosion'), canvas = document.getElementById('cExp');
+  var etikettenEl = document.getElementById('etiketten'), tipp = document.getElementById('expTipp');
+  var sel = document.getElementById('selExp'), rng = document.getElementById('rngExp');
+  var TEIL = {}, BRETT = {};
+  MODELL.teile.forEach(function (t) { TEIL[t.id] = t; });
+  (MODELL.schubladen_3d || []).forEach(function (b) { BRETT[b.id] = b; });
+  MODELL.explosion.forEach(function (o) {
+    var opt = document.createElement('option');
+    opt.value = o.id; opt.textContent = o.name;
+    sel.appendChild(opt);
+  });
+
+  var renderer = null, scene, camera, gruppe = null, teile = [], aktiv = false;
+  var mZapfen = new THREE.MeshLambertMaterial({ color: 0x3BA55C });
+  var orbit = { theta: -Math.PI + 0.75, phi: 1.05, r: 20, ziel: new THREE.Vector3() }, START = null;
+
+  function init() {
+    renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x1a1a1a, 1);
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(40, 1, 0.01, 300);
+    scene.add(new THREE.AmbientLight(0xffffff, 0.6));
+    var sonne = new THREE.DirectionalLight(0xffffff, 0.85); sonne.position.set(10, 20, -12); scene.add(sonne);
+    var fill = new THREE.DirectionalLight(0xffffff, 0.35); fill.position.set(-10, 5, 8); scene.add(fill);
+    groesse();
+  }
+  function groesse() {
+    if (!renderer || !wrap.offsetWidth) return;
+    renderer.setSize(wrap.offsetWidth, wrap.offsetHeight, false);
+    camera.aspect = wrap.offsetWidth / wrap.offsetHeight;
+    camera.updateProjectionMatrix();
+  }
+
+  function langname(e) {
+    var t = TEIL[e.id] || BRETT[e.id] || {};
+    var n = (t.name || '').split(' · ')[0];
+    if (/^D\d-S[ab]$/.test(e.id)) n += e.id.slice(-1) === 'a' ? ' (−x, Beifahrerseite)' : ' (+x, Fahrerseite)';
+    return n;
+  }
+
+  function bauen() {
+    var o = MODELL.explosion.filter(function (o) { return o.id === sel.value; })[0] || MODELL.explosion[0];
+    if (gruppe) {
+      scene.remove(gruppe);
+      gruppe.traverse(function (m) { if (m.geometry) m.geometry.dispose(); });
+    }
+    gruppe = new THREE.Group();
+    scene.add(gruppe);
+    teile = [];
+    etikettenEl.innerHTML = '';
+    o.teile.forEach(function (e) {
+      var obj, t = TEIL[e.id];
+      if (e.quelle === 'brett3d') obj = B.kastenBrett(BRETT[e.id], gruppe);
+      else if (e.quelle === 'schiene') { obj = new THREE.Group(); gruppe.add(obj); B.schieneTeleskop(t, obj, true); }
+      else {
+        var mat = e.zapfen ? mZapfen : B.MAT[t.material];
+        obj = t.lueftung ? B.lochBrett(t, mat, gruppe) : B.teilBox(t, mat, gruppe);
+        if (!e.zapfen) B.wireframe(obj, B.KANTE[t.material]);
+      }
+      var mitte = new THREE.Box3().setFromObject(obj).getCenter(new THREE.Vector3());
+      var eintrag = { obj: obj, basis: obj.position.clone(), versatz: mitte.sub(obj.position),
+                      richtung: new THREE.Vector3().fromArray(e.richtung), e: e, name: langname(e) };
+      obj.traverse(function (m) { m.userData.teil = eintrag; });
+      if (!e.zapfen) {
+        eintrag.etikett = document.createElement('div');
+        eintrag.etikett.textContent = e.id;
+        etikettenEl.appendChild(eintrag.etikett);
+      }
+      teile.push(eintrag);
+    });
+    // Objekt um den Ursprung zentrieren, Kamera auf die Größe einstellen
+    var kiste = new THREE.Box3().setFromObject(gruppe), groesseV = kiste.getSize(new THREE.Vector3());
+    gruppe.position.sub(kiste.getCenter(new THREE.Vector3()));
+    START = Math.max(groesseV.x, groesseV.y, groesseV.z) * 1.7 + 2;
+    expKamera();
+    explodiere();
+  }
+
+  window.explodiere = function () {
+    var v = Number(rng.value);
+    document.getElementById('wertExp').textContent = v + ' mm';
+    teile.forEach(function (t) {
+      t.obj.position.copy(t.basis).addScaledVector(t.richtung, v * S);
+    });
+  };
+  window.expKamera = function () {
+    orbit.theta = -Math.PI + 0.75; orbit.phi = 1.05; orbit.r = START || 20; orbit.ziel.set(0, 0, 0);
+    kamera();
+  };
+  function kamera() {
+    if (!camera) return;
+    var o = orbit;
+    camera.position.set(o.ziel.x + o.r * Math.sin(o.phi) * Math.sin(o.theta), o.ziel.y + o.r * Math.cos(o.phi),
+                        o.ziel.z + o.r * Math.sin(o.phi) * Math.cos(o.theta));
+    camera.lookAt(o.ziel);
+  }
+
+  // Etiketten: Mitte jedes Teils auf den Bildschirm projizieren
+  var p = new THREE.Vector3();
+  function etiketten() {
+    var w = wrap.offsetWidth, h = wrap.offsetHeight;
+    teile.forEach(function (t) {
+      if (!t.etikett) return;
+      p.copy(t.obj.position).add(t.versatz).add(gruppe.position).project(camera);
+      var sichtbar = p.z < 1;
+      t.etikett.style.display = sichtbar ? '' : 'none';
+      if (sichtbar) {
+        t.etikett.style.left = ((p.x + 1) / 2 * w) + 'px';
+        t.etikett.style.top = ((1 - p.y) / 2 * h) + 'px';
+      }
+    });
+  }
+
+  function anim() {
+    if (!aktiv) return;
+    requestAnimationFrame(anim);
+    renderer.render(scene, camera);
+    etiketten();
+  }
+
+  window.zeigeExplosion = function () { if (renderer) bauen(); };
+  window.explosionAktiv = function (an) {
+    if (an === aktiv) return;
+    aktiv = an;
+    if (!an) return;
+    if (!renderer) { init(); bauen(); }
+    groesse();
+    anim();
+  };
+  new ResizeObserver(groesse).observe(wrap);
+
+  // Steuerung wie im 3D-Reiter: links drehen, rechts/Shift verschieben, Rad/Pinch zoomen
+  var zug = null, start = null;
+  function verschieben(dx, dy) {
+    var proPixel = 2 * orbit.r * Math.tan(camera.fov * Math.PI / 360) / canvas.clientHeight;
+    camera.updateMatrixWorld();
+    var re = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 0);
+    var ho = new THREE.Vector3().setFromMatrixColumn(camera.matrixWorld, 1);
+    orbit.ziel.addScaledVector(re, -dx * proPixel).addScaledVector(ho, dy * proPixel);
+  }
+  function drehen(dx, dy) {
+    orbit.theta -= dx * 0.007;
+    orbit.phi = Math.max(0.05, Math.min(Math.PI - 0.05, orbit.phi - dy * 0.007));   // auch von unten
+  }
+  canvas.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+  canvas.addEventListener('mousedown', function (e) {
+    zug = { x: e.clientX, y: e.clientY, art: (e.button === 2 || e.shiftKey) ? 'schieben' : 'drehen' };
+  });
+  window.addEventListener('mouseup', function () { zug = null; });
+  window.addEventListener('mousemove', function (e) {
+    if (aktiv && e.target === canvas) zeigeTipp(e.clientX, e.clientY);
+    if (!zug || !aktiv) return;
+    if (zug.art === 'schieben') verschieben(e.clientX - zug.x, e.clientY - zug.y);
+    else drehen(e.clientX - zug.x, e.clientY - zug.y);
+    zug.x = e.clientX; zug.y = e.clientY;
+    kamera();
+  });
+  canvas.addEventListener('mouseleave', function () { tipp.style.display = 'none'; });
+  canvas.addEventListener('wheel', function (e) {
+    orbit.r = Math.max(2, Math.min(80, orbit.r * (1 + e.deltaY * 0.001)));
+    e.preventDefault();
+    kamera();
+  }, { passive: false });
+  var tp = null, pinch = 0, mitte = null;
+  function abstand(t) { return Math.hypot(t[0].clientX - t[1].clientX, t[0].clientY - t[1].clientY); }
+  function mittel(t) { return { x: (t[0].clientX + t[1].clientX) / 2, y: (t[0].clientY + t[1].clientY) / 2 }; }
+  canvas.addEventListener('touchstart', function (e) {
+    if (e.touches.length === 2) { pinch = abstand(e.touches); mitte = mittel(e.touches); tp = null; }
+    else if (e.touches.length === 1) { tp = start = { x: e.touches[0].clientX, y: e.touches[0].clientY }; pinch = 0; }
+  }, { passive: true });
+  canvas.addEventListener('touchmove', function (e) {
+    if (e.touches.length === 2 && pinch) {
+      var d = abstand(e.touches), m = mittel(e.touches);
+      orbit.r = Math.max(2, Math.min(80, orbit.r * pinch / d));
+      pinch = d;
+      verschieben(m.x - mitte.x, m.y - mitte.y);
+      mitte = m;
+    } else if (e.touches.length === 1 && tp) {
+      drehen(e.touches[0].clientX - tp.x, e.touches[0].clientY - tp.y);
+      tp = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    } else return;
+    kamera();
+    e.preventDefault();
+  }, { passive: false });
+  canvas.addEventListener('touchend', function (e) {
+    pinch = 0;
+    if (!e.touches.length && start && tp && Math.hypot(tp.x - start.x, tp.y - start.y) < 8) zeigeTipp(tp.x, tp.y);
+    tp = e.touches.length === 1 ? { x: e.touches[0].clientX, y: e.touches[0].clientY } : null;
+    start = null;
+  }, { passive: true });
+
+  // Langname unter dem Zeiger (Maus) bzw. nach Antippen
+  var strahl = new THREE.Raycaster(), zeiger = new THREE.Vector2();
+  function zeigeTipp(x, y) {
+    var r = canvas.getBoundingClientRect();
+    zeiger.set((x - r.left) / r.width * 2 - 1, -(y - r.top) / r.height * 2 + 1);
+    strahl.setFromCamera(zeiger, camera);
+    var treffer = strahl.intersectObject(gruppe, true).filter(function (t) { return t.object.isMesh; })[0];
+    if (!treffer) { tipp.style.display = 'none'; return; }
+    var t = treffer.object.userData.teil;
+    tipp.innerHTML = '<b>' + t.e.id + '</b> · ' + t.name;
+    tipp.style.display = 'block';
+    tipp.style.left = Math.min(x - r.left + 14, r.width - 330) + 'px';
+    tipp.style.top = (y - r.top + 14) + 'px';
+  }
+})();
+
 // ── Reiter „Statisch“: Werkzeichnungen aus modell/zeichnungen.py (build123d) ──
 (function () {
   var VARIANTEN = {
@@ -894,11 +1186,14 @@
   window.zeigeReiter = function (r) {
     document.body.classList.toggle('statisch', r === 'statisch');
     document.body.classList.toggle('cnc', r === 'cnc');
+    document.body.classList.toggle('explosion', r === 'explosion');
     document.getElementById('tabDyn').classList.toggle('active', r === 'dynamisch');
+    document.getElementById('tabExp').classList.toggle('active', r === 'explosion');
     document.getElementById('tabStat').classList.toggle('active', r === 'statisch');
     document.getElementById('tabCnc').classList.toggle('active', r === 'cnc');
     if (r === 'statisch') zeigeBlatt();
     if (r === 'cnc') zeigeCnc();
+    window.explosionAktiv(r === 'explosion');
     history.replaceState(null, '', r === 'dynamisch' ? location.pathname + location.search : '#' + r);
   };
 
@@ -974,7 +1269,8 @@
              '<div class="klein">' + t.stk + ' Stk. · ' + esc(t.mass) + ' mm' +
              (t.material ? ' · ' + esc(t.material) : '') +
              (t.schlitze ? ' · ' + t.schlitze + ' Schlitze innen' : '') +
-             (t.fenster ? ' · ' + t.fenster + ' ' + esc(t.fenster_art || 'Fenster') : '') + '</div>' +
+             (t.fenster ? ' · ' + t.fenster + ' ' + esc(t.fenster_art || 'Fenster') : '') +
+             (t.kanten_r2 ? ' · Kantenbruch oben (grün)' : '') + '</div>' +
              '<a href="' + t.datei + '" download>' + esc(t.datei.split('/').pop()) + ' herunterladen</a></div>';
     }).join('') + '</div>';
     v.abschnitte.forEach(function (a) {
@@ -1005,8 +1301,8 @@
   };
 })();
 
-// Direkt verlinkbar: index.html#statisch bzw. #cnc (erst hier, wenn alle Reiter definiert sind)
-if (location.hash === '#statisch' || location.hash === '#cnc') zeigeReiter(location.hash.slice(1));
+// Direkt verlinkbar: index.html#statisch, #cnc bzw. #explosion (erst hier, wenn alle Reiter definiert sind)
+if (['#statisch', '#cnc', '#explosion'].indexOf(location.hash) >= 0) zeigeReiter(location.hash.slice(1));
 </script>
 </body>
 </html>

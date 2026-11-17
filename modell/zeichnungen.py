@@ -446,10 +446,10 @@ def zeichne_bretter(variante, png=False):
         blatt.text("Zapfen, Schlitze, Aussparungen — selbst sägen", 40, 41, 2.6, papier=True, ausrichtung=links)
         blatt.text("Wandhöhe 340 = 302 + 2 × 19 mm Zapfen (1 mm Schleifzugabe je Kante).", 25, 34, 2.2, papier=True, ausrichtung=links)
         blatt.text("Absatz an Trennwand (M1/M2) hinten genau 882 ab Vorderkante.", 25, 30, 2.2, papier=True, ausrichtung=links)
-        blatt.text(f"Alle Zapfen, Schlitze und Aussparungen bemaßt: Blätter {len(ANSICHTEN) + 3}–{BLATT_GESAMT} (1:5).",
+        blatt.text(f"Alle Zapfen, Schlitze und Aussparungen bemaßt: Blätter {len(ANSICHTEN) + 3}–{BLATT_ELEMENTE} (1:5).",
                    25, 26, 2.2, papier=True, ausrichtung=links)
     blatt.text(f"Ohne Schubladen und Sitz-/Tischbretter — die kommen gefräst, bemaßt auf den Blättern "
-               f"{BLATT_GESAMT - len(SCHUBLADENBLAETTER)}–{BLATT_GESAMT}.",
+               f"{BLATT_ELEMENTE - len(SCHUBLADENBLAETTER)}–{BLATT_ELEMENTE}. Lüftungslöcher: Blatt {BLATT_GESAMT}.",
                25, 14, 2.2, papier=True, ausrichtung=links)
     x0, y0 = 120, 46
     for x, kopf in ((x0, "Pos."), (x0 + 22, "Langname"), (x0 + 72, "Maß"), (x0 + 96, "mm"), (x0 + 104, "Stk.")):
@@ -483,7 +483,9 @@ SCHUBLADENBLAETTER = [  # (Dateiname, Titel, Kasten)
     ("schublade-d3", "Schublade Mitte (D3)", "D3"),
 ]
 ELEMENTBLATT = ("elemente-c1-c3", "Sitz-/Tischbretter C1–C3")   # Bretter + Wangen zum Nachmessen (ADR 0029/0031)
-BLATT_GESAMT = 1 + len(ANSICHTEN) + 1 + len(DETAILBLAETTER) + len(SCHUBLADENBLAETTER) + 1   # Blatt 1 = „Bezeichnungen“
+BOHRPLAN = ("bohrplan-liegeflaeche", "Bohrplan Liegefläche T1 / F1 / F2")   # Lüftungslöcher von Hand (ADR 0035)
+BLATT_GESAMT = 1 + len(ANSICHTEN) + 1 + len(DETAILBLAETTER) + len(SCHUBLADENBLAETTER) + 1 + 1   # Blatt 1 = „Bezeichnungen“
+BLATT_ELEMENTE = BLATT_GESAMT - 1                                    # letztes Blatt = Bohrplan
 
 
 def brett_geometrie(alle, p, id, ansicht):
@@ -974,6 +976,96 @@ def zeichne_elemente(variante, datei, titel, nr, png=False):
     return pfad
 
 
+# ── Letztes Blatt: Bohrplan Lüftungslöcher T1 / F1 / F2, 1:10 ───────────────────
+BOHRPLAN_LAGE = {"T1": (40, 128), "F1": (215, 148), "F2": (215, 68)}   # Papier: linke untere Ecke je Brett
+
+
+def zeichne_bohrplan(variante, datei, titel, nr, png=False):
+    """Lüftungslöcher (ADR 0035) zum Anreißen: Längs- und Querlinien des Rasters gestrichelt, Bohrungen als
+    Kreis an den Schnittpunkten, ausgelassene Schnittpunkte ohne Kreis. Blick von oben, Fahrerseite links,
+    Kante zur Heckklappe (T1) bzw. zum Vorgängerbrett (F1, F2) unten — wie Blatt 6."""
+    p = modell.lade_parameter()
+    alle = modell.teile(p, variante)
+    lu = p["lueftung"]
+    m = 1 / 10
+    blatt = Blatt((0, 0), m)
+    links = (bd.TextAlign.LEFT, bd.TextAlign.CENTER)
+    summe = 0
+    for id in lu["bretter"]:
+        t = teil(alle, id)
+        (x0, x1), _, (z0, z1) = t["box"]
+        breite, hoehe = x1 - x0, z1 - z0
+        l = t["lueftung"]
+        us = sorted(round(x1 - x, 2) for x in l["x"])               # Fahrerseite (+x) links
+        vs = [round(z - z0, 2) for z in l["z"]]
+        blatt.mitte = BOHRPLAN_LAGE[id]
+        blatt.rechteck(0, 0, breite, hoehe, "kontur")
+        for u in us:
+            blatt.linie(blatt.p(u, 0)[:2], blatt.p(u, hoehe)[:2], ebene="verdeckt")
+        for v in vs:
+            blatt.linie(blatt.p(0, v)[:2], blatt.p(breite, v)[:2], ebene="verdeckt")
+        for x, z in l["mitten"]:
+            px, py, _ = blatt.p(x1 - x, z - z0)
+            blatt.ebenen["sichtbar"].append(bd.Pos(px, py) * bd.Circle(l["durchmesser"] / 2 * m).edges()[0])
+        summe += len(l["mitten"])
+        a = lu["abstand"]
+        # quer: Rand · n × Abstand · Rand (oben), längs: dasselbe links
+        blatt.mass((us[0], hoehe), (0, hoehe), 6)                    # von rechts nach links: Maß über dem Brett
+        blatt.mass((us[-1], hoehe), (us[0], hoehe), 6, f"{len(us) - 1} × {fmt(a)} = {fmt(us[-1] - us[0])}")
+        blatt.mass((breite, hoehe), (us[-1], hoehe), 6)
+        blatt.mass((breite, hoehe), (0, hoehe), 14, f"{fmt(breite)} gesamt")
+        blatt.mass((0, vs[0]), (0, 0), 6)
+        if len(vs) > 1:
+            blatt.mass((0, vs[-1]), (0, vs[0]), 6, f"{len(vs) - 1} × {fmt(a)}")
+        blatt.mass((0, hoehe), (0, vs[-1]), 6)
+        blatt.mass((0, hoehe), (0, 0), 16, f"{fmt(hoehe)} gesamt")
+        kante = "Kante zur Heckklappe" if id == "T1" else f"Kante zu {'T1' if id == 'F1' else 'F1'}"
+        blatt.text(f"{id} — {langname(alle, id)}: {len(l['mitten'])} Löcher Ø {fmt(l['durchmesser'])}",
+                   blatt.mitte[0], blatt.mitte[1] + hoehe * m + 22, 3.0, papier=True, ausrichtung=links)
+        blatt.text(f"↓ {kante}", blatt.mitte[0] + breite * m / 2, blatt.mitte[1] - 4, 2.4, papier=True)
+
+    hinweise = [
+        f"Ø {fmt(lu['durchmesser'])} mm, Raster {fmt(lu['abstand'])} mm — ANNAHME,",
+        "bis die vorhandenen Bohrer nachgeschaut sind",
+        "(parameter.json → lueftung, neu erzeugen).",
+        "",
+        "Anreißen: Querlinien (gestrichelt, senkrecht im",
+        "Bild) und Längslinien ab Brettkante wie bemaßt,",
+        "Bohrung nur, wo ein Kreis gezeichnet ist.",
+        f"Ausgelassen: Lochrand näher als {fmt(lu['abstand_hindernis'])} mm an",
+        "Scharnier (H1/H2) oder Wand unter T1",
+        "(S1/S2, M1/M2, R1 mit Zapfen).",
+        "",
+        "Bohren: Forstnerbohrer, Opferbrett darunter",
+        "fest anpressen (sonst reißt die Unterseite aus),",
+        "senkrecht (Bohrständer oder Bohrführung).",
+        "Danach beide Seiten leicht brechen.",
+        "",
+        f"Zusammen {summe} Löcher. Ø {fmt(lu['durchmesser'])} im Raster",
+        f"{fmt(lu['abstand'])} nimmt ca. {fmt(round(100 * 3.1416 * (lu['durchmesser'] / 2) ** 2 / lu['abstand'] ** 2, 1))} % der Fläche weg (ADR 0035).",
+    ]
+    for i, zeile in enumerate(hinweise):
+        blatt.text(zeile, 345, 262 - i * 4.6, 2.3, papier=True, ausrichtung=links)
+    blatt.rahmen(titel, "Lüftungslöcher unter der Matratze, von Hand gebohrt — nicht in der CNC-Datei (ADR 0035)",
+                 nr, "gleich in beiden Varianten", massstab="1:10 (DIN A3)")
+    blatt.linie((25, 46), (37, 46), ebene="kontur")
+    blatt.text("Brettkante", 40, 46, 2.6, papier=True, ausrichtung=links)
+    blatt.linie((25, 41), (37, 41), ebene="verdeckt")
+    blatt.text("Rasterlinie zum Anreißen", 40, 41, 2.6, papier=True, ausrichtung=links)
+    blatt.ebenen["sichtbar"].append(bd.Pos(31, 36) * bd.Circle(1.5).edges()[0])
+    blatt.text("Bohrung", 40, 36, 2.6, papier=True, ausrichtung=links)
+
+    ordner = ZIEL / variante
+    ordner.mkdir(parents=True, exist_ok=True)
+    pfad = ordner / f"{datei}.svg"
+    blatt.schreiben(pfad)
+    if png:
+        import cairosvg
+        cairosvg.svg2png(url=str(pfad), write_to=str(pfad.with_suffix(".png")),
+                         output_width=2400, background_color="white")
+    return pfad
+
+
 # ── Blatt 1: Übersicht „Bezeichnungen“ ──────────────────────────────────────
 # Isometrie der Box mit Liegefläche (Schlafmodus, ohne Einbauten) und Tabelle aller Kürzel.
 ISO_KAMERA, ISO_ZIEL = (10000, 9000, -13000), (0, 160, 1000)   # von vorn-oben, Fahrerseite (+x)
@@ -1079,7 +1171,8 @@ def zeichne_uebersicht(variante, png=False):
                  "(Bottom, Rear, Side, Mid, Top, Fold, Hinge)", 1, VARIANTEN[variante], massstab="ohne (Übersicht)")
     blatt.text("Blätter: 1 Bezeichnungen · 2–4 Ansichten (1:5) · 5 Box-Bretter (1:10) · "
                f"6–{5 + len(DETAILBLAETTER)} Einzelbretter zum Sägen (1:5) · "
-               f"{6 + len(DETAILBLAETTER)}–{BLATT_GESAMT} Schubladen und Sitz-/Tischbretter, gefräst (1:5)",
+               f"{6 + len(DETAILBLAETTER)}–{BLATT_ELEMENTE} Schubladen und Sitz-/Tischbretter, gefräst (1:5) · "
+               f"{BLATT_GESAMT} Bohrplan Liegefläche (1:10)",
                25, 14, 2.2, papier=True, ausrichtung=links)
 
     ordner = ZIEL / variante
@@ -1131,7 +1224,8 @@ def main():
             blaetter.append(zeichne_detail(variante, datei, titel, bretter, nr, png))
         for nr, (datei, titel, kasten) in enumerate(SCHUBLADENBLAETTER, len(ANSICHTEN) + 3 + len(DETAILBLAETTER)):
             blaetter.append(zeichne_schublade(variante, datei, titel, kasten, nr, png))
-        blaetter.append(zeichne_elemente(variante, *ELEMENTBLATT, BLATT_GESAMT, png))
+        blaetter.append(zeichne_elemente(variante, *ELEMENTBLATT, BLATT_ELEMENTE, png))
+        blaetter.append(zeichne_bohrplan(variante, *BOHRPLAN, BLATT_GESAMT, png))
         print("\n".join(str(b.relative_to(ZIEL.parent.parent)) for b in blaetter if b.parent.name == variante
                         and b.stem not in ANSICHTEN))
         try:

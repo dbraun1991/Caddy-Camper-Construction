@@ -17,7 +17,8 @@ regenerating them after a dimension change runs two Python scripts (ADR 0015).
 ## Repo structure
 
 ```
-index.html                 — viewer: tab "Dynamisch" (Three.js r128 via CDN), tab "Statisch"
+index.html                 — viewer: tab "Dynamisch" (Three.js r128 via CDN), tab "Explosion"
+                              (one assembly exploded, ADR 0036), tab "Statisch"
                               (workshop drawings), tab "DXF · CNC" (docs/cnc/cnc.js);
                               builds all parts from modell/modell.js
 modell/parameter.json      — single source of all build dimensions (mm)
@@ -38,6 +39,7 @@ Hinweise-Sommernutzung.md  — legal (rasten vs. campen), payload, ventilation, 
                               F2 headrest mounting, ADR 0012)
 README.md                  — usage, controls, dimensions overview, render architecture notes
 docs/adrs/                 — architecture decision records (see below)
+docs/ideas/                — builder's ideas, one file each, German; status line points to the ADR once done
 docs/zeichnungen/          — generated drawings, one folder per `eckausbildung` variant
 docs/cnc/                  — generated DXF + AUFTRAG.md + vorschau/*.svg per variant and for the
                               drawer boxes (docs/cnc/schubladen/, ADR 0024),
@@ -115,6 +117,22 @@ down.
 
 ### Implemented
 
+- Exploded-view tab "Explosion" ([ADR 0036](docs/adrs/0036-exploded-view-tab.md), 2026-11-17):
+  dropdown Box / D1/D2 / D3 / C1/C2 / C3, slider "Auseinander" 0–250 mm,
+  code labels + long name on hover/tap, tenons green; own scene/camera,
+  geometry via `window.BAUTEILE3D` from the 3D tab, directions from
+  `modell.explosion()` → `MODELL.explosion` (add new parts there).
+- Ventilation holes in `T1`/`F1`/`F2` ([ADR 0035](docs/adrs/0035-ventilation-holes-in-the-sleeping-boards.md)):
+  grid from `lueftung` in `parameter.json` (Ø 20 / 100 mm are ASSUMPTIONS until
+  the builder checks their drill bits), holes skipped near hinges and walls
+  under `T1` (`_lueftung()`), drawn with real holes in the viewer
+  (`lochBrett()`), last drawing sheet "Bohrplan Liegefläche" (1:10,
+  `zeichne_bohrplan()`), drilled by hand — not in any DXF.
+- Drawer CNC job: R2 edge break on the top side as DXF layer `KANTE_R2`
+  ([ADR 0034](docs/adrs/0034-milled-r2-edge-break-top-side-only.md), `_kanten_r2()`
+  in `cnc.py`): top rims, grip, windows, holes, `C1`–`C3` all round; joint faces,
+  bottoms, cheeks sharp; underside by hand. Plate-count estimate per job
+  ([ADR 0033](docs/adrs/0033-plate-count-estimate-shop-nests.md)).
 - 3D viewer with orbit (drag), pan (right-drag / Shift-drag / two fingers),
   zoom (scroll/pinch), double-click on a part to make that point the orbit
   centre, and camera reset (also resets the centre), mouse + touch. A single
@@ -209,7 +227,8 @@ down.
   ~1.5–6.5 kg; only worth it if the tenon reliefs/slots get CNC-milled on the
   existing blanks anyway. Don't change the model until the builder decides.
   `F1/F2` stay solid — decided by the builder 2026-11-13, don't propose
-  lightening them again.
+  lightening them again. (The ventilation holes of ADR 0035 are a different
+  purpose, confirmed by the builder 2026-11-17 for `T1`, `F1`, `F2`.)
 
 - ~~ADR 0013~~ — decided by [ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md) (2026-11-12): seat/table element =
   18 mm board on top of two cheeks (inverted U), runner screwed to the cheek
@@ -290,6 +309,9 @@ down.
 
 ### TODOs
 
+- Builder checks which drill bits they own, then set `lueftung.durchmesser`
+  (and maybe `abstand`) in `modell/parameter.json` and regenerate (ADR 0035,
+  asked 2026-11-17).
 - Record the size of the hinges already bought (`V17`): leaf width, open
   length, axis height above the board. `scharniere` in `modell/parameter.json`
   is still assumed (60 / 60 / 3 mm). Builder asked 2026-11-13.

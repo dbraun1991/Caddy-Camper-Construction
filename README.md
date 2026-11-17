@@ -10,7 +10,7 @@ Gebaut mit [Three.js r128](https://threejs.org) — keine Installation, kein Bui
 ## Dateien
 
 ```
-index.html                  — Viewer: Reiter „Dynamisch · 3D“, „Statisch · Werkzeichnungen“ und „DXF · CNC“
+index.html                  — Viewer: Reiter „Dynamisch · 3D“, „Explosion“, „Statisch · Werkzeichnungen“ und „DXF · CNC“
 modell/parameter.json       — gemeinsame Datenbasis: alle Hauptmaße (mm)
 modell/modell.py            — leitet daraus alle Bauteile + Überschneidungen ab → modell/modell.js
 modell/zeichnungen.py       — Werkzeichnungen mit build123d → docs/zeichnungen/
@@ -54,6 +54,7 @@ Einzige Voraussetzung: Internetverbindung beim ersten Öffnen (Three.js wird per
 | Ansicht zurücksetzen | Reset-Button (Standardansicht: von hinten rechts, Caddy-Hülle sichtbar, Standard-Drehpunkt) |
 | Überschneidungen anzeigen | Button „Überschneidungen“ — rot, bezogen auf den eingefahrenen Zustand |
 | Legende ein-/ausblenden | Button „Legende“ — am Handy (≤ 700 px Breite) standardmäßig ausgeblendet, weil sie sonst die Szene verdeckt |
+| Explosionsansicht | Reiter „Explosion“: ein Bauteil per Auswahl (Box, D1/D2, D3, C1/C2, C3), Regler „Auseinander“ 0–250 mm, Kürzel als Etiketten (abschaltbar), Langname beim Zeigen/Antippen, Zapfen grün; direkt verlinkbar mit `index.html#explosion` ([ADR 0036](docs/adrs/0036-exploded-view-tab.md)) |
 | Werkzeichnungen | Reiter „Statisch · Werkzeichnungen“ (oben rechts), direkt verlinkbar mit `index.html#statisch` |
 | CNC-Dateien | Reiter „DXF · CNC“: Vorschau jeder DXF, Download und alle Hinweise zum Auftrag, direkt verlinkbar mit `index.html#cnc` |
 
@@ -86,7 +87,7 @@ Die Führungsschienen sind als Teleskop dargestellt ([ADR 0030](docs/adrs/0030-t
 
 ## Werkzeichnungen
 
-Ein Übersichtsblatt „Bezeichnungen“, drei Ansichten nach Dreitafelprojektion (DIN A3 quer, Maßstab 1:5), ein Zuschnittblatt „Box-Bretter“ (1:10) drei Einzelbrett-Blätter (1:5) zum Sägen und zwei Schubladenblätter (1:5: alle Kastenbretter von D1/D2 bzw. D3 flach, Kontur wie die CNC-Dateien, bemaßt), erzeugt mit [build123d](https://github.com/gumyr/build123d) aus derselben Datenbasis wie der 3D-Viewer:
+Ein Übersichtsblatt „Bezeichnungen“, drei Ansichten nach Dreitafelprojektion (DIN A3 quer, Maßstab 1:5), ein Zuschnittblatt „Box-Bretter“ (1:10), drei Einzelbrett-Blätter (1:5) zum Sägen, zwei Schubladenblätter (1:5: alle Kastenbretter von D1/D2 bzw. D3 flach, Kontur wie die CNC-Dateien, bemaßt), ein Blatt Sitz-/Tischbretter (1:5) und ein Bohrplan für die Lüftungslöcher der Liegefläche (1:10), erzeugt mit [build123d](https://github.com/gumyr/build123d) aus derselben Datenbasis wie der 3D-Viewer:
 
 | Ansicht | Blickrichtung | Wände gezapft |
 |---|---|---|
@@ -101,6 +102,7 @@ Ein Übersichtsblatt „Bezeichnungen“, drei Ansichten nach Dreitafelprojektio
 | **Schublade D1 / D2** (1:5) | Seitenwand, Kastenfront mit Griff, Kastenrückwand, Boden: Zinken, Bodenschlitze/-zapfen, Fenster, Löcher, Griff und Schienenband bemaßt | [SVG](docs/zeichnungen/gezapft/schublade-d1-d2.svg) |
 | **Schublade D3** (1:5) | dieselben vier Bretter für die Mittelschublade (Lochraster statt Fenster) | [SVG](docs/zeichnungen/gezapft/schublade-d3.svg) |
 | **Sitz-/Tischbretter C1–C3** (1:5) | Brett und Wange zum Nachmessen der gefrästen Teile: Aussparungen, Zapfen, Gesamtmaße, Querschnitt | [SVG](docs/zeichnungen/gezapft/elemente-c1-c3.svg) |
+| **Bohrplan Liegefläche T1 / F1 / F2** (1:10) | Lüftungslöcher zum Anreißen und Bohren von Hand: Rasterlinien, Bohrungen, Ketten ab Brettkante (Ø/Raster angenommen, [ADR 0035](docs/adrs/0035-ventilation-holes-in-the-sleeping-boards.md)) | [SVG](docs/zeichnungen/gezapft/bohrplan-liegeflaeche.svg) |
 
 Sichtbare Kanten durchgezogen, verdeckte Kanten gestrichelt. **Rot hinterlegt** sind rechnerische Überschneidungen zweier Bauteile — Stellen, an denen der Plan so nicht baubar ist. **Grün** hinterlegt sind gewollte Überdeckungen: Die Zapfen der Wände stecken in Schlitzen und Aussparungen. Dieselben Blätter gibt es für die Rückfallvariante ohne Zapfen (`stumpf`, Ordner nebenan, im Viewer per Auswahlfeld).
 
@@ -183,6 +185,8 @@ Alle Elemente fahren auf **Vollauszug-Schienen 850 mm Schwerlast** aus ([ADR 001
 
 Matratzenbreite: **1.100 mm** (passt in 1.120 mm Innenbreite).
 
+T1, F1 und F2 bekommen Lüftungslöcher unter der Matratze (angenommen Ø 20 im Raster 100 mm, von Hand gebohrt, [ADR 0035](docs/adrs/0035-ventilation-holes-in-the-sleeping-boards.md)).
+
 ---
 
 ## Farblegende
@@ -224,6 +228,8 @@ packG — (leer, reserviert)
 caddyG — transparente Caddy-Hülle (Wände mit Türöffnungen, Dach, Radkästen, Vordersitze, Lade-Referenzebene, Rücksitzbank, Unterbau und Räder auf 350 mm Ladekante (Annahme)), per Button ausblendbar
 ```
 
+Der Reiter „Explosion“ hat eine eigene Szene und Kamera und baut nur das gewählte Bauteil aus denselben Helfern (`window.BAUTEILE3D`), Richtungen aus `MODELL.explosion` ([ADR 0036](docs/adrs/0036-exploded-view-tab.md)).
+
 Der Korpus besteht aus Einzelbrettern (keine Vollbox): S1/S2 Seitenwände links/rechts, R1 Rückwand, B1 Boden, M1/M2 Trennwände. Die Vorderseite ist offen.
 
 ---
@@ -254,6 +260,9 @@ Offen:
 - [x] Lichte Tiefe 882 mm vs. Schienenlänge — gelöst mit 850-mm-Schienen, Korpus bleibt 900 mm (20–30 mm Luft zu den Rücksitzen, 32 mm hinter den Schienen) — [ADR 0017](docs/adrs/0017-850-mm-runners-in-900-mm-corpus.md)
 - [ ] **CNC-Anbieter anfragen** (Privatkunde, Abholung, Dateiformat, Fräserdurchmesser, Passung, Probestück) und danach `cnc` in `modell/parameter.json` anpassen + `modell/cnc.py` neu erzeugen — Kandidaten im Raum Duisburg: [Einkaufsliste.md §1](./Einkaufsliste.md#option-cnc-fräsen-statt-zuschnitt), erster Kandidat Brockmann Holz (Krefeld)
 - [x] **Plattenbedarf** ([ADR 0033](docs/adrs/0033-plate-count-estimate-shop-nests.md)): `modell/cnc.py` ordnet die Teile grob auf 2.500 × 1.250 an (Faser längs und frei gedreht) und zeigt die Plattenzahl im Reiter „DXF · CNC“. Das Nesting für den Auftrag macht der Anbieter (`alle-teile.dxf` bleibt ungenestet); beim Anfragen nach Reststücken für die beiden D3-Seitenwände fragen
+- [x] **Kantenbruch R2** an den gefrästen Schubladen- und Brettteilen, von oben auf eigenem DXF-Layer, Unterseite von Hand — [ADR 0034](docs/adrs/0034-milled-r2-edge-break-top-side-only.md)
+- [ ] **Lüftungslöcher T1/F1/F2**: Raster, Modell, Viewer und Bohrplan stehen ([ADR 0035](docs/adrs/0035-ventilation-holes-in-the-sleeping-boards.md)); offen: vorhandene Bohrer nachschauen und `lueftung.durchmesser` in `modell/parameter.json` eintragen (angenommen Ø 20 mm)
+- [x] **Explosionsansicht** als eigener Reiter (Box, Schubladen, Sitz-/Tischbretter einzeln) — [ADR 0036](docs/adrs/0036-exploded-view-tab.md)
 - [x] Schienen vollständig bestellt: 3 Paare 170 kg + 3 Paare 80 kg (2026-11-12) — [ADR 0021](docs/adrs/0021-table-board-on-170-kg-runners.md)
 - [x] Schienenstärke gemessen (2026-11-12): beide Typen 19 mm wie geplant, Höhe 53 mm bestätigt
 - [ ] Schienen weiter prüfen: Arretierung im ausgezogenen Zustand (170 kg), Höhe der 170-kg-Schiene (gemessen ~74 mm, Modell 76 mm laut Datenblatt), Lage der Schraublöcher (gegen das Schienenband der Schubladen-Seitenwände)

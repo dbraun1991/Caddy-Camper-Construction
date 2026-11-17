@@ -25,6 +25,18 @@
     "laenge_f2": 400
   },
 
+  "lueftung": {
+    "_hinweis": "Lüftungslöcher in der Liegefläche gegen Feuchte unter der Matratze (ADR 0035): Raster aus Längs- und Querlinien, Bohrung an jedem Schnittpunkt, von Hand mit Forstnerbohrer gebohrt (nicht in der CNC-Datei). Raster mittig im Brett, Löcher fallen weg, wo sie Rand, Scharnier oder Wand darunter zu nahe kommen",
+    "bretter": ["T1", "F1", "F2"],
+    "durchmesser": 20,
+    "abstand": 100,
+    "_durchmesser": "ANNAHME (2026-11-17), bis der Bauherr seine vorhandenen Bohrer nachgeschaut hat — dann hier eintragen und neu erzeugen",
+    "rand": 50,
+    "_rand": "Lochmitte mindestens so weit von jeder Brettkante",
+    "abstand_hindernis": 15,
+    "_abstand_hindernis": "Lochrand mindestens so weit von Scharnierblättern (H1/H2) und von den Wänden unter T1 (S1/S2, M1/M2, R1 mit Zapfen)"
+  },
+
   "matratze": { "breite": 1100, "laenge": 1980, "hoehe": 80 },
 
   "scharniere": {

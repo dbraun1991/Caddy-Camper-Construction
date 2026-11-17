@@ -290,7 +290,51 @@ def _liegeflaeche(p):
 def teile(p=None, eckausbildung=None):
     p = p or lade_parameter()
     eck = eckausbildung or p["eckausbildung"]
-    return _korpus(p, eck) + _einbauten(p) + _liegeflaeche(p)
+    alle = _korpus(p, eck) + _einbauten(p) + _liegeflaeche(p)
+    _lueftung(p, alle)
+    return alle
+
+
+def _raster(a, b, rand, abstand):
+    """Linien im Abstand `abstand`, mittig in [a + rand, b − rand]."""
+    n = int((b - a - 2 * rand) // abstand) + 1
+    if n < 1:
+        return []
+    start = (a + b) / 2 - (n - 1) * abstand / 2
+    return [round(start + i * abstand, 2) for i in range(n)]
+
+
+def _lueftung(p, alle):
+    """Lüftungslöcher in T1, F1, F2 (ADR 0035): Raster längs (z) × quer (x), Loch an jedem Schnittpunkt.
+
+    Ein Loch fällt weg, wenn sein Rand näher als `abstand_hindernis` an ein Scharnierblatt oder (bei T1)
+    an eine Wand darunter kommt — dort trüge es nicht und träfe Zapfen oder Schrauben. Ergebnis als
+    `lueftung` = {durchmesser, x: Querlinien, z: Längslinien, mitten: [[x, z], …]} am Brett (Welt-mm)."""
+    lu = p.get("lueftung")
+    if not lu:
+        return
+    r, ab = lu["durchmesser"] / 2, lu["abstand_hindernis"]
+    nach_id = {t["id"]: t for t in alle}
+    scharniere = [t["box"] for t in alle if t["gruppe"] == "scharnier"]
+
+    def frei(x, z, hindernisse):
+        for (x0, x1), _, (z0, z1) in hindernisse:
+            dx = max(x0 - x, 0, x - x1)
+            dz = max(z0 - z, 0, z - z1)
+            if (dx * dx + dz * dz) ** 0.5 < r + ab:
+                return False
+        return True
+
+    for id in lu["bretter"]:
+        t = nach_id[id]
+        (x0, x1), (y0, y1), (z0, z1) = t["box"]
+        # alles, was direkt unter oder auf dem Brett liegt bzw. es durchdringt
+        hindernisse = scharniere + [w["box"] for w in alle
+                                    if w["gruppe"] == "korpus" and w["box"][1][1] >= y0 - 1e-6
+                                    and w["box"][1][0] < y1 and w["box"][2][0] < z1 and w["box"][2][1] > z0]
+        xs, zs = _raster(x0, x1, lu["rand"], lu["abstand"]), _raster(z0, z1, lu["rand"], lu["abstand"])
+        mitten = [[x, z] for z in zs for x in xs if frei(x, z, hindernisse)]
+        t["lueftung"] = {"durchmesser": lu["durchmesser"], "x": xs, "z": zs, "mitten": mitten}
 
 
 def _verteilt(spanne, anzahl, laenge, rand):
@@ -526,6 +570,76 @@ def schubladen_3d(p=None, alle=None):
     return out
 
 
+# Explosionsansicht (ADR 0036): je Objekt im Dropdown die Teile und ihre Richtung (Einheit: Reglerweg in mm).
+# Baugleiche Elemente sind zusammengefasst und zeigen das erste (D1 für D1/D2, C1 für C1/C2).
+EXPLOSION_OBJEKTE = [
+    ("box", "Box — Korpus, Liegefläche, Scharniere, Schienengehäuse", None),
+    ("D1", "Schublade links / rechts (D1 / D2)", "D1"),
+    ("D3", "Schublade Mitte (D3)", "D3"),
+    ("C1", "Sitzbrett links / rechts (C1 / C2)", "C1"),
+    ("C3", "Tischbrett Mitte (C3)", "C3"),
+]
+WANDRICHTUNG = {"S1": 1.0, "M1": 0.45, "M2": -0.45, "S2": -1.0}   # x-Anteil der Wände, Mitte bleibt frei
+
+
+def explosion(p=None, alle=None, bretter3d=None):
+    """Explosionsansicht: [{id, name, teile: [{id, quelle, richtung, zapfen}]}] (ADR 0036).
+
+    quelle: "teil" (Quader aus teile(), T1/F1/F2 mit Lüftungslöchern) · "brett3d" (Kastenbrett aus
+    schubladen_3d) · "schiene" (ganze Schiene eingefahren). Zapfen wandern mit ihrem Brett (`zapfen_von`).
+    Schienen in der Box wandern mit ihrer Wand, etwas weniger weit nach außen; an Schublade und Brett
+    seitlich weiter als die Wand bzw. Wange, an der sie verschraubt werden."""
+    p = p or lade_parameter()
+    alle = alle or teile(p)
+    bretter3d = bretter3d if bretter3d is not None else schubladen_3d(p, alle)
+    nach_id = {t["id"]: t for t in alle}
+
+    def eintrag(id, quelle, richtung):
+        t = nach_id.get(id, {})
+        return {"id": id, "quelle": quelle, "richtung": [round(c, 3) for c in richtung],
+                "zapfen": "zapfen_von" in t}
+
+    def eigen(id):                                  # Richtung eines Bretts ohne Zapfen
+        if id in WANDRICHTUNG:
+            return [WANDRICHTUNG[id], 0, 0]
+        return {"B1": [0, -1, 0], "T1": [0, 1, 0], "R1": [0, 0, 1],
+                "F1": [0, 1, 0.5], "F2": [0, 1, 1]}.get(id)
+
+    out = []
+    for oid, name, el in EXPLOSION_OBJEKTE:
+        liste = []
+        if el is None:
+            for t in alle:
+                if t["gruppe"] in ("korpus", "liegeflaeche"):
+                    liste.append(eintrag(t["id"], "teil", eigen(t.get("zapfen_von", t["id"]))))
+                elif t["gruppe"] == "scharnier":    # oben auf T1/F1 bzw. unter F1/F2
+                    liste.append(eintrag(t["id"], "teil", [0, 1.6, 0.25] if t["id"].startswith("H1") else [0, 0.5, 0.75]))
+                elif t["gruppe"] == "schiene":      # Gehäuse an der Wand: Wandrichtung, 0,2 nach innen versetzt
+                    sek = {"C1": "L", "D1": "L", "C2": "R", "D2": "R", "C3": "M", "D3": "M"}[t["id"].split("-")[1]]
+                    wand = SEKTIONSWAENDE[sek][0 if t["id"].endswith("-a") else 1]
+                    wid = next(w for w in ("S1", "S2", "M1", "M2") if nach_id[w]["name"].startswith(wand))
+                    liste.append(eintrag(t["id"], "schiene", [WANDRICHTUNG[wid] + 0.2 * t["richtung"], 0, 0]))
+        elif el.startswith("D"):
+            for b in bretter3d:
+                if b["kasten"] != el:
+                    continue
+                art = b["id"].split("-")[1]
+                richtung = {"Sa": [-1, 0, 0], "Sb": [1, 0, 0], "E1": [0, 0, -1], "E2": [0, 0, 1], "B": [0, -1, 0]}[art]
+                liste.append(eintrag(b["id"], "brett3d", richtung))
+            liste += [eintrag(f"E-{el}-{s}", "schiene", [v * 1.6, 0, 0]) for s, v in (("a", -1), ("b", 1))]
+        else:
+            for t in alle:
+                von = t.get("zapfen_von", t["id"])
+                if von == el:
+                    liste.append(eintrag(t["id"], "teil", [0, 1, 0]))
+                elif von in (f"{el}-Wa", f"{el}-Wb"):
+                    liste.append(eintrag(t["id"], "teil", [-1 if von.endswith("a") else 1, 0, 0]))
+            liste += [eintrag(f"E-{el}-{s}", "schiene", [v * 1.6, 0, 0]) for s, v in (("a", -1), ("b", 1))]
+        assert all(e["richtung"] for e in liste), f"{oid}: Teil ohne Richtung"
+        out.append({"id": oid, "name": name, "teile": liste})
+    return out
+
+
 def _verrunde(poly, ecken, schritte=8):
     """Rechtwinklige Ecken eines Polygons [(u, v), …] durch Kreisbögen ersetzen (konvex oder konkav).
     ecken: [((u, v), radius)] — Punkte, die nicht im Polygon liegen, werden ignoriert."""
@@ -650,6 +764,7 @@ def main():
     daten["fahrzeug_pruefung"] = fahrzeug_pruefung(p)
     daten["klappachsen"] = _scharniere(p)[1]
     daten["schubladen_3d"] = schubladen_3d(p, teile(p))   # Kastenbretter statt Quader im 3D-Reiter (ADR 0024)
+    daten["explosion"] = explosion(p, daten["teile"], daten["schubladen_3d"])   # Reiter „Explosion“ (ADR 0036)
     ziel = ORDNER / "modell.js"
     ziel.write_text(
         "// GENERIERT von modell/modell.py aus modell/parameter.json — nicht von Hand bearbeiten.\n"

@@ -28,6 +28,21 @@ window.MODELL = {
    "laenge_f1": 700,
    "laenge_f2": 400
   },
+  "lueftung": {
+   "_hinweis": "Lüftungslöcher in der Liegefläche gegen Feuchte unter der Matratze (ADR 0035): Raster aus Längs- und Querlinien, Bohrung an jedem Schnittpunkt, von Hand mit Forstnerbohrer gebohrt (nicht in der CNC-Datei). Raster mittig im Brett, Löcher fallen weg, wo sie Rand, Scharnier oder Wand darunter zu nahe kommen",
+   "bretter": [
+    "T1",
+    "F1",
+    "F2"
+   ],
+   "durchmesser": 20,
+   "abstand": 100,
+   "_durchmesser": "ANNAHME (2026-11-17), bis der Bauherr seine vorhandenen Bohrer nachgeschaut hat — dann hier eintragen und neu erzeugen",
+   "rand": 50,
+   "_rand": "Lochmitte mindestens so weit von jeder Brettkante",
+   "abstand_hindernis": 15,
+   "_abstand_hindernis": "Lochrand mindestens so weit von Scharnierblättern (H1/H2) und von den Wänden unter T1 (S1/S2, M1/M2, R1 mit Zapfen)"
+  },
   "matratze": {
    "breite": 1100,
    "laenge": 1980,
@@ -192,7 +207,20 @@ window.MODELL = {
    "_passungsluft": "Annahme: Schlitze und Aussparungen je Richtung 0,2 mm größer als der Zapfen (je Seite 0,1). Bei gemessener Plattenstärke über 18,0 mm entsprechend erhöhen.",
    "plattenstaerke": 18,
    "material": "Birke-Multiplex 18 mm",
-   "teileabstand": 20
+   "teileabstand": 20,
+   "kantenbruch": {
+    "radius": 2,
+    "auftraege": [
+     "schubladen"
+    ]
+   },
+   "_kantenbruch": "Gefräster Kantenbruch (ADR 0034): Abrundfräser R `radius`, nur von oben (eine Aufspannung), nur an den Kanten auf Layer KANTE_R2 — Oberkante der Kastenwände, Griff, Fenster, Löcher, Sitz-/Tischbretter ringsum. Fügeflächen (Zinken, Zapfen, Schlitze, Aussparungen) bleiben scharf. Unterseite von Hand. Korpus-Auftrag ohne (Bretter liegen schon zugeschnitten vor)",
+   "platte": {
+    "laenge": 2500,
+    "breite": 1250,
+    "randstreifen": 10
+   },
+   "_platte": "Nur für die Plattenzählung (cnc.py, ADR 0033): Standardformat Birke-Multiplex, Faser der Decklage längs der 2.500-mm-Seite; jedes Teil liegt mit seiner langen Seite längs. Randstreifen = umlaufend unbrauchbarer Plattenrand. Grobe Rechteck-Anordnung (Hüllrechtecke, `teileabstand` dazwischen) — der Dienstleister nestet selbst und kommt eher mit weniger Platten aus"
   },
   "eckausbildung": "gezapft",
   "_eckausbildung_werte": "Boden B1 und Deckel T1 laufen immer durch (ADR 0018). gezapft = Wände greifen mit Zapfen in Schlitze/Aussparungen von B1, T1 und R1 (ADR 0020) · stumpf = Wände 302 mm, stumpf zwischen B1 und T1"
@@ -364,7 +392,348 @@ window.MODELL = {
      0,
      900
     ]
-   ]
+   ],
+   "lueftung": {
+    "durchmesser": 20,
+    "x": [
+     -500.0,
+     -400.0,
+     -300.0,
+     -200.0,
+     -100.0,
+     0.0,
+     100.0,
+     200.0,
+     300.0,
+     400.0,
+     500.0
+    ],
+    "z": [
+     50.0,
+     150.0,
+     250.0,
+     350.0,
+     450.0,
+     550.0,
+     650.0,
+     750.0,
+     850.0
+    ],
+    "mitten": [
+     [
+      -500.0,
+      50.0
+     ],
+     [
+      -400.0,
+      50.0
+     ],
+     [
+      -300.0,
+      50.0
+     ],
+     [
+      -100.0,
+      50.0
+     ],
+     [
+      0.0,
+      50.0
+     ],
+     [
+      100.0,
+      50.0
+     ],
+     [
+      300.0,
+      50.0
+     ],
+     [
+      400.0,
+      50.0
+     ],
+     [
+      500.0,
+      50.0
+     ],
+     [
+      -500.0,
+      150.0
+     ],
+     [
+      -400.0,
+      150.0
+     ],
+     [
+      -300.0,
+      150.0
+     ],
+     [
+      -100.0,
+      150.0
+     ],
+     [
+      0.0,
+      150.0
+     ],
+     [
+      100.0,
+      150.0
+     ],
+     [
+      300.0,
+      150.0
+     ],
+     [
+      400.0,
+      150.0
+     ],
+     [
+      500.0,
+      150.0
+     ],
+     [
+      -500.0,
+      250.0
+     ],
+     [
+      -400.0,
+      250.0
+     ],
+     [
+      -300.0,
+      250.0
+     ],
+     [
+      -100.0,
+      250.0
+     ],
+     [
+      0.0,
+      250.0
+     ],
+     [
+      100.0,
+      250.0
+     ],
+     [
+      300.0,
+      250.0
+     ],
+     [
+      400.0,
+      250.0
+     ],
+     [
+      500.0,
+      250.0
+     ],
+     [
+      -500.0,
+      350.0
+     ],
+     [
+      -400.0,
+      350.0
+     ],
+     [
+      -300.0,
+      350.0
+     ],
+     [
+      -100.0,
+      350.0
+     ],
+     [
+      0.0,
+      350.0
+     ],
+     [
+      100.0,
+      350.0
+     ],
+     [
+      300.0,
+      350.0
+     ],
+     [
+      400.0,
+      350.0
+     ],
+     [
+      500.0,
+      350.0
+     ],
+     [
+      -500.0,
+      450.0
+     ],
+     [
+      -400.0,
+      450.0
+     ],
+     [
+      -300.0,
+      450.0
+     ],
+     [
+      -100.0,
+      450.0
+     ],
+     [
+      0.0,
+      450.0
+     ],
+     [
+      100.0,
+      450.0
+     ],
+     [
+      300.0,
+      450.0
+     ],
+     [
+      400.0,
+      450.0
+     ],
+     [
+      500.0,
+      450.0
+     ],
+     [
+      -500.0,
+      550.0
+     ],
+     [
+      -400.0,
+      550.0
+     ],
+     [
+      -300.0,
+      550.0
+     ],
+     [
+      -100.0,
+      550.0
+     ],
+     [
+      0.0,
+      550.0
+     ],
+     [
+      100.0,
+      550.0
+     ],
+     [
+      300.0,
+      550.0
+     ],
+     [
+      400.0,
+      550.0
+     ],
+     [
+      500.0,
+      550.0
+     ],
+     [
+      -500.0,
+      650.0
+     ],
+     [
+      -400.0,
+      650.0
+     ],
+     [
+      -300.0,
+      650.0
+     ],
+     [
+      -100.0,
+      650.0
+     ],
+     [
+      0.0,
+      650.0
+     ],
+     [
+      100.0,
+      650.0
+     ],
+     [
+      300.0,
+      650.0
+     ],
+     [
+      400.0,
+      650.0
+     ],
+     [
+      500.0,
+      650.0
+     ],
+     [
+      -500.0,
+      750.0
+     ],
+     [
+      -400.0,
+      750.0
+     ],
+     [
+      -300.0,
+      750.0
+     ],
+     [
+      -100.0,
+      750.0
+     ],
+     [
+      0.0,
+      750.0
+     ],
+     [
+      100.0,
+      750.0
+     ],
+     [
+      300.0,
+      750.0
+     ],
+     [
+      400.0,
+      750.0
+     ],
+     [
+      500.0,
+      750.0
+     ],
+     [
+      -500.0,
+      850.0
+     ],
+     [
+      -300.0,
+      850.0
+     ],
+     [
+      -100.0,
+      850.0
+     ],
+     [
+      100.0,
+      850.0
+     ],
+     [
+      300.0,
+      850.0
+     ],
+     [
+      500.0,
+      850.0
+     ]
+    ]
+   }
   },
   {
    "id": "S1-Z1u",
@@ -2708,7 +3077,318 @@ window.MODELL = {
      900,
      1600
     ]
-   ]
+   ],
+   "lueftung": {
+    "durchmesser": 20,
+    "x": [
+     -500.0,
+     -400.0,
+     -300.0,
+     -200.0,
+     -100.0,
+     0.0,
+     100.0,
+     200.0,
+     300.0,
+     400.0,
+     500.0
+    ],
+    "z": [
+     950.0,
+     1050.0,
+     1150.0,
+     1250.0,
+     1350.0,
+     1450.0,
+     1550.0
+    ],
+    "mitten": [
+     [
+      -500.0,
+      950.0
+     ],
+     [
+      -300.0,
+      950.0
+     ],
+     [
+      -200.0,
+      950.0
+     ],
+     [
+      -100.0,
+      950.0
+     ],
+     [
+      100.0,
+      950.0
+     ],
+     [
+      200.0,
+      950.0
+     ],
+     [
+      300.0,
+      950.0
+     ],
+     [
+      500.0,
+      950.0
+     ],
+     [
+      -500.0,
+      1050.0
+     ],
+     [
+      -400.0,
+      1050.0
+     ],
+     [
+      -300.0,
+      1050.0
+     ],
+     [
+      -200.0,
+      1050.0
+     ],
+     [
+      -100.0,
+      1050.0
+     ],
+     [
+      0.0,
+      1050.0
+     ],
+     [
+      100.0,
+      1050.0
+     ],
+     [
+      200.0,
+      1050.0
+     ],
+     [
+      300.0,
+      1050.0
+     ],
+     [
+      400.0,
+      1050.0
+     ],
+     [
+      500.0,
+      1050.0
+     ],
+     [
+      -500.0,
+      1150.0
+     ],
+     [
+      -400.0,
+      1150.0
+     ],
+     [
+      -300.0,
+      1150.0
+     ],
+     [
+      -200.0,
+      1150.0
+     ],
+     [
+      -100.0,
+      1150.0
+     ],
+     [
+      0.0,
+      1150.0
+     ],
+     [
+      100.0,
+      1150.0
+     ],
+     [
+      200.0,
+      1150.0
+     ],
+     [
+      300.0,
+      1150.0
+     ],
+     [
+      400.0,
+      1150.0
+     ],
+     [
+      500.0,
+      1150.0
+     ],
+     [
+      -500.0,
+      1250.0
+     ],
+     [
+      -400.0,
+      1250.0
+     ],
+     [
+      -300.0,
+      1250.0
+     ],
+     [
+      -200.0,
+      1250.0
+     ],
+     [
+      -100.0,
+      1250.0
+     ],
+     [
+      0.0,
+      1250.0
+     ],
+     [
+      100.0,
+      1250.0
+     ],
+     [
+      200.0,
+      1250.0
+     ],
+     [
+      300.0,
+      1250.0
+     ],
+     [
+      400.0,
+      1250.0
+     ],
+     [
+      500.0,
+      1250.0
+     ],
+     [
+      -500.0,
+      1350.0
+     ],
+     [
+      -400.0,
+      1350.0
+     ],
+     [
+      -300.0,
+      1350.0
+     ],
+     [
+      -200.0,
+      1350.0
+     ],
+     [
+      -100.0,
+      1350.0
+     ],
+     [
+      0.0,
+      1350.0
+     ],
+     [
+      100.0,
+      1350.0
+     ],
+     [
+      200.0,
+      1350.0
+     ],
+     [
+      300.0,
+      1350.0
+     ],
+     [
+      400.0,
+      1350.0
+     ],
+     [
+      500.0,
+      1350.0
+     ],
+     [
+      -500.0,
+      1450.0
+     ],
+     [
+      -400.0,
+      1450.0
+     ],
+     [
+      -300.0,
+      1450.0
+     ],
+     [
+      -200.0,
+      1450.0
+     ],
+     [
+      -100.0,
+      1450.0
+     ],
+     [
+      0.0,
+      1450.0
+     ],
+     [
+      100.0,
+      1450.0
+     ],
+     [
+      200.0,
+      1450.0
+     ],
+     [
+      300.0,
+      1450.0
+     ],
+     [
+      400.0,
+      1450.0
+     ],
+     [
+      500.0,
+      1450.0
+     ],
+     [
+      -500.0,
+      1550.0
+     ],
+     [
+      -300.0,
+      1550.0
+     ],
+     [
+      -200.0,
+      1550.0
+     ],
+     [
+      -100.0,
+      1550.0
+     ],
+     [
+      100.0,
+      1550.0
+     ],
+     [
+      200.0,
+      1550.0
+     ],
+     [
+      300.0,
+      1550.0
+     ],
+     [
+      500.0,
+      1550.0
+     ]
+    ]
+   }
   },
   {
    "id": "F2",
@@ -2729,7 +3409,195 @@ window.MODELL = {
      1600,
      2000
     ]
-   ]
+   ],
+   "lueftung": {
+    "durchmesser": 20,
+    "x": [
+     -500.0,
+     -400.0,
+     -300.0,
+     -200.0,
+     -100.0,
+     0.0,
+     100.0,
+     200.0,
+     300.0,
+     400.0,
+     500.0
+    ],
+    "z": [
+     1650.0,
+     1750.0,
+     1850.0,
+     1950.0
+    ],
+    "mitten": [
+     [
+      -500.0,
+      1650.0
+     ],
+     [
+      -300.0,
+      1650.0
+     ],
+     [
+      -200.0,
+      1650.0
+     ],
+     [
+      -100.0,
+      1650.0
+     ],
+     [
+      100.0,
+      1650.0
+     ],
+     [
+      200.0,
+      1650.0
+     ],
+     [
+      300.0,
+      1650.0
+     ],
+     [
+      500.0,
+      1650.0
+     ],
+     [
+      -500.0,
+      1750.0
+     ],
+     [
+      -400.0,
+      1750.0
+     ],
+     [
+      -300.0,
+      1750.0
+     ],
+     [
+      -200.0,
+      1750.0
+     ],
+     [
+      -100.0,
+      1750.0
+     ],
+     [
+      0.0,
+      1750.0
+     ],
+     [
+      100.0,
+      1750.0
+     ],
+     [
+      200.0,
+      1750.0
+     ],
+     [
+      300.0,
+      1750.0
+     ],
+     [
+      400.0,
+      1750.0
+     ],
+     [
+      500.0,
+      1750.0
+     ],
+     [
+      -500.0,
+      1850.0
+     ],
+     [
+      -400.0,
+      1850.0
+     ],
+     [
+      -300.0,
+      1850.0
+     ],
+     [
+      -200.0,
+      1850.0
+     ],
+     [
+      -100.0,
+      1850.0
+     ],
+     [
+      0.0,
+      1850.0
+     ],
+     [
+      100.0,
+      1850.0
+     ],
+     [
+      200.0,
+      1850.0
+     ],
+     [
+      300.0,
+      1850.0
+     ],
+     [
+      400.0,
+      1850.0
+     ],
+     [
+      500.0,
+      1850.0
+     ],
+     [
+      -500.0,
+      1950.0
+     ],
+     [
+      -400.0,
+      1950.0
+     ],
+     [
+      -300.0,
+      1950.0
+     ],
+     [
+      -200.0,
+      1950.0
+     ],
+     [
+      -100.0,
+      1950.0
+     ],
+     [
+      0.0,
+      1950.0
+     ],
+     [
+      100.0,
+      1950.0
+     ],
+     [
+      200.0,
+      1950.0
+     ],
+     [
+      300.0,
+      1950.0
+     ],
+     [
+      400.0,
+      1950.0
+     ],
+     [
+      500.0,
+      1950.0
+     ]
+    ]
+   }
   },
   {
    "id": "G1",
@@ -11822,6 +12690,1088 @@ window.MODELL = {
    ],
    "loecher": [],
    "fenster": []
+  }
+ ],
+ "explosion": [
+  {
+   "id": "box",
+   "name": "Box — Korpus, Liegefläche, Scharniere, Schienengehäuse",
+   "teile": [
+    {
+     "id": "S1",
+     "quelle": "teil",
+     "richtung": [
+      1.0,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "S2",
+     "quelle": "teil",
+     "richtung": [
+      -1.0,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "R1",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      0,
+      1
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "B1",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      -1,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "M1",
+     "quelle": "teil",
+     "richtung": [
+      0.45,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "M2",
+     "quelle": "teil",
+     "richtung": [
+      -0.45,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "T1",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      1,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "S1-Z1u",
+     "quelle": "teil",
+     "richtung": [
+      1.0,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "S1-Z1o",
+     "quelle": "teil",
+     "richtung": [
+      1.0,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "S1-Z2u",
+     "quelle": "teil",
+     "richtung": [
+      1.0,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "S1-Z2o",
+     "quelle": "teil",
+     "richtung": [
+      1.0,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "S1-Z3u",
+     "quelle": "teil",
+     "richtung": [
+      1.0,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "S1-Z3o",
+     "quelle": "teil",
+     "richtung": [
+      1.0,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "S2-Z1u",
+     "quelle": "teil",
+     "richtung": [
+      -1.0,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "S2-Z1o",
+     "quelle": "teil",
+     "richtung": [
+      -1.0,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "S2-Z2u",
+     "quelle": "teil",
+     "richtung": [
+      -1.0,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "S2-Z2o",
+     "quelle": "teil",
+     "richtung": [
+      -1.0,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "S2-Z3u",
+     "quelle": "teil",
+     "richtung": [
+      -1.0,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "S2-Z3o",
+     "quelle": "teil",
+     "richtung": [
+      -1.0,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "R1-Z1u",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      0,
+      1
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "R1-Z1o",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      0,
+      1
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "R1-Z2u",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      0,
+      1
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "R1-Z2o",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      0,
+      1
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "R1-Z3u",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      0,
+      1
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "R1-Z3o",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      0,
+      1
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "R1-Z4u",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      0,
+      1
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "R1-Z4o",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      0,
+      1
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "M1-Z1u",
+     "quelle": "teil",
+     "richtung": [
+      0.45,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "M1-Z1o",
+     "quelle": "teil",
+     "richtung": [
+      0.45,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "M1-Z2u",
+     "quelle": "teil",
+     "richtung": [
+      0.45,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "M1-Z2o",
+     "quelle": "teil",
+     "richtung": [
+      0.45,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "M1-Z3u",
+     "quelle": "teil",
+     "richtung": [
+      0.45,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "M1-Z3o",
+     "quelle": "teil",
+     "richtung": [
+      0.45,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "M1-Zh",
+     "quelle": "teil",
+     "richtung": [
+      0.45,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "M2-Z1u",
+     "quelle": "teil",
+     "richtung": [
+      -0.45,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "M2-Z1o",
+     "quelle": "teil",
+     "richtung": [
+      -0.45,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "M2-Z2u",
+     "quelle": "teil",
+     "richtung": [
+      -0.45,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "M2-Z2o",
+     "quelle": "teil",
+     "richtung": [
+      -0.45,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "M2-Z3u",
+     "quelle": "teil",
+     "richtung": [
+      -0.45,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "M2-Z3o",
+     "quelle": "teil",
+     "richtung": [
+      -0.45,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "M2-Zh",
+     "quelle": "teil",
+     "richtung": [
+      -0.45,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "E-C1-a",
+     "quelle": "schiene",
+     "richtung": [
+      0.65,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "E-C1-b",
+     "quelle": "schiene",
+     "richtung": [
+      0.8,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "E-D1-a",
+     "quelle": "schiene",
+     "richtung": [
+      0.65,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "E-D1-b",
+     "quelle": "schiene",
+     "richtung": [
+      0.8,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "E-C2-a",
+     "quelle": "schiene",
+     "richtung": [
+      -0.8,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "E-C2-b",
+     "quelle": "schiene",
+     "richtung": [
+      -0.65,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "E-D2-a",
+     "quelle": "schiene",
+     "richtung": [
+      -0.8,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "E-D2-b",
+     "quelle": "schiene",
+     "richtung": [
+      -0.65,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "E-D3-a",
+     "quelle": "schiene",
+     "richtung": [
+      -0.25,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "E-D3-b",
+     "quelle": "schiene",
+     "richtung": [
+      0.25,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "E-C3-a",
+     "quelle": "schiene",
+     "richtung": [
+      -0.25,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "E-C3-b",
+     "quelle": "schiene",
+     "richtung": [
+      0.25,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "H1-1",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      1.6,
+      0.25
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "H2-1",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      0.5,
+      0.75
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "H1-2",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      1.6,
+      0.25
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "H2-2",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      0.5,
+      0.75
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "H1-3",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      1.6,
+      0.25
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "H2-3",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      0.5,
+      0.75
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "F1",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      1,
+      0.5
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "F2",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      1,
+      1
+     ],
+     "zapfen": false
+    }
+   ]
+  },
+  {
+   "id": "D1",
+   "name": "Schublade links / rechts (D1 / D2)",
+   "teile": [
+    {
+     "id": "D1-Sa",
+     "quelle": "brett3d",
+     "richtung": [
+      -1,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "D1-Sb",
+     "quelle": "brett3d",
+     "richtung": [
+      1,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "D1-E1",
+     "quelle": "brett3d",
+     "richtung": [
+      0,
+      0,
+      -1
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "D1-E2",
+     "quelle": "brett3d",
+     "richtung": [
+      0,
+      0,
+      1
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "D1-B",
+     "quelle": "brett3d",
+     "richtung": [
+      0,
+      -1,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "E-D1-a",
+     "quelle": "schiene",
+     "richtung": [
+      -1.6,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "E-D1-b",
+     "quelle": "schiene",
+     "richtung": [
+      1.6,
+      0,
+      0
+     ],
+     "zapfen": false
+    }
+   ]
+  },
+  {
+   "id": "D3",
+   "name": "Schublade Mitte (D3)",
+   "teile": [
+    {
+     "id": "D3-Sa",
+     "quelle": "brett3d",
+     "richtung": [
+      -1,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "D3-Sb",
+     "quelle": "brett3d",
+     "richtung": [
+      1,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "D3-E1",
+     "quelle": "brett3d",
+     "richtung": [
+      0,
+      0,
+      -1
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "D3-E2",
+     "quelle": "brett3d",
+     "richtung": [
+      0,
+      0,
+      1
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "D3-B",
+     "quelle": "brett3d",
+     "richtung": [
+      0,
+      -1,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "E-D3-a",
+     "quelle": "schiene",
+     "richtung": [
+      -1.6,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "E-D3-b",
+     "quelle": "schiene",
+     "richtung": [
+      1.6,
+      0,
+      0
+     ],
+     "zapfen": false
+    }
+   ]
+  },
+  {
+   "id": "C1",
+   "name": "Sitzbrett links / rechts (C1 / C2)",
+   "teile": [
+    {
+     "id": "C1",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      1,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "C1-Wa",
+     "quelle": "teil",
+     "richtung": [
+      -1,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "C1-Wa-Z1",
+     "quelle": "teil",
+     "richtung": [
+      -1,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "C1-Wa-Z2",
+     "quelle": "teil",
+     "richtung": [
+      -1,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "C1-Wa-Z3",
+     "quelle": "teil",
+     "richtung": [
+      -1,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "C1-Wa-Z4",
+     "quelle": "teil",
+     "richtung": [
+      -1,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "C1-Wa-Z5",
+     "quelle": "teil",
+     "richtung": [
+      -1,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "C1-Wb",
+     "quelle": "teil",
+     "richtung": [
+      1,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "C1-Wb-Z1",
+     "quelle": "teil",
+     "richtung": [
+      1,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "C1-Wb-Z2",
+     "quelle": "teil",
+     "richtung": [
+      1,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "C1-Wb-Z3",
+     "quelle": "teil",
+     "richtung": [
+      1,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "C1-Wb-Z4",
+     "quelle": "teil",
+     "richtung": [
+      1,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "C1-Wb-Z5",
+     "quelle": "teil",
+     "richtung": [
+      1,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "E-C1-a",
+     "quelle": "schiene",
+     "richtung": [
+      -1.6,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "E-C1-b",
+     "quelle": "schiene",
+     "richtung": [
+      1.6,
+      0,
+      0
+     ],
+     "zapfen": false
+    }
+   ]
+  },
+  {
+   "id": "C3",
+   "name": "Tischbrett Mitte (C3)",
+   "teile": [
+    {
+     "id": "C3",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      1,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "C3-Wa",
+     "quelle": "teil",
+     "richtung": [
+      -1,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "C3-Wa-Z1",
+     "quelle": "teil",
+     "richtung": [
+      -1,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "C3-Wa-Z2",
+     "quelle": "teil",
+     "richtung": [
+      -1,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "C3-Wa-Z3",
+     "quelle": "teil",
+     "richtung": [
+      -1,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "C3-Wa-Z4",
+     "quelle": "teil",
+     "richtung": [
+      -1,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "C3-Wa-Z5",
+     "quelle": "teil",
+     "richtung": [
+      -1,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "C3-Wb",
+     "quelle": "teil",
+     "richtung": [
+      1,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "C3-Wb-Z1",
+     "quelle": "teil",
+     "richtung": [
+      1,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "C3-Wb-Z2",
+     "quelle": "teil",
+     "richtung": [
+      1,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "C3-Wb-Z3",
+     "quelle": "teil",
+     "richtung": [
+      1,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "C3-Wb-Z4",
+     "quelle": "teil",
+     "richtung": [
+      1,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "C3-Wb-Z5",
+     "quelle": "teil",
+     "richtung": [
+      1,
+      0,
+      0
+     ],
+     "zapfen": true
+    },
+    {
+     "id": "E-C3-a",
+     "quelle": "schiene",
+     "richtung": [
+      -1.6,
+      0,
+      0
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "E-C3-b",
+     "quelle": "schiene",
+     "richtung": [
+      1.6,
+      0,
+      0
+     ],
+     "zapfen": false
+    }
+   ]
   }
  ]
 };

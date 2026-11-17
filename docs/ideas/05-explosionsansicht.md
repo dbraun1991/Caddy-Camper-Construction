@@ -1,6 +1,6 @@
 # Idee: Explosionsansicht als eigener Reiter
 
-Status: offen · notiert 2026-11-17
+Status: umgesetzt 2026-11-17 → [ADR 0036](../adrs/0036-exploded-view-tab.md) · notiert 2026-11-17
 
 ## Wunsch (Bauherr)
 
