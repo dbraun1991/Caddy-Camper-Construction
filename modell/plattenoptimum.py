@@ -5,6 +5,8 @@ Fläche, auf die alle Teile passen (Hüllrechtecke, `cnc.teileabstand` dazwische
 ringsum, MaxRects aus cnc.py). Einmal mit Faser egal (wie im Auftrag erlaubt), einmal mit Faser längs.
 Der Korpus ist nicht dabei: seine Bretter liegen schon zugeschnitten vor (ADR 0032).
 
+Dazu die Fräsbett-Variante (FRAESBETTEN): Fräse kleiner als eine Platte, Zuschnitt in Stücke von Fräsbettgröße.
+
     .venv/bin/python modell/plattenoptimum.py   → docs/plattenoptimum/ (PLATTENOPTIMUM.md + SVG je Stärke)
 """
 from datetime import date
@@ -28,6 +30,15 @@ FORMATE = [
     (1250, 625, "Viertelplatte", "Zuschnitt"),
 ]
 MAX_PLATTEN = 3
+
+# Fräsbett-Variante: Fräse kleiner als eine ganze Platte (z. B. bei einem Bekannten). Der Händler schneidet die
+# gekauften Platten in Stücke von Fräsbettgröße, gefräst wird Stück für Stück. (Länge, Breite, Hinweis)
+FRAESBETTEN = [
+    (900, 1250, "Empfehlung — Teile sind fast alle ~870 mm lang"),
+    (900, 1000, ""),
+    (900, 625, "kleine Hobbyfräse"),
+]
+KAUFBAR = [f for f in FORMATE if f[0] in (2500, 1250) and f[1] == 1250]   # ganze + halbe Platte
 
 
 def teile_je_staerke(p):
@@ -86,6 +97,24 @@ def standard(teile, p, drehen):
             return (FORMATE[0],) * n, b
 
 
+def stuecke_je_platte(platte, stueck):
+    """Wie viele Stücke l × b passen beim Zuschnitt aus einer Platte L × B (beide Lagen probiert)?"""
+    (L, B), (l, b) = platte, stueck          # Schnittfuge ignoriert: Stücke werden ein paar mm kleiner (Randstreifen)
+    return max(L // x * (B // y) for x, y in ((l, b), (b, l)))
+
+
+def fraesbett(teile, p, bett):
+    """Wie viele Stücke von Fräsbettgröße und welche Platten dafür kaufen (kleinste gekaufte Fläche)?"""
+    for n in range(1, 10):
+        belegung = belege(teile, ((bett[0], bett[1], "Stück", ""),) * n, p, True)
+        if belegung:
+            break
+    kauf = min((k for m in range(1, MAX_PLATTEN + 1) for k in combinations_with_replacement(KAUFBAR, m)
+                if sum(stuecke_je_platte(x[:2], bett[:2]) for x in k) >= n),
+               key=lambda k: (sum(x[0] * x[1] for x in k), len(k)))
+    return n, belegung, kauf
+
+
 def svg(belegung, pfad):
     """Platten nebeneinander als einfache Rechteck-Skizze (1 px = 1 mm)."""
     x0, teile, breite = 0, [], 0
@@ -124,7 +153,7 @@ def main():
           "Korpus und Liegefläche sind nicht dabei — die Bretter liegen schon zugeschnitten vor (ADR 0032).", "",
           f"Rechnung: Hüllrechtecke der Teile, {f(p['cnc']['teileabstand'])} mm Abstand für den Fräser, "
           f"{f(p['cnc']['platte']['randstreifen'])} mm unbrauchbarer Rand je Platte, MaxRects wie in ADR 0033, "
-          f"bis zu {MAX_PLATTEN} Platten aus den Formaten unten kombiniert. *Ausnutzung* = Holzfläche der Teile "
+          f"bis zu {MAX_PLATTEN} Platten aus den Formaten unten kombiniert. *Ausnutzung* = "
           "Hüllrechtecke der Teile / gekaufte Fläche, *Verschnitt* = gekauft − Hüllrechtecke (Fenster, Löcher und "
           "Griffe kommen noch dazu, sind aber gewollt). Grobe Schätzung — echtes Nesting des Dienstleisters "
           "kann nur gleich gut oder besser sein.", "",
@@ -149,6 +178,7 @@ def main():
             if drehen:
                 empfehlung.append(f"- **{f(st)} mm:** " + " + ".join(f"{x[0]} × {x[1]} ({x[2]})" for x in beste[0][0])
                                   + f" — {100 * rechteck / sum(x[0] * x[1] for x in beste[0][0]):.0f} % Ausnutzung.")
+    md += fraesbett_abschnitt(p, f)
     kopf = md.index("Formate: " + "; ".join(f"{a} × {b} ({n}, {h})" for a, b, n, h in FORMATE) + ".") + 2
     md[kopf:kopf] = ["## Ergebnis", ""] + empfehlung + [
         "", "Zuschnitt-Formate (halbe/Viertelplatte) gibt es nicht überall — vorher beim Händler oder Fräsdienst "
@@ -156,6 +186,35 @@ def main():
         "kleinste Platte ersetzen.", ""]
     (ZIEL / "PLATTENOPTIMUM.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     print("\n".join(empfehlung))
+
+
+def fraesbett_abschnitt(p, f):
+    """Abschnitt „Fräsbett-Variante“: Zuschnitt in Stücke von Fräsbettgröße, Stückzahl und Einkauf je Stärke."""
+    md = ["## Fräsbett-Variante — Fräse kleiner als eine ganze Platte", "",
+          "Für eine Fräse bei einem Bekannten o. Ä.: Der Holzhändler schneidet die gekauften Platten in Stücke von "
+          "Fräsbettgröße, gefräst wird Stück für Stück. Das längste Teil ist "
+          f"{f(max(max(t[1], t[2]) for ts in teile_je_staerke(p).values() for t in ts))} mm lang — das Fräsbett "
+          f"braucht mit Rand und Abstand mindestens ~900 mm. Die Schnittfuge beim Zuschnitt macht ein Stück ein paar "
+          f"mm kleiner als das Fräsbett — das schluckt der Randstreifen ({f(p['cnc']['platte']['randstreifen'])} mm). "
+          "Gekauft wird aus ganzen (2500 × 1250) und halben (1250 × 1250) Platten. Stücke bis ~1120 mm "
+          "passen quer in den Caddy, ganze Platten nicht.", "",
+          "| Fräsbett | Stärke | Stücke | Ausnutzung der Stücke | kaufen | Reste nach Zuschnitt |",
+          "|---|---|---|---|---|---|"]
+    for L, B, hinweis in FRAESBETTEN:
+        for st, teile in sorted(teile_je_staerke(p).items(), reverse=True):
+            n, belegung, kauf = fraesbett(teile, p, (L, B))
+            rechteck = sum(t[1] * t[2] for t in teile)
+            gekauft = sum(x[0] * x[1] for x in kauf)
+            md.append(f"| {L} × {B}" + (f" ({hinweis})" if hinweis else "") + f" | {f(st)} mm | {n} × {L} × {B} | "
+                      f"{100 * rechteck / (n * L * B):.0f} % | " + " + ".join(f"{x[0]} × {x[1]}" for x in kauf)
+                      + f" | {(gekauft - n * L * B) / 1e6:.2f} m² |")
+            if (L, B) == FRAESBETTEN[0][:2]:
+                svg(belegung, ZIEL / f"fraesbett-{L}x{B}-{f(st)}mm.svg")
+    md += ["", "Reste = gekaufte Fläche − Stücke; taugen für ein Probestück (Zapfen in Schlitz) vor dem Auftrag.", ""]
+    md += [f"![Fräsbett {FRAESBETTEN[0][0]} × {FRAESBETTEN[0][1]}, {f(st)} mm]"
+           f"(fraesbett-{FRAESBETTEN[0][0]}x{FRAESBETTEN[0][1]}-{f(st)}mm.svg)"
+           for st in sorted(teile_je_staerke(p), reverse=True)] + [""]
+    return md
 
 
 if __name__ == "__main__":

@@ -31,7 +31,9 @@ modell/cnc.py              — 2D DXF per board for a CNC routing service, dogbo
                               slot clearance from `cnc` in parameter.json → docs/cnc/
                               (committed, ADR 0023)
 modell/plattenoptimum.py   — cheapest sheet-format mix (least offcut) for the drawer job
-                              → docs/plattenoptimum/ (committed, rerun after a size change)
+                              plus a "Fräsbett" variant (smaller router, sheets cut
+                              into bed-sized pieces, `FRAESBETTEN`) → docs/plattenoptimum/
+                              (committed, rerun after a size change)
 modell/requirements.txt    — build123d (+ cairosvg, pypdf) for drawings and DXF; .venv/ (gitignored)
 List_of_Materials.md       — bill of materials, dimensions, hardware options, joinery (§H)
 Einkaufsliste.md           — shopping list, current prices, total budget estimate
