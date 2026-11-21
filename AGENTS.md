@@ -30,6 +30,8 @@ modell/zeichnungen.py      — build123d: 11 A3 sheets as SVG per corner variant
 modell/cnc.py              — 2D DXF per board for a CNC routing service, dogbones +
                               slot clearance from `cnc` in parameter.json → docs/cnc/
                               (committed, ADR 0023)
+modell/plattenoptimum.py   — cheapest sheet-format mix (least offcut) for the drawer job
+                              → docs/plattenoptimum/ (committed, rerun after a size change)
 modell/requirements.txt    — build123d (+ cairosvg, pypdf) for drawings and DXF; .venv/ (gitignored)
 List_of_Materials.md       — bill of materials, dimensions, hardware options, joinery (§H)
 Einkaufsliste.md           — shopping list, current prices, total budget estimate
