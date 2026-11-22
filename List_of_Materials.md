@@ -31,7 +31,7 @@ Die Holzplatten von Box und Liegefläche tragen seit 2026-11-07 sprechende Buchs
 | | E-C1-a … | im Modell je Einzelschiene, z. B. „Schiene Sitzbrett links, an Seitenwand links“ |
 | **V — Verbindungsmittel & Beschläge** | V1 … V17 | Schrauben, Winkel, Dübel, Leim, Gurte, Scharniere — Langnamen in §V |
 | **G — Ausstattung** | G1 … G5 | Matratze, Bezug, Antirutschmatte, Kantenband, Öl |
-| **H — Hinge (Scharniere, Modell)** | H1-1…3 / H2-1…3 | Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben) / Klappbrett Rücksitz ↔ Kopfende (unten); Kaufposition V17 *(S1-1 … S2-3)* |
+| **H — Hinge (Scharniere, Modell)** | H1-1…3 / H2-1…3 | Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben) / Klappbrett Rücksitz ↔ Kopfende (unten); Kaufposition V17 *(S1-1 … S2-3)*. Im Modell je zwei Blätter: `-G` Grundplatte, `-B` Band (ADR 0037) |
 
 ---
 
@@ -63,7 +63,7 @@ Alle drei Bretter gleich stark (18 mm), bündig auf Plattformhöhe 320 mm.
 | F1 | Klappbrett Rücksitz | 1.120 × 700 × 18 | 1 | Liegt auf umgeklappten Rücksitzlehnen auf (Lehnen bei 310 mm → 10 mm Ausgleich, §H4) |
 | F2 | Klappbrett Kopfende | 1.120 × 400 × 18 | 1 | Wenig Last, mit 2 Gurtschlaufen an den Vordersitz-Kopfstützen (§H4) |
 
-**Lüftungslöcher** ([ADR 0035](docs/adrs/0035-ventilation-holes-in-the-sleeping-boards.md)): Muster um 45° gedreht (Bauherr, 2026-11-17): Schräglinien in beide Richtungen, Loch an jedem Schnittpunkt, von Hand mit Forstnerbohrer gebohrt (Opferbrett darunter). Die Linien treffen die Brettkante alle 140 mm, die Löcher liegen auf einer Linie 99 mm auseinander — achsparallel ein Hilfsraster von 70 mm, gebohrt wird jede zweite Kreuzung. Angenommen Ø 20 mm, mind. 50 mm Rand — T1 78, F1 68, F2 38 Löcher, ca. 3 % der Fläche. Der Ø ist eine **Annahme**, bis die vorhandenen Bohrer feststehen (`modell/parameter.json` → `lueftung`). Bohrplan: die letzten zwei Werkzeichnungsblätter (Hilfsraster und Randmaße der Schräglinien). Die Gurtschlaufen-Bohrungen in F2 (V15) mind. 15 mm neben die Lüftungslöcher setzen.
+**Lüftungslöcher** ([ADR 0035](docs/adrs/0035-ventilation-holes-in-the-sleeping-boards.md)): Muster um 45° gedreht (Bauherr, 2026-11-17): Schräglinien in beide Richtungen, Loch an jedem Schnittpunkt, von Hand mit Forstnerbohrer gebohrt (Opferbrett darunter). Die Linien treffen die Brettkante alle 140 mm, die Löcher liegen auf einer Linie 99 mm auseinander — achsparallel ein Hilfsraster von 70 mm, gebohrt wird jede zweite Kreuzung. Angenommen Ø 20 mm, mind. 50 mm Rand — T1 78, F1 65, F2 35 Löcher (neben den Scharnierbändern fallen je 3 weg, ADR 0037), ca. 3 % der Fläche. Der Ø ist eine **Annahme**, bis die vorhandenen Bohrer feststehen (`modell/parameter.json` → `lueftung`). Bohrplan: die letzten zwei Werkzeichnungsblätter (Hilfsraster und Randmaße der Schräglinien). Die Gurtschlaufen-Bohrungen in F2 (V15) mind. 15 mm neben die Lüftungslöcher setzen.
 
 ---
 
@@ -266,7 +266,7 @@ Vollauszug 550 mm · 3-teilig · SoftClose · Traglast 105 kg
 | V13 | ~~Überlappungsleisten Liegefläche~~ — entfällt, ersetzt durch Scharniere V17 ([ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md)) | — | — |
 | V14 | Wangen Sitz-/Tischbretter mit 5 Durchzapfen (→ §C, [ADR 0031](docs/adrs/0031-boards-flush-with-the-middle-runner-member-minimal-cheeks.md)) | 18 × 870 × 24,5 mm Multiplex (Rohteil 43,5 mit Zapfen) | 6 Stk. |
 | V15 | Gurtschlaufe F2 ↔ Kopfstütze, verstellbar (→ §H4) | Gurtband ~25 mm mit Klemmschnalle | 2 Stk. |
-| V17 | Klappscharnier, Standard, aufschraubbar, ~60 mm (→ §H4) — 3 × T1↔F1 oben, 3 × F1↔F2 unten | Schrauben max. 15 mm (Platte 18 mm) | 6 Stk. |
+| V17 | Kistenband (T-Form), aufschraubbar, **vorhanden** (gemessen 2026-11-22, ab Rollenmitte): Grundplatte 70 × 30 mm, 3 Löcher; Band 35 mm breit, groß 145 mm / 4 Löcher, klein 115 mm / 3 Löcher; Blätter ~2 mm, Rolle Ø 5–10 mm (→ §H4) — 3 groß T1↔F1 oben, klein–groß–klein F1↔F2 unten | Schrauben max. 15 mm (Platte 18 mm) | 4 groß + 2 klein |
 | V16 | Ausgleich unter F1 (→ §H4) | Leiste 10 × 40 × 1.000 mm oder 10-mm-Gummistreifen | 2 Stk. |
 
 ---
@@ -386,8 +386,8 @@ Deckplatte (T1), Klappbrett Rücksitz (F1) und Klappbrett Kopfende (F2) sind mit
 
 | Stoß | Verbindung |
 |---|---|
-| T1 ↔ F1 | **3 Scharniere oben** (V17) — F1 kann nur nach oben über die Box klappen, nicht durchhängen. Geklappt liegt F1 umgedreht auf T1 (z 200–900, ~6 mm Abstand durch die Scharnierblätter) |
-| F1 ↔ F2 | **3 Scharniere unten** (V17) — flach klappt F2 nur nach unten; liegt F1 umgedreht auf der Box, zeigt „unten“ nach oben und F2 legt sich auf F1 (z 200–600). Stapelhöhe 386 mm |
+| T1 ↔ F1 | **3 große Kistenbänder oben** (V17) bei x = −400 / 0 / +400 (ab Mitte): **Grundplatte auf T1** (z 870–900, über R1, zwischen den R1-Zapfen), **Band auf F1**. F1 kann nur nach oben über die Box klappen, nicht durchhängen. Geklappt liegt F1 umgedreht auf T1 (z 200–900, ~8 mm Abstand durch die Scharnierblätter). Große hier, weil man beim Einsteigen über diese Fuge kniet und sie vor jeder Fahrt geklappt wird ([ADR 0037](docs/adrs/0037-strap-hinges-layout-plate-on-the-fixed-side.md)) |
+| F1 ↔ F2 | **3 Kistenbänder unten** (V17), **klein – groß – klein** bei x = −400 / 0 / +400: **Grundplatte unter F1**, **Band unter F2** (unter F1 käme ein Band den Ausgleichsleisten V16 nahe). Das große in der Mitte, weil F2 außen an den Gurtschlaufen hängt und die Fuge in der Mitte durchhängt. Flach klappt F2 nur nach unten; liegt F1 umgedreht auf der Box, zeigt „unten“ nach oben und F2 legt sich auf F1 (z 200–600). Stapelhöhe 390 mm |
 | F1 ↔ Rücksitzlehnen | Lehnen liegen bei **310 mm**, Unterkante F1 bei 320 mm (gemessen) → **10 mm Ausgleich** (V16): 2 Leisten 10 × 40 mm quer unter F1 auf Höhe der Lehnen, oder 10-mm-Gummistreifen; sonst federt F1 durch und die Überlappungsleisten tragen allein |
 | F2 ↔ Kopfstützen | **2 verstellbare Gurtschlaufen** (V15), je Seite eine: jede Schlaufe läuft durch **2 Bohrungen in F2** und um die Kopfstützenstangen; die Zuglast tragen die Kopfstützen. Bohrungen und Schlaufenlänge werden beim Einbau am Fahrzeug festgelegt |
 | alle Auflageflächen | Antirutschmatte / Gummistreifen (G3-Reststücke) | 

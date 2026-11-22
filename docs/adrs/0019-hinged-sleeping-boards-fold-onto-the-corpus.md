@@ -1,6 +1,6 @@
 # 0019: Hinged sleeping boards fold back onto the corpus for driving
 
-Status: Accepted — amends [ADR 0004](0004-static-scene-graph-with-z-position-toggle.md) (viewer modes)
+Status: Accepted — hinge geometry, layout and stack height amended by [ADR 0037](0037-strap-hinges-layout-plate-on-the-fixed-side.md) (2026-11-22: measured strap hinges, stack 390 mm) — amends [ADR 0004](0004-static-scene-graph-with-z-position-toggle.md) (viewer modes)
 
 ## Context
 

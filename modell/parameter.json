@@ -43,12 +43,21 @@
   "matratze": { "breite": 1100, "laenge": 1980, "hoehe": 80 },
 
   "scharniere": {
-    "_hinweis": "Standard-Klappscharniere (aufgeschraubt). T1↔F1 oben, F1↔F2 unten — so klappen F1 und F2 als Stapel auf die Box (ADR 0019)",
-    "je_fuge": 3,
-    "blatt_breite": 60,
-    "laenge_offen": 60,
-    "achse_ueber_flaeche": 3,
-    "abstand_rand": 150
+    "_hinweis": "Kistenbänder (T-Form), aufgeschraubt, vorhanden: 4 große + 2 kleine (V17). T1↔F1 oben, F1↔F2 unten — so klappen F1 und F2 als Stapel auf die Box (ADR 0019). Belegung und Lage: ADR 0037",
+    "_stand": "Vom Bauherrn gemessen 2026-11-22, alle Längen ab Rollenmitte",
+    "grundplatte": {"breite": 70, "tiefe": 30, "loecher": 3},
+    "band_breite": 35,
+    "typen": {
+      "gross": {"band_laenge": 145, "loecher_band": 4, "anzahl": 4},
+      "klein": {"band_laenge": 115, "loecher_band": 3, "anzahl": 2}
+    },
+    "blattstaerke": 2,
+    "rolle_durchmesser": 8,
+    "_rolle_durchmesser": "gemessen ca. 5–10 mm; Achse = halber Durchmesser über der Brettfläche",
+    "lage_x": [-400, 0, 400],
+    "_lage_x": "Mitte jedes Scharniers (mm, 0 = Mitte). ±400: Grundplatte 365–435 liegt zwischen den R1-Zapfen in T1 (130–180, 450–500), modell.py prüft ≥ 10 mm Abstand",
+    "belegung": {"H1": ["gross", "gross", "gross"], "H2": ["klein", "gross", "klein"]},
+    "_belegung": "je Fuge von −x nach +x. H1 (T1↔F1, oben): Grundplatte auf T1, Band auf F1. H2 (F1↔F2, unten): Grundplatte unter F1, Band unter F2"
   },
 
   "schienen": {

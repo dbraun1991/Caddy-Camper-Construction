@@ -52,12 +52,48 @@ window.MODELL = {
    "hoehe": 80
   },
   "scharniere": {
-   "_hinweis": "Standard-Klappscharniere (aufgeschraubt). T1↔F1 oben, F1↔F2 unten — so klappen F1 und F2 als Stapel auf die Box (ADR 0019)",
-   "je_fuge": 3,
-   "blatt_breite": 60,
-   "laenge_offen": 60,
-   "achse_ueber_flaeche": 3,
-   "abstand_rand": 150
+   "_hinweis": "Kistenbänder (T-Form), aufgeschraubt, vorhanden: 4 große + 2 kleine (V17). T1↔F1 oben, F1↔F2 unten — so klappen F1 und F2 als Stapel auf die Box (ADR 0019). Belegung und Lage: ADR 0037",
+   "_stand": "Vom Bauherrn gemessen 2026-11-22, alle Längen ab Rollenmitte",
+   "grundplatte": {
+    "breite": 70,
+    "tiefe": 30,
+    "loecher": 3
+   },
+   "band_breite": 35,
+   "typen": {
+    "gross": {
+     "band_laenge": 145,
+     "loecher_band": 4,
+     "anzahl": 4
+    },
+    "klein": {
+     "band_laenge": 115,
+     "loecher_band": 3,
+     "anzahl": 2
+    }
+   },
+   "blattstaerke": 2,
+   "rolle_durchmesser": 8,
+   "_rolle_durchmesser": "gemessen ca. 5–10 mm; Achse = halber Durchmesser über der Brettfläche",
+   "lage_x": [
+    -400,
+    0,
+    400
+   ],
+   "_lage_x": "Mitte jedes Scharniers (mm, 0 = Mitte). ±400: Grundplatte 365–435 liegt zwischen den R1-Zapfen in T1 (130–180, 450–500), modell.py prüft ≥ 10 mm Abstand",
+   "belegung": {
+    "H1": [
+     "gross",
+     "gross",
+     "gross"
+    ],
+    "H2": [
+     "klein",
+     "gross",
+     "klein"
+    ]
+   },
+   "_belegung": "je Fuge von −x nach +x. H1 (T1↔F1, oben): Grundplatte auf T1, Band auf F1. H2 (F1↔F2, unten): Grundplatte unter F1, Band unter F2"
   },
   "schienen": {
    "_hinweis": "Je Typ: Stärke je Seite, Höhe und Länge des Schienenkörpers (eingefahren). Die Löcher liegen mittig in der Höhe. Ausgerichtet bündig an der Korpusfront (Datenblatt). ADR 0028",
@@ -2943,133 +2979,289 @@ window.MODELL = {
    "zapfen_von": "C3-Wb"
   },
   {
-   "id": "H1-1",
-   "name": "Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben)",
+   "id": "H1-1-G",
+   "name": "Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben), groß — Grundplatte",
    "gruppe": "scharnier",
    "material": "scharnier",
    "faehrt": null,
    "box": [
     [
-     -440.0,
-     -380.0
+     -435.0,
+     -365.0
     ],
     [
      338,
-     344
+     340
     ],
     [
-     870.0,
-     930.0
-    ]
-   ]
-  },
-  {
-   "id": "H2-1",
-   "name": "Scharnier Klappbrett Rücksitz ↔ Kopfende (unten)",
-   "gruppe": "scharnier",
-   "material": "scharnier",
-   "faehrt": null,
-   "box": [
-    [
-     -440.0,
-     -380.0
-    ],
-    [
-     314,
-     320
-    ],
-    [
-     1570.0,
-     1630.0
+     870,
+     900
     ]
    ],
-   "klappt_mit": "F1"
+   "scharnier": "H1-1",
+   "typ": "gross"
   },
   {
-   "id": "H1-2",
-   "name": "Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben)",
+   "id": "H1-1-B",
+   "name": "Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben), groß — Band",
    "gruppe": "scharnier",
    "material": "scharnier",
    "faehrt": null,
    "box": [
     [
-     -30.0,
-     30.0
+     -417.5,
+     -382.5
     ],
     [
      338,
-     344
+     340
     ],
     [
-     870.0,
-     930.0
-    ]
-   ]
-  },
-  {
-   "id": "H2-2",
-   "name": "Scharnier Klappbrett Rücksitz ↔ Kopfende (unten)",
-   "gruppe": "scharnier",
-   "material": "scharnier",
-   "faehrt": null,
-   "box": [
-    [
-     -30.0,
-     30.0
-    ],
-    [
-     314,
-     320
-    ],
-    [
-     1570.0,
-     1630.0
+     900,
+     1045
     ]
    ],
+   "scharnier": "H1-1",
+   "typ": "gross",
    "klappt_mit": "F1"
   },
   {
-   "id": "H1-3",
-   "name": "Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben)",
+   "id": "H1-2-G",
+   "name": "Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben), groß — Grundplatte",
    "gruppe": "scharnier",
    "material": "scharnier",
    "faehrt": null,
    "box": [
     [
-     380.0,
-     440.0
+     -35.0,
+     35.0
     ],
     [
      338,
-     344
+     340
     ],
     [
-     870.0,
-     930.0
+     870,
+     900
     ]
-   ]
+   ],
+   "scharnier": "H1-2",
+   "typ": "gross"
   },
   {
-   "id": "H2-3",
-   "name": "Scharnier Klappbrett Rücksitz ↔ Kopfende (unten)",
+   "id": "H1-2-B",
+   "name": "Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben), groß — Band",
    "gruppe": "scharnier",
    "material": "scharnier",
    "faehrt": null,
    "box": [
     [
-     380.0,
-     440.0
+     -17.5,
+     17.5
     ],
     [
-     314,
+     338,
+     340
+    ],
+    [
+     900,
+     1045
+    ]
+   ],
+   "scharnier": "H1-2",
+   "typ": "gross",
+   "klappt_mit": "F1"
+  },
+  {
+   "id": "H1-3-G",
+   "name": "Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben), groß — Grundplatte",
+   "gruppe": "scharnier",
+   "material": "scharnier",
+   "faehrt": null,
+   "box": [
+    [
+     365.0,
+     435.0
+    ],
+    [
+     338,
+     340
+    ],
+    [
+     870,
+     900
+    ]
+   ],
+   "scharnier": "H1-3",
+   "typ": "gross"
+  },
+  {
+   "id": "H1-3-B",
+   "name": "Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben), groß — Band",
+   "gruppe": "scharnier",
+   "material": "scharnier",
+   "faehrt": null,
+   "box": [
+    [
+     382.5,
+     417.5
+    ],
+    [
+     338,
+     340
+    ],
+    [
+     900,
+     1045
+    ]
+   ],
+   "scharnier": "H1-3",
+   "typ": "gross",
+   "klappt_mit": "F1"
+  },
+  {
+   "id": "H2-1-G",
+   "name": "Scharnier Klappbrett Rücksitz ↔ Kopfende (unten), klein — Grundplatte",
+   "gruppe": "scharnier",
+   "material": "scharnier",
+   "faehrt": null,
+   "box": [
+    [
+     -435.0,
+     -365.0
+    ],
+    [
+     318,
      320
     ],
     [
-     1570.0,
-     1630.0
+     1570,
+     1600
     ]
    ],
+   "scharnier": "H2-1",
+   "typ": "klein",
    "klappt_mit": "F1"
+  },
+  {
+   "id": "H2-1-B",
+   "name": "Scharnier Klappbrett Rücksitz ↔ Kopfende (unten), klein — Band",
+   "gruppe": "scharnier",
+   "material": "scharnier",
+   "faehrt": null,
+   "box": [
+    [
+     -417.5,
+     -382.5
+    ],
+    [
+     318,
+     320
+    ],
+    [
+     1600,
+     1715
+    ]
+   ],
+   "scharnier": "H2-1",
+   "typ": "klein",
+   "klappt_mit": "F2"
+  },
+  {
+   "id": "H2-2-G",
+   "name": "Scharnier Klappbrett Rücksitz ↔ Kopfende (unten), groß — Grundplatte",
+   "gruppe": "scharnier",
+   "material": "scharnier",
+   "faehrt": null,
+   "box": [
+    [
+     -35.0,
+     35.0
+    ],
+    [
+     318,
+     320
+    ],
+    [
+     1570,
+     1600
+    ]
+   ],
+   "scharnier": "H2-2",
+   "typ": "gross",
+   "klappt_mit": "F1"
+  },
+  {
+   "id": "H2-2-B",
+   "name": "Scharnier Klappbrett Rücksitz ↔ Kopfende (unten), groß — Band",
+   "gruppe": "scharnier",
+   "material": "scharnier",
+   "faehrt": null,
+   "box": [
+    [
+     -17.5,
+     17.5
+    ],
+    [
+     318,
+     320
+    ],
+    [
+     1600,
+     1745
+    ]
+   ],
+   "scharnier": "H2-2",
+   "typ": "gross",
+   "klappt_mit": "F2"
+  },
+  {
+   "id": "H2-3-G",
+   "name": "Scharnier Klappbrett Rücksitz ↔ Kopfende (unten), klein — Grundplatte",
+   "gruppe": "scharnier",
+   "material": "scharnier",
+   "faehrt": null,
+   "box": [
+    [
+     365.0,
+     435.0
+    ],
+    [
+     318,
+     320
+    ],
+    [
+     1570,
+     1600
+    ]
+   ],
+   "scharnier": "H2-3",
+   "typ": "klein",
+   "klappt_mit": "F1"
+  },
+  {
+   "id": "H2-3-B",
+   "name": "Scharnier Klappbrett Rücksitz ↔ Kopfende (unten), klein — Band",
+   "gruppe": "scharnier",
+   "material": "scharnier",
+   "faehrt": null,
+   "box": [
+    [
+     382.5,
+     417.5
+    ],
+    [
+     318,
+     320
+    ],
+    [
+     1600,
+     1715
+    ]
+   ],
+   "scharnier": "H2-3",
+   "typ": "klein",
+   "klappt_mit": "F2"
   },
   {
    "id": "F1",
@@ -3157,10 +3349,6 @@ window.MODELL = {
       970.0
      ],
      [
-      -420.0,
-      1040.0
-     ],
-     [
       -280.0,
       1040.0
      ],
@@ -3169,19 +3357,11 @@ window.MODELL = {
       1040.0
      ],
      [
-      0.0,
-      1040.0
-     ],
-     [
       140.0,
       1040.0
      ],
      [
       280.0,
-      1040.0
-     ],
-     [
-      420.0,
       1040.0
      ],
      [
@@ -3482,10 +3662,6 @@ window.MODELL = {
       1660.0
      ],
      [
-      -420.0,
-      1730.0
-     ],
-     [
       -280.0,
       1730.0
      ],
@@ -3494,19 +3670,11 @@ window.MODELL = {
       1730.0
      ],
      [
-      0.0,
-      1730.0
-     ],
-     [
       140.0,
       1730.0
      ],
      [
       280.0,
-      1730.0
-     ],
-     [
-      420.0,
       1730.0
      ],
      [
@@ -5251,78 +5419,153 @@ window.MODELL = {
     ]
    },
    {
-    "a": "H1-1",
+    "a": "H1-1-G",
     "b": "G1",
     "box": [
      [
-      -440.0,
-      -380.0
+      -435.0,
+      -365.0
      ],
      [
       338,
-      344
+      340
      ],
      [
-      870.0,
-      930.0
+      870,
+      900
      ]
     ],
     "kategorie": "auflage",
     "gewollt": true,
     "mass": [
-     60.0,
-     6,
-     60.0
+     70.0,
+     2,
+     30
     ]
    },
    {
-    "a": "H1-2",
+    "a": "H1-1-B",
     "b": "G1",
     "box": [
      [
-      -30.0,
-      30.0
+      -417.5,
+      -382.5
      ],
      [
       338,
-      344
+      340
      ],
      [
-      870.0,
-      930.0
+      900,
+      1045
      ]
     ],
     "kategorie": "auflage",
     "gewollt": true,
     "mass": [
-     60.0,
-     6,
-     60.0
+     35.0,
+     2,
+     145
     ]
    },
    {
-    "a": "H1-3",
+    "a": "H1-2-G",
     "b": "G1",
     "box": [
      [
-      380.0,
-      440.0
+      -35.0,
+      35.0
      ],
      [
       338,
-      344
+      340
      ],
      [
-      870.0,
-      930.0
+      870,
+      900
      ]
     ],
     "kategorie": "auflage",
     "gewollt": true,
     "mass": [
-     60.0,
-     6,
-     60.0
+     70.0,
+     2,
+     30
+    ]
+   },
+   {
+    "a": "H1-2-B",
+    "b": "G1",
+    "box": [
+     [
+      -17.5,
+      17.5
+     ],
+     [
+      338,
+      340
+     ],
+     [
+      900,
+      1045
+     ]
+    ],
+    "kategorie": "auflage",
+    "gewollt": true,
+    "mass": [
+     35.0,
+     2,
+     145
+    ]
+   },
+   {
+    "a": "H1-3-G",
+    "b": "G1",
+    "box": [
+     [
+      365.0,
+      435.0
+     ],
+     [
+      338,
+      340
+     ],
+     [
+      870,
+      900
+     ]
+    ],
+    "kategorie": "auflage",
+    "gewollt": true,
+    "mass": [
+     70.0,
+     2,
+     30
+    ]
+   },
+   {
+    "a": "H1-3-B",
+    "b": "G1",
+    "box": [
+     [
+      382.5,
+      417.5
+     ],
+     [
+      338,
+      340
+     ],
+     [
+      900,
+      1045
+     ]
+    ],
+    "kategorie": "auflage",
+    "gewollt": true,
+    "mass": [
+     35.0,
+     2,
+     145
     ]
    }
   ],
@@ -6078,78 +6321,153 @@ window.MODELL = {
     ]
    },
    {
-    "a": "H1-1",
+    "a": "H1-1-G",
     "b": "G1",
     "box": [
      [
-      -440.0,
-      -380.0
+      -435.0,
+      -365.0
      ],
      [
       338,
-      344
+      340
      ],
      [
-      870.0,
-      930.0
+      870,
+      900
      ]
     ],
     "kategorie": "auflage",
     "gewollt": true,
     "mass": [
-     60.0,
-     6,
-     60.0
+     70.0,
+     2,
+     30
     ]
    },
    {
-    "a": "H1-2",
+    "a": "H1-1-B",
     "b": "G1",
     "box": [
      [
-      -30.0,
-      30.0
+      -417.5,
+      -382.5
      ],
      [
       338,
-      344
+      340
      ],
      [
-      870.0,
-      930.0
+      900,
+      1045
      ]
     ],
     "kategorie": "auflage",
     "gewollt": true,
     "mass": [
-     60.0,
-     6,
-     60.0
+     35.0,
+     2,
+     145
     ]
    },
    {
-    "a": "H1-3",
+    "a": "H1-2-G",
     "b": "G1",
     "box": [
      [
-      380.0,
-      440.0
+      -35.0,
+      35.0
      ],
      [
       338,
-      344
+      340
      ],
      [
-      870.0,
-      930.0
+      870,
+      900
      ]
     ],
     "kategorie": "auflage",
     "gewollt": true,
     "mass": [
-     60.0,
-     6,
-     60.0
+     70.0,
+     2,
+     30
+    ]
+   },
+   {
+    "a": "H1-2-B",
+    "b": "G1",
+    "box": [
+     [
+      -17.5,
+      17.5
+     ],
+     [
+      338,
+      340
+     ],
+     [
+      900,
+      1045
+     ]
+    ],
+    "kategorie": "auflage",
+    "gewollt": true,
+    "mass": [
+     35.0,
+     2,
+     145
+    ]
+   },
+   {
+    "a": "H1-3-G",
+    "b": "G1",
+    "box": [
+     [
+      365.0,
+      435.0
+     ],
+     [
+      338,
+      340
+     ],
+     [
+      870,
+      900
+     ]
+    ],
+    "kategorie": "auflage",
+    "gewollt": true,
+    "mass": [
+     70.0,
+     2,
+     30
+    ]
+   },
+   {
+    "a": "H1-3-B",
+    "b": "G1",
+    "box": [
+     [
+      382.5,
+      417.5
+     ],
+     [
+      338,
+      340
+     ],
+     [
+      900,
+      1045
+     ]
+    ],
+    "kategorie": "auflage",
+    "gewollt": true,
+    "mass": [
+     35.0,
+     2,
+     145
     ]
    }
   ]
@@ -7756,78 +8074,153 @@ window.MODELL = {
    ]
   },
   {
-   "a": "H1-1",
+   "a": "H1-1-G",
    "b": "G1",
    "box": [
     [
-     -440.0,
-     -380.0
+     -435.0,
+     -365.0
     ],
     [
      338,
-     344
+     340
     ],
     [
-     870.0,
-     930.0
+     870,
+     900
     ]
    ],
    "kategorie": "auflage",
    "gewollt": true,
    "mass": [
-    60.0,
-    6,
-    60.0
+    70.0,
+    2,
+    30
    ]
   },
   {
-   "a": "H1-2",
+   "a": "H1-1-B",
    "b": "G1",
    "box": [
     [
-     -30.0,
-     30.0
+     -417.5,
+     -382.5
     ],
     [
      338,
-     344
+     340
     ],
     [
-     870.0,
-     930.0
+     900,
+     1045
     ]
    ],
    "kategorie": "auflage",
    "gewollt": true,
    "mass": [
-    60.0,
-    6,
-    60.0
+    35.0,
+    2,
+    145
    ]
   },
   {
-   "a": "H1-3",
+   "a": "H1-2-G",
    "b": "G1",
    "box": [
     [
-     380.0,
-     440.0
+     -35.0,
+     35.0
     ],
     [
      338,
-     344
+     340
     ],
     [
-     870.0,
-     930.0
+     870,
+     900
     ]
    ],
    "kategorie": "auflage",
    "gewollt": true,
    "mass": [
-    60.0,
-    6,
-    60.0
+    70.0,
+    2,
+    30
+   ]
+  },
+  {
+   "a": "H1-2-B",
+   "b": "G1",
+   "box": [
+    [
+     -17.5,
+     17.5
+    ],
+    [
+     338,
+     340
+    ],
+    [
+     900,
+     1045
+    ]
+   ],
+   "kategorie": "auflage",
+   "gewollt": true,
+   "mass": [
+    35.0,
+    2,
+    145
+   ]
+  },
+  {
+   "a": "H1-3-G",
+   "b": "G1",
+   "box": [
+    [
+     365.0,
+     435.0
+    ],
+    [
+     338,
+     340
+    ],
+    [
+     870,
+     900
+    ]
+   ],
+   "kategorie": "auflage",
+   "gewollt": true,
+   "mass": [
+    70.0,
+    2,
+    30
+   ]
+  },
+  {
+   "a": "H1-3-B",
+   "b": "G1",
+   "box": [
+    [
+     382.5,
+     417.5
+    ],
+    [
+     338,
+     340
+    ],
+    [
+     900,
+     1045
+    ]
+   ],
+   "kategorie": "auflage",
+   "gewollt": true,
+   "mass": [
+    35.0,
+    2,
+    145
    ]
   }
  ],
@@ -7870,12 +8263,12 @@ window.MODELL = {
  ],
  "klappachsen": {
   "F1": {
-   "y": 341,
+   "y": 342.0,
    "z": 900,
    "winkel": -180
   },
   "F2": {
-   "y": 317,
+   "y": 316.0,
    "z": 1600,
    "winkel": 180,
    "an": "F1"
@@ -13234,7 +13627,7 @@ window.MODELL = {
      "zapfen": false
     },
     {
-     "id": "H1-1",
+     "id": "H1-1-G",
      "quelle": "teil",
      "richtung": [
       0,
@@ -13244,7 +13637,57 @@ window.MODELL = {
      "zapfen": false
     },
     {
-     "id": "H2-1",
+     "id": "H1-1-B",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      1.6,
+      0.25
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "H1-2-G",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      1.6,
+      0.25
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "H1-2-B",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      1.6,
+      0.25
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "H1-3-G",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      1.6,
+      0.25
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "H1-3-B",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      1.6,
+      0.25
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "H2-1-G",
      "quelle": "teil",
      "richtung": [
       0,
@@ -13254,17 +13697,7 @@ window.MODELL = {
      "zapfen": false
     },
     {
-     "id": "H1-2",
-     "quelle": "teil",
-     "richtung": [
-      0,
-      1.6,
-      0.25
-     ],
-     "zapfen": false
-    },
-    {
-     "id": "H2-2",
+     "id": "H2-1-B",
      "quelle": "teil",
      "richtung": [
       0,
@@ -13274,17 +13707,37 @@ window.MODELL = {
      "zapfen": false
     },
     {
-     "id": "H1-3",
+     "id": "H2-2-G",
      "quelle": "teil",
      "richtung": [
       0,
-      1.6,
-      0.25
+      0.5,
+      0.75
      ],
      "zapfen": false
     },
     {
-     "id": "H2-3",
+     "id": "H2-2-B",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      0.5,
+      0.75
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "H2-3-G",
+     "quelle": "teil",
+     "richtung": [
+      0,
+      0.5,
+      0.75
+     ],
+     "zapfen": false
+    },
+    {
+     "id": "H2-3-B",
      "quelle": "teil",
      "richtung": [
       0,

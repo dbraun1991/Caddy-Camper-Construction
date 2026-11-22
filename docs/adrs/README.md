@@ -54,3 +54,4 @@ Decision, Consequences.
 | [0034](0034-milled-r2-edge-break-top-side-only.md) | Milled R2 edge break on the top side only (own DXF layer), joint faces stay sharp, underside by hand | Accepted |
 | [0035](0035-ventilation-holes-in-the-sleeping-boards.md) | Ventilation holes in T1, F1, F2 on a grid, drilled by hand (Ø/pitch assumed) | Accepted (values are assumptions) |
 | [0036](0036-exploded-view-tab.md) | Exploded view as its own tab, one assembly at a time, directions from the model | Accepted |
+| [0037](0037-strap-hinges-layout-plate-on-the-fixed-side.md) | Strap hinges: 3 large on top, small–large–small underneath at x = ±400 / 0, base plate on the fixed side | Accepted |

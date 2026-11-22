@@ -70,7 +70,7 @@ Alle 6 beweglichen Elemente (3 Schubladen + 2 Sitzbretter + 1 Tischbrett) sind i
 | **Fahrmodus 1** | eingeklappt | eingeklappt — Klappbretter (F1, F2) auf die Deckplatte geklappt, Matratze verstaut |
 | **Fahrmodus 2** | eingeklappt | wie Fahrmodus 1, Rücksitze hochgeklappt → 5 Sitzplätze |
 
-Die Klappbretter hängen an Klappscharnieren: Deckplatte ↔ Klappbrett Rücksitz oben, Klappbrett Rücksitz ↔ Klappbrett Kopfende unten. So klappen beide als Stapel auf die Box (Klappbrett Rücksitz umgedreht auf der Deckplatte, Klappbrett Kopfende darauf, Stapelhöhe 386 mm) — [ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md). Beim Fahren den Stapel mit einem Spanngurt sichern.
+Die Klappbretter hängen an Kistenbändern (V17): Deckplatte ↔ Klappbrett Rücksitz oben (3 große), Klappbrett Rücksitz ↔ Klappbrett Kopfende unten (klein – groß – klein), jeweils bei x = −400 / 0 / +400, Grundplatte auf dem Brett zur Box hin, Band auf dem klappenden Brett. So klappen beide als Stapel auf die Box (Klappbrett Rücksitz umgedreht auf der Deckplatte, Klappbrett Kopfende darauf, Stapelhöhe 390 mm) — [ADR 0019](docs/adrs/0019-hinged-sleeping-boards-fold-onto-the-corpus.md), [ADR 0037](docs/adrs/0037-strap-hinges-layout-plate-on-the-fixed-side.md). Beim Fahren den Stapel mit einem Spanngurt sichern.
 
 Die Führungsschienen sind als Teleskop dargestellt ([ADR 0030](docs/adrs/0030-telescopic-rail-visualization.md)), silbergrau, nach innen dunkler: das Gehäuse an der Wand bleibt stehen, das Mittelteil (55 mm hoch) fährt 430 mm aus, das Innenteil (30 mm hoch) mit Arretierungshebel fährt mit dem Element die volle Länge — so wie es am Auto aussieht.
 
@@ -249,7 +249,8 @@ Der Korpus besteht aus Einzelbrettern (keine Vollbox): S1/S2 Seitenwände links/
 
 Offen:
 
-- [ ] **Größe der bereits gekauften Klappscharniere (V17) aufnehmen** — Blattbreite, Länge offen, Achslage über der Fläche; im Modell stehen noch Annahmen (`scharniere` in `modell/parameter.json`: 60 / 60 / 3 mm)
+- [x] **Größe der bereits gekauften Scharniere (V17) aufgenommen** (2026-11-22): Kistenbänder, Grundplatte 70 × 30, Band 35 × 145 (groß, 4 Stk.) / 115 (klein, 2 Stk.), Belegung und Lage in [ADR 0037](docs/adrs/0037-strap-hinges-layout-plate-on-the-fixed-side.md)
+- [ ] Am Auto prüfen: Rolle der oberen Scharniere steht im Fahrmodus ~4 mm über die Box hinaus (z 900, ~340 mm Höhe) — kommt die aufrechte Rücksitzlehne dort näher als die 20–30 mm am Boden?
 - [x] **F1 und F2 bleiben ohne Löcher** (Bauherr, 2026-11-13) — die Frage war: warum keine Materialersparnis bei F1 und F2? Sie tragen kaum Last — vor allem F1, das vollflächig auf den umgeklappten Rücksitzlehnen aufliegt (mit Ausgleich V16, §H4); F2 trägt nur den Kopfbereich und hängt an den Gurtschlaufen V15. Bewertung in [ADR 0032](docs/adrs/0032-lightening-the-corpus-boards-hole-grid-or-windows.md) prüfen
 - [ ] **Korpus nachträglich erleichtern?** Bretter sind schon zugeschnitten; Lochmuster (Wunsch) oder Fenster in S1/S2, R1 (nur Lochmuster), optional B1 — T1, F1/F2, M1/M2 bleiben massiv. Ersparnis 1,5–6,5 kg, nur sinnvoll, wenn Zapfen/Schlitze ohnehin CNC-gefräst werden — [ADR 0032](docs/adrs/0032-lightening-the-corpus-boards-hole-grid-or-windows.md)
 - [x] ADR 0013 entschieden: Sitz-/Tischbrett als Brett oben auf zwei Wangen, Höhenplan — [ADR 0028](docs/adrs/0028-height-plan-board-on-cheeks-foolproof-runner-layout.md)

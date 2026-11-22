@@ -648,9 +648,9 @@ def zeichne_detail(variante, datei, titel, bretter, nr, png=False):
             "mit der Stichsäge aussägen, auf Linie feilen.",
             "Lieber knapp sägen und nachpassen.",
             "",
-            "Deckplatte (T1): Klappscharniere (V17) bei",
-            "x = 0 und ± 410 liegen zwischen den",
-            "Aussparungen für die Rückwand (R1).",
+            "Deckplatte (T1): Grundplatten der Kistenbänder",
+            "(V17) bei x = " + " / ".join(fmt(x) for x in p["scharniere"]["lage_x"]) + " liegen zwischen",
+            "den Aussparungen für die Rückwand (R1).",
         ],
         "brett-s-m": [
             "Zapfen oben und unten an denselben Stellen",
@@ -1220,7 +1220,7 @@ ISO_BESCHRIFTUNG = {
 # Tabelle: einzelne Teile, Gruppen aus vielen Modellteilen zusammengefasst (Kürzel, Langname)
 UEBERSICHT_SAMMEL = {
     "E": ("E-C1-a … E-D3-b", "Schienen: je Element ein Paar a/b, z. B. „Schiene Sitzbrett links, an Seitenwand links“"),
-    "H": ("H1-1…3 / H2-1…3", "Scharniere Deckplatte ↔ Klappbrett Rücksitz (oben) / Klappbrett Rücksitz ↔ Kopfende (unten), Kaufposition V17"),
+    "H": ("H1-1…3 / H2-1…3 (-G/-B)", "Kistenbänder Deckplatte ↔ Klappbrett Rücksitz (oben) / Klappbrett Rücksitz ↔ Kopfende (unten), -G Grundplatte, -B Band, Kaufposition V17"),
 }
 
 

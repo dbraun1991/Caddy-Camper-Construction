@@ -121,6 +121,11 @@ down.
 
 ### Implemented
 
+- Measured strap hinges `V17` ([ADR 0037](docs/adrs/0037-strap-hinges-layout-plate-on-the-fixed-side.md),
+  2026-11-22): base plate 70 × 30, strap 35 × 145 (4 large) / 115 (2 small),
+  three large on top of `T1`↔`F1`, small–large–small under `F1`↔`F2`, x = −400 / 0 /
+  +400; plate on the fixed side, strap on the swinging board. Model parts
+  `H…-n-G` / `H…-n-B`, leaves on `F1`/`F2` rotate via `klappt_mit`. Stack 390 mm.
 - Exploded-view tab "Explosion" ([ADR 0036](docs/adrs/0036-exploded-view-tab.md), 2026-11-17):
   dropdown Box / D1/D2 / D3 / C1/C2 / C3, slider "Auseinander" 0–250 mm,
   code labels + long name on hover/tap, toggleable legend code → long name,
@@ -320,9 +325,9 @@ down.
 - Builder checks which drill bits they own, then set `lueftung.durchmesser`
   (and maybe `abstand`) in `modell/parameter.json` and regenerate (ADR 0035,
   asked 2026-11-17).
-- Record the size of the hinges already bought (`V17`): leaf width, open
-  length, axis height above the board. `scharniere` in `modell/parameter.json`
-  is still assumed (60 / 60 / 3 mm). Builder asked 2026-11-13.
+- Check on the car whether the upright rear seat back clears the top hinge
+  knuckle (~4 mm proud of the box at z 900, ~340 mm high) in Fahrmodus 2
+  ([ADR 0037](docs/adrs/0037-strap-hinges-layout-plate-on-the-fixed-side.md)).
 - The load-floor height above the ground (`fahrzeug.ladekante_hoehe` = 350) is
   not measured: first the Caddy 2K datasheet value 580, then set to 350 by the
   builder (2026-11-13). Front seats in the shell are placeholders, lowered by

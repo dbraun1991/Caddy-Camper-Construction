@@ -250,27 +250,48 @@ def _einbauten(p):
 
 
 def _scharniere(p):
-    """Klappscharniere an den Fugen T1↔F1 (oben) und F1↔F2 (unten), dazu die Klappachsen.
+    """Kistenbänder (T-Form) an den Fugen T1↔F1 (oben) und F1↔F2 (unten), dazu die Klappachsen (ADR 0037).
 
     Ein aufgeschraubtes Scharnier lässt sich nur zur Seite seiner Achse öffnen: oben auf
     T1↔F1 klappt F1 nur nach oben über die Box, unten an F1↔F2 klappt F2 nur nach unten —
-    nach dem Umklappen von F1 ist „unten“ oben, F2 legt sich auf F1.
+    nach dem Umklappen von F1 ist „unten“ oben, F2 legt sich auf F1 (ADR 0019).
+    Jedes Scharnier = zwei Blätter ab Rollenmitte: Grundplatte (-G) auf dem Brett zur Box hin
+    (T1 bzw. F1), Band (-B) auf dem Brett, das daran klappt (F1 bzw. F2). Blätter, die auf F1/F2
+    sitzen, tragen `klappt_mit`, damit der Viewer sie mitdreht.
     """
     k, l, s = p["korpus"], p["liegeflaeche"], p["scharniere"]
-    W, D, H, T = k["breite"], k["tiefe"], k["hoehe"], k["plattenstaerke"]
-    a, b, lo = s["achse_ueber_flaeche"], s["blatt_breite"], s["laenge_offen"]
-    z12, z23 = D, D + l["laenge_f1"]
-    xs = [0] + [v * (W / 2 - s["abstand_rand"]) for v in (-1, 1)] if s["je_fuge"] == 3 else \
-         [W * (i + 1) / (s["je_fuge"] + 1) - W / 2 for i in range(s["je_fuge"])]
+    H, T, D = k["hoehe"], k["plattenstaerke"], k["tiefe"]
+    a, d = s["rolle_durchmesser"] / 2, s["blattstaerke"]
+    g, bb = s["grundplatte"], s["band_breite"]
+    fugen = {   # Fuge: z der Achse, Blatt-Höhe y, Brett der Grundplatte / des Bands, Bezeichnung
+        "H1": (D, (H + T, H + T + d), None, "F1", "Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben)"),
+        "H2": (D + l["laenge_f1"], (H - d, H), "F1", "F2", "Scharnier Klappbrett Rücksitz ↔ Kopfende (unten)"),
+    }
+    gezaehlt = {}
     out = []
-    for i, x in enumerate(sorted(xs), 1):
-        out.append(_teil(f"H1-{i}", "Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben)", "scharnier", "scharnier",
-                         (x - b / 2, x + b / 2), (H + T, H + T + 2 * a), (z12 - lo / 2, z12 + lo / 2)))
-        out.append(_teil(f"H2-{i}", "Scharnier Klappbrett Rücksitz ↔ Kopfende (unten)", "scharnier", "scharnier",
-                         (x - b / 2, x + b / 2), (H - 2 * a, H), (z23 - lo / 2, z23 + lo / 2), klappt_mit="F1"))
+    for fuge, (z, y, an_g, an_b, name) in fugen.items():
+        for i, (x, typ) in enumerate(zip(s["lage_x"], s["belegung"][fuge]), 1):
+            gezaehlt[typ] = gezaehlt.get(typ, 0) + 1
+            gross = "groß" if typ == "gross" else "klein"
+            lb = s["typen"][typ]["band_laenge"]
+            extra_g = {"klappt_mit": an_g} if an_g else {}
+            out.append(_teil(f"{fuge}-{i}-G", f"{name}, {gross} — Grundplatte", "scharnier", "scharnier",
+                             (x - g["breite"] / 2, x + g["breite"] / 2), y, (z - g["tiefe"], z),
+                             scharnier=f"{fuge}-{i}", typ=typ, **extra_g))
+            out.append(_teil(f"{fuge}-{i}-B", f"{name}, {gross} — Band", "scharnier", "scharnier",
+                             (x - bb / 2, x + bb / 2), y, (z, z + lb),
+                             scharnier=f"{fuge}-{i}", typ=typ, klappt_mit=an_b))
+    for typ, n in gezaehlt.items():
+        assert n <= s["typen"][typ]["anzahl"], f"{n} Scharniere „{typ}“ belegt, vorhanden {s['typen'][typ]['anzahl']}"
+    # Grundplatten auf T1 dürfen keinen R1-Zapfen treffen (Zapfen sitzen bündig in T1)
+    zl = p["zapfen"]["laenge"]
+    for x in s["lage_x"]:
+        for m in p["zapfen"]["r1_mitten"]:
+            luft = abs(x - m) - g["breite"] / 2 - zl / 2
+            assert luft >= 10, f"Scharnier bei x = {x} nur {luft} mm neben R1-Zapfen bei {m}"
     # Achsen (y, z) im flachen Zustand und Klappwinkel um x für die Fahrmodi
-    achsen = {"F1": {"y": H + T + a, "z": z12, "winkel": -180},
-              "F2": {"y": H - a, "z": z23, "winkel": 180, "an": "F1"}}
+    achsen = {"F1": {"y": H + T + a, "z": D, "winkel": -180},
+              "F2": {"y": H - a, "z": D + l["laenge_f1"], "winkel": 180, "an": "F1"}}
     return out, achsen
 
 

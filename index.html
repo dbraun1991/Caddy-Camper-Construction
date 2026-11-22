@@ -276,7 +276,7 @@
     <span style="background:#220913;"></span>Caddy-Hülle, Heckklappe offen (60 % · teils nachgemessen)<br>
     <span style="background:#B5E48C;"></span>Lade-Referenzebene Kofferraum (y = 0, Annahme 350 mm über der Straße · Räder/Unterbau Platzhalter)<br>
     <span style="background:#5F6B7A;"></span>Rücksitzbank (umgeklappt / hochgeklappt / ausgebaut)<br>
-    <span style="background:#B8BEC6;"></span>Scharniere Deckplatte ↔ Klappbrett (oben) · zwischen den Klappbrettern (unten)<br>
+    <span style="background:#B8BEC6;"></span>Kistenbänder Deckplatte ↔ Klappbrett (oben, 3 groß) · zwischen den Klappbrettern (unten, klein–groß–klein) · Grundplatte + Band<br>
     <span style="background:linear-gradient(90deg,#C9CED3,#A2A9B0,#7B838B,#4A5056);"></span>Schienen × 12 &nbsp;(AOLISHENG · 870 mm / 76 mm Sitz/Tisch · 850 mm / 53 mm Schubladen · Gehäuse hell, Mittelteil 55 mm, Innenteil 30 mm + Hebel dunkler)
   </div>
 
@@ -612,8 +612,11 @@
   var klappF2 = drehpunkt(klappF1, KA.F2, KA.F1);
   anhaengen(meshById.F1, klappF1, KA.F1);
   anhaengen(meshById.F2, klappF2, KA.F2);
+  // Scharnierblätter auf F1 bzw. F2 (Band/Grundplatte, ADR 0037) drehen mit ihrem Brett
   MODELL.teile.filter(function (t) { return t.klappt_mit === 'F1'; })
     .forEach(function (t) { anhaengen(meshById[t.id], klappF1, KA.F1); });
+  MODELL.teile.filter(function (t) { return t.klappt_mit === 'F2'; })
+    .forEach(function (t) { anhaengen(meshById[t.id], klappF2, KA.F2); });
 
   // Rechnerische Überschneidungen (aus modell.py) — per Button einblendbar
   var kollG = new THREE.Group();

@@ -79,7 +79,7 @@ Gut **ein Drittel des Gesamtbudgets**. Beide aus derselben 850-mm-Serie ([ADR 00
 | V10 | M8 × 30/40 + U-Scheibe + Stoppmutter | 4 Sätze | ~6 € |
 | V11 | Spanngurt mit Ratsche | 2 Stk. | ~20 € |
 | V15 | Gurtschlaufe verstellbar (Gurtband ~25 mm + Klemmschnalle), Klappbrett Kopfende (F2) ↔ Kopfstütze | 2 Stk. | ~10 € ¹ |
-| V17 | Klappscharniere Standard ~60 mm (3 × Deckplatte ↔ Klappbrett Rücksitz oben, 3 × zwischen den Klappbrettern unten) | 6 Stk. | ~15 € ¹ |
+| V17 | Kistenbänder (T-Form), **bereits vorhanden** — 4 groß (Band 145 mm), 2 klein (Band 115 mm): 3 groß Deckplatte ↔ Klappbrett Rücksitz oben, klein–groß–klein zwischen den Klappbrettern unten (ADR 0037) | 6 Stk. | ~15 € ¹ |
 | | | **Teilsumme** | **~154 €** |
 
 ¹ V15/V16/V17 am 2026-10-17 ergänzt — grobe Schätzung, Quellen noch nicht geprüft.  

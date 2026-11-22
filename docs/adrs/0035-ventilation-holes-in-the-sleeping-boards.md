@@ -70,7 +70,8 @@ holes. `lueftung.muster` is now `diagonal`:
   crossing drilled (checkerboard). Of the two checkerboard halves, the model
   takes the one with more crossings.
 - Result: `T1` 78, `F1` 68, `F2` 38 holes, 184 in total instead of 190. About
-  3.2 % of the area is removed.
+  3.2 % of the area is removed. (Since ADR 0037, 2026-11-22: the measured strap
+  hinges cost 3 holes each in `F1` and `F2` → 78 / 65 / 35, 178 in total.)
 
 There are now two drawing sheets, and both marking methods lead to the same
 holes:
