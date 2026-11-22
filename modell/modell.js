@@ -2999,7 +2999,9 @@ window.MODELL = {
     ]
    ],
    "scharnier": "H1-1",
-   "typ": "gross"
+   "typ": "gross",
+   "auf": "T1",
+   "seite": "oben"
   },
   {
    "id": "H1-1-B",
@@ -3023,6 +3025,8 @@ window.MODELL = {
    ],
    "scharnier": "H1-1",
    "typ": "gross",
+   "auf": "F1",
+   "seite": "oben",
    "klappt_mit": "F1"
   },
   {
@@ -3046,7 +3050,9 @@ window.MODELL = {
     ]
    ],
    "scharnier": "H1-2",
-   "typ": "gross"
+   "typ": "gross",
+   "auf": "T1",
+   "seite": "oben"
   },
   {
    "id": "H1-2-B",
@@ -3070,6 +3076,8 @@ window.MODELL = {
    ],
    "scharnier": "H1-2",
    "typ": "gross",
+   "auf": "F1",
+   "seite": "oben",
    "klappt_mit": "F1"
   },
   {
@@ -3093,7 +3101,9 @@ window.MODELL = {
     ]
    ],
    "scharnier": "H1-3",
-   "typ": "gross"
+   "typ": "gross",
+   "auf": "T1",
+   "seite": "oben"
   },
   {
    "id": "H1-3-B",
@@ -3117,6 +3127,8 @@ window.MODELL = {
    ],
    "scharnier": "H1-3",
    "typ": "gross",
+   "auf": "F1",
+   "seite": "oben",
    "klappt_mit": "F1"
   },
   {
@@ -3141,6 +3153,8 @@ window.MODELL = {
    ],
    "scharnier": "H2-1",
    "typ": "klein",
+   "auf": "F1",
+   "seite": "unten",
    "klappt_mit": "F1"
   },
   {
@@ -3165,6 +3179,8 @@ window.MODELL = {
    ],
    "scharnier": "H2-1",
    "typ": "klein",
+   "auf": "F2",
+   "seite": "unten",
    "klappt_mit": "F2"
   },
   {
@@ -3189,6 +3205,8 @@ window.MODELL = {
    ],
    "scharnier": "H2-2",
    "typ": "gross",
+   "auf": "F1",
+   "seite": "unten",
    "klappt_mit": "F1"
   },
   {
@@ -3213,6 +3231,8 @@ window.MODELL = {
    ],
    "scharnier": "H2-2",
    "typ": "gross",
+   "auf": "F2",
+   "seite": "unten",
    "klappt_mit": "F2"
   },
   {
@@ -3237,6 +3257,8 @@ window.MODELL = {
    ],
    "scharnier": "H2-3",
    "typ": "klein",
+   "auf": "F1",
+   "seite": "unten",
    "klappt_mit": "F1"
   },
   {
@@ -3261,6 +3283,8 @@ window.MODELL = {
    ],
    "scharnier": "H2-3",
    "typ": "klein",
+   "auf": "F2",
+   "seite": "unten",
    "klappt_mit": "F2"
   },
   {
@@ -8274,6 +8298,68 @@ window.MODELL = {
    "an": "F1"
   }
  },
+ "scharnierrollen": [
+  {
+   "id": "H1-1",
+   "x": [
+    -435.0,
+    -365.0
+   ],
+   "achse": "F1",
+   "durchmesser": 8,
+   "typ": "gross"
+  },
+  {
+   "id": "H1-2",
+   "x": [
+    -35.0,
+    35.0
+   ],
+   "achse": "F1",
+   "durchmesser": 8,
+   "typ": "gross"
+  },
+  {
+   "id": "H1-3",
+   "x": [
+    365.0,
+    435.0
+   ],
+   "achse": "F1",
+   "durchmesser": 8,
+   "typ": "gross"
+  },
+  {
+   "id": "H2-1",
+   "x": [
+    -435.0,
+    -365.0
+   ],
+   "achse": "F2",
+   "durchmesser": 8,
+   "typ": "klein"
+  },
+  {
+   "id": "H2-2",
+   "x": [
+    -35.0,
+    35.0
+   ],
+   "achse": "F2",
+   "durchmesser": 8,
+   "typ": "gross"
+  },
+  {
+   "id": "H2-3",
+   "x": [
+    365.0,
+    435.0
+   ],
+   "achse": "F2",
+   "durchmesser": 8,
+   "typ": "klein"
+  }
+ ],
  "schubladen_3d": [
   {
    "id": "D1-Sa",

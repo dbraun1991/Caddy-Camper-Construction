@@ -250,7 +250,7 @@ def _einbauten(p):
 
 
 def _scharniere(p):
-    """Kistenbänder (T-Form) an den Fugen T1↔F1 (oben) und F1↔F2 (unten), dazu die Klappachsen (ADR 0037).
+    """Kistenbänder (T-Form) an den Fugen T1↔F1 (oben) und F1↔F2 (unten), dazu Klappachsen und Rollen (ADR 0037).
 
     Ein aufgeschraubtes Scharnier lässt sich nur zur Seite seiner Achse öffnen: oben auf
     T1↔F1 klappt F1 nur nach oben über die Box, unten an F1↔F2 klappt F2 nur nach unten —
@@ -263,24 +263,29 @@ def _scharniere(p):
     H, T, D = k["hoehe"], k["plattenstaerke"], k["tiefe"]
     a, d = s["rolle_durchmesser"] / 2, s["blattstaerke"]
     g, bb = s["grundplatte"], s["band_breite"]
-    fugen = {   # Fuge: z der Achse, Blatt-Höhe y, Brett der Grundplatte / des Bands, Bezeichnung
-        "H1": (D, (H + T, H + T + d), None, "F1", "Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben)"),
-        "H2": (D + l["laenge_f1"], (H - d, H), "F1", "F2", "Scharnier Klappbrett Rücksitz ↔ Kopfende (unten)"),
+    fugen = {   # Fuge: z der Achse, Blatt-Höhe y, Brett der Grundplatte / des Bands, Seite, Bezeichnung
+        "H1": (D, (H + T, H + T + d), "T1", "F1", "oben", "Scharnier Deckplatte ↔ Klappbrett Rücksitz (oben)"),
+        "H2": (D + l["laenge_f1"], (H - d, H), "F1", "F2", "unten", "Scharnier Klappbrett Rücksitz ↔ Kopfende (unten)"),
     }
     gezaehlt = {}
     out = []
-    for fuge, (z, y, an_g, an_b, name) in fugen.items():
+    rollen = []
+    for fuge, (z, y, an_g, an_b, seite, name) in fugen.items():
         for i, (x, typ) in enumerate(zip(s["lage_x"], s["belegung"][fuge]), 1):
             gezaehlt[typ] = gezaehlt.get(typ, 0) + 1
             gross = "groß" if typ == "gross" else "klein"
             lb = s["typen"][typ]["band_laenge"]
-            extra_g = {"klappt_mit": an_g} if an_g else {}
+            extra_g = {"klappt_mit": an_g} if an_g != "T1" else {}
             out.append(_teil(f"{fuge}-{i}-G", f"{name}, {gross} — Grundplatte", "scharnier", "scharnier",
                              (x - g["breite"] / 2, x + g["breite"] / 2), y, (z - g["tiefe"], z),
-                             scharnier=f"{fuge}-{i}", typ=typ, **extra_g))
+                             scharnier=f"{fuge}-{i}", typ=typ, auf=an_g, seite=seite, **extra_g))
             out.append(_teil(f"{fuge}-{i}-B", f"{name}, {gross} — Band", "scharnier", "scharnier",
                              (x - bb / 2, x + bb / 2), y, (z, z + lb),
-                             scharnier=f"{fuge}-{i}", typ=typ, klappt_mit=an_b))
+                             scharnier=f"{fuge}-{i}", typ=typ, auf=an_b, seite=seite, klappt_mit=an_b))
+            # Rolle: so lang wie die Grundplatte, auf der Klappachse — nur Darstellung, kein Modellteil
+            # (sie überlappt die eigenen Blätter); dreht in der Gruppe ihrer Achse (H1 → F1, H2 → F2)
+            rollen.append({"id": f"{fuge}-{i}", "x": [x - g["breite"] / 2, x + g["breite"] / 2],
+                           "achse": an_b, "durchmesser": s["rolle_durchmesser"], "typ": typ})
     for typ, n in gezaehlt.items():
         assert n <= s["typen"][typ]["anzahl"], f"{n} Scharniere „{typ}“ belegt, vorhanden {s['typen'][typ]['anzahl']}"
     # Grundplatten auf T1 dürfen keinen R1-Zapfen treffen (Zapfen sitzen bündig in T1)
@@ -292,7 +297,7 @@ def _scharniere(p):
     # Achsen (y, z) im flachen Zustand und Klappwinkel um x für die Fahrmodi
     achsen = {"F1": {"y": H + T + a, "z": D, "winkel": -180},
               "F2": {"y": H - a, "z": D + l["laenge_f1"], "winkel": 180, "an": "F1"}}
-    return out, achsen
+    return out, achsen, rollen
 
 
 def _liegeflaeche(p):
@@ -795,7 +800,7 @@ def main():
              "varianten": {e: kollisionen(teile(p, e)) for e in ECKAUSBILDUNGEN}}
     daten["kollisionen"] = daten["varianten"][p["eckausbildung"]]
     daten["fahrzeug_pruefung"] = fahrzeug_pruefung(p)
-    daten["klappachsen"] = _scharniere(p)[1]
+    _, daten["klappachsen"], daten["scharnierrollen"] = _scharniere(p)
     daten["schubladen_3d"] = schubladen_3d(p, teile(p))   # Kastenbretter statt Quader im 3D-Reiter (ADR 0024)
     daten["explosion"] = explosion(p, daten["teile"], daten["schubladen_3d"])   # Reiter „Explosion“ (ADR 0036)
     ziel = ORDNER / "modell.js"

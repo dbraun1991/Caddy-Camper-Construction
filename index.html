@@ -617,6 +617,17 @@
     .forEach(function (t) { anhaengen(meshById[t.id], klappF1, KA.F1); });
   MODELL.teile.filter(function (t) { return t.klappt_mit === 'F2'; })
     .forEach(function (t) { anhaengen(meshById[t.id], klappF2, KA.F2); });
+  // Scharnierrollen (ADR 0037): Zylinder entlang x genau auf der Klappachse, im Ursprung der Achsgruppe —
+  // H1 dreht mit F1, H2 mit F2. Nur Darstellung, kein Modellteil (überlappt die eigenen Blätter).
+  var klappGruppe = { F1: klappF1, F2: klappF2 };
+  (MODELL.scharnierrollen || []).forEach(function (r) {
+    var rolle = new THREE.Mesh(
+      new THREE.CylinderGeometry(r.durchmesser / 2 * S, r.durchmesser / 2 * S, (r.x[1] - r.x[0]) * S, 16),
+      mScharnier);
+    rolle.rotation.z = Math.PI / 2;
+    rolle.position.x = (r.x[0] + r.x[1]) / 2 * S;
+    klappGruppe[r.achse].add(rolle);
+  });
 
   // Rechnerische Überschneidungen (aus modell.py) — per Button einblendbar
   var kollG = new THREE.Group();
