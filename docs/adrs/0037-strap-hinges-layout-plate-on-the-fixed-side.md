@@ -66,6 +66,12 @@ works for Fahrmodus 2 (five seats, boards stacked on the box).
   reclined seat back comes closer at ~340 mm height.
 - Ventilation holes: `F1` 65 (was 68) and `F2` 35 (was 38) because holes keep 15 mm
   off the straps; `T1` stays at 78. 178 in total.
+- Shown everywhere (2026-11-22): the 3D tab draws the leaves plus the knuckles
+  (`MODELL.scharnierrollen`, display only); the drawings show the leaves on the
+  two Bohrplan sheets and on "Box-Bretter" (top side filled grey, underside dashed,
+  centres from the left edge as text), in the isometric overview, and on `T1` in
+  the views. The Bohrplan sheet states the smallest hole-to-leaf distance
+  (22.5 mm ≥ 15 mm); `zeichnungen.py` asserts it.
 - Screws max. 15 mm (boards 18 mm). Not in any DXF; marked and drilled on assembly.
 - Rejected alternative: large – small – large at both joints (symmetric). Also
   workable, but it puts a small hinge at the centre of the entry joint.

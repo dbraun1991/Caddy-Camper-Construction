@@ -125,7 +125,10 @@ down.
   2026-11-22): base plate 70 × 30, strap 35 × 145 (4 large) / 115 (2 small),
   three large on top of `T1`↔`F1`, small–large–small under `F1`↔`F2`, x = −400 / 0 /
   +400; plate on the fixed side, strap on the swinging board. Model parts
-  `H…-n-G` / `H…-n-B`, leaves on `F1`/`F2` rotate via `klappt_mit`. Stack 390 mm.
+  `H…-n-G` / `H…-n-B` with `auf` (board) + `seite`, leaves on `F1`/`F2` rotate via
+  `klappt_mit`, knuckles as `MODELL.scharnierrollen` (viewer only). Drawn on the
+  Bohrplan sheets, "Box-Bretter" and the overview (`zeichne_scharniere()`);
+  smallest vent-hole-to-leaf distance 22.5 mm. Stack 390 mm.
 - Exploded-view tab "Explosion" ([ADR 0036](docs/adrs/0036-exploded-view-tab.md), 2026-11-17):
   dropdown Box / D1/D2 / D3 / C1/C2 / C3, slider "Auseinander" 0–250 mm,
   code labels + long name on hover/tap, toggleable legend code → long name,

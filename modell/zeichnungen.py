@@ -86,7 +86,7 @@ class Blatt:
         self.mitte = mitte                     # Papierposition des Modell-Ursprungs (u=0, v=0)
         self.m = massstab                      # mm Modell → mm Papier
         self.ebenen = {n: [] for n in ("rahmen", "abfall", "verdeckt", "sichtbar", "kontur", "zapfen", "kollision",
-                                       "mass", "text")}
+                                       "scharnier", "scharnier_unten", "mass", "text")}
         self.draft = bd.Draft(font_size=3.0, font=SCHRIFT, decimal_precision=0, display_units=False,
                               arrow_length=2.2, line_width=0.18, pad_around_text=1.0, extension_gap=1.0)
 
@@ -182,7 +182,7 @@ class Blatt:
                   for k, n in zaehler.items()] or ["keine Überschneidungen"]
         for i, z in enumerate(zeilen):
             self.text(z, x + 15, y - 16 - i * 4.2, 2.4, papier=True, ausrichtung=links)
-        self.text("Schlafmodus (alles eingefahren) · Klappbrett Rücksitz (F1) / Kopfende (F2), Scharniere und Matratze nicht dargestellt",
+        self.text("Schlafmodus (alles eingefahren) · Klappbrett Rücksitz (F1) / Kopfende (F2) und Matratze nicht dargestellt, Scharnierblätter nur auf T1",
                   x, 14, 2.2, papier=True, ausrichtung=links)
 
     def positionsliste(self, eintraege):
@@ -203,6 +203,10 @@ class Blatt:
         svg.add_layer("zapfen", line_weight=0.1, fill_color=(0.2, 0.65, 0.3, 0.55), line_color=(0.1, 0.45, 0.2))
         svg.add_layer("kollision", line_weight=0.1, fill_color=(0.9, 0.16, 0.16, 0.45), line_color=(0.78, 0.0, 0.0))
         svg.add_layer("verdeckt", line_weight=0.18, fill_color=None, line_color=(0.43, 0.43, 0.43),
+                      line_type=bd.LineType.ISO_DASH)
+        # Scharnierblätter (ADR 0037): auf der sichtbaren Seite grau gefüllt, auf der Unterseite gestrichelt
+        svg.add_layer("scharnier", line_weight=0.25, fill_color=(0.55, 0.6, 0.68, 0.45), line_color=(0.25, 0.3, 0.4))
+        svg.add_layer("scharnier_unten", line_weight=0.25, fill_color=None, line_color=(0.25, 0.3, 0.4),
                       line_type=bd.LineType.ISO_DASH)
         svg.add_layer("sichtbar", line_weight=0.35, fill_color=None, line_color=(0.0, 0.0, 0.0))
         svg.add_layer("kontur", line_weight=0.5, fill_color=None, line_color=(0.0, 0.0, 0.0))
@@ -311,7 +315,7 @@ def zeichne(variante, name, png=False):
     p = modell.lade_parameter()
     alle = modell.teile(p, variante)
     a = ANSICHTEN[name]
-    teile = [t for t in alle if t["id"] not in a["ohne"] and t["gruppe"] != "scharnier"]
+    teile = [t for t in alle if t["id"] not in a["ohne"] and t.get("auf", "") not in a["ohne"]]
     ids = {t["id"] for t in teile}
     koll = [k for k in modell.kollisionen(alle) if k["a"] in ids and k["b"] in ids]
 
@@ -409,6 +413,8 @@ def zeichne_bretter(variante, png=False):
                 blatt.rechteck(x1 - wx1, wz0 - z0, x1 - wx0, wz1 - z0, "verdeckt")
             if zapfen:
                 blatt.text("Schlitze + Aussparungen 18 × 50, ganz durch", breite / 2, hoehe * 0.2, 2.2)
+        if ansicht == "oben":
+            zeichne_scharniere(blatt, alle, id)
 
         # Wände: fertige Kontur gestrichelt im Rohzuschnitt. Rand = Schleifzugabe an Ober-/Unterkante
         if "zuschnitt" in t:
@@ -441,6 +447,9 @@ def zeichne_bretter(variante, png=False):
     links = (bd.TextAlign.LEFT, bd.TextAlign.CENTER)
     blatt.linie((25, 46), (37, 46), ebene="sichtbar")
     blatt.text("Plattenkante (Zuschnitt)", 40, 46, 2.6, papier=True, ausrichtung=links)
+    blatt.ebenen["scharnier"].append(bd.Pos(31, 21) * bd.Rectangle(12, 3))
+    blatt.linie((25, 18), (37, 18), ebene="scharnier_unten")
+    blatt.text("Scharnierblatt oben / unten (V17, ADR 0037)", 40, 19.5, 2.6, papier=True, ausrichtung=links)
     if variante == "gezapft":
         blatt.linie((25, 41), (37, 41), ebene="verdeckt")
         blatt.text("Zapfen, Schlitze, Aussparungen — selbst sägen", 40, 41, 2.6, papier=True, ausrichtung=links)
@@ -532,6 +541,38 @@ def _rechteck(blatt, u0, v0, u1, v1):
     """Rechteck in Modell-mm (u, v) direkt in Papier-Koordinaten (Skalieren verschiebt sonst nicht mit)."""
     (x0, y0, _), (x1, y1, _) = blatt.p(u0, v0), blatt.p(u1, v1)
     return bd.Pos(x0, y0) * bd.Rectangle(x1 - x0, y1 - y0, align=(bd.Align.MIN, bd.Align.MIN))
+
+
+def scharnier_text(alle, id):
+    """Lage der Scharnierblätter auf einem Liegebrett als Text: Mitten ab linker Kante (Fahrerseite), je Seite."""
+    t = teil(alle, id)
+    x1 = t["box"][0][1]
+    zeilen = []
+    for seite in ("oben", "unten"):
+        blaetter = [b for b in alle if b.get("auf") == id and b["seite"] == seite]
+        if not blaetter:
+            continue
+        art = {"G": "Grundplatte", "B": "Band"}[blaetter[0]["id"][-1]]
+        mitten = sorted(round(x1 - (b["box"][0][0] + b["box"][0][1]) / 2, 1) for b in blaetter)
+        typen = "/".join("groß" if b["typ"] == "gross" else "klein"
+                         for b in sorted(blaetter, key=lambda b: -b["box"][0][0]))
+        zeilen.append(f"{art} {seite} ({blaetter[0]['scharnier'][:2]}, {typen}): Mitte ab linker Kante "
+                      f"{' · '.join(fmt(m) for m in mitten)}")
+    return zeilen
+
+
+def zeichne_scharniere(blatt, alle, id):
+    """Scharnierblätter (ADR 0037) auf einem Liegebrett in Draufsicht (u = Fahrerseite links, v = ab Vorderkante):
+    Blätter oben grau gefüllt, Blätter auf der Unterseite gestrichelt."""
+    t = teil(alle, id)
+    x1, z0 = t["box"][0][1], t["box"][2][0]
+    for b in (b for b in alle if b.get("auf") == id):
+        (bx0, bx1), _, (bz0, bz1) = b["box"]
+        r = (x1 - bx1, bz0 - z0, x1 - bx0, bz1 - z0)
+        if b["seite"] == "oben":
+            blatt.flaeche(*r, ebene="scharnier")
+        else:
+            blatt.rechteck(*r, "scharnier_unten")
 
 
 def zeichne_brett(blatt, alle, p, id, gleiche, ansicht):
@@ -979,8 +1020,8 @@ def zeichne_elemente(variante, datei, titel, nr, png=False):
 
 
 # ── Letzte Blätter: Bohrplan Lüftungslöcher T1 / F1 / F2, 1:10 (ADR 0035) ─────────
-BOHRPLAN_LAGE = {"T1": (40, 128), "F1": (215, 148), "F2": (215, 68)}   # Papier: linke untere Ecke je Brett
-RANDMASS_LAGE = dict(BOHRPLAN_LAGE, F1=(215, 160))                    # Randmaße brauchen mehr Platz zwischen F1/F2
+BOHRPLAN_LAGE = {"T1": (40, 128), "F1": (215, 148), "F2": (215, 62)}   # Papier: linke untere Ecke je Brett
+RANDMASS_LAGE = dict(BOHRPLAN_LAGE, F1=(215, 160), F2=(215, 68))                    # Randmaße brauchen mehr Platz zwischen F1/F2
 
 
 def _bohrbrett(alle, id):
@@ -1024,6 +1065,8 @@ def _bohrblatt_rahmen(blatt, titel, untertitel, nr, hinweise, legende):
         y = 46 - 5 * i
         if ebene == "kreis":
             blatt.ebenen["sichtbar"].append(bd.Pos(31, y) * bd.Circle(1.5).edges()[0])
+        elif ebene == "scharnier":
+            blatt.ebenen["scharnier"].append(bd.Pos(31, y) * bd.Rectangle(12, 3))
         else:
             blatt.linie((25, y), (37, y), ebene=ebene)
         blatt.text(text, 40, y, 2.6, papier=True, ausrichtung=links)
@@ -1039,6 +1082,19 @@ def _bohrblatt_schreiben(blatt, variante, datei, png):
         cairosvg.svg2png(url=str(pfad), write_to=str(pfad.with_suffix(".png")),
                          output_width=2400, background_color="white")
     return pfad
+
+
+def _min_abstand_scharnier(alle, lu):
+    """Kleinster Abstand Lochrand – Scharnierblatt auf demselben Brett (Kontrolle zu `abstand_hindernis`)."""
+    r, beste = lu["durchmesser"] / 2, None
+    for id in lu["bretter"]:
+        for x, z in teil(alle, id)["lueftung"]["mitten"]:
+            for b in (b for b in alle if b.get("auf") == id):
+                (x0, x1), _, (z0, z1) = b["box"]
+                d = (max(x0 - x, 0, x - x1) ** 2 + max(z0 - z, 0, z - z1) ** 2) ** 0.5 - r
+                beste = d if beste is None else min(beste, d)
+    assert beste is None or beste >= lu["abstand_hindernis"] - 1e-6, f"Loch {beste} mm an einem Scharnierblatt"
+    return round(beste, 1)
 
 
 def zeichne_bohrplan(variante, datei, titel, nr, png=False):
@@ -1061,9 +1117,12 @@ def zeichne_bohrplan(variante, datei, titel, nr, png=False):
             blatt.linie(blatt.p(u, 0)[:2], blatt.p(u, hoehe)[:2], ebene="verdeckt")
         for v in vs:
             blatt.linie(blatt.p(0, v)[:2], blatt.p(breite, v)[:2], ebene="verdeckt")
+        zeichne_scharniere(blatt, alle, id)
         for u, v in b["loecher"]:
             px, py, _ = blatt.p(u, v)
             blatt.ebenen["sichtbar"].append(bd.Pos(px, py) * bd.Circle(l["durchmesser"] / 2 * m).edges()[0])
+        for i, zeile in enumerate(scharnier_text(alle, id)):
+            blatt.text(zeile, blatt.mitte[0], blatt.mitte[1] - 9 - i * 3.6, 2.2, papier=True, ausrichtung=links)
         summe += len(b["loecher"])
         a = us[1] - us[0] if len(us) > 1 else lu["abstand"]
         # quer: Rand · n × Abstand · Rand (über dem Brett), längs: dasselbe links
@@ -1104,6 +1163,9 @@ def zeichne_bohrplan(variante, datei, titel, nr, png=False):
         f"Ausgelassen: Lochrand näher als {fmt(lu['abstand_hindernis'])} mm an",
         "Scharnier (H1/H2) oder Wand unter T1",
         "(S1/S2, M1/M2, R1 mit Zapfen).",
+        f"Scharnierblätter grau (oben) bzw. gestrichelt",
+        f"(Unterseite), Lage unter jedem Brett. Kleinster",
+        f"Abstand Lochrand – Blatt: {fmt(_min_abstand_scharnier(alle, lu))} mm (ADR 0037).",
         "",
         "Bohren: Forstnerbohrer, Opferbrett darunter",
         "fest anpressen (sonst reißt die Unterseite aus),",
@@ -1116,7 +1178,8 @@ def zeichne_bohrplan(variante, datei, titel, nr, png=False):
     _bohrblatt_rahmen(blatt, titel, "Lüftungslöcher unter der Matratze, von Hand gebohrt — Hilfsraster zum Anreißen "
                       "(ADR 0035)", nr, hinweise,
                       [("kontur", "Brettkante"), ("verdeckt", f"Hilfslinie (alle {fmt(schritt)} mm)"),
-                       ("kreis", "Bohrung")])
+                       ("kreis", "Bohrung"), ("scharnier", "Scharnierblatt oben (V17)"),
+                       ("scharnier_unten", "Scharnierblatt unten (V17)")])
     return _bohrblatt_schreiben(blatt, variante, datei, png)
 
 
@@ -1171,6 +1234,7 @@ def zeichne_bohrplan_rand(variante, datei, titel, nr, png=False):
                 lang = vorher is not None and pos - vorher < 40 and not lang   # eng: abwechselnd lang
                 marke(u, v, k, lang)
                 vorher = pos
+        zeichne_scharniere(blatt, alle, id)
         for u, v in b["loecher"]:
             px, py, _ = blatt.p(u, v)
             blatt.ebenen["sichtbar"].append(bd.Pos(px, py) * bd.Circle(l["durchmesser"] / 2 * m).edges()[0])
@@ -1202,7 +1266,8 @@ def zeichne_bohrplan_rand(variante, datei, titel, nr, png=False):
     ]
     _bohrblatt_rahmen(blatt, titel, "Wo jede Lochlinie die Brettkante trifft — Maße ab Ecke unten links (ADR 0035)",
                       nr, hinweise, [("kontur", "Brettkante"), ("verdeckt", "Schräglinie durch die Bohrungen"),
-                                     ("kreis", "Bohrung")])
+                                     ("kreis", "Bohrung"), ("scharnier", "Scharnierblatt oben (V17)"),
+                                     ("scharnier_unten", "Scharnierblatt unten (V17)")])
     return _bohrblatt_schreiben(blatt, variante, datei, png)
 
 
@@ -1220,7 +1285,7 @@ ISO_BESCHRIFTUNG = {
 # Tabelle: einzelne Teile, Gruppen aus vielen Modellteilen zusammengefasst (Kürzel, Langname)
 UEBERSICHT_SAMMEL = {
     "E": ("E-C1-a … E-D3-b", "Schienen: je Element ein Paar a/b, z. B. „Schiene Sitzbrett links, an Seitenwand links“"),
-    "H": ("H1-1…3 / H2-1…3 (-G/-B)", "Kistenbänder Deckplatte ↔ Klappbrett Rücksitz (oben) / Klappbrett Rücksitz ↔ Kopfende (unten), -G Grundplatte, -B Band, Kaufposition V17"),
+    "H": ("H1-1…3 / H2-1…3", "Kistenbänder Deckplatte ↔ Klappbrett Rücksitz (oben) / Klappbrett Rücksitz ↔ Kopfende (unten), -G Grundplatte, -B Band, Kaufposition V17"),
 }
 
 
@@ -1231,7 +1296,8 @@ def zeichne_uebersicht(variante, png=False):
     links = (bd.TextAlign.LEFT, bd.TextAlign.CENTER)
 
     # Isometrie: Kanten projizieren, Abbildung Modell → Bild aus vier projizierten Punkten bestimmen
-    teile = [t for t in alle if t["id"] in ISO_TEILE or (t.get("zapfen_von") and t["gruppe"] == "korpus")]
+    teile = [t for t in alle if t["id"] in ISO_TEILE or (t.get("zapfen_von") and t["gruppe"] == "korpus")
+             or t["gruppe"] == "scharnier"]
     sichtbar, verdeckt = bd.Compound([solid(t) for t in teile]).project_to_viewport(
         ISO_KAMERA, viewport_up=(0, 1, 0), look_at=ISO_ZIEL)
 
