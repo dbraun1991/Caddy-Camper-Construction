@@ -354,10 +354,12 @@ def _dateien(c, innen="geschlossene Schlitze", kante=False):
         "DXF (AutoCAD 2013, `AC1027`), Maßstab 1:1, Einheit **mm**, Ursprung links unten am Teil.",
         f"Layer `{LAYER_AUSSEN}` (rot): Außenkontur, durchfräsen, Fräser außen an der Linie.",
         f"Layer `{LAYER_INNEN}` (blau): {innen}, durchfräsen, Fräser innen an der Linie.",
-    ] + ([f"Layer `{LAYER_KANTE}` (grün): **Kantenbruch R{r}** an der Oberseite — dieselben Linien wie die Kontur "
-          f"darunter, dort mit Abrundfräser (Viertelstabfräser) R{r} nachfahren. Keine Durchfräsung."] if kante else []) + [
+    ] + ([f"Layer `{LAYER_KANTE}` (grün): **Kantenbruch R{r} — optional** an der Oberseite — dieselben Linien wie die "
+          f"Kontur darunter, dort mit Abrundfräser (Viertelstabfräser) R{r} nachfahren. Keine Durchfräsung. Fehlt die "
+          "Zeit oder der Fräser, den Layer einfach weglassen — dann bricht der Bauherr die Kanten von Hand."]
+         if kante else []) + [
         "Alle Konturen geschlossen. Nur Linien und Kreisbögen, keine Beschriftung, keine Bohrungen, "
-        "keine Taschen — alles ist ein 2D-Durchschnitt" + (f" außer dem Kantenbruch R{r}." if kante else "."),
+        "keine Taschen — alles ist ein 2D-Durchschnitt" + (f" außer dem optionalen Kantenbruch R{r}." if kante else "."),
         f"`alle-teile.dxf` enthält jedes Teil in Auftragsstückzahl nebeneinander, mit {f(c['teileabstand'])} mm "
         "Abstand — nur zur Übersicht, **kein Nesting**. Die Verteilung auf die Platten macht der Dienstleister.",
     ])
@@ -477,10 +479,11 @@ def abschnitte_schubladen(p, zeilen):
             "**Keine Bohrungen**: Die Schienen (auch die M6-Löcher der 170-kg-Schienen in den Wangen) werden beim "
             "Zusammenbau angerissen und gebohrt.",
             "**Keine Frontblenden** (ADR 0027): Die Kastenfront `-E1` ist die sichtbare Front, mit gefrästem Griff.",
-            (f"**Kantenbruch R{r}** (Abrundfräser, nur von oben, eine Aufspannung) an allen Kanten auf Layer "
+            (f"**Kantenbruch R{r} — optional** (Abrundfräser, nur von oben, eine Aufspannung) an allen Kanten auf Layer "
              f"`{LAYER_KANTE}`: Oberkante der Kastenwände (`-S`, `-E1`, `-E2`), Griffausschnitt, Fenster und Löcher, "
              "die Sitz-/Tischbretter C1–C3 ringsum. **Nicht** an Zinken, Zapfen, Schlitzen, Aussparungen und Böden — "
-             "Fügeflächen bleiben scharfkantig. Die Unterseite bricht der Bauherr von Hand (ADR 0034)."
+             "Fügeflächen bleiben scharfkantig. Die Unterseite bricht der Bauherr von Hand (ADR 0034). Ohne den Layer "
+             "(keine Zeit, kein Fräser) bricht er auch die Oberseite von Hand — das Teil passt trotzdem."
              if kb else
              "**Kanten**: keine Fase, kein Radius an den Außenkanten. Die Kanten am Griff werden von Hand gebrochen."),
         ]),

@@ -348,7 +348,7 @@
       <option value="stumpf">Wände stumpf zwischen Boden- + Deckplatte</option>
       <option value="schubladen">Schubladenkästen D1–D3 + Sitz-/Tischbretter C1–C3 (eigener Auftrag)</option>
     </select>
-    <span class="legende klein"><span style="background:#d91a1a"></span>Außenkontur<span style="background:#1a40d9"></span>Schlitze und Fenster (Innenkontur)<span style="background:#33b34d"></span>Kantenbruch R2 (Schubladen-Auftrag)</span>
+    <span class="legende klein"><span style="background:#d91a1a"></span>Außenkontur<span style="background:#1a40d9"></span>Schlitze und Fenster (Innenkontur)<span style="background:#33b34d"></span>Kantenbruch R2 (Schubladen-Auftrag, optional)</span>
   </div>
   <div class="inhalt" id="cncInhalt"></div>
 </div>
@@ -1308,7 +1308,7 @@
              (t.material ? ' · ' + esc(t.material) : '') +
              (t.schlitze ? ' · ' + t.schlitze + ' Schlitze innen' : '') +
              (t.fenster ? ' · ' + t.fenster + ' ' + esc(t.fenster_art || 'Fenster') : '') +
-             (t.kanten_r2 ? ' · Kantenbruch oben (grün)' : '') + '</div>' +
+             (t.kanten_r2 ? ' · Kantenbruch oben (grün, optional)' : '') + '</div>' +
              '<a href="' + t.datei + '" download>' + esc(t.datei.split('/').pop()) + ' herunterladen</a></div>';
     }).join('') + '</div>';
     v.abschnitte.forEach(function (a) {
