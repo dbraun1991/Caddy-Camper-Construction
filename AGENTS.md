@@ -242,6 +242,10 @@ down.
   open front), optionally `B1`; `T1`, `F1/F2`, `M1/M2` stay solid. Saves
   ~1.5–6.5 kg; only worth it if the tenon reliefs/slots get CNC-milled on the
   existing blanks anyway. Don't change the model until the builder decides.
+  **Update 2026-11-24:** the corpus is finished — the builder cut all tenons
+  and slots by hand with a jigsaw (very exact, in their view). No corpus CNC
+  job any more, so the CNC premise above is gone; lightening would now mean
+  drilling/sawing the assembled boards by hand. Don't propose CNC for the corpus.
   `F1/F2` stay solid — decided by the builder 2026-11-13, don't propose
   lightening them again. (The ventilation holes of ADR 0035 are a different
   purpose, confirmed by the builder 2026-11-17 for `T1`, `F1`, `F2`.)
@@ -267,6 +271,12 @@ down.
   the cheeks sit flush with the board edges, so the tenons go through open
   edge notches, not closed slots.
 - **CNC job not placed yet** ([ADR 0023](docs/adrs/0023-cnc-dxf-export-with-dogbones.md)).
+  Only the drawer/seat-board job (`docs/cnc/schubladen/`) is still needed —
+  the corpus was finished by hand (2026-11-24). Candidate besides a service
+  (2026-11-24): DIY workshop "die Urbanisten", Dortmund, CNC-Step High-Z
+  S-1400/T-105 (travel 1400 × 1050 × 110 mm, only with 1:1 supervision, own
+  material/prices/spindle not stated, not contacted yet); bring 900 × 1250
+  pieces (Fräsbett variant in `docs/plattenoptimum/`).
   The `cnc` values in `modell/parameter.json` (cutter Ø 6 mm, clearance 0.2 mm)
   are assumptions until a service answers — don't present them as confirmed.
   The builder is near Duisburg and wants to pick the parts up in person; the
