@@ -275,8 +275,10 @@ down.
   the corpus was finished by hand (2026-11-24). Candidate besides a service
   (2026-11-24): DIY workshop "die Urbanisten", Dortmund, CNC-Step High-Z
   S-1400/T-105 (travel 1400 × 1050 × 110 mm, only with 1:1 supervision, own
-  material/prices/spindle not stated, not contacted yet); bring 900 × 1250
-  pieces (Fräsbett variant in `docs/plattenoptimum/`).
+  material/prices/spindle not stated; inquiry e-mail sent by the builder 2026-11-24, link to the live `#cnc` tab, milled R2 edge break offered as optional); bring 900 × 1250
+  pieces (Fräsbett variant in `docs/plattenoptimum/`). Clear section widths of
+  the hand-built corpus are not measured (builder may skip it, 2026-11-24) —
+  drawer widths still come from the planned dimensions.
   The `cnc` values in `modell/parameter.json` (cutter Ø 6 mm, clearance 0.2 mm)
   are assumptions until a service answers — don't present them as confirmed.
   The builder is near Duisburg and wants to pick the parts up in person; the
